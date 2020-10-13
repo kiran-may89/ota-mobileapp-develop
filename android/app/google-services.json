@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "318713145409",
+    "firebase_url": "https://tripshop-f4df7.firebaseio.com",
+    "project_id": "tripshop-f4df7",
+    "storage_bucket": "tripshop-f4df7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:318713145409:android:28bc5a93a506756c6b7ec0",
+        "android_client_info": {
+          "package_name": "com.tripshop.ota"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "318713145409-o4edchtp13s2nv7tojhorfta9lr52pk4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tripshop.ota",
+            "certificate_hash": "488757e84c3ef46ef54b135c4f937ef3ab33b920"
+          }
+        },
+        {
+          "client_id": "318713145409-f26cl0avr4i0pcun5lm2ij7he8ddjeua.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tripshop.ota",
+            "certificate_hash": "a35679cc865c277313a8ba8c749629a7baf30e06"
+          }
+        },
+        {
+          "client_id": "318713145409-ku43c25jf27b1clq0d8ufeeim3lgud30.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDJ9_55a-Lu1lg37Xd1oIpdjYButTlJgU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "318713145409-ku43c25jf27b1clq0d8ufeeim3lgud30.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

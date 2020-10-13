@@ -1,0 +1,479 @@
+import 'package:ota/generated/json/base/json_convert_content.dart';
+
+class SmallDetailsResponseEntity with JsonConvert<SmallDetailsResponseEntity> {
+	dynamic version;
+	String message;
+	bool isError;
+	dynamic responseException;
+	SmallDetailsResponseResult result;
+}
+
+class SmallDetailsResponseResult with JsonConvert<SmallDetailsResponseResult> {
+	String operationId;
+	SmallDetailsResponseResultAuditData auditData;
+	SmallDetailsResponseResultActivity activity;
+	dynamic errors;
+}
+
+class SmallDetailsResponseResultAuditData with JsonConvert<SmallDetailsResponseResultAuditData> {
+	int processTime;
+	String time;
+	String serverId;
+	String environment;
+}
+
+class SmallDetailsResponseResultActivity with JsonConvert<SmallDetailsResponseResultActivity> {
+	String activityCode;
+	SmallDetailsResponseResultActivityCountry country;
+	List<SmallDetailsResponseResultActivityOperationDay> operationDays;
+	List<SmallDetailsResponseResultActivityModality> modalities;
+	String currencyName;
+	List<SmallDetailsResponseResultActivityAmountsFrom> amountsFrom;
+	List<SmallDetailsResponseResultActivityAmountsFromWithMarkup> amountsFromWithMarkup;
+	SmallDetailsResponseResultActivityContent content;
+	int order;
+	String name;
+	String currency;
+	String code;
+	String type;
+	int tpa;
+	String tpaName;
+	List<SmallDetailsResponseResultActivityOption> options;
+}
+
+class SmallDetailsResponseResultActivityCountry with JsonConvert<SmallDetailsResponseResultActivityCountry> {
+	String code;
+	String name;
+	List<SmallDetailsResponseResultActivityCountryDestination> destinations;
+}
+
+class SmallDetailsResponseResultActivityCountryDestination with JsonConvert<SmallDetailsResponseResultActivityCountryDestination> {
+	String code;
+	String name;
+}
+
+class SmallDetailsResponseResultActivityOperationDay with JsonConvert<SmallDetailsResponseResultActivityOperationDay> {
+	String code;
+	String name;
+}
+
+class SmallDetailsResponseResultActivityModality with JsonConvert<SmallDetailsResponseResultActivityModality> {
+	String code;
+	String name;
+	SmallDetailsResponseResultActivityModalitiesDuration duration;
+	List<SmallDetailsResponseResultActivityModalitiesQuestion> questions;
+	List<SmallDetailsResponseResultActivityModalitiesCommants> comments;
+	SmallDetailsResponseResultActivityModalitiesSupplierInformation supplierInformation;
+	SmallDetailsResponseResultActivityModalitiesProviderInformation providerInformation;
+	String destinationCode;
+	SmallDetailsResponseResultActivityModalitiesContract contract;
+	List<dynamic> languages;
+	List<SmallDetailsResponseResultActivityModalitiesAmountsFrom> amountsFrom;
+	List<SmallDetailsResponseResultActivityModalitiesAmountsFromWithMarkup> amountsFromWithMarkup;
+	List<SmallDetailsResponseResultActivityModalitiesRate> rates;
+	String amountUnitType;
+	String uniqueIdentifier;
+}
+
+class SmallDetailsResponseResultActivityModalitiesDuration with JsonConvert<SmallDetailsResponseResultActivityModalitiesDuration> {
+	int value;
+	String metric;
+}
+
+class SmallDetailsResponseResultActivityModalitiesQuestion with JsonConvert<SmallDetailsResponseResultActivityModalitiesQuestion> {
+	String code;
+	String required;
+	String text;
+}
+
+class SmallDetailsResponseResultActivityModalitiesCommants with JsonConvert<SmallDetailsResponseResultActivityModalitiesCommants> {
+	String type;
+	String text;
+}
+
+class SmallDetailsResponseResultActivityModalitiesSupplierInformation with JsonConvert<SmallDetailsResponseResultActivityModalitiesSupplierInformation> {
+	String name;
+	String vatNumber;
+}
+
+class SmallDetailsResponseResultActivityModalitiesProviderInformation with JsonConvert<SmallDetailsResponseResultActivityModalitiesProviderInformation> {
+	String name;
+}
+
+class SmallDetailsResponseResultActivityModalitiesContract with JsonConvert<SmallDetailsResponseResultActivityModalitiesContract> {
+	int incomingOffice;
+	int code;
+	String name;
+}
+
+class SmallDetailsResponseResultActivityModalitiesAmountsFrom with JsonConvert<SmallDetailsResponseResultActivityModalitiesAmountsFrom> {
+	String paxType;
+	int ageFrom;
+	int ageTo;
+	double amount;
+	double boxOfficeAmount;
+	String mandatoryApplyAmount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesAmountsFromWithMarkup with JsonConvert<SmallDetailsResponseResultActivityModalitiesAmountsFromWithMarkup> {
+	String paxType;
+	int ageFrom;
+	int ageTo;
+	SmallDetailsResponseResultActivityModalitiesAmountsFromWithMarkupDisplayRateInfoWithMarkup displayRateInfoWithMarkup;
+	double boxOfficeAmount;
+	String mandatoryApplyAmount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesAmountsFromWithMarkupDisplayRateInfoWithMarkup with JsonConvert<SmallDetailsResponseResultActivityModalitiesAmountsFromWithMarkupDisplayRateInfoWithMarkup> {
+	double totalPriceWithMarkup;
+	int baseRate;
+	int taxAndOtherCharges;
+	int otaTax;
+	int markup;
+	int supplierBaseRate;
+	int supplierTotalCost;
+	dynamic currency;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRate with JsonConvert<SmallDetailsResponseResultActivityModalitiesRate> {
+	String rateCode;
+	String rateClass;
+	String name;
+	List<SmallDetailsResponseResultActivityModalitiesRatesRateDetail> rateDetails;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetail with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetail> {
+	String rateKey;
+	List<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDate> operationDates;
+	List<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDatesWithMarkup> operationDatesWithMarkup;
+	List<dynamic> languages;
+	List<dynamic> sessions;
+	SmallDetailsResponseResultActivityModalitiesRatesRateDetailsMinimumDuration minimumDuration;
+	SmallDetailsResponseResultActivityModalitiesRatesRateDetailsMaximumDuration maximumDuration;
+	SmallDetailsResponseResultActivityModalitiesRatesRateDetailsTotalAmount totalAmount;
+	SmallDetailsResponseResultActivityModalitiesRatesRateDetailsTotalAmountWithMarkup totalAmountWithMarkup;
+	List<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsPaxAmount> paxAmounts;
+	List<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsPaxAmountsWithMarkup> paxAmountsWithMarkup;
+	SmallDetailsResponseResultActivityModalitiesRatesRateDetailsAgencyCommission agencyCommission;
+	SmallDetailsResponseResultActivityModalitiesRatesRateDetailsAgencyCommissionWithMarkup agencyCommissionWithMarkup;
+	int tpa;
+	String tpaName;
+	List<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOption> options;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDate with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDate> {
+	String from;
+	String to;
+	List<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDatesCancellationPolicy> cancellationPolicies;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDatesCancellationPolicy with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDatesCancellationPolicy> {
+	String dateFrom;
+	double amount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDatesWithMarkup with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDatesWithMarkup> {
+	String from;
+	String to;
+	List<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDatesWithMarkupCancellationPolicy> cancellationPolicies;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDatesWithMarkupCancellationPolicy with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOperationDatesWithMarkupCancellationPolicy> {
+	String dateFrom;
+	double amount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsMinimumDuration with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsMinimumDuration> {
+	int value;
+	String metric;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsMaximumDuration with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsMaximumDuration> {
+	int value;
+	String metric;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsTotalAmount with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsTotalAmount> {
+	double amount;
+	double boxOfficeAmount;
+	String mandatoryApplyAmount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsTotalAmountWithMarkup with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsTotalAmountWithMarkup> {
+	SmallDetailsResponseResultActivityModalitiesRatesRateDetailsTotalAmountWithMarkupDisplayRateInfoWithMarkup displayRateInfoWithMarkup;
+	double boxOfficeAmount;
+	String mandatoryApplyAmount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsTotalAmountWithMarkupDisplayRateInfoWithMarkup with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsTotalAmountWithMarkupDisplayRateInfoWithMarkup> {
+	double totalPriceWithMarkup;
+	double baseRate;
+	double taxAndOtherCharges;
+	double otaTax;
+	double markup;
+	double supplierBaseRate;
+	double supplierTotalCost;
+	dynamic currency;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsPaxAmount with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsPaxAmount> {
+	String paxType;
+	int ageFrom;
+	int ageTo;
+	int amount;
+	int boxOfficeAmount;
+	String mandatoryApplyAmount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsPaxAmountsWithMarkup with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsPaxAmountsWithMarkup> {
+	String paxType;
+	int ageFrom;
+	int ageTo;
+	SmallDetailsResponseResultActivityModalitiesRatesRateDetailsPaxAmountsWithMarkupDisplayRateInfoWithMarkup displayRateInfoWithMarkup;
+	int boxOfficeAmount;
+	String mandatoryApplyAmount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsPaxAmountsWithMarkupDisplayRateInfoWithMarkup with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsPaxAmountsWithMarkupDisplayRateInfoWithMarkup> {
+	int totalPriceWithMarkup;
+	int baseRate;
+	int taxAndOtherCharges;
+	int otaTax;
+	int markup;
+	int supplierBaseRate;
+	int supplierTotalCost;
+	dynamic currency;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsAgencyCommission with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsAgencyCommission> {
+	double percentage;
+	double amount;
+	int vatPercentage;
+	int vatAmount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsAgencyCommissionWithMarkup with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsAgencyCommissionWithMarkup> {
+	double percentage;
+	double amount;
+	int vatPercentage;
+	int vatAmount;
+}
+
+class SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOption with JsonConvert<SmallDetailsResponseResultActivityModalitiesRatesRateDetailsOption> {
+	String key;
+	String value;
+}
+
+class SmallDetailsResponseResultActivityAmountsFrom with JsonConvert<SmallDetailsResponseResultActivityAmountsFrom> {
+	String paxType;
+	int ageFrom;
+	int ageTo;
+	double amount;
+	double boxOfficeAmount;
+	String mandatoryApplyAmount;
+}
+
+class SmallDetailsResponseResultActivityAmountsFromWithMarkup with JsonConvert<SmallDetailsResponseResultActivityAmountsFromWithMarkup> {
+	String paxType;
+	int ageFrom;
+	int ageTo;
+	SmallDetailsResponseResultActivityAmountsFromWithMarkupDisplayRateInfoWithMarkup displayRateInfoWithMarkup;
+	double boxOfficeAmount;
+	String mandatoryApplyAmount;
+}
+
+class SmallDetailsResponseResultActivityAmountsFromWithMarkupDisplayRateInfoWithMarkup with JsonConvert<SmallDetailsResponseResultActivityAmountsFromWithMarkupDisplayRateInfoWithMarkup> {
+	double totalPriceWithMarkup;
+	int baseRate;
+	int taxAndOtherCharges;
+	int otaTax;
+	int markup;
+	int supplierBaseRate;
+	int supplierTotalCost;
+	dynamic currency;
+}
+
+class SmallDetailsResponseResultActivityContent with JsonConvert<SmallDetailsResponseResultActivityContent> {
+	String name;
+	List<dynamic> detailedInfo;
+	List<SmallDetailsResponseResultActivityContentFeatureGroup> featureGroups;
+	SmallDetailsResponseResultActivityContentGuidingOptions guidingOptions;
+	SmallDetailsResponseResultActivityContentLocation location;
+	SmallDetailsResponseResultActivityContentMedia media;
+	SmallDetailsResponseResultActivityContentRedeemInfo redeemInfo;
+	List<SmallDetailsResponseResultActivityContentRoute> routes;
+	SmallDetailsResponseResultActivityContentScheduling scheduling;
+	List<SmallDetailsResponseResultActivityContentSegmantationGroups> segmentationGroups;
+	String activityFactsheetType;
+	String activityCode;
+	String modalityCode;
+	String modalityName;
+	String contentId;
+	String description;
+	String lastUpdate;
+	String summary;
+	List<dynamic> advancedTips;
+	List<SmallDetailsResponseResultActivityContentCountry> countries;
+	List<String> highligths;
+}
+
+class SmallDetailsResponseResultActivityContentFeatureGroup with JsonConvert<SmallDetailsResponseResultActivityContentFeatureGroup> {
+	String groupCode;
+	List<SmallDetailsResponseResultActivityContentFeatureGroupsIncluded> included;
+}
+
+class SmallDetailsResponseResultActivityContentFeatureGroupsIncluded with JsonConvert<SmallDetailsResponseResultActivityContentFeatureGroupsIncluded> {
+	String featureType;
+	String description;
+}
+
+class SmallDetailsResponseResultActivityContentGuidingOptions with JsonConvert<SmallDetailsResponseResultActivityContentGuidingOptions> {
+	String guideType;
+	String included;
+}
+
+class SmallDetailsResponseResultActivityContentLocation with JsonConvert<SmallDetailsResponseResultActivityContentLocation> {
+	List<SmallDetailsResponseResultActivityContentLocationEndPoint> endPoints;
+	List<SmallDetailsResponseResultActivityContentLocationStartingPoint> startingPoints;
+}
+
+class SmallDetailsResponseResultActivityContentLocationEndPoint with JsonConvert<SmallDetailsResponseResultActivityContentLocationEndPoint> {
+	String type;
+	String description;
+}
+
+class SmallDetailsResponseResultActivityContentLocationStartingPoint with JsonConvert<SmallDetailsResponseResultActivityContentLocationStartingPoint> {
+	String type;
+	SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPoint meetingPoint;
+}
+
+class SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPoint with JsonConvert<SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPoint> {
+	String type;
+	SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPointGeolocation geolocation;
+	String address;
+	SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPointCountry country;
+	String zip;
+	String description;
+}
+
+class SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPointGeolocation with JsonConvert<SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPointGeolocation> {
+	double latitude;
+	double longitude;
+}
+
+class SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPointCountry with JsonConvert<SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPointCountry> {
+	String code;
+	String name;
+	List<SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPointCountryDestination> destinations;
+}
+
+class SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPointCountryDestination with JsonConvert<SmallDetailsResponseResultActivityContentLocationStartingPointsMeetingPointCountryDestination> {
+	String code;
+	String name;
+}
+
+class SmallDetailsResponseResultActivityContentMedia with JsonConvert<SmallDetailsResponseResultActivityContentMedia> {
+	List<SmallDetailsResponseResultActivityContentMediaImage> images;
+}
+
+class SmallDetailsResponseResultActivityContentMediaImage with JsonConvert<SmallDetailsResponseResultActivityContentMediaImage> {
+	int visualizationOrder;
+	String mimeType;
+	String language;
+	List<SmallDetailsResponseResultActivityContentMediaImagesUrl> urls;
+}
+
+class SmallDetailsResponseResultActivityContentMediaImagesUrl with JsonConvert<SmallDetailsResponseResultActivityContentMediaImagesUrl> {
+	int dpi;
+	int height;
+	int width;
+	String resource;
+	String sizeType;
+}
+
+class SmallDetailsResponseResultActivityContentRedeemInfo with JsonConvert<SmallDetailsResponseResultActivityContentRedeemInfo> {
+	String type;
+	String directEntrance;
+	List<SmallDetailsResponseResultActivityContentRedeemInfoCommants> comments;
+}
+
+class SmallDetailsResponseResultActivityContentRedeemInfoCommants with JsonConvert<SmallDetailsResponseResultActivityContentRedeemInfoCommants> {
+	dynamic type;
+	dynamic text;
+}
+
+class SmallDetailsResponseResultActivityContentRoute with JsonConvert<SmallDetailsResponseResultActivityContentRoute> {
+	SmallDetailsResponseResultActivityContentRoutesDuration duration;
+	String description;
+	String timeFrom;
+	String timeTo;
+	List<SmallDetailsResponseResultActivityContentRoutesPoint> points;
+}
+
+class SmallDetailsResponseResultActivityContentRoutesDuration with JsonConvert<SmallDetailsResponseResultActivityContentRoutesDuration> {
+	int value;
+	String metric;
+}
+
+class SmallDetailsResponseResultActivityContentRoutesPoint with JsonConvert<SmallDetailsResponseResultActivityContentRoutesPoint> {
+	String type;
+	int order;
+	bool stop;
+	SmallDetailsResponseResultActivityContentRoutesPointsPointOfInterest pointOfInterest;
+}
+
+class SmallDetailsResponseResultActivityContentRoutesPointsPointOfInterest with JsonConvert<SmallDetailsResponseResultActivityContentRoutesPointsPointOfInterest> {
+	String type;
+	SmallDetailsResponseResultActivityContentRoutesPointsPointOfInterestGeolocation geolocation;
+	String address;
+	SmallDetailsResponseResultActivityContentRoutesPointsPointOfInterestCountry country;
+	String city;
+	String zip;
+	String description;
+}
+
+class SmallDetailsResponseResultActivityContentRoutesPointsPointOfInterestGeolocation with JsonConvert<SmallDetailsResponseResultActivityContentRoutesPointsPointOfInterestGeolocation> {
+	double latitude;
+	double longitude;
+}
+
+class SmallDetailsResponseResultActivityContentRoutesPointsPointOfInterestCountry with JsonConvert<SmallDetailsResponseResultActivityContentRoutesPointsPointOfInterestCountry> {
+	String code;
+}
+
+class SmallDetailsResponseResultActivityContentScheduling with JsonConvert<SmallDetailsResponseResultActivityContentScheduling> {
+	SmallDetailsResponseResultActivityContentSchedulingDuration duration;
+	dynamic opened;
+}
+
+class SmallDetailsResponseResultActivityContentSchedulingDuration with JsonConvert<SmallDetailsResponseResultActivityContentSchedulingDuration> {
+	int value;
+	String metric;
+}
+
+class SmallDetailsResponseResultActivityContentSegmantationGroups with JsonConvert<SmallDetailsResponseResultActivityContentSegmantationGroups> {
+	int code;
+	String name;
+	List<SmallDetailsResponseResultActivityContentSegmantationGroupsSegmants> segments;
+}
+
+class SmallDetailsResponseResultActivityContentSegmantationGroupsSegmants with JsonConvert<SmallDetailsResponseResultActivityContentSegmantationGroupsSegmants> {
+	int code;
+	String name;
+}
+
+class SmallDetailsResponseResultActivityContentCountry with JsonConvert<SmallDetailsResponseResultActivityContentCountry> {
+	String code;
+	String name;
+	List<SmallDetailsResponseResultActivityContentCountriesDestination> destinations;
+}
+
+class SmallDetailsResponseResultActivityContentCountriesDestination with JsonConvert<SmallDetailsResponseResultActivityContentCountriesDestination> {
+	String code;
+	String name;
+}
+
+class SmallDetailsResponseResultActivityOption with JsonConvert<SmallDetailsResponseResultActivityOption> {
+	String key;
+	String value;
+}

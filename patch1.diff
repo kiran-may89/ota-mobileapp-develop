@@ -1,0 +1,25 @@
+From 89320121c7165a16d43b034c8463d6fa3cbfc9c1 Mon Sep 17 00:00:00 2001
+From: Ayyappa <ayyappa@glovision.co>
+Date: Wed, 15 Jul 2020 12:56:53 +0530
+Subject: [PATCH] minor changes were made again
+
+---
+ .gitignore | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.gitignore b/.gitignore
+index 8ccb430..f32eab0 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -29,7 +29,7 @@
+ .pub-cache/
+ .pub/
+ /build/
+-/android/gradlew
++
+ 
+ # Web related
+ lib/generated_plugin_registrant.dart
+-- 
+2.17.1.windows.2
+

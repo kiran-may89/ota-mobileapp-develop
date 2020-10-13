@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>318713145409-isf6ughskcoe5sd7c6j6r2u6tjcfkbk7.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.318713145409-isf6ughskcoe5sd7c6j6r2u6tjcfkbk7</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>318713145409-o4edchtp13s2nv7tojhorfta9lr52pk4.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBJCOTZya8dh-PsOi9qDimvF6SjOWu1GXU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>318713145409</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.tripshop.ota</string>
+	<key>PROJECT_ID</key>
+	<string>tripshop-f4df7</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tripshop-f4df7.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:318713145409:ios:305de77492f344236b7ec0</string>
+	<key>DATABASE_URL</key>
+	<string>https://tripshop-f4df7.firebaseio.com</string>
+</dict>
+</plist>
