@@ -34,10 +34,10 @@ steps:
    
 
 
-- task: FlutterInstall@0
-  inputs:
-    channel: 'stable'
-    version: 'latest'
+# - task: FlutterInstall@0
+#   inputs:
+#     channel: 'stable'
+#     version: 'latest'
 
 # - task: FlutterBuild@0
 #   inputs:
