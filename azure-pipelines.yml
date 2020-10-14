@@ -39,11 +39,16 @@ steps:
     channel: 'stable'
     version: 'latest'
 
-- task: FlutterBuild@0
+- task: CmdLine@2
+  displayName: 'Execute Dart program'
   inputs:
-    target: 'all'
-    projectDirectory: '.'
-    entryPoint: 'lib/main_dev.dart'
+    script: '$(FlutterToolPath)/cache/dart-sdk/bin/dart flutter pub get'
+    workingDirectory: 'src'
+# - task: FlutterBuild@0
+#   inputs:
+#     target: 'all'
+#     projectDirectory: '.'
+#     entryPoint: 'lib/main_dev.dart'
 
 - task: CocoaPods@0
   displayName: "Install CocoaPods dependencies"
