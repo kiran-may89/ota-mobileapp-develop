@@ -54,7 +54,7 @@ steps:
     actions: 'build'
     configuration: '$(configuration)'
     sdk: '$(sdk)'
-    xcWorkspacePath: ios/Runner.xcworkspace'
+    xcWorkspacePath: 'ios/Runner.xcworkspace'
     scheme: 'Runner'
     xcodeVersion: 'specifyPath'
     xcodeDeveloperDir: '/Applications/Xcode_11.3.app/Contents/Developer'
