@@ -44,10 +44,10 @@ steps:
 #     target: 'all'
 #     projectDirectory: '.'
 #     entryPoint: 'lib/main_dev.dart'
-- task: CocoaPods@0
-  displayName: "Install CocoaPods dependencies"
-  inputs:
-    workingDirectory: 'ios'
+# - task: CocoaPods@0
+#   displayName: "Install CocoaPods dependencies"
+#   inputs:
+#     workingDirectory: 'ios'
 
 - task: Xcode@5
   inputs:
