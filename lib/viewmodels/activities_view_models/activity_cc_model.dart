@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ota/models/activity/activity_booking_response_entity.dart';
@@ -156,5 +157,17 @@ return activityBookingResponseEntity;
 
 
 
+  void onCreditCardModelChange(CreditCardModel creditCardModel) {
+    cardNumber.text = creditCardModel.cardNumber.replaceAll(" ", "");
+
+    if (creditCardModel.expiryDate.isNotEmpty && creditCardModel.expiryDate.contains("/")) {
+      expiryDate.text = creditCardModel.expiryDate;
+    }
+
+    cvvCode.text = creditCardModel.cvvCode;
+    isCvvFocused = creditCardModel.isCvvFocused;
+    cardHolderName.text = creditCardModel.cardHolderName;
+    notifyListeners();
+  }
 
 }

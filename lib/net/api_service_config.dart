@@ -1,14 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ota/crypto/crypto_helper.dart';
+import 'package:ota/models/crypto/raw_crypto.dart';
 import 'package:ota/net/logging_interceptor.dart';
 import 'package:ota/net/network_interceptor.dart';
 import 'package:ota/net/service/common/common_service.dart';
+import 'package:ota/net/service/common/common_service_impl.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/productflavors/flavor_package.dart';
+import 'package:ota/utils/constants.dart';
 
 import 'connectivity_retry.dart';
 
@@ -42,6 +47,17 @@ class ApiServiceConfig {
             String refrestoken = SessionManager.getInstance().getRefreshToken;
             await commonService.refreshAccessToken(refrestoken);
             return _retry(error.request);
+          }else{
+            if (error.request.path != CommonServiceImpl.REFRESH_TOKEN && error.request.path != CommonServiceImpl.GET_GUEST_AUTH_TOKEN && error.response.data != null) {
+              var encryptedData = rawCryptoFromJson(error.response.data);
+
+              var timeStamp = error.response.headers[Constants.X_OTA_TIMESTAMP];
+              var accessToken = SessionManager.getInstance().getAuthToken;
+              var decrypted =
+              doDecrypt(encryptedData.result, accessToken, timeStamp[0].toString());
+              error.response.data = jsonDecode(decrypted);
+            }
+
           }
           return error.response;
         }),

@@ -5,6 +5,7 @@ import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/models/common/country_codes_response_entity.dart';
 import 'package:ota/models/hotels/city_look_up_response.dart';
 import 'package:ota/models/hotels/responses/hotel_auto_search_model.dart';
 import 'package:ota/utils/colors.dart';
@@ -47,9 +48,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
             Card(
                 elevation: 3,
                 margin: EdgeInsets.only(
-                    top: SizeConstants.SIZE_30,
-                    left: SizeConstants.SIZE_16,
-                    right: SizeConstants.SIZE_16),
+                    top: SizeConstants.SIZE_30, left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
                 ),
@@ -111,9 +110,8 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                             return ListTile(
                               title: Text(
                                 suggestion.name,
-                                style: CustomStyles.countDownStyle.copyWith(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.bold),
+                                style: CustomStyles.countDownStyle
+                                    .copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
                               ),
                             );
                           },
@@ -126,23 +124,51 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                   ),
                 )),
             Container(
+                margin: EdgeInsets.only(
+                    right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                  Text(
+                    strings.nationality,
+                    style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
+                  ),
+                  Card(
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
+                      ),
+                      child: Container(
+height: 45,
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.only(left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16,top:SizeConstants.SIZE_4,bottom: SizeConstants.SIZE_4 ),
+                        child: DropdownButton(
+
+                          underline: Container(),
+                          onChanged: (value) => model.setCountryCode(value),
+                          items: List.generate(model.countryCodes?.length ?? 0, (index) {
+                            return DropdownMenuItem(
+
+                              child: Text(model.countryCodes[index].name),
+                              value: index,
+                            );
+                          }),
+                          value: model.selectedCountryCodeIndex,
+                        ),
+                      )),
+                ])),
+            Container(
               margin: EdgeInsets.only(
-                  right: SizeConstants.SIZE_16,
-                  left: SizeConstants.SIZE_16,
-                  top: SizeConstants.SIZE_20),
+                  right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     strings.set_dates,
-                    style: CustomStyles.heading
-                        .copyWith(color: CustomColors.heading.withOpacity(.5)),
+                    style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
                   ),
                   Card(
                     elevation: 3,
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(SizeConstants.SIZE_16),
+                      borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
                     ),
                     child: Container(
                         margin: EdgeInsets.only(
@@ -171,8 +197,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                 ),
                                 Spacer(),
                                 RotatedBox(
-                                  quarterTurns:
-                                      model.isCalenderExpanded ? 0 : 2,
+                                  quarterTurns: model.isCalenderExpanded ? 0 : 2,
                                   child: IconButton(
                                     icon: Icon(
                                       Icons.arrow_upward,
@@ -192,19 +217,13 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                               child: RangePicker(
                                 selectedPeriod: model.selectedPeriod,
                                 datePickerStyles: DatePickerRangeStyles(
-                                  disabledDateStyle: CustomStyles
-                                      .whiteTextSytle14Size
-                                      .copyWith(color: Colors.grey),
-                                  selectedDateStyle: CustomStyles
-                                      .whiteTextSytle14Size
-                                      .copyWith(color: CustomColors.White),
-                                  defaultDateTextStyle: CustomStyles
-                                      .whiteTextSytle14Size
-                                      .copyWith(color: Colors.black),
+                                  disabledDateStyle: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.grey),
+                                  selectedDateStyle:
+                                      CustomStyles.whiteTextSytle14Size.copyWith(color: CustomColors.White),
+                                  defaultDateTextStyle: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black),
                                 ),
                                 selectableDayPredicate: (date) {
-                                  var duration =
-                                      DateTime.now().difference(date).inDays;
+                                  var duration = DateTime.now().difference(date).inDays;
                                   return duration <= 0;
                                 },
                                 onChanged: (period) {
@@ -222,37 +241,30 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
             ),
             Container(
               margin: EdgeInsets.only(
-                  right: SizeConstants.SIZE_16,
-                  left: SizeConstants.SIZE_16,
-                  top: SizeConstants.SIZE_20),
+                  right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     strings.rooms,
-                    style: CustomStyles.heading
-                        .copyWith(color: CustomColors.heading.withOpacity(.5)),
+                    style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
                   ),
                   Card(
                     elevation: 3,
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(SizeConstants.SIZE_16),
+                      borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
                     ),
                     child: Container(
                       height: SizeConstants.SIZE_45,
-                      margin: EdgeInsets.only(
-                          left: SizeConstants.SIZE_16,
-                          right: SizeConstants.SIZE_16),
+                      margin: EdgeInsets.only(left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
                             strings.rooms,
-                            style: CustomStyles.calenderStyle.copyWith(
-                                color: CustomColors.heading,
-                                fontSize: SizeConstants.SIZE_16),
+                            style: CustomStyles.calenderStyle
+                                .copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
                           ),
                           Row(
                             children: <Widget>[
@@ -265,8 +277,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                   onPressed: () => model.addRoomCount(false)),
                               Text(
                                 model.requestDto.rooms.length.toString(),
-                                style: CustomStyles.heading
-                                    .copyWith(fontSize: SizeConstants.SIZE_16),
+                                style: CustomStyles.heading.copyWith(fontSize: SizeConstants.SIZE_16),
                               ),
                               IconButton(
                                   icon: Icon(
@@ -290,14 +301,11 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                 (index) {
                   return Container(
                     margin: EdgeInsets.only(
-                        right: SizeConstants.SIZE_16,
-                        left: SizeConstants.SIZE_16,
-                        top: SizeConstants.SIZE_20),
+                        right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
                     child: Card(
                         elevation: 3,
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(SizeConstants.SIZE_16),
+                          borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
                         ),
                         child: Container(
                           margin: EdgeInsets.only(
@@ -310,18 +318,14 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     "Room ${(index + 1)}",
-                                    style: CustomStyles.heading.copyWith(
-                                        color: CustomColors.heading
-                                            .withOpacity(.5)),
+                                    style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
                                   ),
                                   IconButton(
-                                    constraints: BoxConstraints.loose(
-                                        Size.fromRadius(SizeConstants.SIZE_16)),
+                                    constraints: BoxConstraints.loose(Size.fromRadius(SizeConstants.SIZE_16)),
                                     icon: Icon(
                                       Icons.close,
                                       size: SizeConstants.SIZE_20,
@@ -332,14 +336,12 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     strings.adult,
-                                    style: CustomStyles.calenderStyle.copyWith(
-                                        color: CustomColors.heading,
-                                        fontSize: SizeConstants.SIZE_16),
+                                    style: CustomStyles.calenderStyle
+                                        .copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
                                   ),
                                   Row(
                                     children: <Widget>[
@@ -349,13 +351,10 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                             color: CustomColors.Orange,
                                             size: 22,
                                           ),
-                                          onPressed: () => model.addAdultCount(
-                                              false, index)),
+                                          onPressed: () => model.addAdultCount(false, index)),
                                       Text(
-                                        model.requestDto.rooms[index].adultCnt
-                                            .toString(),
-                                        style: CustomStyles.heading
-                                            .copyWith(fontSize: 16),
+                                        model.requestDto.rooms[index].adultCnt.toString(),
+                                        style: CustomStyles.heading.copyWith(fontSize: 16),
                                       ),
                                       IconButton(
                                           icon: Icon(
@@ -363,21 +362,18 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                             color: CustomColors.Orange,
                                             size: 22,
                                           ),
-                                          onPressed: () =>
-                                              model.addAdultCount(true, index)),
+                                          onPressed: () => model.addAdultCount(true, index)),
                                     ],
                                   )
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     strings.children,
-                                    style: CustomStyles.calenderStyle.copyWith(
-                                        color: CustomColors.heading,
-                                        fontSize: SizeConstants.SIZE_16),
+                                    style: CustomStyles.calenderStyle
+                                        .copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
                                   ),
                                   Row(
                                     children: <Widget>[
@@ -387,14 +383,10 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                             color: CustomColors.Orange,
                                             size: 22,
                                           ),
-                                          onPressed: () => model.addChildCount(
-                                              false, index)),
+                                          onPressed: () => model.addChildCount(false, index)),
                                       Text(
-                                        model.requestDto.rooms[index].children
-                                            .length
-                                            .toString(),
-                                        style: CustomStyles.heading
-                                            .copyWith(fontSize: 16),
+                                        model.requestDto.rooms[index].children.length.toString(),
+                                        style: CustomStyles.heading.copyWith(fontSize: 16),
                                       ),
                                       IconButton(
                                           icon: Icon(
@@ -402,66 +394,43 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                             color: CustomColors.Orange,
                                             size: 22,
                                           ),
-                                          onPressed: () =>
-                                              model.addChildCount(true, index)),
+                                          onPressed: () => model.addChildCount(true, index)),
                                     ],
                                   )
                                 ],
                               ),
                               Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: List.generate(
-                                      model.requestDto.rooms[index].children
-                                          .length,
+                                      model.requestDto.rooms[index].children.length,
                                       (ind) => Column(
                                             children: <Widget>[
                                               Text(
                                                 "Child ${ind + 1} Age",
-                                                style: CustomStyles
-                                                    .whiteTextSytle12Size
-                                                    .copyWith(
-                                                        color: Colors.grey),
+                                                style: CustomStyles.whiteTextSytle12Size.copyWith(color: Colors.grey),
                                               ),
                                               Card(
                                                   elevation: 4,
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            SizeConstants
-                                                                .SIZE_4),
+                                                    borderRadius: BorderRadius.circular(SizeConstants.SIZE_4),
                                                   ),
                                                   child: Container(
-                                                    width:
-                                                        SizeConstants.SIZE_50,
-                                                    height:
-                                                        SizeConstants.SIZE_40,
+                                                    width: SizeConstants.SIZE_50,
+                                                    height: SizeConstants.SIZE_40,
                                                     child: TextFormField(
-                                                      initialValue: model.requestDto.rooms[index].children[ind].childAge.toString(),
-                                                      style: CustomStyles.whiteTextSytle16Size.copyWith(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      inputFormatters: <
-                                                          TextInputFormatter>[
-                                                        WhitelistingTextInputFormatter
-                                                            .digitsOnly,
-                                                        LengthLimitingTextInputFormatter(
-                                                            1),
+                                                      initialValue: model.requestDto.rooms[index].children[ind].childAge
+                                                          .toString(),
+                                                      style: CustomStyles.whiteTextSytle16Size
+                                                          .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: <TextInputFormatter>[
+                                                        WhitelistingTextInputFormatter.digitsOnly,
+                                                        LengthLimitingTextInputFormatter(1),
                                                       ],
                                                       maxLines: 1,
-                                                      keyboardType:
-                                                          TextInputType.number,
-                                                      decoration:
-                                                          InputDecoration(
-                                                              border:
-                                                                  InputBorder
-                                                                      .none),
+                                                      keyboardType: TextInputType.number,
+                                                      decoration: InputDecoration(border: InputBorder.none),
                                                     ),
                                                   ))
                                             ],
@@ -493,8 +462,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                   onPressed: () {
                     if (model.key.currentState.validate()) {
                       model.roomPaxes();
-                      Navigator.pushNamed(context, Routes.searchHotels,
-                          arguments: model.requestDto);
+                      Navigator.pushNamed(context, Routes.searchHotels, arguments: model.requestDto);
                     } else {}
                   }),
             )

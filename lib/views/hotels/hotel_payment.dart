@@ -69,8 +69,7 @@ class HotelPayment extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_20, vertical: SizeConstants.SIZE_20),
+                          margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_20, vertical: SizeConstants.SIZE_20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -90,8 +89,7 @@ class HotelPayment extends StatelessWidget {
                                   Text(
                                     '${convertToDate(model.hotel.checkIn)} - ${convertToDate(model.hotel.checkOut)} '
                                     '| Rooms ${model.hotel.hotel.roomOption[selectGroup].rooms.length.toString()} | ${model.totalGuest} Guest',
-                                    style: CustomStyles.calenderStyle
-                                        .copyWith(color: CustomColors.heading.withOpacity(.5)),
+                                    style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),
                                   )
                                 ],
                               ),
@@ -113,8 +111,7 @@ class HotelPayment extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_20, vertical: SizeConstants.SIZE_20),
+                          margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_20, vertical: SizeConstants.SIZE_20),
                           child: MySeparator(
                             height: 1,
                             color: Colors.grey,
@@ -122,8 +119,7 @@ class HotelPayment extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_20, vertical: SizeConstants.SIZE_20),
+                          margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_20, vertical: SizeConstants.SIZE_20),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -136,9 +132,7 @@ class HotelPayment extends StatelessWidget {
                                     style: CustomStyles.normal14,
                                   ),
                                   Text(
-                                    'SAR ' +
-                                        (model.hotel.hotel.roomOption[selectGroup].displayRateInfoWithMarkup.baseRate)
-                                            .toStringAsFixed(2),
+                                    'SAR ' + (model.hotel.hotel.roomOption[selectGroup].displayRateInfoWithMarkup.baseRate).toStringAsFixed(2),
                                     style: CustomStyles.bold16,
                                   ),
                                 ],
@@ -154,9 +148,7 @@ class HotelPayment extends StatelessWidget {
                                   ),
                                   Text(
                                     'SAR ' +
-                                        (model.hotel.hotel.roomOption[selectGroup].displayRateInfoWithMarkup
-                                                .taxAndOtherCharges)
-                                            .toStringAsFixed(2),
+                                        (model.hotel.hotel.roomOption[selectGroup].displayRateInfoWithMarkup.taxAndOtherCharges).toStringAsFixed(2),
                                     style: CustomStyles.bold16,
                                   ),
                                 ],
@@ -178,9 +170,7 @@ class HotelPayment extends StatelessWidget {
                                   ),
                                   Text(
                                     'SAR ' +
-                                        (model.hotel.hotel.roomOption[selectGroup].displayRateInfoWithMarkup
-                                                .totalPriceWithMarkup)
-                                            .toStringAsFixed(2),
+                                        (model.hotel.hotel.roomOption[selectGroup].displayRateInfoWithMarkup.totalPriceWithMarkup).toStringAsFixed(2),
                                     style: CustomStyles.bold16,
                                   ),
                                 ],
@@ -207,11 +197,8 @@ class HotelPayment extends StatelessWidget {
                                   'Apply Coupon',
                                   style: CustomStyles.medium14.copyWith(color: CustomColors.heading.withOpacity(.5)),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                SizedBox(height: 20),
                                 Card(
-
                                   elevation: 3,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.0),

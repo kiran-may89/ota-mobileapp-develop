@@ -41,8 +41,7 @@ class HotelResults extends StatelessWidget {
 }
 
 class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
-  void _modalBottomSheetMenu(
-      BuildContext context, HotelResultsViewModel model) {
+  void _modalBottomSheetMenu(BuildContext context, HotelResultsViewModel model) {
     Future<void> future = showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -51,8 +50,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
       isDismissible: false,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(SizeConstants.SIZE_24),
-            topRight: Radius.circular(SizeConstants.SIZE_24)),
+            topLeft: Radius.circular(SizeConstants.SIZE_24), topRight: Radius.circular(SizeConstants.SIZE_24)),
       ),
     );
   }
@@ -87,7 +85,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
       ),
       body: model.loading
           ? ShimmerContainer(MediaQuery.of(context).size.height)
-          : model.response.isError || model.response.result.hotels.length<1
+          : model.response.isError || model.response.result.hotels.length < 1
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -95,15 +93,13 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.only(top: 40),
-                        child: Image.asset('assets/images/hotels.png',
-                            height: 150),
+                        child: Image.asset('assets/images/hotels.png', height: 150),
                       ),
                       Padding(
                         padding: EdgeInsets.all(7.0),
                         child: Text('No Hotels  Found',
                             textAlign: TextAlign.center,
-                            style: CustomStyles.medium20
-                                .copyWith(color: CustomColors.disabledButton)),
+                            style: CustomStyles.medium20.copyWith(color: CustomColors.disabledButton)),
                       ),
                     ],
                   ),
@@ -126,9 +122,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                               Text(
                                 '${convertToDate(model.dto.checkInDate)} - ${convertToDate(model.dto.checkOutDate)} '
                                 '| Rooms ${model.dto.rooms.length.toString()} | ${getTotalAdults(model)} Guest',
-                                style: CustomStyles.calenderStyle.copyWith(
-                                    color:
-                                        CustomColors.heading.withOpacity(.5)),
+                                style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),
                               )
                             ],
                           ),
@@ -142,8 +136,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                               color: CustomColors.Orange,
                               child: Text(
                                 'EDIT',
-                                style: CustomStyles.calenderStyle
-                                    .copyWith(color: CustomColors.White),
+                                style: CustomStyles.calenderStyle.copyWith(color: CustomColors.White),
                               ),
                             ),
                           ),
@@ -158,16 +151,13 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                           Horizontal: true,
                         )),
                     Container(
-                      margin: EdgeInsets.only(
-                          left: SizeConstants.SIZE_16,
-                          right: SizeConstants.SIZE_16),
+                      margin: EdgeInsets.only(left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
                             '',
-                            style: CustomStyles.calenderStyle.copyWith(
-                                color: CustomColors.heading.withOpacity(.5)),
+                            style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -185,9 +175,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                                 Text(
                                   "Filter",
                                   style: CustomStyles.style3.copyWith(
-                                      color: CustomColors.BackGround,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
+                                      color: CustomColors.BackGround, fontSize: 16, fontWeight: FontWeight.w500),
                                 ),
                                 SizedBox(
                                   width: 5,
@@ -200,9 +188,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                                     "3",
                                     style: CustomStyles.style5,
                                   ),
-                                  decoration: BoxDecoration(
-                                      color: CustomColors.Orange,
-                                      shape: BoxShape.circle),
+                                  decoration: BoxDecoration(color: CustomColors.Orange, shape: BoxShape.circle),
                                 )
                               ],
                             ),
@@ -219,29 +205,23 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                           margin: EdgeInsets.only(top: 25),
                           decoration: BoxDecoration(
                             color: CustomColors.BackGround,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                topLeft: Radius.circular(25)),
+                            borderRadius:
+                                BorderRadius.only(topRight: Radius.circular(25), topLeft: Radius.circular(25)),
                           ),
                           child: DefaultTabController(
                             length: 2,
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(
-                                      top: 26, left: 32, right: 32),
-                                  constraints:
-                                      BoxConstraints.expand(height: 28),
+                                  margin: EdgeInsets.only(top: 26, left: 32, right: 32),
+                                  constraints: BoxConstraints.expand(height: 28),
                                   child: TabBar(
                                     isScrollable: true,
                                     indicatorColor: CustomColors.White,
                                     indicatorSize: TabBarIndicatorSize.label,
-                                    indicatorPadding:
-                                        EdgeInsets.only(left: 30, right: 30),
-                                    labelStyle: CustomStyles.button_style
-                                        .copyWith(fontSize: 13),
-                                    unselectedLabelColor:
-                                        CustomColors.White.withOpacity(.5),
+                                    indicatorPadding: EdgeInsets.only(left: 30, right: 30),
+                                    labelStyle: CustomStyles.button_style.copyWith(fontSize: 13),
+                                    unselectedLabelColor: CustomColors.White.withOpacity(.5),
                                     tabs: Tabs,
                                     onTap: (value) {
                                       if (value == 0) {
@@ -277,20 +257,15 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                                       color: Colors.black.withOpacity(0.25),
                                       spreadRadius: 5,
                                       blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
+                                      offset: Offset(0, 3), // changes position of shadow
                                     ),
                                   ],
-                                  border: Border.all(
-                                      width: 2,
-                                      color: Colors.white,
-                                      style: BorderStyle.solid),
+                                  border: Border.all(width: 2, color: Colors.white, style: BorderStyle.solid),
                                   color: CustomColors.Orange,
                                   shape: BoxShape.circle),
                               alignment: Alignment.center,
                               child: Text(model.hotels.length.toString(),
-                                  style: CustomStyles.button_style
-                                      .copyWith(fontSize: 13))),
+                                  style: CustomStyles.button_style.copyWith(fontSize: 13))),
                         ),
                       ],
                     )),
@@ -315,8 +290,7 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
             onNotification: (ScrollNotification scrollInfo) {
               if (!model.isListLoading &&
                   model.hotels.length < model.response.result.hotels.length &&
-                  scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent) {
+                  scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
                 model.loadMore();
               }
               return false;
@@ -345,20 +319,16 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                       Map<String, dynamic> args = new Map();
                       args['response'] = hotelRequest;
                       args['dto'] = model.dto;
-                      Navigator.pushNamed(context, Routes.aboutHotel,
-                          arguments: args);
+                      Navigator.pushNamed(context, Routes.aboutHotel, arguments: args);
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.only(
-                          bottom: SizeConstants.SIZE_16,
-                          left: SizeConstants.SIZE_16,
-                          right: SizeConstants.SIZE_16),
+                          bottom: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(SizeConstants.SIZE_16))),
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConstants.SIZE_16))),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -375,40 +345,24 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(
-                                            SizeConstants.SIZE_16),
-                                        topRight: Radius.circular(
-                                            SizeConstants.SIZE_16))),
+                                        topLeft: Radius.circular(SizeConstants.SIZE_16),
+                                        topRight: Radius.circular(SizeConstants.SIZE_16))),
                                 Positioned(
                                   bottom: 0,
                                   left: 0,
                                   child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.black38,
-                                          shape: BoxShape.rectangle),
+                                      decoration: BoxDecoration(color: Colors.black38, shape: BoxShape.rectangle),
                                       height: SizeConstants.SIZE_60,
-                                      padding:
-                                          EdgeInsets.all(SizeConstants.SIZE_4),
+                                      padding: EdgeInsets.all(SizeConstants.SIZE_4),
                                       width: MediaQuery.of(context).size.width,
                                       alignment: Alignment.centerLeft,
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            hotel.name +
-                                                "${hotel.roomOption[0].roomRateType == "recheck" ? ":" : ""}",
-                                            style: CustomStyles.medium20
-                                                .copyWith(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                          ),
+
                                           RatingBar(
-                                            initialRating:
-                                                hotel.starRating.toDouble(),
+                                            initialRating: hotel.starRating.toDouble(),
                                             minRating: 1,
                                             direction: Axis.horizontal,
                                             allowHalfRating: true,
@@ -451,8 +405,7 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                                   flex: 5,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.max,
                                     children: <Widget>[
                                       RichText(
@@ -467,9 +420,7 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                                           ),
                                           TextSpan(
                                               text: hotel.address,
-                                              style: CustomStyles.style3
-                                                  .copyWith(
-                                                      color: Colors.black54)),
+                                              style: CustomStyles.style3.copyWith(color: Colors.black54)),
                                         ]),
                                       ),
                                     ],
@@ -484,9 +435,7 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                                       Text(
                                         "SAR ${hotel.roomOption[0].displayRateInfoWithMarkup.totalPriceWithMarkup}",
                                         style: CustomStyles.whiteTextSytle14Size
-                                            .copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                color: CustomColors.Orange),
+                                            .copyWith(fontWeight: FontWeight.bold, color: CustomColors.Orange),
                                       ),
                                       SizedBox(
                                         height: SizeConstants.SIZE_4,
@@ -494,9 +443,7 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                                       Text(
                                         "${model.response.result.totalRooms} room | ${model.response.result.totalNights} nights",
                                         style: CustomStyles.whiteTextSytle12Size
-                                            .copyWith(
-                                                color: CustomColors
-                                                    .disabledButton),
+                                            .copyWith(color: CustomColors.disabledButton),
                                       ),
                                     ],
                                   ),
@@ -553,16 +500,14 @@ class BottomSheetState extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "${strings.hotel} ${strings.filter}",
-                  style: CustomStyles.whiteTextSytle24Size.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.w500),
+                  style: CustomStyles.whiteTextSytle24Size.copyWith(color: Colors.black, fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
                   height: SizeConstants.SIZE_12,
                 ),
                 Text(
                   strings.price_range,
-                  style: CustomStyles.whiteTextSytle14Size.copyWith(
-                      color: Colors.black45, fontWeight: FontWeight.w500),
+                  style: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black45, fontWeight: FontWeight.w500),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -570,40 +515,26 @@ class BottomSheetState extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(
-                          top: SizeConstants.SIZE_16,
-                          bottom: SizeConstants.SIZE_16,
-                          left: SizeConstants.SIZE_24),
+                          top: SizeConstants.SIZE_16, bottom: SizeConstants.SIZE_16, left: SizeConstants.SIZE_24),
                       width: SizeConstants.SIZE_80,
-                      padding: EdgeInsets.only(
-                          top: SizeConstants.SIZE_4,
-                          bottom: SizeConstants.SIZE_4),
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.grey.withOpacity(0.25))),
+                      padding: EdgeInsets.only(top: SizeConstants.SIZE_4, bottom: SizeConstants.SIZE_4),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.grey.withOpacity(0.25))),
                       child: Text(
                         "${model.rangeValues.start.floor()}",
                         textAlign: TextAlign.center,
-                        style: CustomStyles.whiteTextSytle14Size
-                            .copyWith(color: CustomColors.BackGround),
+                        style: CustomStyles.whiteTextSytle14Size.copyWith(color: CustomColors.BackGround),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(
-                          top: SizeConstants.SIZE_16,
-                          bottom: SizeConstants.SIZE_16,
-                          right: SizeConstants.SIZE_24),
+                          top: SizeConstants.SIZE_16, bottom: SizeConstants.SIZE_16, right: SizeConstants.SIZE_24),
                       width: SizeConstants.SIZE_80,
-                      padding: EdgeInsets.only(
-                          top: SizeConstants.SIZE_4,
-                          bottom: SizeConstants.SIZE_4),
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.grey.withOpacity(0.25))),
+                      padding: EdgeInsets.only(top: SizeConstants.SIZE_4, bottom: SizeConstants.SIZE_4),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.grey.withOpacity(0.25))),
                       child: Text(
                         "${model.rangeValues.end.floor()}",
                         textAlign: TextAlign.center,
-                        style: CustomStyles.whiteTextSytle14Size
-                            .copyWith(color: CustomColors.BackGround),
+                        style: CustomStyles.whiteTextSytle14Size.copyWith(color: CustomColors.BackGround),
                       ),
                     ),
                   ],
@@ -625,17 +556,14 @@ class BottomSheetState extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         strings.location,
-                        style: CustomStyles.whiteTextSytle14Size.copyWith(
-                            color: Colors.black45, fontWeight: FontWeight.w500),
+                        style: CustomStyles.whiteTextSytle14Size
+                            .copyWith(color: Colors.black45, fontWeight: FontWeight.w500),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: SizeConstants.SIZE_16),
-                        padding: EdgeInsets.only(
-                            left: SizeConstants.SIZE_12,
-                            right: SizeConstants.SIZE_12),
+                        padding: EdgeInsets.only(left: SizeConstants.SIZE_12, right: SizeConstants.SIZE_12),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(SizeConstants.SIZE_16)),
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConstants.SIZE_16)),
                           color: Colors.black12,
                         ),
                         child: TextFormField(
@@ -656,22 +584,20 @@ class BottomSheetState extends StatelessWidget {
                   margin: EdgeInsets.only(top: SizeConstants.SIZE_16),
                   child: Text(
                     strings.filter_by,
-                    style: CustomStyles.whiteTextSytle14Size.copyWith(
-                        color: Colors.black45, fontWeight: FontWeight.w500),
+                    style:
+                        CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black45, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Wrap(
                   children: [
                     ChoiceChip(
                       label: Text('Free Cancellation'),
-                      labelStyle: CustomStyles.whiteTextSytle14Size.copyWith(
-                          color:
-                              model.freeSelected ? Colors.white : Colors.grey),
+                      labelStyle: CustomStyles.whiteTextSytle14Size
+                          .copyWith(color: model.freeSelected ? Colors.white : Colors.grey),
                       disabledColor: Colors.grey,
                       backgroundColor: Colors.white,
                       selectedColor: CustomColors.BackGround,
-                      shape: StadiumBorder(
-                          side: BorderSide(color: Colors.grey, width: 0.5)),
+                      shape: StadiumBorder(side: BorderSide(color: Colors.grey, width: 0.5)),
                       selected: model.freeSelected,
                       onSelected: (bool selected) {
                         model.updateFreeSelected(true);
@@ -682,14 +608,12 @@ class BottomSheetState extends StatelessWidget {
                     ),
                     ChoiceChip(
                       label: Text('Refundable'),
-                      labelStyle: CustomStyles.whiteTextSytle14Size.copyWith(
-                          color:
-                              !model.freeSelected ? Colors.white : Colors.grey),
+                      labelStyle: CustomStyles.whiteTextSytle14Size
+                          .copyWith(color: !model.freeSelected ? Colors.white : Colors.grey),
                       disabledColor: Colors.grey,
                       backgroundColor: Colors.white,
                       selectedColor: CustomColors.BackGround,
-                      shape: StadiumBorder(
-                          side: BorderSide(color: Colors.grey, width: 0.5)),
+                      shape: StadiumBorder(side: BorderSide(color: Colors.grey, width: 0.5)),
                       selected: !model.freeSelected,
                       onSelected: (bool selected) {
                         model.updateFreeSelected(false);
@@ -698,13 +622,11 @@ class BottomSheetState extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: SizeConstants.SIZE_16,
-                      bottom: SizeConstants.SIZE_16),
+                  margin: EdgeInsets.only(top: SizeConstants.SIZE_16, bottom: SizeConstants.SIZE_16),
                   child: Text(
                     strings.star_rating,
-                    style: CustomStyles.whiteTextSytle14Size.copyWith(
-                        color: Colors.black45, fontWeight: FontWeight.w500),
+                    style:
+                        CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black45, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Row(
@@ -712,8 +634,8 @@ class BottomSheetState extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       model.rating.toString(),
-                      style: CustomStyles.whiteTextSytle24Size.copyWith(
-                          color: Colors.black, fontWeight: FontWeight.bold),
+                      style:
+                          CustomStyles.whiteTextSytle24Size.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                     RatingBar(
                       initialRating: model.rating,
@@ -732,13 +654,11 @@ class BottomSheetState extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: SizeConstants.SIZE_16,
-                      bottom: SizeConstants.SIZE_16),
+                  margin: EdgeInsets.only(top: SizeConstants.SIZE_16, bottom: SizeConstants.SIZE_16),
                   child: Text(
                     strings.amenities,
-                    style: CustomStyles.whiteTextSytle14Size.copyWith(
-                        color: Colors.black45, fontWeight: FontWeight.w500),
+                    style:
+                        CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black45, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Container(
@@ -755,31 +675,24 @@ class BottomSheetState extends StatelessWidget {
                               model.updateAmentieSelected(index);
                             },
                             child: Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: SizeConstants.SIZE_16),
+                              padding: EdgeInsets.only(bottom: SizeConstants.SIZE_16),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
                                     width: SizeConstants.SIZE_16,
                                     height: SizeConstants.SIZE_16,
-                                    margin: EdgeInsets.only(
-                                        right: SizeConstants.SIZE_24),
+                                    margin: EdgeInsets.only(right: SizeConstants.SIZE_24),
                                     child: Image.asset(
                                       amentie.icon,
                                       fit: BoxFit.contain,
-                                      color: amentie.isAvailable
-                                          ? Colors.black
-                                          : Colors.grey,
+                                      color: amentie.isAvailable ? Colors.black : Colors.grey,
                                     ),
                                   ),
                                   Text(
                                     amentie.name,
                                     style: CustomStyles.whiteTextSytle14Size
-                                        .copyWith(
-                                            color: amentie.isAvailable
-                                                ? Colors.black
-                                                : Colors.grey),
+                                        .copyWith(color: amentie.isAvailable ? Colors.black : Colors.grey),
                                   ),
                                   Spacer(),
                                   Container(
@@ -787,9 +700,7 @@ class BottomSheetState extends StatelessWidget {
                                     height: SizeConstants.SIZE_24,
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: amentie.isAvailable
-                                            ? CustomColors.BackGround
-                                            : Colors.grey),
+                                        color: amentie.isAvailable ? CustomColors.BackGround : Colors.grey),
                                     child: Icon(
                                       Icons.check,
                                       color: Colors.white,
@@ -815,15 +726,11 @@ class BottomSheetState extends StatelessWidget {
                           padding: EdgeInsets.all(SizeConstants.SIZE_16),
                           child: Text(
                             strings.clear_all.toUpperCase(),
-                            style: CustomStyles.button_style
-                                .copyWith(color: CustomColors.disabledButton),
+                            style: CustomStyles.button_style.copyWith(color: CustomColors.disabledButton),
                           ),
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(SizeConstants.SIZE_16),
-                              side: BorderSide(
-                                  color: CustomColors.disabledButton,
-                                  width: 2)),
+                              borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
+                              side: BorderSide(color: CustomColors.disabledButton, width: 2)),
                         )),
                     SizedBox(
                       width: SizeConstants.SIZE_20,
@@ -842,10 +749,8 @@ class BottomSheetState extends StatelessWidget {
                             style: CustomStyles.button_style,
                           ),
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(SizeConstants.SIZE_16),
-                              side: BorderSide(
-                                  color: CustomColors.Orange, width: 2)),
+                              borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
+                              side: BorderSide(color: CustomColors.Orange, width: 2)),
                         ))
                   ],
                 ),

@@ -1,14 +1,14 @@
 class Constants {
-  static String PRODUCTION_BASEURL = "https://api.otadevtest.com/";
+  static String PRODUCTION_BASEURL = "https://api.otadevtest.com/test/";
 
-  static String DEV_BASEURL = "https://api.otadevtest.com/";
+  static String DEV_BASEURL = "https://api.otadevtest.com/test/";
   static String CALLBACK_URL = "com.tripshop.ota://login-callback";
 
-  static String AUTH0_DOMAIN = 'https://sso-stage.trvlshop.com/';
+  static String AUTH0_DOMAIN = 'https://sso-stage.trvlshop.com/test/';
   static String AUTH0_CLIENT_ID = 'mobile_client';
 
   static String AUTH0_REDIRECT_URI = 'com.tripshop.ota://login-callback';
-  static String AUTH0_ISSUER = 'https://sso.otadevtest.com/';
+  static String AUTH0_ISSUER = 'https://sso.otadevtest.com/test/';
   static List<String> AUTH_SCOPE = [
     'openid',
     'offline_access',

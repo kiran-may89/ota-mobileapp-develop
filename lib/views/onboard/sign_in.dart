@@ -46,8 +46,8 @@ class _SignInState extends State<SignIn> {
   void initiateFacebookLogin() async {
     var facebookLogin = FacebookLogin();
     var facebookLoginResult = await facebookLogin.logIn(['email']);
-    final graphResponse = await http.get(
-        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${facebookLoginResult.accessToken.token}');
+    final graphResponse = await http
+        .get('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${facebookLoginResult.accessToken.token}');
 
     var fbdata = FbGraphModel.fromJson(jsonDecode(graphResponse.body));
     var result = await viewModel.authenicateExternal(ExternalAuthRequestModel(
@@ -131,9 +131,7 @@ class _SignInState extends State<SignIn> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(height: 25),
-                      Center(
-                          child: Text(strings.easy_login,
-                              style: CustomStyles.style3.copyWith(color: CustomColors.White.withOpacity(.5)))),
+                      Center(child: Text(strings.easy_login, style: CustomStyles.style3.copyWith(color: CustomColors.White.withOpacity(.5)))),
                       SizedBox(height: 25),
                       SizedBox(height: 25),
                       Column(
@@ -226,8 +224,8 @@ class _SignInState extends State<SignIn> {
                                 }),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text("OR", style: CustomStyles.style1.copyWith(color: Colors.white, fontSize: 14)),
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("OR", style: CustomStyles.style1.copyWith(color: Colors.white, fontSize: 12)),
                           ),
                           SizedBox(
                             height: 48,
@@ -264,8 +262,7 @@ class _SignInState extends State<SignIn> {
                                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
                                         Image.asset(
                                           "assets/images/facebook_icon.png",
-                                          height: 30,
-                                          width: 30,
+                                          fit: BoxFit.contain,
                                         )
                                       ])),
                                 ),
@@ -279,12 +276,11 @@ class _SignInState extends State<SignIn> {
                                 child: RaisedButton(
                                   color: Colors.white,
                                   child: Container(
-                                      height: 48,
+                                      height: 60,
                                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
                                         Image.asset(
                                           "assets/images/google_icon.png",
-                                          height: 30,
-                                          width: 30,
+                                          fit: BoxFit.contain,
                                         )
                                       ])),
                                   onPressed: () async {
@@ -312,8 +308,7 @@ class _SignInState extends State<SignIn> {
                     children: <Widget>[
                       Center(
                         child: Text(strings.Terms1,
-                            style: CustomStyles.style5.copyWith(color: CustomColors.White.withOpacity(.5), height: 1.5),
-                            textAlign: TextAlign.center),
+                            style: CustomStyles.style5.copyWith(color: CustomColors.White.withOpacity(.5), height: 1.5), textAlign: TextAlign.center),
                       ),
                       SizedBox(height: 38),
                       Align(

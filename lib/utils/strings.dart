@@ -193,4 +193,6 @@ class strings {
 
   static const String numberIsInvalid = 'Card is invalid';
   static const String pay = 'Pay';
+
+  static const String nationality = "Nationality";
 }

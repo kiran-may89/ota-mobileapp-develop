@@ -83,17 +83,5 @@ class NetworkInterceptor extends InterceptorsWrapper {
     return super.onResponse(response);
   }
 
-  @override
-  Future onError(DioError err) {
 
-    if (err.request.path != CommonServiceImpl.REFRESH_TOKEN && err.request.path != CommonServiceImpl.GET_GUEST_AUTH_TOKEN && err.response.data != null) {
-      var encryptedData = rawCryptoFromJson(err.response.data);
-
-      var timeStamp = err.response.headers[Constants.X_OTA_TIMESTAMP];
-      var accessToken = SessionManager.getInstance().getAuthToken;
-      var decrypted =
-          doDecrypt(encryptedData.result, accessToken, timeStamp[0].toString());
-      err.response.data = jsonDecode(decrypted);
-    }
-  }
 }

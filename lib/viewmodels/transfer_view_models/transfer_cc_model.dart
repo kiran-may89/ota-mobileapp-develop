@@ -203,7 +203,18 @@ class TransferCCModel extends ChangeNotifier{
   }
 
 
+  void onCreditCardModelChange(CreditCardModel creditCardModel) {
+    cardNumber.text = creditCardModel.cardNumber.replaceAll(" ", "");
 
+    if (creditCardModel.expiryDate.isNotEmpty && creditCardModel.expiryDate.contains("/")) {
+      expiryDate.text = creditCardModel.expiryDate;
+    }
+
+    cvvCode.text = creditCardModel.cvvCode;
+    isCvvFocused = creditCardModel.isCvvFocused;
+    cardHolderName.text = creditCardModel.cardHolderName;
+    notifyListeners();
+  }
 
 
 

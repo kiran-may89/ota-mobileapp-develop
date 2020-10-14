@@ -109,7 +109,7 @@ class HotelResultsViewModel extends BaseViewModel {
     }
 
     int difference = response.result.hotels.length - (present + perPage);
-    int offset = difference > 0 ? present + perPage : response.result.hotels.length;
+    int offset = difference > 0 ? present + perPage : response.result.hotels.length-1;
 
     hotels.addAll(response.result.hotels.getRange(present, offset));
     present = offset;
