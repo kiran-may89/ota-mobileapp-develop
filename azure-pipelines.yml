@@ -43,7 +43,7 @@ steps:
   displayName: 'Execute Dart program'
   inputs:
     script: '$(FlutterToolPath)/cache/dart-sdk/bin/dart flutter pub get'
-    workingDirectory: 'src'
+    workingDirectory: 'lib'
 # - task: FlutterBuild@0
 #   inputs:
 #     target: 'all'
