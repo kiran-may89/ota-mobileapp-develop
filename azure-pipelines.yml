@@ -34,16 +34,16 @@ steps:
    
 
 
-# - task: FlutterInstall@0
-#   inputs:
-#     channel: 'stable'
-#     version: 'latest'
+- task: FlutterInstall@0
+  inputs:
+    channel: 'stable'
+    version: 'latest'
 
-# - task: FlutterBuild@0
-#   inputs:
-#     target: 'all'
-#     projectDirectory: '.'
-#     entryPoint: 'lib/main_dev.dart'
+- task: FlutterBuild@0
+  inputs:
+    target: 'all'
+    projectDirectory: '.'
+    entryPoint: 'lib/main_dev.dart'
 - task: CocoaPods@0
   displayName: "Install CocoaPods dependencies"
   inputs:
@@ -59,7 +59,9 @@ steps:
     xcodeVersion: 'specifyPath'
     xcodeDeveloperDir: '/Applications/Xcode_11.3.app/Contents/Developer'
     packageApp: true
-    signingOption: 'auto'
+    signingOption: 'manual'
+    signingIdentity: '$(APPLE_CERTIFICATE_SIGNING_IDENTITY)'
+    provisioningProfileUuid: '$(APPLE_PROV_PROFILE_UUID)'
 
 - task: CopyFiles@2
   inputs:
