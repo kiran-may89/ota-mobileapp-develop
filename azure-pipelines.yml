@@ -59,10 +59,7 @@ steps:
     xcodeVersion: 'specifyPath'
     xcodeDeveloperDir: '/Applications/Xcode_11.3.app/Contents/Developer'
     packageApp: true
-    signingOption: 'manual'
-
-    signingIdentity: '$(APPLE_CERTIFICATE_SIGNING_IDENTITY)'
-    provisioningProfileUuid: '$(APPLE_PROV_PROFILE_UUID)'
+    signingOption: 'auto'
 
 - task: CopyFiles@2
   inputs:
