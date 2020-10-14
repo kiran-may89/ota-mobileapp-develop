@@ -42,7 +42,7 @@ steps:
 - task: CmdLine@2
   displayName: 'Execute Dart program'
   inputs:
-    script: '$(FlutterToolPath) flutter pub get'
+    script: 'flutter pub get'
 # - task: FlutterBuild@0
 #   inputs:
 #     target: 'all'
