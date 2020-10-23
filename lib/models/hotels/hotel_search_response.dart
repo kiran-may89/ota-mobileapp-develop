@@ -33,18 +33,19 @@ class HotelResult {
   String checkIn;
   String checkOut;
   List<Hotel> hotels;
+  List<String> topFacilities;
 
-  HotelResult({
-    this.searchId,
-    this.totalHotels,
-    this.totalRooms,
-    this.totalNights,
-    this.totalChildren,
-    this.totalAdults,
-    this.checkIn,
-    this.checkOut,
-    this.hotels,
-  });
+  HotelResult(
+      {this.searchId,
+      this.totalHotels,
+      this.totalRooms,
+      this.totalNights,
+      this.totalChildren,
+      this.totalAdults,
+      this.checkIn,
+      this.checkOut,
+      this.hotels,
+      this.topFacilities});
 
   factory HotelResult.fromJson(Map<String, dynamic> json) => _$HotelResultFromJson(json);
   Map<String, dynamic> toJson() => _$HotelResultToJson(this);

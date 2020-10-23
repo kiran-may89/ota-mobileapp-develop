@@ -47,8 +47,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
           children: <Widget>[
             Card(
                 elevation: 3,
-                margin: EdgeInsets.only(
-                    top: SizeConstants.SIZE_30, left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
+                margin: EdgeInsets.only(top: SizeConstants.SIZE_30, left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
                 ),
@@ -110,8 +109,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                             return ListTile(
                               title: Text(
                                 suggestion.name,
-                                style: CustomStyles.countDownStyle
-                                    .copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
+                                style: CustomStyles.countDownStyle.copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
                               ),
                             );
                           },
@@ -124,8 +122,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                   ),
                 )),
             Container(
-                margin: EdgeInsets.only(
-                    right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
+                margin: EdgeInsets.only(right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   Text(
                     strings.nationality,
@@ -137,17 +134,20 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                         borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
                       ),
                       child: Container(
-height: 45,
+                        height: 45,
                         width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.only(left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16,top:SizeConstants.SIZE_4,bottom: SizeConstants.SIZE_4 ),
+                        margin: EdgeInsets.only(
+                            left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16, top: SizeConstants.SIZE_4, bottom: SizeConstants.SIZE_4),
                         child: DropdownButton(
-
+                          icon: Container(),
                           underline: Container(),
                           onChanged: (value) => model.setCountryCode(value),
                           items: List.generate(model.countryCodes?.length ?? 0, (index) {
                             return DropdownMenuItem(
-
-                              child: Text(model.countryCodes[index].name),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width / 2,
+                                child: Text(model.countryCodes[index].name, overflow: TextOverflow.ellipsis),
+                              ),
                               value: index,
                             );
                           }),
@@ -156,8 +156,7 @@ height: 45,
                       )),
                 ])),
             Container(
-              margin: EdgeInsets.only(
-                  right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
+              margin: EdgeInsets.only(right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -172,10 +171,7 @@ height: 45,
                     ),
                     child: Container(
                         margin: EdgeInsets.only(
-                            top: SizeConstants.SIZE_20,
-                            left: SizeConstants.SIZE_20,
-                            bottom: SizeConstants.SIZE_16,
-                            right: SizeConstants.SIZE_20),
+                            top: SizeConstants.SIZE_20, left: SizeConstants.SIZE_20, bottom: SizeConstants.SIZE_16, right: SizeConstants.SIZE_20),
                         child: Column(
                           children: <Widget>[
                             Row(
@@ -218,8 +214,7 @@ height: 45,
                                 selectedPeriod: model.selectedPeriod,
                                 datePickerStyles: DatePickerRangeStyles(
                                   disabledDateStyle: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.grey),
-                                  selectedDateStyle:
-                                      CustomStyles.whiteTextSytle14Size.copyWith(color: CustomColors.White),
+                                  selectedDateStyle: CustomStyles.whiteTextSytle14Size.copyWith(color: CustomColors.White),
                                   defaultDateTextStyle: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black),
                                 ),
                                 selectableDayPredicate: (date) {
@@ -240,8 +235,7 @@ height: 45,
               ),
             ),
             Container(
-              margin: EdgeInsets.only(
-                  right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
+              margin: EdgeInsets.only(right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -263,8 +257,7 @@ height: 45,
                         children: <Widget>[
                           Text(
                             strings.rooms,
-                            style: CustomStyles.calenderStyle
-                                .copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
+                            style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
                           ),
                           Row(
                             children: <Widget>[
@@ -300,8 +293,7 @@ height: 45,
                 model.requestDto.rooms.length,
                 (index) {
                   return Container(
-                    margin: EdgeInsets.only(
-                        right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
+                    margin: EdgeInsets.only(right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
                     child: Card(
                         elevation: 3,
                         shape: RoundedRectangleBorder(
@@ -340,8 +332,7 @@ height: 45,
                                 children: <Widget>[
                                   Text(
                                     strings.adult,
-                                    style: CustomStyles.calenderStyle
-                                        .copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
+                                    style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
                                   ),
                                   Row(
                                     children: <Widget>[
@@ -372,8 +363,7 @@ height: 45,
                                 children: <Widget>[
                                   Text(
                                     strings.children,
-                                    style: CustomStyles.calenderStyle
-                                        .copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
+                                    style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
                                   ),
                                   Row(
                                     children: <Widget>[
@@ -419,8 +409,7 @@ height: 45,
                                                     width: SizeConstants.SIZE_50,
                                                     height: SizeConstants.SIZE_40,
                                                     child: TextFormField(
-                                                      initialValue: model.requestDto.rooms[index].children[ind].childAge
-                                                          .toString(),
+                                                      initialValue: model.requestDto.rooms[index].children[ind].childAge.toString(),
                                                       style: CustomStyles.whiteTextSytle16Size
                                                           .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
                                                       textAlign: TextAlign.center,
@@ -446,10 +435,7 @@ height: 45,
               width: MediaQuery.of(context).size.width,
               height: SizeConstants.SIZE_48,
               margin: EdgeInsets.only(
-                  left: SizeConstants.SIZE_20,
-                  right: SizeConstants.SIZE_20,
-                  top: SizeConstants.SIZE_20,
-                  bottom: SizeConstants.SIZE_20),
+                  left: SizeConstants.SIZE_20, right: SizeConstants.SIZE_20, top: SizeConstants.SIZE_20, bottom: SizeConstants.SIZE_20),
               child: RaisedButton(
                   color: CustomColors.Orange,
                   child: Text(

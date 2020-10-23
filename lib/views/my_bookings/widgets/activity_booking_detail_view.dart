@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ota/app/Router.dart';
 import 'package:ota/models/my_bookings/booking_resposne.dart';
+import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/utils/colors.dart';
+import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
@@ -33,6 +36,14 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
         appBar: AppBar(
           title: Text("Booking Detail"),
           backgroundColor: CustomColors.BackGround,
+          leading: new IconButton(
+            icon: new Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+              size: 13,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
         body: Builder(
 
@@ -148,7 +159,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                _bottomButton(),
+                _bottomButton(context),
                 SizedBox(
                   height: 20,
                 ),
@@ -160,22 +171,32 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _bottomButton() {
+  Widget _bottomButton(BuildContext _context) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-          child: Container(
-            height: kToolbarHeight - 10,
-            decoration: BoxDecoration(
-                color: Colors.white30,
-                border: Border.all(color: CustomColors.Orange, width: 1),
-                borderRadius: BorderRadius.circular(5)),
-            child: Center(
-                child: Text(
-                  "View Cancellation Policy",
-                  style: TextStyle(fontFamily: "roboto"),
-                )),
+          child: GestureDetector(
+            onTap: (){
+              if( _model.bookings[0].reservationNumber!=null)
+
+                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_viewModel,_model.bookings[0].reservationNumber]);
+
+
+            },
+            child: Container(
+              height: kToolbarHeight - 10,
+              decoration: BoxDecoration(
+                  color:_model.bookings[0].reservationNumber==null?  CustomColors.disabledButton:Colors.white30,
+                  border:_model.bookings[0].reservationNumber==null?  Border.all(color: Colors.grey, width: 1):Border.all(color: CustomColors.Orange, width: 1),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Center(
+                  child: Text(
+                    "View Cancellation Policy",
+
+                    style: TextStyle(fontFamily: "roboto",color:_model.bookings[0].reservationNumber!=null? Colors.grey :Colors.white ),
+                  )),
+            ),
           ),
         ),
         SizedBox(
@@ -183,15 +204,57 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 25.0, right: 25),
-          child: Container(
-            height: kToolbarHeight - 10,
-            decoration: BoxDecoration(
-                color: CustomColors.Orange,
-                borderRadius: BorderRadius.circular(5)),
-            child: Center(
-              child: Text(
-                "Cancel Booking",
-                style: TextStyle(color: Colors.white, fontFamily: "roboto"),
+          child: GestureDetector(
+            onTap: (){
+              if(_model.bookings[0].reservationDate.isAfter(DateTime.now())&&_model.status!=null && _model.bookings[0].reservationNumber!=null && !SessionManager.getInstance().isGuest )
+                showDialog(
+                    context: _context,
+                    barrierColor: Colors.black12,
+                    barrierDismissible: true,
+                    builder: (context) => AlertDialog(
+                      title: new Text("Alert"),
+                      content: new Text("Are you Sure you want to Cancel this booking"),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: new Text("Yes"),
+                          onPressed: () {
+                            Navigator.pop(context);
+
+                            Dialogs.showSpinkitLoading(_context);
+
+
+                            _viewModel.cancelBookingByRezervationId(_model.bookings[0].reservationNumber).then((value){
+
+                              Navigator.pop(_context);
+                              Navigator.pop(_context);
+
+                              _viewModel.reloadView();
+
+
+                            });
+                          },
+
+                        ),
+
+                        new FlatButton(
+                          child: new Text("No"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },)
+                      ],
+                    ));
+
+            },
+            child: Container(
+              height: kToolbarHeight - 10,
+              decoration: BoxDecoration(
+                  color: _model.status==null||_model.bookings[0].reservationNumber==null || SessionManager.getInstance().isGuest||_model.bookings[0].reservationDate.isBefore(DateTime.now())?CustomColors.disabledButton : CustomColors.Orange,
+                  borderRadius: BorderRadius.circular(5)),
+              child: Center(
+                child: Text(
+                  "Cancel Booking",
+                  style: TextStyle(color: Colors.white, fontFamily: "roboto"),
+                ),
               ),
             ),
           ),
@@ -509,7 +572,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
           ),
           Text(
               _model.bookings[0].status == null
-                  ? "NA"
+                  ? "Cancel_Initialized"
                   : _model.bookings[0].status.toString().split('.')[1],
               style: TextStyle(
                 color: _model.bookings[0].status.toString().split('.') ==

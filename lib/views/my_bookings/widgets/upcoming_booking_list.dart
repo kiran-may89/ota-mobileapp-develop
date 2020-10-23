@@ -22,17 +22,37 @@ class UpComingBookingList extends StatelessWidget {
             initialData: _viewModel.upcomingBookingList,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
 
-                if(_viewModel.bookingResponseList.length>0) {
-                  return ListView.builder(
-                      itemCount: _viewModel.upcomingBookingList.length,
+                if(_viewModel.bookingResponseList!=null) {
+                  if (_viewModel.upcomingBookingList.length > 0) {
+                    return ListView.builder(
+                        itemCount: _viewModel.upcomingBookingList.length,
 
-                      itemBuilder: (BuildContext context, int index) {
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListContainer(
+                              _viewModel.upcomingBookingList[index],
+                              _viewModel);
+                        }
 
+                    );
+                  }
+                  else {
+                    return Container(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
 
-                        return ListContainer(_viewModel.upcomingBookingList[index],_viewModel);
-                      }
+                            Image.asset('assets/nobookings.png', height: 100)
+                            , SizedBox(height: 10,),
+                            Text("No Bookings Available")
 
-                  );
+                          ],
+                        ),
+
+                      ),
+                    );
+                  }
                 }
                 else
                   {

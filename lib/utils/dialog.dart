@@ -9,7 +9,8 @@ class Dialogs {
   static Future<void> showLoadingDialog(BuildContext context, GlobalKey key) async {
     return showDialog<void>(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: true,
+
         builder: (BuildContext context) {
           return new WillPopScope(
               onWillPop: () async => false,
@@ -52,9 +53,30 @@ class Dialogs {
             ));
   }
 
+
+  static void showGenericErrorPopup(BuildContext context, String messege) {
+    showDialog(
+        context: context,
+        barrierColor: Colors.black12,
+        barrierDismissible: true,
+        builder: (context) => AlertDialog(
+          title: new Text("Alert"),
+          content: new Text(messege),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ));
+  }
+
   static void showSpinkitLoading(BuildContext context) {
     showDialog(
         context: context,
+
         barrierColor: Colors.black12,
         barrierDismissible: true,
         child: Container(

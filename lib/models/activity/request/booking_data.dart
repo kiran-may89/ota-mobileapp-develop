@@ -4,7 +4,7 @@ import 'activity_booking_request.dart';
 
 class  BookingData{
 
-  String bookingnumber;
+ // String bookingnumber;
 
   List<ActivityTravellerDetails> travellerDetails;
 
@@ -18,7 +18,7 @@ class  BookingData{
   String activityName;
 
   String duration;
-  BookingData({this.bookingnumber, this.travellerDetails,this.currency,
+  BookingData({ this.travellerDetails,this.currency,
       this.totalAmountWithMarkup, this.activityName, this.duration,this.activityBookingResponseEntity});
 
 

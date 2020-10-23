@@ -105,12 +105,10 @@ return activityBookingResponseEntity;
       userType: "bc",
         card: Card(
             expiry: Expiry(
-                month: "05",
-                //expiryDate.substring(0,2),
-                year:"21"
-              //expiryDate.substring(3,5),
+                month: expiryDate.text.substring(0,2),
+                year:expiryDate.text.substring(3,5),
             ),
-            number: "5123456789012346",
+            number: cardNumber.text,
             securityCode: cvvCode.text
         ),
       orderType: "NORMAL",
@@ -129,7 +127,7 @@ return activityBookingResponseEntity;
         totalAmountWithMarkup: data.totalAmountWithMarkup,
     currency: data.Currency,
     duration: data.duration,
-    bookingnumber: activityBookingResponseEntity.result.bookingId,
+    //bookingnumber: activityBookingResponseEntity.result.bookingId,
     activityBookingResponseEntity: activityBookingResponseEntity
     );
 

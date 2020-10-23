@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:ota/app/Router.dart';
 import 'package:ota/models/activity/request/activity_details_data.dart';
+import 'package:ota/models/flights/validation_model.dart';
 import 'package:ota/utils/Dash_seperator.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
@@ -56,6 +57,19 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
   var mobileFocus = FocusNode();
 
   var guestLastName = FocusNode();
+
+  List<ValidationModel> contentFilledList = List();
+  @override
+
+  void initState() {
+
+    contentFilledList.add(new ValidationModel(0,0,false));
+
+    for(int i=0;i<activityDetailsData.fullDetailsData.age.length;i++)
+
+      contentFilledList.add(new ValidationModel(0,1,false));
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +209,15 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
 
                           GestureDetector(
                               onTap: () {
-                                model.expandPassenger();
+                             //   model.expandPassenger();
+
+                                contentFilledList.forEach((element) {
+                                  if(element.passangerType==0 && element.index==0)
+                                    element.isFilled =false;
+
+                                });
+                                model.expandDetails(0, 0);
+
 
                               },
                               child: Container(
@@ -258,7 +280,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
 
                           SizedBox(height:10 ,),
                           Visibility(
-                              visible: model.passengerExpanded,
+                              visible: model.areDetailsVisible(0, 0),
                               child: fillDetails(model)
 
                           ),
@@ -296,8 +318,13 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
 
                                     GestureDetector(
                                         onTap: () {
-                                          model.expandGuest();
+                                         // model.expandGuest();
+                                          contentFilledList.forEach((element) {
+                                            if(element.passangerType==1 && element.index==index)
+                                              element.isFilled =false;
 
+                                          });
+                                        model.expandDetails(index, 1);
                                         },
                                         child: Container(
                                           color: model.guest_first_name[index] == "" ? CustomColors.Orange : CustomColors.BackGround,
@@ -356,7 +383,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
                                         )),
 
                                     Visibility(
-                                      visible: model.guestExpanded,
+                                      visible: model.areDetailsVisible(index, 1),
                                       child: Column(
                                         children: [
                                           TextFormField(
@@ -460,11 +487,47 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
 
                                             ),
                                           ),
+
+                                          SizedBox(height: 10,),
+
+
+                                          Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: RaisedButton(
+                                                color: CustomColors.Orange,
+                                                child: Text(
+                                                  "SAVE",
+// strings.save.toUpperCase(),
+                                                  style: CustomStyles.button_style,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
+                                                onPressed: () async {
+
+                                                   if(_formKey.currentState.validate())
+                                                     {
+                                                       _formKey.currentState.save();
+                                                       contentFilledList.forEach((element) {
+                                                         if(element.passangerType==1 && element.index==index)
+                                                           element.isFilled =true;
+
+                                                       });
+
+                                                       model.hideDetails(1, index);
+
+
+                                                     }
+
+
+
+
+                                                }
+                                            ),
+                                          )
                                         ],
                                       ),
-                                    )
-
-
+                                    ),
 
 
 
@@ -530,11 +593,30 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
                             borderRadius: BorderRadius.circular(8.0),
                           ) ,
                           onPressed: (){
+                            bool isAllValid =false;
 
+                            var list = contentFilledList;
 
+                            for(int i=0 ; i<contentFilledList.length;i++) {
+                              if (!contentFilledList[i]
+                                  .isFilled) {
+                                model.expandDetails(
+                                    contentFilledList[i]
+                                        .index,
+                                    contentFilledList[i]
+                                        .passangerType);
 
+                                break;
+                              }
 
-                          if(model.guestExpanded&&model.passengerExpanded) {
+                              if(i == contentFilledList.length-1)
+                                isAllValid =true;
+
+                            }
+
+                            _formKey.currentState.validate();
+
+                          if(isAllValid) {
 
                            if(_formKey.currentState.validate()){
 
@@ -758,7 +840,8 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
           TextFormField(
             textInputAction: TextInputAction.done,
             focusNode: picodeFocus,
-            keyboardType: TextInputType.number,
+
+            keyboardType: TextInputType.phone,
             controller: model.pinCode,
             validator: (value) {
               return value == null || value.isEmpty ? "Enter PinCode" : null;
@@ -777,13 +860,46 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
               labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
               labelText: "PinCode",
               alignLabelWithHint: true,
+
             ),
           ),
 
 
 
+         SizedBox(height: 10,),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: RaisedButton(
+                color: CustomColors.Orange,
+                child: Text(
+                  "SAVE",
+// strings.save.toUpperCase(),
+                  style: CustomStyles.button_style,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                onPressed: () async {
 
 
+                  if(_formKey.currentState.validate())
+                  {
+                    contentFilledList.forEach((element) {
+                      if(element.passangerType==0 && element.index==0)
+                        element.isFilled =true;
+
+                    });
+
+                    model.hideDetails(0, 0);
+
+                    _formKey.currentState.save();
+                  }
+
+
+
+                  }
+                ),
+          )
 
         ],
 

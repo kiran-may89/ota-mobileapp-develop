@@ -29,7 +29,10 @@ import 'package:ota/views/activities/activity_travel_information.dart';
 import 'package:ota/views/dash_board.dart';
 import 'package:ota/views/my_bookings/my_bookings_view.dart';
 import 'package:ota/views/my_bookings/widgets/activity_booking_detail_view.dart';
+import 'package:ota/views/my_bookings/widgets/cancel_policy_view.dart';
+import 'package:ota/views/my_bookings/widgets/flight_booking_detail_view.dart';
 import 'package:ota/views/my_bookings/widgets/hotel_detail_booking_view.dart';
+import 'package:ota/views/my_bookings/widgets/search_bookings_view.dart';
 import 'package:ota/views/my_bookings/widgets/transfer_booking_detail_view.dart';
 import 'package:ota/views/onboard/details.dart';
 import 'package:ota/views/flights/flightBooking_status.dart';
@@ -51,7 +54,9 @@ import 'package:ota/views/onboard/sign_in.dart';
 import 'package:ota/views/onboard/sign_up.dart';
 import 'package:ota/views/packages/package_results.dart';
 import 'package:ota/views/profile/add_family_member.dart';
+import 'package:ota/views/profile/change_password.dart';
 import 'package:ota/views/profile/family_list.dart';
+import 'package:ota/views/profile/notifications.dart';
 import 'package:ota/views/profile/profile.dart';
 import 'package:ota/views/profile/profile_management.dart';
 
@@ -71,6 +76,9 @@ class Routes {
   static const String searchHotels = "/searchHotel";
   static const String transferBookingDetailsView = "/transferBookingDetailsView";
   static const String activityBookingDetailsView = "/activityBookingDetailsView";
+  static const String flightBookingDetailsView = "/flightBookingDetailsView";
+  static const String cancelPolicyView = "/cancelPolicyView";
+  static const String searchBookingView = "/searchBookingView";
 
   static const String hotelBooking = "/hotelBooking";
   static const String aboutHotel = "/aboutHotel";
@@ -106,6 +114,8 @@ class Routes {
   static const String flight_cc_details = '/flight_cc_details';
   static const String family_members = '/family_members';
   static const String add_family_members = '/add_family_members';
+  static const String changePassword = '/changePassword';
+  static const String notifications = '/notifications';
   static const String myBookings = '/myBookings';
   static const String hotelsBookingDetailView=  '/hotelsBookingDetailView';
   static const String profile_management = '/profile_management';
@@ -124,9 +134,24 @@ class Routes {
       return MaterialPageRoute(builder: (_) =>  HotelBookingDetailView(args));
       break;
 
+      case searchBookingView:
+
+        return MaterialPageRoute(builder: (_) =>  SearchBookingsView());
+        break;
+
       case activityBookingDetailsView:
 
         return MaterialPageRoute(builder: (_) => ActivtiyBoookingDetailView(args));
+        break;
+
+      case flightBookingDetailsView:
+
+        return MaterialPageRoute(builder: (_) => FlightBookingDetailView(args));
+        break;
+
+      case cancelPolicyView:
+
+        return MaterialPageRoute(builder: (_) => CancelPolicyView(args));
         break;
 
       case transferBookingDetailsView:
@@ -354,6 +379,18 @@ class Routes {
         return MaterialPageRoute(builder: (_) => Profile());
 
         break;
+
+      case changePassword:
+        return MaterialPageRoute(builder: (_) => ChangePassword());
+
+        break;
+
+      case notifications:
+        return MaterialPageRoute(builder: (_) => WebNotifications());
+
+        break;
+
+
       case packages:
         return MaterialPageRoute(builder: (_) => PackageResults());
 

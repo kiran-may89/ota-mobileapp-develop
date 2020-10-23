@@ -7,6 +7,7 @@ import 'package:ota/customviews/app_drawer.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/utils/colors.dart';
+import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
@@ -28,6 +29,8 @@ class DashBoard extends StatelessWidget {
 
     screenWidth = MediaQuery.of(context).size.width/10;
     screenHeight = MediaQuery.of(context).size.height/10;
+
+    final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
     return ChangeNotifierProvider<DashBoardViewModel>(
       create: (context) {
@@ -283,33 +286,80 @@ class DashBoard extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: SizeConstants.SIZE_12),
                           child: Text(
-                            strings.popularPackages,
+                            "Popular Categories",
                             style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),
                           ),
                         ),
+
+                        Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          height: SizeConstants.SIZE_30,
+                          margin: EdgeInsets.only(top: SizeConstants.SIZE_12, bottom: SizeConstants.SIZE_12,left:SizeConstants.SIZE_10,right: SizeConstants.SIZE_10 ),
+                          child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemCount: model.categoriesList.result.length,
+                          //  itemExtent: SizeConstants.SIZE_200,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: (){
+                                  Dialogs.showLoadingDialog(context, _keyLoader);
+
+                                  model.getPackageByCategory(model.categoriesList.result[index].id).then((value){
+                                    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+                                  });
+                                },
+                                borderRadius: BorderRadius.circular(5),
+                                //hoverColor: CustomColors.disabledButton,
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  alignment: Alignment.center,
+                                  child: Text(model.categoriesList.result[index].name,style: CustomStyles.medium14,),
+                                  padding: EdgeInsets.symmetric(vertical: 4,horizontal: 12),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: CustomColors.disabledButton)),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+
+                        model.groupByCategoryResults.result!=null?
+
+                        model.groupByCategoryResults.result.length!=0?
+
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: SizeConstants.SIZE_120,
-                          margin: EdgeInsets.only(top: SizeConstants.SIZE_20, bottom: SizeConstants.SIZE_20),
+                          margin: EdgeInsets.only(top: SizeConstants.SIZE_10, bottom: SizeConstants.SIZE_20),
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
-                            itemCount: model.groupByCategoryResults.result.first.packages.length,
-                            itemExtent: SizeConstants.SIZE_200,
+                            itemCount: model.groupByCategoryResults.result.length,
+                            //  itemExtent: SizeConstants.SIZE_200,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return  Container(
+                              margin: EdgeInsets.symmetric(horizontal: 5),
                               clipBehavior: Clip.antiAlias,
-                              width: SizeConstants.SIZE_200,
+                              // width: SizeConstants.SIZE_200,
                               height: SizeConstants.SIZE_120,
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                               child: Stack(
                                 fit: StackFit.loose,
 
                                 children: [
-                                  Image.asset(
-                                    'assets/images/dash_board_pic2.png',
+                                  model.groupByCategoryResults.result[index].images.isNotEmpty?
+                                  Image.network(
+                                    model.groupByCategoryResults.result[index].images.first.imageUrl,
                                     fit: BoxFit.contain,
-                                  ),
+                                  ): Image.asset(
+                                'assets/images/dash_board_pic2.png',
+                                fit: BoxFit.contain,
+                              ),
+
+
                                   Positioned(
                                     bottom: 0,
                                     left: 0,
@@ -322,7 +372,7 @@ class DashBoard extends StatelessWidget {
                                       alignment: Alignment.centerLeft,
                                       child:
                                       Text(
-                                        model.groupByCategoryResults.result.first.packages[index].name,
+                                        model.groupByCategoryResults.result[index].name,
                                         style: CustomStyles.medium14.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                                       ),
                                     ),
@@ -331,7 +381,9 @@ class DashBoard extends StatelessWidget {
                               ));
                             },
                           ),
-                        ),
+                        ):Padding(padding: EdgeInsets.all(SizeConstants.SIZE_20),child: Text("Packages not available"),):SizedBox.shrink(),
+
+
                         SizedBox(
                           height: SizeConstants.SIZE_8,
                         ),
@@ -342,30 +394,76 @@ class DashBoard extends StatelessWidget {
                             style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),
                           ),
                         ),
+
+                        Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          height: SizeConstants.SIZE_30,
+                          margin: EdgeInsets.only(top: SizeConstants.SIZE_12, bottom: SizeConstants.SIZE_12,left:SizeConstants.SIZE_10,right: SizeConstants.SIZE_10 ),
+                          child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemCount: model.destinationsList.result.length,
+                            //  itemExtent: SizeConstants.SIZE_200,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: (){
+                                  Dialogs.showLoadingDialog(context, _keyLoader);
+                                  model.getPackageByCategory(model.destinationsList.result[index].id).then((value){
+                                    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+                                  });
+                                },
+                                borderRadius: BorderRadius.circular(5),
+                                //hoverColor: CustomColors.disabledButton,
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  alignment: Alignment.center,
+                                  child: Text(model.destinationsList.result[index].name,style: CustomStyles.medium14,),
+                                  padding: EdgeInsets.symmetric(vertical: 7,horizontal: 12),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: CustomColors.disabledButton)),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+
+
+                        model.groupTopDestinationsResults.result!=null?
+
+                        model.groupTopDestinationsResults.result.length!=0?
+
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: SizeConstants.SIZE_120,
                           margin: EdgeInsets.only(top: SizeConstants.SIZE_20, bottom: SizeConstants.SIZE_20),
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
-                            itemCount: model.groupTopDestinationsResults.result.first.packages.length,
-                            itemExtent: SizeConstants.SIZE_200,
+                            itemCount: model.groupTopDestinationsResults.result.length,
+                           // itemExtent: SizeConstants.SIZE_200,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return
                                 Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
                                   clipBehavior: Clip.antiAlias,
-                                width: SizeConstants.SIZE_200,
+                               // width: SizeConstants.SIZE_200,
                                 height: SizeConstants.SIZE_120,
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                                 child: Stack(
                                   fit: StackFit.loose,
 
                                   children: [
-                                    Image.asset(
+                                    model.groupTopDestinationsResults.result[index].images.isNotEmpty?
+                                    Image.network(
+                                      model.groupTopDestinationsResults.result[index].images.first.imageUrl,
+                                      fit: BoxFit.contain,
+                                    ): Image.asset(
                                       'assets/images/dash_board_pic2.png',
                                       fit: BoxFit.contain,
                                     ),
+
+
                                   Positioned(
                                   bottom: 0,
                                   left: 0,
@@ -378,7 +476,7 @@ class DashBoard extends StatelessWidget {
                                   alignment: Alignment.centerLeft,
                                   child:
                                   Text(
-                                    model.groupTopDestinationsResults.result.first.packages[index].name,
+                                    model.groupTopDestinationsResults.result[index].name,
                                     style: CustomStyles.medium14.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                                   ),
                                   ),
@@ -387,7 +485,9 @@ class DashBoard extends StatelessWidget {
                                 ));
                             },
                           ),
-                        ),
+                        ) :Padding(padding: EdgeInsets.all(SizeConstants.SIZE_20),child: Text("Packages not available"),):SizedBox.shrink(),
+
+
 //                        Padding(
 //                        Padding(
 //                          padding: EdgeInsets.only(left: SizeConstants.SIZE_12),

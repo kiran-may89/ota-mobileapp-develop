@@ -4,6 +4,7 @@ import 'package:ota/net/service/my_bookings/booking_service.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/viewmodels/my_bookings_viewmodel.dart';
+import 'package:ota/views/my_bookings/widgets/cancelled_booking_list.dart';
 import 'package:ota/views/my_bookings/widgets/completed_booking_list.dart';
 import 'package:ota/views/my_bookings/widgets/upcoming_booking_list.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class _MyBookingsView extends State<MyBookingsView>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = new TabController(length: 3, vsync: this);
   }
 
   @override
@@ -37,11 +38,19 @@ class _MyBookingsView extends State<MyBookingsView>
             appBar: AppBar(
               title: Text(strings.my_bookings),
               backgroundColor: CustomColors.BackGround,
+              leading: new IconButton(
+                icon: new Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 13,
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
               actions: [
                 _popupMenu()
               ],
               bottom: TabBar(
-                indicatorWeight: 2,
+                indicatorWeight: 3,
                 unselectedLabelColor: Colors.grey,
                 labelColor: CustomColors.Orange,
                 tabs: [
@@ -50,6 +59,9 @@ class _MyBookingsView extends State<MyBookingsView>
                   ),
                   new Tab(
                     text: strings.my_bookings_completed,
+                  ),
+                  new Tab(
+                    text: "Cancelled",
                   ),
                 ],
                 controller: _tabController,
@@ -60,7 +72,8 @@ class _MyBookingsView extends State<MyBookingsView>
             body: TabBarView(
               children: <Widget>[
                 UpComingBookingList(_viewModel),
-                CompletedBookingList(_viewModel)
+                CompletedBookingList(_viewModel),
+                CancelledBookingList(_viewModel)
               ],
               controller: _tabController,
             ),

@@ -22,21 +22,39 @@ class CompletedBookingList extends StatelessWidget {
           return FutureBuilder(
               initialData: _viewModel.completedBookingList,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (_viewModel.bookingResponseList != null) {
+                  if (_viewModel.completedBookingList.length > 0) {
+                    return ListView.builder(
+                        itemCount: _viewModel.completedBookingList.length,
+                        itemBuilder: (BuildContext context, int index) {
 
-                if(_viewModel.bookingResponseList.length>0) {
-                  return ListView.builder(
-                      itemCount: _viewModel.completedBookingList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        if(_viewModel.completedBookingList.length>0)
-                        return ListContainer(_viewModel.completedBookingList[index],_viewModel);
-                        else
-                          return Center(
-                            child: Text("Data Not Available",style: TextStyle(color: Colors.lightBlue),),
-                          );
-                      }
+                            return ListContainer(_viewModel
+                                .completedBookingList[index], _viewModel);
 
+                        }
+
+                    );
+                  }
+
+                else {
+                  return Container(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+
+                          Image.asset('assets/nobookings.png', height: 100)
+                          , SizedBox(height: 10,),
+                          Text("No Bookings Available")
+
+                        ],
+                      ),
+
+                    ),
                   );
                 }
+              }
                 else
                 {
                   return  ShimmerContainer(MediaQuery.of(context).size.height);

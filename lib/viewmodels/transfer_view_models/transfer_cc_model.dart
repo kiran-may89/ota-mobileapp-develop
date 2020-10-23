@@ -113,12 +113,12 @@ class TransferCCModel extends ChangeNotifier{
         mode: "CARD",
         card: Card(
           expiry: Expiry(
-            month: "05",
-            //expiryDate.substring(0,2),
-            year:"21"
-              //expiryDate.substring(3,5),
+            month:
+            expiryDate.text.substring(0,2),
+            year:
+              expiryDate.text.substring(3,5),
           ),
-        number: "5123456789012346",
+        number: cardNumber.text,
         securityCode: cvvCode.text
       )
 

@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:math';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -25,8 +29,11 @@ import 'package:ota/net/service/profile/profile_service_impl.dart';
 import 'package:ota/net/service/transfers/transfer_service.dart';
 import 'package:ota/net/service/transfers/transfer_service_implementation.dart';
 import 'package:ota/prefs/session_manager.dart';
+import 'package:ota/prefs/shared_prefernce.dart';
 
 class BaseApp extends StatelessWidget {
+
+
   BaseApp() {
     GetIt it = GetIt.instance;
     var config = ApiServiceConfig.instance;
@@ -53,6 +60,9 @@ class BaseApp extends StatelessWidget {
     } else {
       commonService.refreshAccessToken(session.getRefreshToken);
     }
+
+
+
   }
 
   @override
@@ -72,6 +82,11 @@ class BaseApp extends StatelessWidget {
         disabledColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+//      supportedLocales: [
+//        Locale('en', 'US'),
+//        Locale('ar', 'AR'),
+//      ],
+
       debugShowCheckedModeBanner: false,
 
       initialRoute: "/",
@@ -83,4 +98,34 @@ class BaseApp extends StatelessWidget {
   }
 
 
-}
+
+  }
+
+//  Future _showNotificationWithoutSound(Map<String, dynamic> msg) async {
+//    final title = msg['notification']['title'];
+//    final body = msg['notification']['body'];
+//    var r;
+//    Random rnd;
+//    int min = 5;
+//    int max = 10;
+//    rnd = new Random();
+//    r = min + rnd.nextInt(max - min);
+//    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+//    '$r', 'myorders', 'patient first',
+//    channelShowBadge: true,
+//    playSound: true, importance: Importance.Max, priority: Priority.High);
+//    var iOSPlatformChannelSpecifics =
+//    new IOSNotificationDetails(presentSound: false);
+//    var platformChannelSpecifics = new NotificationDetails(
+//    androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+//    await flutterLocalNotificationsPlugin.show(
+//    r,
+//    '$title',
+//    '$body',
+//    platformChannelSpecifics,
+//    payload: 'No_Sound'
+//    );
+//  }
+
+
+

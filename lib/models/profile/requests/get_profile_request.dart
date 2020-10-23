@@ -1,3 +1,6 @@
+
+
+
 class GetProfileResponse {
   GetProfileResponse({
     this.message,
@@ -26,6 +29,28 @@ class GetProfileResponse {
 
 class Result {
   Result({
+    this.isExternal,
+    this.user,
+  });
+
+  dynamic isExternal;
+  User user;
+
+  factory Result.fromMap(
+          Map<String, dynamic> json) =>
+      Result(
+        isExternal: json["isExternal"],
+        user: User.fromMap(json["user"]),
+      );
+
+  Map<String, dynamic> toMap() => {
+        "isExternal": isExternal,
+        "user": user.toMap(),
+      };
+}
+
+class User {
+  User({
     this.firstName,
     this.lastName,
     this.dateOfBirth,
@@ -73,7 +98,7 @@ class Result {
   String email;
   String normalizedEmail;
   bool emailConfirmed;
-  dynamic passwordHash;
+  String passwordHash;
   String securityStamp;
   String concurrencyStamp;
   String phoneNumber;
@@ -83,9 +108,9 @@ class Result {
   bool lockoutEnabled;
   int accessFailedCount;
 
-  factory Result.fromMap(
+  factory User.fromMap(
           Map<String, dynamic> json) =>
-      Result(
+      User(
         firstName: json["firstName"],
         lastName: json["lastName"],
         dateOfBirth: json["dateOfBirth"],

@@ -101,12 +101,12 @@ class _ProfileManagementState
                           Text(
                             model
                                     .profileResponse
-                                    .result
+                                    .result.user
                                     .firstName +
                                 " " +
                                 model
                                     .profileResponse
-                                    .result
+                                    .result.user
                                     .lastName,
                             style: CustomStyles
                                 .medium16,
@@ -116,7 +116,7 @@ class _ProfileManagementState
                           ),
                           Text(
                             model.profileResponse
-                                .result.email,
+                                .result.user.email,
                             style: CustomStyles
                                 .medium16,
                           ),
@@ -126,7 +126,7 @@ class _ProfileManagementState
                           Text(
                             model
                                     .profileResponse
-                                    .result
+                                    .result.user
                                     .phoneNumber ??
                                 "",
                             style: CustomStyles
@@ -190,20 +190,29 @@ class _ProfileManagementState
                                           .BackGround,
                                           ),
                                           ),
-                                        ListTile(
-                                          title: Text(
-                                            'Change Password',
-                                            style: CustomStyles
-                                                .normal16
-                                                .copyWith(
-                                                    color:
-                                                        CustomColors.BackGround),
-                                          ),
-                                          leading: Icon(
-                                            Icons
-                                                .lock_open,
-                                            color: CustomColors
-                                                .BackGround,
+                                        Visibility(
+                                          visible: model.profileResponse.result.isExternal==null,
+                                          child: ListTile(
+                                            onTap: (){
+                                              Navigator.pushNamed(
+                                              context,
+                                              Routes
+                                              .changePassword);
+                                            },
+                                            title: Text(
+                                              'Change Password',
+                                              style: CustomStyles
+                                                  .normal16
+                                                  .copyWith(
+                                                      color:
+                                                          CustomColors.BackGround),
+                                            ),
+                                            leading: Icon(
+                                              Icons
+                                                  .lock_open,
+                                              color: CustomColors
+                                                  .BackGround,
+                                            ),
                                           ),
                                         ),
 
@@ -223,6 +232,12 @@ class _ProfileManagementState
                                           leading: Icon(Icons.settings_applications_outlined,color: CustomColors.BackGround.withOpacity(.9),),
                                           ),
                                           ListTile(
+                                            onTap: (){
+                                              Navigator.pushNamed(
+                                              context,
+                                              Routes
+                                              .notifications);
+                                            },
                                           title: Text('Notifications',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
                                           leading: Icon(Icons.notifications_none,color: CustomColors.BackGround.withOpacity(.9),),
                                           ),

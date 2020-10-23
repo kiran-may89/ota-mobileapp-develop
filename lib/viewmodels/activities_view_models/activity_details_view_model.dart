@@ -109,7 +109,7 @@ class ActivityDetailsModel extends ChangeNotifier{
 
     if(fullDetailsResponse!=null||fullDetailsResponse.result!=null){
 
-      print(fullDetailsResponse.result.activity);
+
 
 
       smallDetailsResponse = await _activityService.getSmallDetails(fullDetailsData.fullDetailsRequest);

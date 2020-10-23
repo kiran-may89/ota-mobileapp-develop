@@ -16,6 +16,7 @@ import 'package:ota/models/hotels/hotel_details_request.dart';
 
 import 'package:ota/models/hotels/search_hotel_request.dart';
 import 'package:ota/models/hotels/responses/room_option.dart';
+import 'package:ota/utils/utils.dart';
 
 class AboutHotel extends StatelessWidget {
   HotelDetailsRequest dto;
@@ -65,9 +66,7 @@ class AboutHotelState extends BaseModelWidget<AboutHotelViewModel> {
                       Padding(
                         padding: EdgeInsets.all(7.0),
                         child: Text('Something Went Wrong',
-                            textAlign: TextAlign.center,
-                            style: CustomStyles.medium20
-                                .copyWith(color: CustomColors.disabledButton)),
+                            textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.disabledButton)),
                       ),
                     ],
                   ),
@@ -81,8 +80,7 @@ class AboutHotelState extends BaseModelWidget<AboutHotelViewModel> {
                           width: MediaQuery.of(context).size.width,
                           height: 300,
                           child: FadeInImage.assetNetwork(
-                            image: model
-                                .hotelDetailsResponse.result.hotel.images[0],
+                            image: model.hotelDetailsResponse.result.hotel.images[0],
                             placeholder: 'assets/images/hotels.png',
                             width: MediaQuery.of(context).size.width,
                             fit: BoxFit.fitWidth,
@@ -93,9 +91,7 @@ class AboutHotelState extends BaseModelWidget<AboutHotelViewModel> {
                           height: MediaQuery.of(context).size.height - 150,
                           decoration: BoxDecoration(
                             color: CustomColors.BackGround,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                topLeft: Radius.circular(25)),
+                            borderRadius: BorderRadius.only(topRight: Radius.circular(25), topLeft: Radius.circular(25)),
                           ),
                           child: DefaultTabController(
                             length: 2,
@@ -104,21 +100,14 @@ class AboutHotelState extends BaseModelWidget<AboutHotelViewModel> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(
-                                      top: SizeConstants.SIZE_24,
-                                      left: SizeConstants.SIZE_30,
-                                      right: SizeConstants.SIZE_30),
-                                  constraints:
-                                      BoxConstraints.expand(height: 28),
+                                  margin: EdgeInsets.only(top: SizeConstants.SIZE_24, left: SizeConstants.SIZE_30, right: SizeConstants.SIZE_30),
+                                  constraints: BoxConstraints.expand(height: 28),
                                   child: TabBar(
                                     indicatorColor: CustomColors.White,
                                     isScrollable: true,
                                     indicatorSize: TabBarIndicatorSize.label,
-                                    labelStyle: CustomStyles
-                                        .whiteTextSytle14Size
-                                        .copyWith(fontWeight: FontWeight.w500),
-                                    unselectedLabelColor:
-                                        CustomColors.White.withOpacity(.5),
+                                    labelStyle: CustomStyles.whiteTextSytle14Size.copyWith(fontWeight: FontWeight.w500),
+                                    unselectedLabelColor: CustomColors.White.withOpacity(.5),
                                     tabs: [
                                       Tab(
                                         child: Text(
@@ -163,19 +152,13 @@ class AboutHotelState extends BaseModelWidget<AboutHotelViewModel> {
                               children: <Widget>[
                                 Text(
                                   "USD ${model.hotelDetailsResponse.result.hotel.roomOption[model.radioGroupValue].displayRateInfoWithMarkup.totalPriceWithMarkup}",
-                                  style: CustomStyles.whiteTextSytle24Size
-                                      .copyWith(
-                                          color: CustomColors.BackGround,
-                                          fontWeight: FontWeight.w500),
+                                  style: CustomStyles.whiteTextSytle24Size.copyWith(color: CustomColors.BackGround, fontWeight: FontWeight.w500),
                                 ),
                                 LimitedBox(
-                                  maxWidth:
-                                      MediaQuery.of(context).size.width / 2,
+                                  maxWidth: MediaQuery.of(context).size.width / 2,
                                   child: Text(
                                     "${model.hotelDetailsResponse.result.hotel.roomOption[model.radioGroupValue].rooms[0].roomName}",
-                                    style: CustomStyles.whiteTextSytle14Size
-                                        .copyWith(
-                                            color: CustomColors.disabledButton),
+                                    style: CustomStyles.whiteTextSytle14Size.copyWith(color: CustomColors.disabledButton),
                                   ),
                                 )
                               ],
@@ -183,8 +166,7 @@ class AboutHotelState extends BaseModelWidget<AboutHotelViewModel> {
                             SizedBox(
                               height: SizeConstants.SIZE_48,
                               child: RaisedButton(
-                                  padding:
-                                      EdgeInsets.all(SizeConstants.SIZE_16),
+                                  padding: EdgeInsets.all(SizeConstants.SIZE_16),
                                   color: CustomColors.Orange,
                                   child: Text(
                                     "BOOK NOW",
@@ -195,13 +177,10 @@ class AboutHotelState extends BaseModelWidget<AboutHotelViewModel> {
                                   ),
                                   onPressed: () {
                                     Map<String, dynamic> args = new Map();
-                                    args['response'] =
-                                        model.hotelDetailsResponse.result;
+                                    args['response'] = model.hotelDetailsResponse.result;
                                     args['dto'] = model.searchDto;
                                     args['selectGroup'] = model.radioGroupValue;
-                                    Navigator.pushNamed(
-                                        context, Routes.stayInfoHotel,
-                                        arguments: args);
+                                    Navigator.pushNamed(context, Routes.stayInfoHotel, arguments: args);
                                   }),
                             )
                           ],
@@ -215,26 +194,13 @@ class AboutHotelState extends BaseModelWidget<AboutHotelViewModel> {
 }
 
 class HotelsOverView extends BaseModelWidget<AboutHotelViewModel> {
-  List<Amentie> amenties = [
-    Amentie("WiFi", "assets/images/ameneties/wifi.png", true),
-    Amentie("Pool", "assets/images/ameneties/pool.png", true),
-    Amentie("Gym", "assets/images/ameneties/gym.png", true),
-    Amentie("A/C", "assets/images/ameneties/ac.png", true),
-    Amentie("Bar", "assets/images/ameneties/bar.png", false),
-    Amentie("Restaurant", "assets/images/ameneties/restuarant.png", true),
-    Amentie("Pets", "assets/images/ameneties/pets.png", false),
-    Amentie("Garden", "assets/images/ameneties/garden.png", true),
-    Amentie("Parking", "assets/images/ameneties/parking.png", true),
-  ];
+  List<Amentie> amenties;
 
   @override
   Widget build(BuildContext context, AboutHotelViewModel model) {
     // TODO: implement build
     return Container(
-      margin: EdgeInsets.only(
-          left: SizeConstants.SIZE_24,
-          top: SizeConstants.SIZE_40,
-          right: SizeConstants.SIZE_24),
+      margin: EdgeInsets.only(left: SizeConstants.SIZE_24, top: SizeConstants.SIZE_40, right: SizeConstants.SIZE_24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,9 +215,7 @@ class HotelsOverView extends BaseModelWidget<AboutHotelViewModel> {
           Row(
             children: <Widget>[
               RatingBar(
-                initialRating: model
-                    .hotelDetailsResponse.result.hotel.starRating
-                    .toDouble(),
+                initialRating: model.hotelDetailsResponse.result.hotel.starRating.toDouble(),
                 minRating: 0,
                 direction: Axis.horizontal,
                 itemCount: 5,
@@ -279,9 +243,7 @@ class HotelsOverView extends BaseModelWidget<AboutHotelViewModel> {
           ),
           Text(
             strings.amenities,
-            style: CustomStyles.whiteTextSytle14Size.copyWith(
-                color: Colors.white.withOpacity(0.5),
-                fontWeight: FontWeight.w500),
+            style: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.white.withOpacity(0.5), fontWeight: FontWeight.w500),
           ),
           Flexible(
             child: GridView.count(
@@ -292,12 +254,9 @@ class HotelsOverView extends BaseModelWidget<AboutHotelViewModel> {
               crossAxisSpacing: 4.0,
               shrinkWrap: true,
               children: List.generate(
-                  model.hotelDetailsResponse.result.hotel.facilities.length > 6
-                      ? 6
-                      : model.hotelDetailsResponse.result.hotel.facilities
-                          .length, (index) {
-                String item =
-                    model.hotelDetailsResponse.result.hotel.facilities[index];
+                  model.hotelDetailsResponse.result.hotel.facilities.length > 6 ? 6 : model.hotelDetailsResponse.result.hotel.facilities.length,
+                  (index) {
+                String item = model.hotelDetailsResponse.result.hotel.facilities[index];
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,8 +270,7 @@ class HotelsOverView extends BaseModelWidget<AboutHotelViewModel> {
                     Expanded(
                       child: Text(
                         item,
-                        style: CustomStyles.whiteTextSytle12Size
-                            .copyWith(color: Colors.white),
+                        style: CustomStyles.whiteTextSytle12Size.copyWith(color: Colors.white),
                       ),
                     )
 
@@ -326,11 +284,8 @@ class HotelsOverView extends BaseModelWidget<AboutHotelViewModel> {
           ),
           Flexible(
             child: ListView.builder(
-              itemBuilder: (BuildContext context, int index) => ExpansionRoom(
-                  model.hotelDetailsResponse.result.hotel.roomOption[index],
-                  index),
-              itemCount:
-                  model.hotelDetailsResponse.result.hotel.roomOption.length,
+              itemBuilder: (BuildContext context, int index) => ExpansionRoom(model.hotelDetailsResponse.result.hotel.roomOption[index], index),
+              itemCount: model.hotelDetailsResponse.result.hotel.roomOption.length,
             ),
           )
         ],
@@ -403,25 +358,19 @@ class ExpansionRoom extends BaseModelWidget<AboutHotelViewModel> {
                             margin: EdgeInsets.all(SizeConstants.SIZE_8),
                             height: 100,
                             width: entry.rooms.length > 1
-                                ? (MediaQuery.of(context).size.width / 2 -
-                                    (SizeConstants.SIZE_24 * 2))
-                                : MediaQuery.of(context).size.width -
-                                    (SizeConstants.SIZE_24 * 3),
+                                ? (MediaQuery.of(context).size.width / 2 - (SizeConstants.SIZE_24 * 2))
+                                : MediaQuery.of(context).size.width - (SizeConstants.SIZE_24 * 3),
                             child: Image.asset(
                               "assets/images/default_profile_cover.png",
                               fit: BoxFit.cover,
                               width: entry.rooms.length > 1
-                                  ? (MediaQuery.of(context).size.width / 2 -
-                                      (SizeConstants.SIZE_24 * 2))
-                                  : MediaQuery.of(context).size.width -
-                                      (SizeConstants.SIZE_24 * 3),
+                                  ? (MediaQuery.of(context).size.width / 2 - (SizeConstants.SIZE_24 * 2))
+                                  : MediaQuery.of(context).size.width - (SizeConstants.SIZE_24 * 3),
                             )),
                         Container(
                           child: Text(
                             "${entry.rooms[index].roomName}",
-                            style: CustomStyles.whiteTextSytle16Size.copyWith(
-                                color: CustomColors.Orange,
-                                fontWeight: FontWeight.bold),
+                            style: CustomStyles.whiteTextSytle16Size.copyWith(color: CustomColors.Orange, fontWeight: FontWeight.bold),
                           ),
                           margin: EdgeInsets.only(left: SizeConstants.SIZE_8),
                         )
@@ -451,42 +400,34 @@ class HotelsAbout extends BaseModelWidget<AboutHotelViewModel> {
   Widget build(BuildContext context, AboutHotelViewModel model) {
     // TODO: implement build
     return Container(
-        margin: EdgeInsets.only(
-            left: SizeConstants.SIZE_24,
-            top: SizeConstants.SIZE_40,
-            right: SizeConstants.SIZE_24),
+        margin: EdgeInsets.only(left: SizeConstants.SIZE_24, top: SizeConstants.SIZE_40, right: SizeConstants.SIZE_24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               strings.about,
-              style: CustomStyles.whiteTextSytle14Size
-                  .copyWith(color: Colors.white.withOpacity(0.5)),
+              style: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.white.withOpacity(0.5)),
             ),
             SizedBox(
               height: SizeConstants.SIZE_16,
             ),
             Text(
               model.hotelDetailsResponse.result.hotel.description,
-              style: CustomStyles.whiteTextSytle12Size
-                  .copyWith(color: Colors.white.withOpacity(0.5)),
+              style: CustomStyles.whiteTextSytle12Size.copyWith(color: Colors.white.withOpacity(0.5)),
             ),
             SizedBox(
               height: SizeConstants.SIZE_30,
             ),
             Text(
               strings.location.toUpperCase(),
-              style: CustomStyles.whiteTextSytle14Size.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white.withOpacity(0.5)),
+              style: CustomStyles.whiteTextSytle14Size.copyWith(fontWeight: FontWeight.bold, color: Colors.white.withOpacity(0.5)),
             ),
             SizedBox(
               height: SizeConstants.SIZE_16,
             ),
             Text(
               model.hotelDetailsResponse.result.hotel.address,
-              style: CustomStyles.whiteTextSytle14Size
-                  .copyWith(fontWeight: FontWeight.bold),
+              style: CustomStyles.whiteTextSytle14Size.copyWith(fontWeight: FontWeight.bold),
             ),
             Container(
                 height: 300,
@@ -495,18 +436,12 @@ class HotelsAbout extends BaseModelWidget<AboutHotelViewModel> {
                   markers: <Marker>{
                     Marker(
                         markerId: MarkerId('value'),
-                        position: LatLng(
-                            model.hotelDetailsResponse.result.hotel.geolocation
-                                .latitude,
-                            model.hotelDetailsResponse.result.hotel.geolocation
-                                .longitude)),
+                        position: LatLng(model.hotelDetailsResponse.result.hotel.geolocation.latitude,
+                            model.hotelDetailsResponse.result.hotel.geolocation.longitude)),
                   },
                   initialCameraPosition: CameraPosition(
                     target: LatLng(
-                        model.hotelDetailsResponse.result.hotel.geolocation
-                            .latitude,
-                        model.hotelDetailsResponse.result.hotel.geolocation
-                            .longitude),
+                        model.hotelDetailsResponse.result.hotel.geolocation.latitude, model.hotelDetailsResponse.result.hotel.geolocation.longitude),
                     zoom: 13.0,
                   ),
                 )),
@@ -518,9 +453,11 @@ class HotelsAbout extends BaseModelWidget<AboutHotelViewModel> {
 class Amentie {
   String name;
   String icon;
-  bool isAvailable;
+  bool isAvailable = false;
 
-  Amentie(this.name, this.icon, this.isAvailable);
+  Amentie(this.name, {this.icon, this.isAvailable = false}) {
+    icon = getIcon(name);
+  }
 }
 
 class RoomEntry {

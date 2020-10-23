@@ -166,11 +166,11 @@ void changeCountryCodeSelection(String value) {
 
     for (int i = 0; i < _countryCodes.length; i++) {
 
-   if(profileResponse.result.phoneNumber!=null)
-      if (_countryCodes[i].name == profileResponse.result.country) {
+   if(profileResponse.result.user.phoneNumber!=null)
+      if (_countryCodes[i].name == profileResponse.result.user.country) {
         selectedCountry = i;
 
-        rawPhoneNumber = PhoneNumber(phoneNumber: profileResponse.result.phoneNumber,dialCode:  "+"+_countryCodes[i].telephoneCode,isoCode: _countryCodes[i].alpha2Code );
+        rawPhoneNumber = PhoneNumber(phoneNumber: profileResponse.result.user.phoneNumber,dialCode:  "+"+_countryCodes[i].telephoneCode,isoCode: _countryCodes[i].alpha2Code );
 
         print(rawPhoneNumber.phoneNumber);
         print(rawPhoneNumber.isoCode);
@@ -181,20 +181,20 @@ void changeCountryCodeSelection(String value) {
     }
 
 
-    emailId.text = profileResponse.result.email;
-    firstName.text = profileResponse.result.firstName;
-    lastName.text = profileResponse.result.lastName;
-    if(profileResponse.result.dateOfBirth!=null) {
-      print("DOB${profileResponse.result
+    emailId.text = profileResponse.result.user.email;
+    firstName.text = profileResponse.result.user.firstName;
+    lastName.text = profileResponse.result.user.lastName;
+    if(profileResponse.result.user.dateOfBirth!=null) {
+      print("DOB${profileResponse.result.user
       .dateOfBirth}");
       dob = convertFormat.parse(profileResponse
-      .result.dateOfBirth);
+      .result.user.dateOfBirth);
       dateOfBirth.text = normalFormat.format(dob);
     }else{
       dateOfBirth.text = "";
     }
-    locationName.text = profileResponse.result.address;
-    nationality.text = profileResponse.result.country;
+    locationName.text = profileResponse.result.user.address;
+    nationality.text = profileResponse.result.user.country;
 
 
 //notifyListeners();
@@ -222,7 +222,7 @@ void changeCountryCodeSelection(String value) {
     firstName: firstName.text,
     lastName: lastName.text,
     country: nationality.text,
-    phoneNumber: profileResponse.result.phoneNumber,
+    phoneNumber: profileResponse.result.user.phoneNumber,
    address: locationName.text,
    dateOfBirth:dob==null?null:sendingFormat.format(dob),
   );

@@ -113,7 +113,8 @@ class _SearchTransfer extends State<SearchTransfer> {
 
   Widget _searchResult() {
     return Flexible(
-      child: FutureBuilder(
+      child:
+      FutureBuilder(
           initialData: widget.model.predictionList,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return ListView.builder(

@@ -10,6 +10,7 @@ import 'package:ota/models/flights/flight_booking_response_entity.dart';
 import 'package:ota/models/flights/data_model/pass_arguments.dart';
 import 'package:ota/models/flights/requests/flight_save_booking_request.dart';
 import 'package:ota/models/flights/traveller_info_model.dart';
+import 'package:ota/models/flights/validation_model.dart';
 import 'package:ota/utils/Dash_seperator.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/colors.dart';
@@ -72,6 +73,28 @@ class _TravelInformationState
   var infantEmailFocus = FocusNode();
   var infantPassportFocus = FocusNode();
   var infantMobileFocus = FocusNode();
+  List<ValidationModel> contentFilledList = List();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    for(int i=0;i<  widget.flightResultsData.requestData.adults;i++
+    )
+    contentFilledList.add(new ValidationModel(i, 0, false));
+
+    if( widget.flightResultsData.requestData.children!=0)
+    for(int i=0;i<  widget.flightResultsData.requestData.children;i++
+    )
+      contentFilledList.add(new ValidationModel(i, 1, false));
+
+    if( widget.flightResultsData.requestData.infants!=0)
+    for(int i=0;i<  widget.flightResultsData.requestData.infants;i++
+    )
+      contentFilledList.add(new ValidationModel(i, 2, false));
+
+
+  }
 
   @override
   Widget build(context) {
@@ -344,7 +367,15 @@ class _TravelInformationState
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             GestureDetector(
-                                                onTap: () => model.enabledEditMode(passengerType, index),
+                                                onTap: (){
+
+                                                  contentFilledList.forEach((element) {
+                                                    if(element.passangerType==passengerType && element.index==index)
+                                                      element.isFilled =false;
+
+                                                  });
+
+                                                  model.enabledEditModeOnContinue(index,passengerType);},
                                                 child: Container(
                                                   color: model.getPassengerName(index, passengerType) == "" ? CustomColors.Orange : CustomColors.BackGround,
                                                   width: MediaQuery.of(context).size.width,
@@ -510,6 +541,7 @@ class _TravelInformationState
                                                         },
                                                         onChanged: (value) => model.setPassengerLastName(index, passengerType, value),
                                                         initialValue: model.getPassengerLastName(index, passengerType),
+
                                                         style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
                                                         decoration: InputDecoration(
                                                           labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
@@ -764,9 +796,21 @@ class _TravelInformationState
                                                               borderRadius: BorderRadius.circular(10.0),
                                                             ),
                                                             onPressed: () async {
+
+
+
+
                                                               if (_formState.currentState.validate()) {
+
+
+                                                                contentFilledList.forEach((element) {
+                                                                  if(element.passangerType==0 && element.index==index)
+                                                                      element.isFilled =true;
+
+                                                                });
+                                                                model.enabledEditMode(passengerType, index);
                                                                 _formState.currentState.save();
-//model.enableNext(passengerType,index);
+
                                                               }
                                                             }),
                                                       )
@@ -818,7 +862,13 @@ class _TravelInformationState
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             GestureDetector(
-                                                onTap: () => model.enabledEditMode(passengerType, index),
+                                                onTap: () {
+                                      contentFilledList.forEach((element) {
+                                      if(element.passangerType==passengerType && element.index==index)
+                                      element.isFilled =false;
+
+                                      });
+                                                  model.enabledEditModeOnContinue(index, passengerType);},
                                                 child: Container(
                                                   color: model.getPassengerName(index, passengerType) == "" ? CustomColors.Orange : CustomColors.BackGround,
                                                   width: MediaQuery.of(context).size.width,
@@ -1239,6 +1289,13 @@ class _TravelInformationState
                                                             ),
                                                             onPressed: () async {
                                                               if (_formState.currentState.validate()) {
+
+                                                                contentFilledList.forEach((element) {
+                                                                  if(element.passangerType==1 && element.index==index)
+                                                                    element.isFilled =true;
+
+                                                                });
+                                                                model.enabledEditMode(passengerType, index);
                                                                 _formState.currentState.save();
 //model.enableNext(passengerType,index);
                                                               }
@@ -1293,7 +1350,14 @@ class _TravelInformationState
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             GestureDetector(
-                                                onTap: () => model.enabledEditMode(passengerType, index),
+                                                onTap: () {
+
+                                                  contentFilledList.forEach((element) {
+                                                    if(element.passangerType==passengerType && element.index==index)
+                                                      element.isFilled =false;
+
+                                                  });
+                                                  model.enabledEditModeOnContinue(index,passengerType);},
                                                 child: Container(
                                                   color: model.getPassengerName(index, passengerType) == "" ? CustomColors.Orange : CustomColors.BackGround,
                                                   width: MediaQuery.of(context).size.width,
@@ -1674,7 +1738,16 @@ class _TravelInformationState
                                                               borderRadius: BorderRadius.circular(10.0),
                                                             ),
                                                             onPressed: () async {
+
+
                                                               if (_formState.currentState.validate()) {
+
+                                                                contentFilledList.forEach((element) {
+                                                                  if(element.passangerType==2 && element.index==index)
+                                                                    element.isFilled =true;
+
+                                                                });
+                                                                model.enabledEditMode(passengerType, index);
                                                                 _formState.currentState.save();
 //model.enableNext(passengerType,index);
                                                               }
@@ -1795,8 +1868,50 @@ class _TravelInformationState
                                                 BorderRadius.circular(8.0),
                                           ),
                                           onPressed: () {
-                                          if(_formState.currentState.validate())
+                                            bool isAllValid =false;
 
+                                            var list = contentFilledList;
+
+                                            for(int i=0 ; i<contentFilledList.length;i++) {
+                                              if (!contentFilledList[i]
+                                                  .isFilled) {
+                                                model.enabledEditModeOnContinue(
+                                                    contentFilledList[i]
+                                                        .index,
+                                                    contentFilledList[i]
+                                                        .passangerType);
+
+                                                break;
+                                              }
+
+                                              if(i == contentFilledList.length-1)
+                                                isAllValid =true;
+
+                                            }
+
+                                            _formState.currentState
+                                                .validate();
+             if(isAllValid) {
+               if (_formState.currentState
+                   .validate())
+                 Navigator.pushNamed(
+                     context,
+                     Routes.flightPaymentOptions,
+                     arguments: model
+                         .getArguments());
+             }
+//                                            if(model.showAdultDetails[0])
+//                                             model.enabledEditMode(0, 0);
+//                                            else {
+//                                              if (_formState.currentState
+//                                                  .validate())
+//                                                Navigator.pushNamed(
+//                                                    context,
+//                                                    Routes.flightPaymentOptions,
+//                                                    arguments: model
+//                                                        .getArguments());
+//                                           }
+//                                            // }
 //  if(_formState.currentState.validate()&&_child_formState.currentState.validate()&&_infant_formState.currentState.validate()) {
 //                                      _formState.currentState.save();
 //
@@ -1804,11 +1919,7 @@ class _TravelInformationState
 //
 //                                      _infant_formState.currentState.save();
 
-                                            Navigator.pushNamed(
-                                                context,
-                                                Routes.flightPaymentOptions,
-                                                arguments: model.getArguments());
-// }
+
                                           }))
                                 ],
                               ),

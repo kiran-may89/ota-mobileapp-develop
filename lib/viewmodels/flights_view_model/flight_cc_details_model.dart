@@ -12,6 +12,7 @@ import 'package:ota/models/flights/flight_booking_response_entity.dart';
 import 'package:ota/models/flights/flight_savebooking_response.dart';
 import 'package:ota/models/flights/requests/flight_booking_request.dart';
 import 'package:ota/models/flights/requests/flight_save_booking_request.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/net/service/flight_service/flight_service.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/viewmodels/flights_view_model/data_models/flight_booking_data.dart';
@@ -32,6 +33,7 @@ class FlightCCModel extends ChangeNotifier{
   TextEditingController cvvCode = TextEditingController();
 
   FlightService  _flightService;
+  Delegate _delegate;
 
   bool isCvvFocused = false;
 
@@ -47,10 +49,10 @@ class FlightCCModel extends ChangeNotifier{
 
   FlightTravelInfoData flightTravelInfoData;
 
-  FlightCCModel(this.flightTravelInfoData){
+  FlightCCModel(this.flightTravelInfoData,Delegate delegate){
 
     _flightService = GetIt.instance<FlightService>();
-
+    _delegate =delegate;
   }
 
 
@@ -63,9 +65,12 @@ class FlightCCModel extends ChangeNotifier{
 
     print(jsonEncode(flightSaveBookingRequest.toJson()));
 
+    var json = jsonEncode(flightSaveBookingRequest.toJson());
 
     flightSaveBookingResponse = await _flightService.saveBooking(flightSaveBookingRequest);
 
+    if(flightSaveBookingResponse.isError)
+      _delegate.onError("ddd");
     print(flightSaveBookingResponse.message);
 
     return flightSaveBookingResponse;
@@ -140,7 +145,7 @@ print(jsonEncode(fligthBookingRes.toJson()));
 
 
     print(jsonEncode(flightBookingRequest.toJson()));
-
+    var json =  jsonEncode(flightBookingRequest.toJson());
     return flightBookingRequest;
 
 
@@ -156,7 +161,18 @@ print(jsonEncode(fligthBookingRes.toJson()));
         amount:flightTravelInfoData.flightResultsData.totalPriceWithMarkup.toString(),
         mode:"CARD",
         orderType:"NORMAL",
-        card: Card(expiry: Expiry(month: "09",year: "22"),number: "5123456789012346",securityCode: "123"),
+        card:
+
+        Card(
+        expiry: Expiry(
+        month:
+        expiryDate.text.substring(0,2),
+        year:
+        expiryDate.text.substring(3,5),
+        ),
+        number: cardNumber.text,
+        securityCode: cvvCode.text
+        ),
 
     );
 
@@ -204,7 +220,7 @@ return jsonEncode(summaryInfo.toJson());
 
     //ReservationRequest request = ReservationRequest(tpa:flightTravelInfoData.flightResultsData.tpa,options: flightTravelInfoData.flightResultsData.options);
 
-   return jsonEncode(flightSaveBookingResponse.result.toJson());
+   return flightSaveBookingResponse.result.toJson();
 
 
   }

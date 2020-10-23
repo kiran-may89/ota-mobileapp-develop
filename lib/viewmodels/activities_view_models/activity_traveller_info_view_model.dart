@@ -12,6 +12,7 @@ import 'package:ota/models/activity/request/activity_traveller_data.dart';
 import 'package:ota/models/activity/request/pre_booking_request.dart';
 import 'package:ota/models/activity/request/search_activity_request.dart' as pax;
 import 'package:ota/models/common/country_codes_response_entity.dart';
+import 'package:ota/models/flights/validation_model.dart';
 import 'package:ota/net/service/activity/activity_service.dart';
 import 'package:ota/net/service/common/common_service.dart';
 import 'package:ota/prefs/session_manager.dart';
@@ -19,7 +20,7 @@ import 'package:ota/viewmodels/flights_view_model/data_models/flight_results_dat
 
 class ActivityTravellerModel extends ChangeNotifier {
   ActivityDetailsData activityDetailsData;
-
+  List<ValidationModel> contentFilledList = List();
   ActivityService _activityService;
 
   bool passengerExpanded = true;
@@ -86,6 +87,8 @@ class ActivityTravellerModel extends ChangeNotifier {
   List<String> guest_last_name = List();
 
   List<String> guest_type = List();
+  List<bool> guestList = List();
+  List<bool> passangerList = List();
 
   ActivityTravellerModel(this.activityDetailsData) {
 
@@ -155,10 +158,60 @@ class ActivityTravellerModel extends ChangeNotifier {
             (index) =>"");
 
     guest_type = List<String>.generate(activityDetailsData.fullDetailsData.age.length, (i) => "ADULT");
+
+    guestList = List<bool>.generate(activityDetailsData.fullDetailsData.age.length, (i) => false);
+
+   passangerList.add(false);
   }
 
   CountryCodesResponseEntity codesResponseEntity;
 
+  expandDetails(int index,int passengerType,) {
+    if (passengerType == 0) {
+      for(int i =0 ;i<guestList.length;i++)
+
+        guestList[i] = false;
+
+     passangerList[0] =true;
+
+
+    }  else {
+      for(int i =0 ;i<guestList.length;i++)
+          if(i!=index)
+        guestList[i] = false;
+
+          passangerList[0] =false;
+
+      guestList[index]=true;
+    }
+
+    notifyListeners();
+  }
+
+  hideDetails(int passengerType, int index) {
+    if (passengerType == 0) {
+        passangerList[0] = false;
+    }
+    else {
+
+    guestList[index] = false;
+    }
+
+
+    notifyListeners();
+  }
+
+  areDetailsVisible(int index, int type) {
+
+    if (type == 0) {
+      return passangerList[0];
+    } else  {
+
+      return guestList[index];
+
+
+    }
+  }
   void expandPassenger() {
     if (passengerExpanded) {
       passengerExpanded = false;

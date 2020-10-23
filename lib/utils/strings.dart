@@ -5,6 +5,7 @@ class strings {
   static const String my_bookings_upcoming = 'UpComing';
   static const String my_bookings_completed = 'Completed';
   static const String booking_id ="Booking Id";
+  static const String cancel_policy ="Cancel Policy";
 
 
   static const String welcome_to = 'Welcome to\nTripShop';

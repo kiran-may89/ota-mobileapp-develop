@@ -2,6 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ota/models/packages/categories_list.dart';
+import 'package:ota/models/packages/destinations_list.dart';
 import 'package:ota/models/packages/package_results.dart';
 import 'package:ota/net/service/package/package_service.dart';
 
@@ -14,13 +16,17 @@ bool Price_Filter = false;
 
 bool loading = true;
 
+bool openCategories = false;
+
+bool openDestinations = false;
+
+DestinationsAndCategoryList categoryList = DestinationsAndCategoryList();
+
+DestinationsAndCategoryList destinationList = DestinationsAndCategoryList();
+
 PackageResultList packageResultList = PackageResultList();
 
-List<String>price = ["2,200.00","3,599.00","3,188.00","4,500.00"];
-
-List<String>names = ["Canada","Switzerland","Hongkong","Tokyo"];
-
-List<String>timings = ["2 Days","3 Days 4 Nights","1 Day 2 Nights","1 Day"];
+List<DestinationsAndCategoryResult> filtersItems = List();
 
 
 PackageResultsViewModel(){
@@ -34,13 +40,110 @@ getPackages();
 
 packageResultList = await _packageService.getPackagesList();
 
-print(packageResultList.result.length.toString());
+getCategories();
 
 loading = false;
 
 notifyListeners();
 
   }
+
+
+Future<void> getCategories() async {
+
+
+  categoryList = await _packageService.getAllCategories(8);
+
+  getDestinations();
+
+}
+
+Future<void> getDestinations() async {
+
+  destinationList = await _packageService.getAllDestinations(7);
+
+  loading=false;
+
+  notifyListeners();
+}
+
+
+void clearFilters() {}
+
+  void applyFilters() {}
+
+  void openCloseCategories() {
+
+  if(openCategories){
+    openCategories =false;
+  }else{
+    openCategories = true;
+  }
+  notifyListeners();
+
+  }
+
+  void filterItemsAddAndRemove(int index) {
+
+  var item  = categoryList.result[index];
+
+  if(filtersItems.contains(item)) {
+    filtersItems.remove(item);
+  }else{
+    filtersItems.add(item);
+  }
+
+  notifyListeners();
+
+  }
+
+  checkAppliedCategories(int index) {
+
+    if (filtersItems.contains(categoryList.result[index])) {
+      return true;
+    } else {
+      return false;
+    }
+
+
+  }
+
+  void openCloseDestinations() {
+
+    if(openDestinations){
+      openDestinations =false;
+    }else{
+      openDestinations = true;
+    }
+    notifyListeners();
+
+  }
+
+  void destinationsAddAndRemove(int index) {
+
+    var item  = destinationList.result[index];
+
+    if(filtersItems.contains(item)) {
+      filtersItems.remove(item);
+    }else{
+      filtersItems.add(item);
+    }
+
+    notifyListeners();
+
+  }
+
+
+checkAppliedDestinations(int index) {
+
+  if (filtersItems.contains(destinationList.result[index])) {
+    return true;
+  } else {
+    return false;
+  }
+
+
+}
 
 
 

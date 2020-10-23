@@ -6,6 +6,7 @@ import 'package:ota/models/profile/requests/get_profile_request.dart';
 import 'package:ota/models/profile/responses/common_response.dart';
 import 'package:ota/models/profile/responses/family_list.dart';
 import 'package:ota/models/profile/responses/update_profile_response.dart';
+import 'package:ota/models/profile/responses/web_notification_response.dart';
 import 'package:ota/net/service/profile/profile_service.dart';
 
 class ProfileServiceImpl extends ProfileService {
@@ -20,12 +21,13 @@ class ProfileServiceImpl extends ProfileService {
   final String _GET_FAMILY_MEMBERS =
       "profile/api/v1/usercontact/";
 
-  final String _GET_PROFILE =
-  "auth/api/v1/Account/GetProfile";
+  final String _GET_PROFILE = "auth/api/v1/Account/GetProfileWithExternalCheck";
 
   final String _UPDATE_MEMBER = "profile/api/v1/usercontact/update";
 
   final String _UPDATE_PROFILE = "auth/api/v1/Account/UpdateProfile";
+
+  final String _GET_WEB_NOTIFICATIONS = "/notifications/api/v1/WebNotification/fetch";
 
 
 
@@ -36,7 +38,7 @@ class ProfileServiceImpl extends ProfileService {
   @override
   Future<CommonResponse> addFamilyMember( request) async {
     try {
-      print("apicalled");
+
       Response response = await apiConnector.post(
           _ADD_FAMILY_MEMBERS,
           data: jsonEncode(request.toMap()));
@@ -190,6 +192,30 @@ class ProfileServiceImpl extends ProfileService {
 
       return results;
     }
+
+  }
+
+  @override
+  Future<WebNotificationResponse> getWebNotifications(body) async {
+
+    try {
+
+      Response response = await apiConnector.post(
+      _GET_WEB_NOTIFICATIONS,
+      data: jsonEncode(body.toMap()));
+      var data = response.data;
+
+      WebNotificationResponse results =
+      WebNotificationResponse.fromMap(data);
+      return results;
+    } catch (error, stacktrace) {
+      WebNotificationResponse results =
+      WebNotificationResponse();
+
+
+      return results;
+    }
+
 
   }
 

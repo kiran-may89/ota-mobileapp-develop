@@ -37,31 +37,6 @@ class GroupTopDestinationsResults {
 
 class Result {
   Result({
-    this.id,
-    this.packages,
-  });
-
-  int id;
-  List<Package> packages;
-
-  factory Result.fromMap(
-          Map<String, dynamic> json) =>
-      Result(
-        id: json["id"],
-        packages: List<Package>.from(
-            json["packages"]
-                .map((x) => Package.fromMap(x))),
-      );
-
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "packages": List<dynamic>.from(
-            packages.map((x) => x.toMap())),
-      };
-}
-
-class Package {
-  Package({
     this.tenantId,
     this.name,
     this.travelStyleId,
@@ -127,9 +102,9 @@ class Package {
   String createdAtUtc;
   String updatedAtUtc;
 
-  factory Package.fromMap(
+  factory Result.fromMap(
           Map<String, dynamic> json) =>
-      Package(
+      Result(
         tenantId: json["tenant_id"],
         name: json["name"],
         travelStyleId: json["travel_style_id"],

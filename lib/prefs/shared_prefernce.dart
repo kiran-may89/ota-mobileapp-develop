@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ota/prefs/session_manager.dart';
 
 class Pref {
-  static final String _FCM_TOKEN = "FCM_TOKEN";
+  final String FCM_TOKEN = "FCM_TOKEN";
   static final String _USERNAME = "USER_NAME";
   static final String HEADERS = "HEADERS";
   FlutterSecureStorage _secureStorage;
@@ -16,6 +16,7 @@ class Pref {
     _prefs = SharedPreferences.getInstance();
     _secureStorage = FlutterSecureStorage();
   }
+  Pref();
 
   static Pref _instance;
 
@@ -57,6 +58,21 @@ class Pref {
   Future<String> getRefreshToken() {
     return _secureStorage.read(key: _refreshToken);
   }
+
+
+
+  void saveData(String key, String value) async{
+    final SharedPreferences prefs = await _prefs;
+    prefs.setString(key, value);
+
+  }
+
+  Future<String>  getData(String key) async{
+    final SharedPreferences prefs = await _prefs;
+    return  prefs.getString(key);
+
+  }
+
 
   Future<void> logout() async {
     SessionManager.getInstance().isGuest = true;

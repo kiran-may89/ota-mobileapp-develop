@@ -42,18 +42,11 @@ class HotelResultsViewModel extends BaseViewModel {
   RangeValues rangeValues;
 
   double rating = 0;
-  List<Amentie> amenties = [
-    Amentie("WiFi", "assets/images/ameneties/wifi.png", false),
-    Amentie("Pool", "assets/images/ameneties/pool.png", false),
-    Amentie("Gym", "assets/images/ameneties/gym.png", false),
-    Amentie("A/C", "assets/images/ameneties/ac.png", false),
-    Amentie("Bar", "assets/images/ameneties/bar.png", false),
-    Amentie("Restaurant", "assets/images/ameneties/restuarant.png", false),
-    Amentie("Pets", "assets/images/ameneties/pets.png", false),
-    Amentie("Garden", "assets/images/ameneties/garden.png", false),
-    Amentie("Parking", "assets/images/ameneties/parking.png", false),
-  ];
+  List<Amentie> amenties;
   int filterLength = 0;
+  void setAmenties() {
+    amenties = List.generate(_response.result.topFacilities.length, (index) => Amentie(_response.result.topFacilities[index])).toList();
+  }
 
   void updateRangeValues(RangeValues values) {
     rangeValues = values;
@@ -95,6 +88,7 @@ class HotelResultsViewModel extends BaseViewModel {
       asscendingOrder();
       rangeValues = new RangeValues(minPrice, maxPrice);
       loadMore();
+      setAmenties();
     }
 
     _setloading(false);
@@ -109,7 +103,7 @@ class HotelResultsViewModel extends BaseViewModel {
     }
 
     int difference = response.result.hotels.length - (present + perPage);
-    int offset = difference > 0 ? present + perPage : response.result.hotels.length-1;
+    int offset = difference > 0 ? present + perPage : response.result.hotels.length - 1;
 
     hotels.addAll(response.result.hotels.getRange(present, offset));
     present = offset;
@@ -119,8 +113,8 @@ class HotelResultsViewModel extends BaseViewModel {
   }
 
   void asscendingOrder() {
-    if(hotels.isEmpty)return;
-     hotels.sort((a, b) =>
+    if (hotels.isEmpty) return;
+    hotels.sort((a, b) =>
         a.roomOption[0].displayRateInfoWithMarkup.totalPriceWithMarkup.compareTo(b.roomOption[0].displayRateInfoWithMarkup.totalPriceWithMarkup));
     unFilteredList = _response.result.hotels;
     minPrice = unFilteredList[0].roomOption[0].displayRateInfoWithMarkup.totalPriceWithMarkup;

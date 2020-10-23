@@ -8,6 +8,7 @@ import 'package:ota/models/common/country_codes_response_entity.dart';
 import 'package:ota/models/flights/requests/flight_booking_request.dart';
 import 'package:ota/models/flights/requests/flight_save_booking_request.dart';
 import 'package:ota/models/flights/traveller_info_model.dart';
+import 'package:ota/models/flights/validation_model.dart';
 import 'package:ota/models/onboard/requests/signup_request.dart';
 import 'package:ota/net/service/common/common_service.dart';
 import 'package:ota/prefs/session_manager.dart';
@@ -46,9 +47,11 @@ class FlightPassengerInfoModel
 
   int primaryMemberIndex;
 
+
   /// for 2 api's savebooking and booking
   List<TravelInfoModel> adultSaveBookingDetails =
       List();
+
 
   List<TravelInfoModel> childSaveBookingDetails =
       List();
@@ -351,6 +354,60 @@ class FlightPassengerInfoModel
 
     notifyListeners();
   }
+  enabledEditModeOnContinue(int index,int passengerType,) {
+    if (passengerType == 0) {
+
+      for(int i =0 ;i<showAdultDetails.length;i++)
+        if(i!=index)
+        showAdultDetails[i] = false;
+
+      for(int i =0 ;i<showChildDetails.length;i++)
+
+          showChildDetails[i] = false;
+
+      for(int i =0 ;i<showInfantDetails.length;i++)
+
+          showInfantDetails[i] = false;
+
+
+        showAdultDetails[index] = true;
+
+
+    } else if (passengerType == 1) {
+
+      for(int i =0 ;i<showAdultDetails.length;i++)
+
+          showAdultDetails[i] = false;
+
+      for(int i =0 ;i<showChildDetails.length;i++)
+        if(i!=index)
+        showChildDetails[i] = false;
+
+      for(int i =0 ;i<showInfantDetails.length;i++)
+
+        showInfantDetails[i] = false;
+
+
+        showChildDetails[index] = true;
+
+    } else {
+      for(int i =0 ;i<showAdultDetails.length;i++)
+
+        showAdultDetails[i] = false;
+
+      for(int i =0 ;i<showChildDetails.length;i++)
+
+          showChildDetails[i] = false;
+
+      for(int i =0 ;i<showInfantDetails.length;i++)
+        if(i!=index)
+        showInfantDetails[i] = false;
+
+        showInfantDetails[index] = true;
+    }
+
+    notifyListeners();
+  }
 
   getPassengerName(int index, int passengerType) {
     if (passengerType == 0) {
@@ -450,7 +507,7 @@ class FlightPassengerInfoModel
   setPassengerPassportExpDate(int index,
       int passengerType, DateTime expiryDate) {
     var normalformat =
-        new DateFormat('MM/dd/yyyy');
+        new DateFormat('yyyy-MM-dd');
 
     var iso_format = new DateFormat(
         "yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -461,21 +518,21 @@ class FlightPassengerInfoModel
           normalformat.format(tempDate);
 
       adultSaveBookingDetails[index].expiration =
-          iso_format.format(tempDate);
+          normalformat.format(tempDate);
     } else if (passengerType == 1) {
       childBookingDetails[index]
               .passportExpirationDate =
           normalformat.format(tempDate);
 
       childSaveBookingDetails[index].expiration =
-          iso_format.format(tempDate);
+          normalformat.format(tempDate);
     } else {
       infantBookingDetails[index]
               .passportExpirationDate =
           normalformat.format(tempDate);
 
       infantSaveBookingDetails[index].expiration =
-          iso_format.format(tempDate);
+          normalformat.format(tempDate);
     }
 
     notifyListeners();
@@ -497,7 +554,7 @@ class FlightPassengerInfoModel
     DateTime tempDate,
   ) {
     var normalformat =
-        new DateFormat('MM/dd/yyyy');
+        new DateFormat('yyyy-MM-dd');
 
     var iso_format = new DateFormat(
         "yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -507,19 +564,19 @@ class FlightPassengerInfoModel
           normalformat.format(tempDate);
 
       adultSaveBookingDetails[index].birthday =
-          iso_format.format(tempDate);
+          normalformat.format(tempDate);
     } else if (passengerType == 1) {
       childBookingDetails[index].dob =
           normalformat.format(tempDate);
 
       childSaveBookingDetails[index].birthday =
-          iso_format.format(tempDate);
+          normalformat.format(tempDate);
     } else {
       infantBookingDetails[index].dob =
           normalformat.format(tempDate);
 
       infantSaveBookingDetails[index].birthday =
-          iso_format.format(tempDate);
+          normalformat.format(tempDate);
     }
 
     notifyListeners();
@@ -540,6 +597,7 @@ class FlightPassengerInfoModel
   }
 
   areDetailsShown(int index, int passengerType) {
+
     if (passengerType == 0) {
       return showAdultDetails[index];
     } else if (passengerType == 1) {
@@ -547,6 +605,7 @@ class FlightPassengerInfoModel
     } else {
       return showInfantDetails[index];
     }
+
   }
 
   getGender(int index, int passengerType) {

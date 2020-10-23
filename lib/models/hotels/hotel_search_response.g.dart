@@ -42,6 +42,8 @@ HotelResult _$HotelResultFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : Hotel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    topFacilities:
+        (json['topFacilities'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
@@ -56,4 +58,5 @@ Map<String, dynamic> _$HotelResultToJson(HotelResult instance) =>
       'checkIn': instance.checkIn,
       'checkOut': instance.checkOut,
       'hotels': instance.hotels,
+      'topFacilities': instance.topFacilities,
     };

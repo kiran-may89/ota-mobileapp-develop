@@ -51,18 +51,18 @@ class FlightServiceImpl extends FlightService{
 
       var data = response.data;
 
-      print("DATA$data");
+
 
       AirportLookupResponse result = AirportLookupResponse.fromJson(data);
 
-      print("RESULT${result.result}");
+
 
       return result;
     }catch (error, stacktrace) {
 
       AirportLookupResponse results = AirportLookupResponse();
 
-      print(results.message);
+
       if(error is DioError){
         results.setException(error: error);
       }
@@ -171,12 +171,15 @@ class FlightServiceImpl extends FlightService{
 
 
 
-      var data = response.data;
 
+      FlightSaveBookingResponse results = FlightSaveBookingResponse();
+      var data = response.toString();
 
-      FlightSaveBookingResponse results = FlightSaveBookingResponse.fromJson(data);
+      if(response.statusCode==200)
+      return FlightSaveBookingResponse.fromMap(response.data);
 
-
+       results.isError =true;
+       results.responseException = response.statusMessage;
 
       return results;
 
@@ -188,7 +191,7 @@ class FlightServiceImpl extends FlightService{
 
       print(results.responseException.toString());
 
-      print(error.toString());
+      print(error);
       //results.setException(error: error);
 
       return results;
@@ -205,6 +208,7 @@ class FlightServiceImpl extends FlightService{
 
 
     try {
+      var check = body.toJson();
       Response response = await apiConnector
           .post(_BOOK_FLIGHT, data: jsonEncode(body.toJson()));
 

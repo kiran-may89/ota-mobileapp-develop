@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,15 +17,16 @@ import 'package:ota/prefs/session_manager.dart';
 class HomePageViewModel extends BaseViewModel {
   PageController pageController = new PageController();
   double currentPage = 0;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   void initialise() {}
   List<Sliders> sliders = [
-    Sliders('assets/images/flights.png', "Book a flight"),
     Sliders('assets/images/hotels.png', "Book a hotel"),
-    Sliders('assets/images/cruise.png', "Book a cruise"),
-    Sliders('assets/images/package.png', "Book a package"),
-    Sliders('assets/images/transfer.png', "Book a transfer"),
+    Sliders('assets/images/flights.png', "Book a flight"),
     Sliders('assets/images/event.png', "Book an Activity"),
+    Sliders('assets/images/transfer.png', "Book a transfer"),
+    Sliders('assets/images/package.png', "Book a package"),
+    Sliders('assets/images/cruise.png', "Book a cruise"),
   ];
 
   HomePageViewModel() {
@@ -33,8 +36,52 @@ class HomePageViewModel extends BaseViewModel {
     });
     CommonService commonService = GetIt.instance<CommonService>();
 
+    if(checkFCMToken()!=null) {
+      _getFCMToken();
+    }else{
+      setNotificationChannel(
+      );
+    }
+  }
+
+
+  void _getFCMToken() {
+
+    _firebaseMessaging.requestNotificationPermissions(
+    const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.getToken().then((token){
+      Pref.getInstnace().saveData(Pref().FCM_TOKEN, token);
+
+      print('Token $token');
+    });
 
   }
+
+  checkFCMToken() async{
+    String token = await Pref.getInstnace().getData(Pref().FCM_TOKEN);
+    return token;
+  }
+
+  void setNotificationChannel() {
+
+    if (Platform.isIOS) {
+      _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings());
+    }
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+  }
+
+
 }
 
 void refreshAccessToken(value) async {}

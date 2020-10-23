@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ota/app/Router.dart';
 import 'package:ota/models/my_bookings/booking_resposne.dart';
+import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/utils/colors.dart';
+import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
@@ -33,6 +36,14 @@ class HotelBookingDetailView extends StatelessWidget {
         appBar: AppBar(
           title: Text("Booking Detail"),
           backgroundColor: CustomColors.BackGround,
+          leading:new IconButton(
+            icon: new Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+              size: 13,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
         body: Builder(
 
@@ -61,7 +72,7 @@ class HotelBookingDetailView extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                _hotelTitleView(),
+                _titleView(),
                 Divider(
                   thickness: 0.2,
                   color: Colors.grey,
@@ -138,7 +149,7 @@ class HotelBookingDetailView extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                _bottomButton(),
+                _bottomButton(context),
                 SizedBox(
                   height: 20,
                 ),
@@ -150,22 +161,32 @@ class HotelBookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _bottomButton() {
+  Widget _bottomButton(BuildContext _context) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-          child: Container(
-            height: kToolbarHeight - 10,
-            decoration: BoxDecoration(
-                color: Colors.white30,
-                border: Border.all(color: CustomColors.Orange, width: 1),
-                borderRadius: BorderRadius.circular(5)),
-            child: Center(
-                child: Text(
-              "View Cancellation Policy",
-              style: TextStyle(fontFamily: "roboto"),
-            )),
+          child: GestureDetector(
+            onTap: (){
+              if( _model.bookings[0].reservationNumber!=null)
+
+                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_viewModel,_model.bookings[0].reservationNumber]);
+
+
+            },
+            child: Container(
+              height: kToolbarHeight - 10,
+              decoration: BoxDecoration(
+                  color:_model.bookings[0].reservationNumber==null?  CustomColors.disabledButton:Colors.white30,
+                  border:_model.bookings[0].reservationNumber==null?  Border.all(color: Colors.grey, width: 1):Border.all(color: CustomColors.Orange, width: 1),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Center(
+                  child: Text(
+                    "View Cancellation Policy",
+
+                    style: TextStyle(fontFamily: "roboto",color:_model.bookings[0].reservationNumber!=null? Colors.grey :Colors.white ),
+                  )),
+            ),
           ),
         ),
         SizedBox(
@@ -173,15 +194,57 @@ class HotelBookingDetailView extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 25.0, right: 25),
-          child: Container(
-            height: kToolbarHeight - 10,
-            decoration: BoxDecoration(
-                color: CustomColors.Orange,
-                borderRadius: BorderRadius.circular(5)),
-            child: Center(
-              child: Text(
-                "Cancel Booking",
-                style: TextStyle(color: Colors.white, fontFamily: "roboto"),
+          child: GestureDetector(
+            onTap: (){
+              if(_model.bookings[0].reservationDate.isAfter(DateTime.now())&&_model.status!=null && _model.bookings[0].reservationNumber!=null && !SessionManager.getInstance().isGuest )
+                showDialog(
+                    context: _context,
+                    barrierColor: Colors.black12,
+                    barrierDismissible: true,
+                    builder: (context) => AlertDialog(
+                      title: new Text("Alert"),
+                      content: new Text("Are you Sure you want to Cancel this booking"),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: new Text("Yes"),
+                          onPressed: () {
+                            Navigator.pop(context);
+
+                            Dialogs.showSpinkitLoading(_context);
+
+
+                            _viewModel.cancelBookingByRezervationId(_model.bookings[0].reservationNumber).then((value){
+
+                              Navigator.pop(_context);
+                              Navigator.pop(_context);
+
+                              _viewModel.reloadView();
+
+
+                            });
+                          },
+
+                        ),
+
+                        new FlatButton(
+                          child: new Text("No"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },)
+                      ],
+                    ));
+
+            },
+            child: Container(
+              height: kToolbarHeight - 10,
+              decoration: BoxDecoration(
+                  color: _model.status==null||_model.bookings[0].reservationNumber==null || SessionManager.getInstance().isGuest||_model.bookings[0].reservationDate.isBefore(DateTime.now())?CustomColors.disabledButton : CustomColors.Orange,
+                  borderRadius: BorderRadius.circular(5)),
+              child: Center(
+                child: Text(
+                  "Cancel Booking",
+                  style: TextStyle(color: Colors.white, fontFamily: "roboto"),
+                ),
               ),
             ),
           ),
@@ -308,37 +371,43 @@ class HotelBookingDetailView extends StatelessWidget {
   }
 
 
-  Widget _hotelTitleView() {
+  Widget _titleView() {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ClipOval(
-            child: Container(
-              color: CustomColors.BackGround,
-              width: SizeConstants.SIZE_40,
-              height: SizeConstants.SIZE_40,
-              padding: EdgeInsets.all(
-                SizeConstants.SIZE_8,
-              ),
-              child: Image.asset(
-                "assets/images/dashboard/icon_hotel.png",
-                color: CustomColors.White,
-                height: 12,
-                width: 12,
+          Flexible(
+            flex:2,
+            child: ClipOval(
+              child: Container(
+                color: CustomColors.BackGround,
+                width: SizeConstants.SIZE_40,
+                height: SizeConstants.SIZE_40,
+                padding: EdgeInsets.all(
+                  SizeConstants.SIZE_8,
+                ),
+                child: Image.asset(
+                  "assets/images/dashboard/icon_activities.png",
+                  color: CustomColors.White,
+                  height: 12,
+                  width: 12,
+                ),
               ),
             ),
           ),
           SizedBox(
             width: 5,
           ),
-          Text(
-            _model.bookings[0].summaryInfo.name == null
-                ? "NA"
-                : _model.bookings[0].summaryInfo.name,
-            style: CustomStyles.bold17,
+          Flexible(
+            flex: 8,
+            child: Text(
+              _model.bookings[0].summaryInfo.name == null
+                  ? "NA"
+                  : _model.bookings[0].summaryInfo.name,
+              style: CustomStyles.bold17,
+            ),
           )
         ],
       ),
@@ -478,7 +547,6 @@ class HotelBookingDetailView extends StatelessWidget {
       ),
     );
   }
-
   Widget _topHeaderBottomView() {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 5),
@@ -493,11 +561,11 @@ class HotelBookingDetailView extends StatelessWidget {
           ),
           Text(
               _model.bookings[0].status == null
-                  ? "NA"
+                  ? "Cancel_Initialized"
                   : _model.bookings[0].status.toString().split('.')[1],
               style: TextStyle(
-                color: _model.bookings[0].status.toString().split('.')[1] ==
-                        "BOOKING_PENDING"
+                color: _model.bookings[0].status.toString().split('.') ==
+                    "BOOKING_PENDING"
                     ? CustomColors.BackGround
                     : Colors.green,
               )),

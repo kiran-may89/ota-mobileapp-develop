@@ -6,6 +6,7 @@ class SizeConstants {
   static double SIZE_16 = 16;
   static double SIZE_30 = 30;
   static double SIZE_20 = 20;
+  static double SIZE_35 = 35;
   static double SIZE_40 = 40;
   static double SIZE_50 = 50;
   static double SIZE_60 = 60;

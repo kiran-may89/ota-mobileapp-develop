@@ -58,7 +58,7 @@ class ListContainer extends StatelessWidget
         switch(item)
         {
           case "FLT":
-         //   Navigator.pushNamed(context, Routes.activityBookingDetailsView,arguments:[_model,_viewModel]);
+            Navigator.pushNamed(context, Routes.flightBookingDetailsView,arguments:[_model,_viewModel]);
 
             break;
           case "HTL":
@@ -198,7 +198,7 @@ class ListContainer extends StatelessWidget
 
           Text(_model.bookings[0].bookingDate==null?"NA":_model.bookings[0].bookingDate.toString().split(' ')[0],style: TextStyle(color: Colors.grey),),
 
-          Text(_model.bookings[0].status== null ? "NA" :_model.bookings[0].status.toString().split('.')[1],style: TextStyle(color:_model.bookings[0].status.toString().split('.')== "BOOKING_PENDING"?CustomColors.BackGround:Colors.green,)),
+          Text(_model.bookings[0].status== null ? "Cancel_Initialized" :_model.bookings[0].status.toString().split('.')[1],style: TextStyle(color:_model.bookings[0].status.toString().split('.')== "BOOKING_PENDING"?CustomColors.BackGround:Colors.green,)),
 
         ],
       ),

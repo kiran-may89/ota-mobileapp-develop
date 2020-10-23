@@ -55,6 +55,11 @@ class _AppDrawerState extends State<AppDrawer> {
 
                   ),
                   ListTile(
+                    onTap: (){
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Routes.searchBookingView, (route) => true);
+
+                    },
                     title: Text('Search Bookings',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
                     leading: Icon(Icons.search_rounded,color: CustomColors.BackGround.withOpacity(.9),),
                     subtitle: Text("Search the bookings",style: CustomStyles.calenderStyle,),

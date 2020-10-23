@@ -34,9 +34,9 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
   final key = new GlobalKey<ScaffoldState>();
 
-  var height;
+  var screenHeight;
 
-  var width;
+  var screenWidth;
 
 
   _TransferBookingStatusState(this.transfersCCData);
@@ -44,9 +44,9 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
   @override
   Widget build(BuildContext context) {
 
-    width = MediaQuery.of(context).size.width/10;
+    screenWidth = MediaQuery.of(context).size.width/10;
 
-    height = MediaQuery.of(context).size.height/10;
+    screenHeight = MediaQuery.of(context).size.height/10;
 
     return SafeArea(
       child: Scaffold(
@@ -85,8 +85,8 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
         body:Container(
 
-          height: height*10,
-          width: width*10,
+          height: screenHeight*10,
+          width: screenWidth*10,
 
           decoration: BoxDecoration(
               image: DecorationImage(
@@ -105,7 +105,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
                   key: _globalKey,
 
                   child: Container(
-                    margin: EdgeInsets.only(bottom: height*1),
+                //    margin: EdgeInsets.only(bottom: screenHeight*1),
 
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -114,101 +114,165 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
 
 
-                        Container(
+                        Stack(
+                          children: [
+                            Container(
 
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20))
-                          ),
+                            //  height: screenHeight*4.4,
 
+              //                margin: EdgeInsets.only(bottom: screenHeight*.8),
+                              width: screenWidth*10,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20))
+                              ),
 
-
-                          child:     Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-
-                              SizedBox(height: 15,),
-
-                              Image.asset('assets/images/dashboard/tripshop_logo.png',height: height*.35,),
-                              SizedBox(height: 15,),
-
-
-                              Image.asset('assets/images/transfer.png',height: height*1.5,),
-                              SizedBox(height: 15,),
-
-                              Center(child: Text('Reservation Number',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
-
-                              SizedBox(height: 3,),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(transfersCCData.transferBookingResponse.result.bookings.first.reservationNumber,style:CustomStyles.medium18.copyWith(color: CustomColors.BackGround) ,textAlign: TextAlign.center,),
+                                children: <Widget>[
 
-                                  SizedBox(width: 15,),
+                                  SizedBox(height: 15,),
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Image.asset('assets/images/dashboard/logo_plane.png',height: screenHeight*.45,color: CustomColors.Orange,),
+
+                                        Image.asset('assets/images/transfer.png',height: screenHeight*1.5,),
+
+                                        Container(
+                                          //margin: EdgeInsets.only(top: 55),
+                                          decoration: new BoxDecoration(
+                                            color: CustomColors.green,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: CustomColors.White,width: 3),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey,
+                                                offset: Offset(0.0, 1.0), //(x,y)
+                                                blurRadius: 6.0,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Image.asset('assets/images/check.png',height: 40,width: 40,),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 15,),
 
 
-                                  GestureDetector(child:
-                                  Image.asset('assets/clipboard.png',color: CustomColors.BackGround,height: 15,width: 15,),
-                                    onTap: (){
+                               //   Image.asset('assets/images/transfer.png',height: screenHeight*1.5,),
+                                 // SizedBox(height: 15,),
 
-                                      _copytoClipboard(transfersCCData.transferBookingResponse.result.bookings.first.reservationNumber);
+                                  Center(child: Text('Reservation Number',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
 
-                                    },
-                                  )
+                                  SizedBox(height: 3,),
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(transfersCCData.transferBookingResponse.result.bookings.first.reservationNumber,style:CustomStyles.medium18.copyWith(color: CustomColors.BackGround) ,textAlign: TextAlign.center,),
+
+                                      SizedBox(width: 15,),
+
+
+                                      GestureDetector(child:
+                                      Image.asset('assets/clipboard.png',color: CustomColors.BackGround,height: 20,width: 20,),
+                                        onTap: (){
+
+                                          _copytoClipboard(transfersCCData.transferBookingResponse.result.bookings.first.reservationNumber);
+
+                                        },
+                                      )
+
+
+                                    ],
+                                  ),
+
+                                  SizedBox(height: 15,),
+
+
+                                  Center(child: Text('Transfer Booking Id',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
+
+                                  SizedBox(height: 3,),
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(transfersCCData.transferBookingResponse.result.bookingId,style:CustomStyles.medium18.copyWith(color: CustomColors.BackGround) ,textAlign: TextAlign.center,),
+
+                                      SizedBox(width: 15,),
+
+
+                                      GestureDetector(child:
+                                      Image.asset('assets/clipboard.png',color: CustomColors.BackGround,height: 20,width: 20,),
+                                        onTap: (){
+
+                                          _copytoClipboard(transfersCCData.transferBookingResponse.result.bookingId);
+
+                                        },
+                                      )
+
+
+                                    ],
+                                  ),
+
+                                  SizedBox(height: 15,),
+
+
+
 
 
                                 ],
                               ),
 
-                              SizedBox(height: 15,),
-
-
-                              Center(child: Text('Transfer Booking Id',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
-
-                              SizedBox(height: 3,),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(transfersCCData.transferBookingResponse.result.bookingId,style:CustomStyles.medium18.copyWith(color: CustomColors.BackGround) ,textAlign: TextAlign.center,),
-
-                                  SizedBox(width: 15,),
-
-
-                                  GestureDetector(child:
-                                  Image.asset('assets/clipboard.png',color: CustomColors.BackGround,height: 15,width: 15,),
-                                    onTap: (){
-
-                                      _copytoClipboard(transfersCCData.transferBookingResponse.result.bookingId);
-
-                                    },
-                                  )
-
-
-                                ],
-                              ),
-
-                              SizedBox(height: 15,),
 
 
 
+                            ),
+
+//                            Positioned(
+//                              left: screenWidth*4.3,
+//                              top: screenHeight*3.85,
+//                              child: Container(
+//                                alignment: Alignment.center,
+//                        height: MediaQuery.of(context).size.height*.1,
+//                        child:
+//                        Container(
+//                          //margin: EdgeInsets.only(top: 55),
+//                          decoration: new BoxDecoration(
+//                              color: CustomColors.green,
+//                              shape: BoxShape.circle,
+//                              border: Border.all(color: CustomColors.White,width: 3),
+//                              boxShadow: [
+//                                BoxShadow(
+//                                  color: Colors.grey,
+//                                  offset: Offset(0.0, 1.0), //(x,y)
+//                                  blurRadius: 6.0,
+//                                ),
+//                              ],
+//                          ),
+//                          child: Image.asset('assets/images/check.png',height: 50,width: 50,),
+//                        ),
+//                      ),
+//                            ),
 
 
-                            ],
-                          ),
 
-
-
-
+                          ],
                         ),
 
 
-                        SizedBox(height: height*.4,),
+                        SizedBox(height: screenHeight*.3,),
 
 
                         Column(
@@ -216,15 +280,12 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-
+                            
                             _paymetSummaryConatiner(),
 
                             SizedBox(height: 20,),
+
                             _transferSummaryConatiner(),
-
-
-
-
 
                           ],
                         )
@@ -255,9 +316,9 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
     return Container(
 
-      margin: EdgeInsets.only(left: width*.4,right:width *.4),
+      margin: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4),
 
-      padding: EdgeInsets.only(left: width*.4,right:width *.4,top: 15),
+      padding: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4,top: 15),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15)
@@ -267,7 +328,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
 
@@ -387,8 +448,8 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
     return Container(
 
-        margin: EdgeInsets.only(left: width*.4,right:width *.4),
-        padding: EdgeInsets.only(left: width*.4,right:width *.4,top: 15),
+        margin: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4),
+        padding: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4,top: 15),
 
         decoration: BoxDecoration(
             color: Colors.white,

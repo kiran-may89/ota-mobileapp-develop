@@ -42,14 +42,14 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
   final key = new GlobalKey<ScaffoldState>();
 
 
-  var height;
-   var width;
+  var screenHeight;
+   var screenWidth;
 
   @override
   Widget build(BuildContext context) {
- width = MediaQuery.of(context).size.width/10;
+ screenWidth = MediaQuery.of(context).size.width/10;
 
- height = MediaQuery.of(context).size.height/10;
+ screenHeight = MediaQuery.of(context).size.height/10;
 
     return ChangeNotifierProvider<FlightBookingStatusModel>(
       create: (context) =>FlightBookingStatusModel(flightBookingData.flightTravelInfoData,flightBookingData.flightBookingRes),
@@ -96,8 +96,8 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
         Container(
 
-          height: height*10,
-            width: width*10,
+          height: screenHeight*10,
+            width: screenWidth*10,
 
 
             decoration: BoxDecoration(
@@ -119,312 +119,170 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-//                      Container(
-//
-//
-//                        height: MediaQuery.of(context).size.height*.1,
-//                        child: Container(
-//                          //margin: EdgeInsets.only(top: 55),
-//                          decoration: new BoxDecoration(
-//                            color: CustomColors.green,
-//                            shape: BoxShape.circle,
-//                            border: Border.all(color: CustomColors.White,width: 3),
-//                            boxShadow: [
-//                              BoxShadow(
-//                                color: Colors.grey,
-//                                offset: Offset(0.0, 1.0), //(x,y)
-//                                blurRadius: 6.0,
-//                              ),
-//                            ],
-//                          ),
-//                          child: Image.asset('assets/images/check.png',height: 50,width: 50,),
-//                        ),
-//                      ),
-                      Container(
 
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20))
-                        ),
-                          width: width*10,
+                      Stack(
+                        children: [
+                          Container(
 
-                        child:
-
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-
-                            SizedBox(height: 15,),
-
-                            Image.asset('assets/images/dashboard/tripshop_logo.png',height: height*.35,),
-                            SizedBox(height: 15,),
-
-
-                            Image.asset('assets/images/flights.png',height: height*1.5,),
-                            SizedBox(height: 15,),
-
-                            Center(child: Text('Reservation Number',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
-
-                            SizedBox(height: 3,),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(model.flightBookingRes.result.bookings.first.reservationNumber,style:CustomStyles.medium18.copyWith(color: CustomColors.BackGround) ,textAlign: TextAlign.center,),
-
-                                SizedBox(width: 15,),
-
-
-                                GestureDetector(child:
-                                Image.asset('assets/clipboard.png',color: CustomColors.BackGround,height: 15,width: 15,),
-                                  onTap: (){
-
-                                    _copytoClipboard(model.flightBookingRes.result.bookings.first.reservationNumber);
-
-                                  },
-                                )
-
-
-                              ],
+                           // height: screenHeight*4.4,
+                           // margin: EdgeInsets.only(bottom: screenHeight*.8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20))
                             ),
+                              width: screenWidth*10,
 
+                            child:
 
-
-                            Center(child: Text('Flight Booking Id',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
-
-                            SizedBox(height: 3,),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(model.flightBookingRes.result.bookingId,style:CustomStyles.medium18.copyWith(color: CustomColors.BackGround) ,textAlign: TextAlign.center,),
-
-                                SizedBox(width: 15,),
-
-
-                                GestureDetector(
-                                  child:
-                                Image.asset('assets/clipboard.png',color: CustomColors.BackGround,height: 15,width: 15,),
-                                  onTap: (){
-
-                                  _copytoClipboard(model.flightBookingRes.result.bookingId);
-
-                                  },
-                                )
-
-
-                              ],
-                            ),
-
-                            SizedBox(height: 15,),
-
-
-
-
-
-                          ],
-                        ),
-
-
-
-                      ),
-
-
-                      SizedBox(height: height*.4,),
-
-
-                      Container(
-                        margin: EdgeInsets.only(left: width*.4,right:width *.4),
-
-                        padding: EdgeInsets.only(left: width*.4,right:width *.4,top: 15),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)
-                        ),
-
-                        child:
-
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15,right: 15),
-                              child: Text('Payment Summary',style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
-                            ),
-
-
-                            SizedBox(height:20 ,),
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15,right: 15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("Flight Price",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
-
-                                  RichText(
-                                    text: TextSpan(
-                                        text: model.flightResultsData.currency,
-                                        style: CustomStyles.medium12.copyWith(color: CustomColors.BackGround),
-                                        children: <TextSpan>[
-
-
-                                          TextSpan(text: " "+model.flightResultsData.baseRate.toString(),
-                                              style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)
-                                          )
-                                        ]
-                                    ),
-                                  ),
-
-
-
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(height:15 ,),
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15,right: 15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("Tax and other charges",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
-
-                                  RichText(
-                                    text: TextSpan(
-                                        text: model.flightResultsData.currency.toString(),
-                                        style: CustomStyles.medium12.copyWith(color: CustomColors.BackGround),
-                                        children: <TextSpan>[
-                                          TextSpan(text: " "+model.flightResultsData.taxAndOtherCharges.toString(),
-                                              style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)
-                                          )
-                                        ]
-                                    ),
-                                  ),
-
-
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(height:15 ,),
-
-                            Container(
-                                margin: EdgeInsets.only(top: 10,bottom: 20),
-                                child: MySeparator(color: CustomColors.TabDisabled,height: 1,Horizontal: true,)),
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15,right: 15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("Total Amount Payable",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
-
-
-                                  RichText(
-                                    text: TextSpan(
-                                        text: model.flightResultsData.currency,
-                                        style: CustomStyles.medium12.copyWith(color: CustomColors.BackGround),
-                                        children: <TextSpan>[
-                                          TextSpan(text: " "+model.flightResultsData.totalPriceWithMarkup.toString(),
-                                              style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)
-                                          )
-                                        ]
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-
-                            Container(
-                                margin: EdgeInsets.only(top: 20,bottom: 20),
-                                child: MySeparator(color: CustomColors.TabDisabled,height: 1,Horizontal: true,)),
-
-
-
-                          ],
-                        )
-
-
-                        ,
-                      ),
-
-                      SizedBox(height: height*.4,),
-
-
-
-                      Container(
-                        margin: EdgeInsets.only(left: width*.4,right:width *.4),
-                        padding: EdgeInsets.only(left: width*.4,right:width *.4,top: 15),
-
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)
-                        ),
-                        child:
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15,right: 15),
-                              child: Text('Flights Summary',style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
-                            ),
-
-                            SizedBox(height:20 ,),
-
-                            model.flightResultsData.requestData.oneway?Column(
+                            Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
 
+                                SizedBox(height: 15,),
+
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 15,right: 15),
-                                  child: Text('Departure',style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset('assets/images/dashboard/logo_plane.png',height: screenHeight*.45,color: CustomColors.Orange,),
+
+                                      Image.asset('assets/images/flights.png',height: screenHeight*1.5,),
+
+                                      Container(
+                                        //margin: EdgeInsets.only(top: 55),
+                                        decoration: new BoxDecoration(
+                                          color: CustomColors.green,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: CustomColors.White,width: 3),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey,
+                                              offset: Offset(0.0, 1.0), //(x,y)
+                                              blurRadius: 6.0,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Image.asset('assets/images/check.png',height: 40,width: 40,),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 15,),
+
+
+//                                Image.asset('assets/images/flights.png',height: screenHeight*1.5,),
+//                                SizedBox(height: 15,),
+
+                                Center(child: Text('Reservation Number',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
+
+                                SizedBox(height: 3,),
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(model.flightBookingRes.result.bookings.first.reservationNumber,style:CustomStyles.medium18.copyWith(color: CustomColors.BackGround) ,textAlign: TextAlign.center,),
+
+                                    SizedBox(width: 15,),
+
+
+                                    GestureDetector(child:
+                                    Image.asset('assets/clipboard.png',color: CustomColors.BackGround,height: 20,width: 20,),
+                                      onTap: (){
+
+                                        _copytoClipboard(model.flightBookingRes.result.bookings.first.reservationNumber);
+
+                                      },
+                                    )
+
+
+                                  ],
                                 ),
 
-                                SizedBox(height: 10,),
 
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: getDepartureList(model),
+
+                                Center(child: Text('Flight Booking Id',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
+
+                                SizedBox(height: 3,),
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(model.flightBookingRes.result.bookingId,style:CustomStyles.medium18.copyWith(color: CustomColors.BackGround) ,textAlign: TextAlign.center,),
+
+                                    SizedBox(width: 15,),
+
+
+                                    GestureDetector(
+                                      child:
+                                    Image.asset('assets/clipboard.png',color: CustomColors.BackGround,height: 20,width: 20,),
+                                      onTap: (){
+
+                                      _copytoClipboard(model.flightBookingRes.result.bookingId);
+
+                                      },
+                                    )
+
+
+                                  ],
                                 ),
 
-                              ],): getRoundTripList(model),
-
-
-                            SizedBox(height: 20,),
-                            Text('Cancellation & Refund Policy',style: CustomStyles.normal12.copyWith(color: CustomColors.BackGround,decoration: TextDecoration.underline,),),
-
-
-                            SizedBox(height:30 ,),
-
-
-
-                          ],
-                        ),
-                      )
+                                SizedBox(height: 15,),
 
 
 
 
+
+                              ],
+                            ),
+                          ),
+
+
+//                          Positioned(
+//                            left: screenWidth*4.3,
+//                            top: screenHeight*3.85,
+//                            child: Container(
+//                              alignment: Alignment.center,
+//                              height: MediaQuery.of(context).size.height*.1,
+//                              child: Container(
+//                                //margin: EdgeInsets.only(top: 55),
+//                                decoration: new BoxDecoration(
+//                                  color: CustomColors.green,
+//                                  shape: BoxShape.circle,
+//                                  border: Border.all(color: CustomColors.White,width: 3),
+//                                  boxShadow: [
+//                                    BoxShadow(
+//                                      color: Colors.grey,
+//                                      offset: Offset(0.0, 1.0), //(x,y)
+//                                      blurRadius: 6.0,
+//                                    ),
+//                                  ],
+//                                ),
+//                                child: Image.asset('assets/images/check.png',height: 50,width: 50,),
+//                              ),
+//                            ),
+//                          ),
+
+
+                        ],
+                      ),
+
+
+                      SizedBox(height: screenHeight*.3,),
+
+
+                     _paymentSummary(model),
+
+                      SizedBox(height: screenHeight*.4,),
+
+
+                      _flightSummary(model)
 
                     ],
                   ),
@@ -1368,6 +1226,204 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
     key.currentState.showSnackBar(
         new SnackBar(content: new Text("Copied to Clipboard",style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
     backgroundColor: CustomColors.BackGround));
+
+  }
+
+
+
+
+
+
+
+
+  _paymentSummary(FlightBookingStatusModel model) {
+
+
+   return Container(
+      margin: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4),
+
+      padding: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4,top: 15),
+      decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(15)
+      ),
+
+      child:
+
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Text('Payment Summary',style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
+          ),
+
+
+          SizedBox(height:20 ,),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Flight Price",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+                RichText(
+                  text: TextSpan(
+                  text: model.flightResultsData.currency,
+                  style: CustomStyles.medium12.copyWith(color: CustomColors.BackGround),
+                  children: <TextSpan>[
+
+
+                    TextSpan(text: " "+model.flightResultsData.baseRate.toString(),
+                    style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)
+                    )
+                  ]
+                  ),
+                ),
+
+
+
+              ],
+            ),
+          ),
+
+          SizedBox(height:15 ,),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Tax and other charges",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+                RichText(
+                  text: TextSpan(
+                  text: model.flightResultsData.currency.toString(),
+                  style: CustomStyles.medium12.copyWith(color: CustomColors.BackGround),
+                  children: <TextSpan>[
+                    TextSpan(text: " "+model.flightResultsData.taxAndOtherCharges.toString(),
+                    style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)
+                    )
+                  ]
+                  ),
+                ),
+
+
+              ],
+            ),
+          ),
+
+          SizedBox(height:15 ,),
+
+          Container(
+          margin: EdgeInsets.only(top: 10,bottom: 20),
+          child: MySeparator(color: CustomColors.TabDisabled,height: 1,Horizontal: true,)),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Total Amount Payable",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+
+                RichText(
+                  text: TextSpan(
+                  text: model.flightResultsData.currency,
+                  style: CustomStyles.medium12.copyWith(color: CustomColors.BackGround),
+                  children: <TextSpan>[
+                    TextSpan(text: " "+model.flightResultsData.totalPriceWithMarkup.toString(),
+                    style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)
+                    )
+                  ]
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+
+          Container(
+          margin: EdgeInsets.only(top: 20,bottom: 20),
+          child: MySeparator(color: CustomColors.TabDisabled,height: 1,Horizontal: true,)),
+
+
+
+        ],
+      )
+
+
+      ,
+    );
+
+
+  }
+
+  _flightSummary(FlightBookingStatusModel model) {
+
+   return Container(
+      margin: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4),
+      padding: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4,top: 15),
+
+      decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(15)
+      ),
+      child:
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Text('Flights Summary',style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
+          ),
+
+          SizedBox(height:20 ,),
+
+          model.flightResultsData.requestData.oneway?Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+
+              Padding(
+                padding: const EdgeInsets.only(left: 15,right: 15),
+                child: Text('Departure',style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
+              ),
+
+              SizedBox(height: 10,),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: getDepartureList(model),
+              ),
+
+            ],): getRoundTripList(model),
+
+
+          SizedBox(height: 20,),
+          Text('Cancellation & Refund Policy',style: CustomStyles.normal12.copyWith(color: CustomColors.BackGround,decoration: TextDecoration.underline,),),
+
+
+          SizedBox(height:30 ,),
+
+
+
+        ],
+      ),
+    );
 
   }
 

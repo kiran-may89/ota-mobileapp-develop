@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 class PackageResultList {
   PackageResultList({
     this.version,
@@ -35,7 +37,7 @@ class PackageResultList {
       };
 }
 
-class Result {
+class Result extends Equatable {
   Result({
     this.tenantId,
     this.name,
@@ -89,7 +91,7 @@ class Result {
   dynamic noCustomersBrought;
   List<Destination> destinations;
   List<Highlight> highlights;
-  List<dynamic> images;
+  List<Image> images;
   List<dynamic> dailyItineraries;
   dynamic discounts;
   List<dynamic> timelines;
@@ -98,7 +100,7 @@ class Result {
   String createdBy;
   String createdDate;
   dynamic updatedBy;
-  dynamic updatedDate;
+  String updatedDate;
   String createdAtUtc;
   String updatedAtUtc;
 
@@ -131,8 +133,8 @@ class Result {
         highlights: List<Highlight>.from(
             json["highlights"].map(
                 (x) => Highlight.fromMap(x))),
-        images: List<dynamic>.from(
-            json["images"].map((x) => x)),
+        images: List<Image>.from(json["images"]
+            .map((x) => Image.fromMap(x))),
         dailyItineraries: List<dynamic>.from(
             json["daily_Itineraries"]
                 .map((x) => x)),
@@ -174,7 +176,7 @@ class Result {
         "highlights": List<dynamic>.from(
             highlights.map((x) => x.toMap())),
         "images": List<dynamic>.from(
-            images.map((x) => x)),
+            images.map((x) => x.toMap())),
         "daily_Itineraries": List<dynamic>.from(
             dailyItineraries.map((x) => x)),
         "discounts": discounts,
@@ -189,6 +191,14 @@ class Result {
         "createdAtUTC": createdAtUtc,
         "updatedAtUTC": updatedAtUtc,
       };
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.name];
+  bool contains(Object element) {
+  return false;
+  }
+
 }
 
 class Destination {
@@ -230,7 +240,7 @@ class Destination {
   String createdBy;
   String createdDate;
   dynamic updatedBy;
-  dynamic updatedDate;
+  String updatedDate;
   String createdAtUtc;
   String updatedAtUtc;
 
@@ -334,12 +344,12 @@ class Food {
   String createdBy;
   String createdDate;
   dynamic updatedBy;
-  dynamic updatedDate;
+  String updatedDate;
   String createdAtUtc;
   String updatedAtUtc;
   String otherServiceName;
   String otherServiceDescription;
-  List<dynamic> otherServicePricing;
+  List<OtherServicePricing> otherServicePricing;
 
   factory Food.fromMap(
           Map<String, dynamic> json) =>
@@ -388,9 +398,11 @@ class Food {
         otherServicePricing:
             json["other_Service_Pricing"] == null
                 ? null
-                : List<dynamic>.from(
+                : List<OtherServicePricing>.from(
                     json["other_Service_Pricing"]
-                        .map((x) => x)),
+                        .map((x) =>
+                            OtherServicePricing
+                                .fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -434,7 +446,81 @@ class Food {
                 ? null
                 : List<dynamic>.from(
                     otherServicePricing
-                        .map((x) => x)),
+                        .map((x) => x.toMap())),
+      };
+}
+
+class OtherServicePricing {
+  OtherServicePricing({
+    this.otherId,
+    this.isOptional,
+    this.isRecomended,
+    this.adultPrice,
+    this.childPrice,
+    this.qtyPrice,
+    this.isDeleted,
+    this.id,
+    this.uid,
+    this.createdBy,
+    this.createdDate,
+    this.updatedBy,
+    this.updatedDate,
+    this.createdAtUtc,
+    this.updatedAtUtc,
+  });
+
+  dynamic otherId;
+  bool isOptional;
+  bool isRecomended;
+  dynamic adultPrice;
+  dynamic childPrice;
+  dynamic qtyPrice;
+  bool isDeleted;
+  dynamic id;
+  String uid;
+  String createdBy;
+  String createdDate;
+  dynamic updatedBy;
+  String updatedDate;
+  String createdAtUtc;
+  String updatedAtUtc;
+
+  factory OtherServicePricing.fromMap(
+          Map<String, dynamic> json) =>
+      OtherServicePricing(
+        otherId: json["other_id"],
+        isOptional: json["is_optional"],
+        isRecomended: json["is_recomended"],
+        adultPrice: json["adult_price"],
+        childPrice: json["child_price"],
+        qtyPrice: json["qty_price"],
+        isDeleted: json["is_deleted"],
+        id: json["id"],
+        uid: json["uid"],
+        createdBy: json["createdBy"],
+        createdDate: json["createdDate"],
+        updatedBy: json["updatedBy"],
+        updatedDate: json["updatedDate"],
+        createdAtUtc: json["createdAtUTC"],
+        updatedAtUtc: json["updatedAtUTC"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "other_id": otherId,
+        "is_optional": isOptional,
+        "is_recomended": isRecomended,
+        "adult_price": adultPrice,
+        "child_price": childPrice,
+        "qty_price": qtyPrice,
+        "is_deleted": isDeleted,
+        "id": id,
+        "uid": uid,
+        "createdBy": createdBy,
+        "createdDate": createdDate,
+        "updatedBy": updatedBy,
+        "updatedDate": updatedDate,
+        "createdAtUTC": createdAtUtc,
+        "updatedAtUTC": updatedAtUtc,
       };
 }
 
@@ -475,7 +561,7 @@ class SitesVisit {
   String createdBy;
   String createdDate;
   dynamic updatedBy;
-  dynamic updatedDate;
+  String updatedDate;
   String createdAtUtc;
   String updatedAtUtc;
 
@@ -483,7 +569,9 @@ class SitesVisit {
           Map<String, dynamic> json) =>
       SitesVisit(
         destinationId: json["destination_id"],
-        isOptional: json["is_optional"],
+        isOptional: json["is_optional"] == null
+            ? null
+            : json["is_optional"],
         title: json["title"],
         description: json["description"],
         hasFixedVisitDay:
@@ -511,7 +599,9 @@ class SitesVisit {
 
   Map<String, dynamic> toMap() => {
         "destination_id": destinationId,
-        "is_optional": isOptional,
+        "is_optional": isOptional == null
+            ? null
+            : isOptional,
         "title": title,
         "description": description,
         "has_fixed_visit_day":
@@ -567,7 +657,7 @@ class Place {
   String createdBy;
   String createdDate;
   dynamic updatedBy;
-  dynamic updatedDate;
+  String updatedDate;
   String createdAtUtc;
   String updatedAtUtc;
 
@@ -648,7 +738,7 @@ class Pricing {
   String createdBy;
   String createdDate;
   dynamic updatedBy;
-  dynamic updatedDate;
+  String updatedDate;
   String createdAtUtc;
   String updatedAtUtc;
 
@@ -736,13 +826,13 @@ class Stay {
   bool isDeleted;
   String title;
   String description;
-  List<dynamic> stayPricings;
+  List<StayPricing> stayPricings;
   dynamic id;
   String uid;
   String createdBy;
   String createdDate;
   dynamic updatedBy;
-  dynamic updatedDate;
+  String updatedDate;
   String createdAtUtc;
   String updatedAtUtc;
 
@@ -750,7 +840,9 @@ class Stay {
           Map<String, dynamic> json) =>
       Stay(
         destinationId: json["destination_id"],
-        isOptional: json["is_optional"],
+        isOptional: json["is_optional"] == null
+            ? null
+            : json["is_optional"],
         stayId: json["stay_id"],
         checkInDay: json["check_in_day"],
         checkInTime: json["check_in_time"],
@@ -762,8 +854,9 @@ class Stay {
         isDeleted: json["is_deleted"],
         title: json["title"],
         description: json["description"],
-        stayPricings: List<dynamic>.from(
-            json["stay_Pricings"].map((x) => x)),
+        stayPricings: List<StayPricing>.from(
+            json["stay_Pricings"].map(
+                (x) => StayPricing.fromMap(x))),
         id: json["id"],
         uid: json["uid"],
         createdBy: json["createdBy"],
@@ -776,7 +869,9 @@ class Stay {
 
   Map<String, dynamic> toMap() => {
         "destination_id": destinationId,
-        "is_optional": isOptional,
+        "is_optional": isOptional == null
+            ? null
+            : isOptional,
         "stay_id": stayId,
         "check_in_day": checkInDay,
         "check_in_time": checkInTime,
@@ -788,7 +883,93 @@ class Stay {
         "title": title,
         "description": description,
         "stay_Pricings": List<dynamic>.from(
-            stayPricings.map((x) => x)),
+            stayPricings.map((x) => x.toMap())),
+        "id": id,
+        "uid": uid,
+        "createdBy": createdBy,
+        "createdDate": createdDate,
+        "updatedBy": updatedBy,
+        "updatedDate": updatedDate,
+        "createdAtUTC": createdAtUtc,
+        "updatedAtUTC": updatedAtUtc,
+      };
+}
+
+class StayPricing {
+  StayPricing({
+    this.stayId,
+    this.isOptional,
+    this.isRecomended,
+    this.roomTypeId,
+    this.roomFoodTypeId,
+    this.adultPrice,
+    this.childPrice,
+    this.roomPrice,
+    this.roomCapacity,
+    this.isDeleted,
+    this.id,
+    this.uid,
+    this.createdBy,
+    this.createdDate,
+    this.updatedBy,
+    this.updatedDate,
+    this.createdAtUtc,
+    this.updatedAtUtc,
+  });
+
+  dynamic stayId;
+  bool isOptional;
+  bool isRecomended;
+  dynamic roomTypeId;
+  dynamic roomFoodTypeId;
+  dynamic adultPrice;
+  dynamic childPrice;
+  dynamic roomPrice;
+  dynamic roomCapacity;
+  bool isDeleted;
+  dynamic id;
+  String uid;
+  String createdBy;
+  String createdDate;
+  dynamic updatedBy;
+  String updatedDate;
+  String createdAtUtc;
+  String updatedAtUtc;
+
+  factory StayPricing.fromMap(
+          Map<String, dynamic> json) =>
+      StayPricing(
+        stayId: json["stay_id"],
+        isOptional: json["is_optional"],
+        isRecomended: json["is_recomended"],
+        roomTypeId: json["room_type_id"],
+        roomFoodTypeId: json["room_food_type_id"],
+        adultPrice: json["adult_price"],
+        childPrice: json["child_price"],
+        roomPrice: json["room_price"],
+        roomCapacity: json["room_capacity"],
+        isDeleted: json["is_deleted"],
+        id: json["id"],
+        uid: json["uid"],
+        createdBy: json["createdBy"],
+        createdDate: json["createdDate"],
+        updatedBy: json["updatedBy"],
+        updatedDate: json["updatedDate"],
+        createdAtUtc: json["createdAtUTC"],
+        updatedAtUtc: json["updatedAtUTC"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "stay_id": stayId,
+        "is_optional": isOptional,
+        "is_recomended": isRecomended,
+        "room_type_id": roomTypeId,
+        "room_food_type_id": roomFoodTypeId,
+        "adult_price": adultPrice,
+        "child_price": childPrice,
+        "room_price": roomPrice,
+        "room_capacity": roomCapacity,
+        "is_deleted": isDeleted,
         "id": id,
         "uid": uid,
         "createdBy": createdBy,
@@ -839,7 +1020,7 @@ class Transport {
   String createdBy;
   String createdDate;
   dynamic updatedBy;
-  dynamic updatedDate;
+  String updatedDate;
   String createdAtUtc;
   String updatedAtUtc;
 
@@ -847,7 +1028,9 @@ class Transport {
           Map<String, dynamic> json) =>
       Transport(
         destinationId: json["destination_id"],
-        isOptional: json["is_optional"],
+        isOptional: json["is_optional"] == null
+            ? null
+            : json["is_optional"],
         transportModeId:
             json["transport_mode_id"],
         title: json["title"],
@@ -872,7 +1055,9 @@ class Transport {
 
   Map<String, dynamic> toMap() => {
         "destination_id": destinationId,
-        "is_optional": isOptional,
+        "is_optional": isOptional == null
+            ? null
+            : isOptional,
         "transport_mode_id": transportModeId,
         "title": title,
         "description": description,
@@ -923,7 +1108,7 @@ class Highlight {
   String createdBy;
   String createdDate;
   dynamic updatedBy;
-  dynamic updatedDate;
+  String updatedDate;
   String createdAtUtc;
   String updatedAtUtc;
 
@@ -955,6 +1140,68 @@ class Highlight {
         "is_main_itinerary_highlight":
             isMainItineraryHighlight,
         "is_deleted": isDeleted,
+        "id": id,
+        "uid": uid,
+        "createdBy": createdBy,
+        "createdDate": createdDate,
+        "updatedBy": updatedBy,
+        "updatedDate": updatedDate,
+        "createdAtUTC": createdAtUtc,
+        "updatedAtUTC": updatedAtUtc,
+      };
+}
+
+class Image {
+  Image({
+    this.pkgeHeaderId,
+    this.isMainImage,
+    this.isDeleted,
+    this.imageUrl,
+    this.id,
+    this.uid,
+    this.createdBy,
+    this.createdDate,
+    this.updatedBy,
+    this.updatedDate,
+    this.createdAtUtc,
+    this.updatedAtUtc,
+  });
+
+  dynamic pkgeHeaderId;
+  bool isMainImage;
+  bool isDeleted;
+  String imageUrl;
+  dynamic id;
+  String uid;
+  String createdBy;
+  String createdDate;
+  dynamic updatedBy;
+  String updatedDate;
+  String createdAtUtc;
+  String updatedAtUtc;
+
+  factory Image.fromMap(
+          Map<String, dynamic> json) =>
+      Image(
+        pkgeHeaderId: json["pkge_header_id"],
+        isMainImage: json["is_main_image"],
+        isDeleted: json["is_deleted"],
+        imageUrl: json["image_url"],
+        id: json["id"],
+        uid: json["uid"],
+        createdBy: json["createdBy"],
+        createdDate: json["createdDate"],
+        updatedBy: json["updatedBy"],
+        updatedDate: json["updatedDate"],
+        createdAtUtc: json["createdAtUTC"],
+        updatedAtUtc: json["updatedAtUTC"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "pkge_header_id": pkgeHeaderId,
+        "is_main_image": isMainImage,
+        "is_deleted": isDeleted,
+        "image_url": imageUrl,
         "id": id,
         "uid": uid,
         "createdBy": createdBy,

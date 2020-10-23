@@ -41,7 +41,8 @@ class _ActivityFilterState extends State<ActivityFilter> {
         child:
 
         Consumer<ActivityResultsModel>(builder: (context, model, child) {
-          return Expanded(
+          return
+            Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
