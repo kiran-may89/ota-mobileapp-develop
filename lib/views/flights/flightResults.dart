@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/models/flights/check_availability_response_entity.dart';
 import 'package:ota/models/flights/flight_search_response.dart';
@@ -67,7 +68,7 @@ class _FlightResultsState
             backgroundColor: CustomColors.White,
             appBar: AppBar(
               title: Text(
-                'Flight Results',
+                getLocalText("flight_results", context),
                 style: CustomStyles.appbar,
               ),
               leading: new IconButton(
@@ -178,7 +179,7 @@ class _FlightResultsState
                                     .only(
                                         top: 40),
                                 child: Text(
-                                    'Something Went Wrong',
+                                    getLocalText("something_went_wrong", context),
                                     textAlign:
                                         TextAlign
                                             .center,
@@ -223,7 +224,7 @@ class _FlightResultsState
                                             .all(
                                                 7.0),
                                     child: Text(
-                                        'No Flights  Found',
+                                        getLocalText("no_flights_found", context),
                                         textAlign:
                                             TextAlign
                                                 .center,
@@ -344,7 +345,7 @@ class _FlightResultsState
                                                   },
                                                   color: CustomColors.Orange,
                                                   child: Text(
-                                                    'EDIT',
+                                                    getLocalText("edit", context),
                                                     style: CustomStyles.calenderStyle.copyWith(color: CustomColors.White, fontSize: 11),
                                                   ),
                                                   elevation: 3,
@@ -412,7 +413,7 @@ class _FlightResultsState
                                                       child: Container(
                                                           margin: EdgeInsets.only(bottom: 10),
                                                           child: Text(
-                                                            'Price :',
+                                                            getLocalText("price", context),
                                                             style: CustomStyles.button_style.copyWith(fontSize: 13),
                                                             textAlign: TextAlign.center,
                                                           )),
@@ -429,7 +430,7 @@ class _FlightResultsState
                                                               Expanded(
                                                                   child: GestureDetector(
                                                                 child: Text(
-                                                                  'Low-High',
+                                                                  getLocalText("low_high", context),
                                                                   style: model.Price_Filter == false ? CustomStyles.button_style.copyWith(fontSize: 13) : CustomStyles.button_style.copyWith(fontSize: 13, color: CustomColors.White.withOpacity(.5)),
                                                                   textAlign: TextAlign.center,
                                                                 ),
@@ -440,7 +441,7 @@ class _FlightResultsState
                                                               Expanded(
                                                                   child: GestureDetector(
                                                                 child: Text(
-                                                                  'High-Low',
+                                                                  getLocalText("high_low", context),
                                                                   style: model.Price_Filter ? CustomStyles.button_style.copyWith(fontSize: 13) : CustomStyles.button_style.copyWith(fontSize: 13, color: CustomColors.White.withOpacity(.5)),
                                                                   textAlign: TextAlign.center,
                                                                 ),
@@ -486,7 +487,7 @@ class _FlightResultsState
                                                           ),
                                                           Padding(
                                                             padding: EdgeInsets.all(7.0),
-                                                            child: Text('Flights Not Found', textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.White)),
+                                                            child: Text(getLocalText("no_flights_found", context), textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.White)),
                                                           ),
                                                           Padding(
                                                             padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
@@ -501,7 +502,7 @@ class _FlightResultsState
                                                                   onPressed: () async {
                                                                     Navigator.pop(context);
                                                                   },
-                                                                  child: Text('Back to Search', style: CustomStyles.normal16.copyWith(color: CustomColors.White)),
+                                                                  child: Text(getLocalText("back_to_search", context), style: CustomStyles.normal16.copyWith(color: CustomColors.White)),
                                                                 ),
                                                               ],
                                                             ),
@@ -521,7 +522,7 @@ class _FlightResultsState
                                                               ),
                                                               Padding(
                                                                 padding: EdgeInsets.all(7.0),
-                                                                child: Text('Flights Not Found', textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.White)),
+                                                                child: Text(getLocalText("no_flights_found", context), textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.White)),
                                                               ),
                                                             ],
                                                           )
@@ -551,7 +552,7 @@ class _FlightResultsState
                                                                       print(return_[i].flyTo);
                                                                     }
                                                                   }
-                                                                  print("Segregating");
+
                                                                 }
                                                               }
 
@@ -770,31 +771,81 @@ class _FlightResultsState
                                                                         model.checkFlightAvailability(model.flightList[index]).then((value) {
                                                                           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
-                                                                          if (value.result.flightsChecked && !value.result.flightsInvalid) {
-                                                                            model.selectedList = [];
 
-                                                                            model.currency = value.result.displayRateInfoWithMarkup.currency;
+                                                                          if(value.result!=null) {
+                                                                            if (value
+                                                                            .result
+                                                                            .flightsChecked && !value
+                                                                            .result
+                                                                            .flightsInvalid) {
+                                                                              model
+                                                                              .selectedList = [
+                                                                              ];
 
-                                                                            model.selectedList.add(model.flightList[index]);
-                                                                            print(model.selectedList);
+                                                                              model
+                                                                              .currency = value
+                                                                              .result
+                                                                              .displayRateInfoWithMarkup
+                                                                              .currency;
 
-                                                                            model.options = value.result.options;
-                                                                            model.tpa = value.result.tpa;
+                                                                              model
+                                                                              .selectedList
+                                                                              .add(model
+                                                                              .flightList[index]);
+                                                                              print(model
+                                                                              .selectedList);
 
-                                                                            model.fXRate = double.parse(value.result.options[6].value);
+                                                                              model
+                                                                              .options = value
+                                                                              .result
+                                                                              .options;
+                                                                              model
+                                                                              .tpa = value
+                                                                              .result
+                                                                              .tpa;
 
-                                                                            model.taxAndOtherCharges = value.result.displayRateInfoWithMarkup.taxAndOtherCharges * model.fXRate;
+                                                                              model
+                                                                              .fXRate = double
+                                                                              .parse(value
+                                                                              .result
+                                                                              .options[6]
+                                                                              .value);
 
-                                                                            model.baseRate = value.result.displayRateInfoWithMarkup.baseRate * model.fXRate;
+                                                                              model
+                                                                              .taxAndOtherCharges = value
+                                                                              .result
+                                                                              .displayRateInfoWithMarkup
+                                                                              .taxAndOtherCharges * model
+                                                                              .fXRate;
 
-                                                                            model.totalPriceWithMarkup = value.result.displayRateInfoWithMarkup.totalPriceWithMarkup * model.fXRate;
+                                                                              model
+                                                                              .baseRate = value
+                                                                              .result
+                                                                              .displayRateInfoWithMarkup
+                                                                              .baseRate * model
+                                                                              .fXRate;
 
-                                                                            Navigator.pushNamed(context, Routes.flightDetails, arguments: model.getArguments());
+                                                                              model
+                                                                              .totalPriceWithMarkup = value
+                                                                              .result
+                                                                              .displayRateInfoWithMarkup
+                                                                              .totalPriceWithMarkup * model
+                                                                              .fXRate;
 
-                                                                            print("Available");
-                                                                          } else {
-                                                                            print("Not Available");
-                                                                            showUnavailableDialog(context);
+                                                                              Navigator
+                                                                              .pushNamed(context, Routes
+                                                                              .flightDetails, arguments: model
+                                                                              .getArguments());
+
+                                                                              print("Available");
+                                                                            } else {
+                                                                              print("Not Available");
+                                                                              showUnavailableDialog(context, "flight_unavailable");
+                                                                            }
+                                                                          }else{
+
+                                                                            showUnavailableDialog(context, "something_went_wrong");
+
                                                                           }
                                                                         });
                                                                       },
@@ -1196,27 +1247,71 @@ class _FlightResultsState
 
                                                                         model.checkFlightAvailability(model.flightList[index]).then((value) {
                                                                           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+                                                                          if(value.result!=null) {
+                                                                            if (value
+                                                                            .result
+                                                                            .flightsChecked && !value
+                                                                            .result
+                                                                            .flightsInvalid) {
+                                                                              model
+                                                                              .selectedList = [
+                                                                              ];
 
-                                                                          if (value.result.flightsChecked && !value.result.flightsInvalid) {
-                                                                            model.selectedList = [];
+                                                                              model
+                                                                              .selectedList
+                                                                              .add(model
+                                                                              .flightList[index]);
 
-                                                                            model.selectedList.add(model.flightList[index]);
+                                                                              model
+                                                                              .currency = value
+                                                                              .result
+                                                                              .displayRateInfoWithMarkup
+                                                                              .currency;
 
-                                                                            model.currency = value.result.displayRateInfoWithMarkup.currency;
+                                                                              model
+                                                                              .options = value
+                                                                              .result
+                                                                              .options;
+                                                                              model
+                                                                              .tpa = value
+                                                                              .result
+                                                                              .tpa;
+                                                                              model
+                                                                              .fXRate = double
+                                                                              .parse(value
+                                                                              .result
+                                                                              .options[6]
+                                                                              .value);
+                                                                              model
+                                                                              .taxAndOtherCharges = value
+                                                                              .result
+                                                                              .displayRateInfoWithMarkup
+                                                                              .taxAndOtherCharges;
+                                                                              model
+                                                                              .baseRate = value
+                                                                              .result
+                                                                              .displayRateInfoWithMarkup
+                                                                              .baseRate;
+                                                                              model
+                                                                              .totalPriceWithMarkup = value
+                                                                              .result
+                                                                              .displayRateInfoWithMarkup
+                                                                              .totalPriceWithMarkup * model
+                                                                              .fXRate;
 
-                                                                            model.options = value.result.options;
-                                                                            model.tpa = value.result.tpa;
-                                                                            model.fXRate = double.parse(value.result.options[6].value);
-                                                                            model.taxAndOtherCharges = value.result.displayRateInfoWithMarkup.taxAndOtherCharges;
-                                                                            model.baseRate = value.result.displayRateInfoWithMarkup.baseRate;
-                                                                            model.totalPriceWithMarkup = value.result.displayRateInfoWithMarkup.totalPriceWithMarkup * model.fXRate;
+                                                                              Navigator
+                                                                              .pushNamed(context, Routes
+                                                                              .flightDetails, arguments: model
+                                                                              .getArguments());
 
-                                                                            Navigator.pushNamed(context, Routes.flightDetails, arguments: model.getArguments());
+                                                                              print("Available");
+                                                                            } else {
+                                                                              print("Not Available");
+                                                                              showUnavailableDialog(context, "flight_unavailable");
+                                                                            }
+                                                                          }else{
 
-                                                                            print("Available");
-                                                                          } else {
-                                                                            print("Not Available");
-                                                                            showUnavailableDialog(context);
+                                                                            showUnavailableDialog(context, "something_went_wrong");
                                                                           }
                                                                         });
                                                                       },
@@ -1282,8 +1377,7 @@ class _FlightResultsState
                             .spaceBetween,
                     children: <Widget>[
                       Text(
-                        strings
-                            .filter_destination,
+                        getLocalText("filter", context),
                         style: CustomStyles.appbar
                             .copyWith(
                                 color:
@@ -1307,7 +1401,7 @@ class _FlightResultsState
   }
 
   void showUnavailableDialog(
-      BuildContext context) {
+      BuildContext context, String message) {
     Dialog simpleDialog = Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
@@ -1327,7 +1421,7 @@ class _FlightResultsState
             ),
             Padding(
               padding: EdgeInsets.all(7.0),
-              child: Text('Flight Unavailable',
+              child: Text(getLocalText(message, context),
                   textAlign: TextAlign.center,
                   style: CustomStyles.normal20),
             ),
@@ -1354,7 +1448,7 @@ class _FlightResultsState
                     onPressed: () async {
                       Navigator.pop(context);
                     },
-                    child: Text('OK',
+                    child: Text(getLocalText("ok", context),
                         style: CustomStyles
                             .normal16
                             .copyWith(
@@ -1373,5 +1467,11 @@ class _FlightResultsState
         context: context,
         builder: (BuildContext context) =>
             simpleDialog);
+  }
+
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

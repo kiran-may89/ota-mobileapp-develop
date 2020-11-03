@@ -4,6 +4,7 @@ import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/card_form.dart';
 import 'package:ota/models/hotels/responses/hotel_details_response.result.dart';
 
@@ -57,10 +58,16 @@ class HotelPayment extends StatelessWidget {
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 title: Text(
-                  strings.paymentOptions,
+                  getLocalText("payment_options", context),
                   style: CustomStyles.appbar,
                 ),
+                leading: new IconButton(
+                  icon: new Icon(Icons.arrow_back_ios, color: Colors.white,size: 13,),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+
               ),
+
               body: LayoutBuilder(
                 builder: (context, constraints) {
                   return SingleChildScrollView(
@@ -80,7 +87,7 @@ class HotelPayment extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    'Hotel - ${model.hotel.hotel.name}',
+                                    'hotel - ${model.hotel.hotel.name}',
                                     style: CustomStyles.heading,
                                   ),
                                   SizedBox(
@@ -88,7 +95,7 @@ class HotelPayment extends StatelessWidget {
                                   ),
                                   Text(
                                     '${convertToDate(model.hotel.checkIn)} - ${convertToDate(model.hotel.checkOut)} '
-                                    '| Rooms ${model.hotel.hotel.roomOption[selectGroup].rooms.length.toString()} | ${model.totalGuest} Guest',
+                                    '|  ${getLocalText("rooms", context)} ${model.hotel.hotel.roomOption[selectGroup].rooms.length.toString()} | ${model.totalGuest} ${getLocalText("guest", context)}',
                                     style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),
                                   )
                                 ],
@@ -102,8 +109,8 @@ class HotelPayment extends StatelessWidget {
                                   },
                                   color: CustomColors.Orange,
                                   child: Text(
-                                    'EDIT',
-                                    style: CustomStyles.calenderStyle.copyWith(color: CustomColors.White),
+                                     getLocalText("edit", context),
+                                  style: CustomStyles.calenderStyle.copyWith(color: CustomColors.White),
                                   ),
                                 ),
                               ),
@@ -128,7 +135,7 @@ class HotelPayment extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    "Base Price",
+                                    getLocalText("base_rate", context),
                                     style: CustomStyles.normal14,
                                   ),
                                   Text(
@@ -143,7 +150,7 @@ class HotelPayment extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    "Tax & Other Charges",
+                                    getLocalText("tax_and_other_charges", context),
                                     style: CustomStyles.normal14,
                                   ),
                                   Text(
@@ -165,7 +172,7 @@ class HotelPayment extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    "Total Amount",
+                                    getLocalText("total_amount_payable", context),
                                     style: CustomStyles.normal14,
                                   ),
                                   Text(
@@ -194,7 +201,7 @@ class HotelPayment extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Apply Coupon',
+                                  getLocalText("apply_coupon", context),
                                   style: CustomStyles.medium14.copyWith(color: CustomColors.heading.withOpacity(.5)),
                                 ),
                                 SizedBox(height: 20),
@@ -212,7 +219,7 @@ class HotelPayment extends StatelessWidget {
                                   height: 25,
                                 ),
                                 Text(
-                                  'Payment Options',
+                                  getLocalText("payment_options", context),
                                   style: CustomStyles.medium14.copyWith(color: CustomColors.heading.withOpacity(.5)),
                                 ),
                                 SizedBox(
@@ -230,7 +237,7 @@ class HotelPayment extends StatelessWidget {
                                         width: 20,
                                       ),
                                       Text(
-                                        'Credit / Debit / ATM Card',
+                                        getLocalText("credit_card", context),
                                         style: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),
                                       ),
                                       Flexible(fit: FlexFit.tight, child: SizedBox()),
@@ -242,49 +249,17 @@ class HotelPayment extends StatelessWidget {
                                     ],
                                   ),
                                   onTap: () async {
-                                    model.changeCardMode();
+                                   // model.changeCardMode();
+
+                                  Navigator.pushNamed(context, Routes.hotelCCDetails,arguments: _model);
                                   },
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        Visibility(
-                            visible: !model.isCardMode,
-                            child: Column(
-                              children: [
-                                CreditCardWidget(
-                                  cardNumber: model.card.number ?? '',
-                                  expiryDate: '${model.card.expiry?.month ?? ''}/${model.card.expiry?.year ?? ''}',
-                                  cardHolderName: model.holderName,
-                                  cvvCode: model.card.securityCode ?? '',
-                                  showBackView: model.isCvvFocused,
-                                ),
-                                CardForm(
-                                  formKey: _formKey,
-                                  onCreditCardModelChange: model.onCreditCardModelChange,
-                                ),
-                              ],
-                            )),
-                        SizedBox(
-                          width: SizeConstants.SIZE_100 * 2,
-                          height: SizeConstants.SIZE_48,
-                          child: RaisedButton(
-                              padding: EdgeInsets.all(SizeConstants.SIZE_16),
-                              color: CustomColors.Orange,
-                              child: Text(
-                                "Proceed",
-                                style: CustomStyles.button_style,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  startTransaction(context);
-                                }
-                              }),
-                        ),
+
+                   
                         SizedBox(
                           height: SizeConstants.SIZE_12,
                         )
@@ -296,5 +271,9 @@ class HotelPayment extends StatelessWidget {
         },
       ),
     );
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

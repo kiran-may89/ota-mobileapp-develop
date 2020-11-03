@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/onboard/response/signup_response.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/utils/colors.dart';
@@ -44,7 +45,7 @@ class _OtpVerificationState extends State<OtpVerification> {
       Navigator.pop(context);
       if (!value.isError) {
         SessionManager.getInstance().isGuest = false;
-        Navigator.pushNamed(context, Routes.details);
+        Navigator.pushNamed(context, Routes.dashboard);
       } else {
         Dialogs.showErrorPopup(context, messaage: value.apiException.responseException.exceptionMessage);
       }
@@ -102,14 +103,14 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 height: 9,
                               ),
                               Text(
-                                strings.hi,
+                                getLocalText("hi", context),
                                 style: CustomStyles.style1,
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Text(
-                                strings.verify_your_mail,
+                                getLocalText('verify_your_email', context),
                                 style: CustomStyles.style2,
                               ),
                             ],
@@ -125,7 +126,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                               ),
                               Center(
                                 child: Text(
-                                  strings.otp_has_been_sent,
+                                  getLocalText('otp_has_been_sent', context),
                                   style: CustomStyles.style3.copyWith(color: CustomColors.White.withOpacity(.5)),
                                 ),
                               ),
@@ -169,7 +170,7 @@ class _OtpVerificationState extends State<OtpVerification> {
 
                                   child: FlatButton(
                                     child: Text(
-                                      strings.resend_otp,
+                                      getLocalText("resend_otp", context),
                                       style: CustomStyles.button_style.copyWith(fontSize: 12),
                                     ),
                                     shape:
@@ -187,7 +188,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 child: RaisedButton(
                                     color: CustomColors.Orange,
                                     child: Text(
-                                      "Continue",
+                                      getLocalText("continue", context),
                                       style: CustomStyles.button_style,
                                     ),
                                     shape: RoundedRectangleBorder(
@@ -235,5 +236,9 @@ class _OtpVerificationState extends State<OtpVerification> {
             );
           },
         ));
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

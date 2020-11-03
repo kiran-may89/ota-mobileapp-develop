@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/common/country_codes_response_entity.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/net/service/transfers/transfer_results_data.dart';
 import 'package:ota/utils/Dash_seperator.dart';
 import 'package:ota/utils/colors.dart';
@@ -25,7 +28,7 @@ class Passenger_info extends StatefulWidget {
       _Passenger_infoState(transferResultsData);
 }
 
-class _Passenger_infoState extends State<Passenger_info> {
+class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
 
 
 
@@ -58,7 +61,7 @@ class _Passenger_infoState extends State<Passenger_info> {
     width = MediaQuery.of(context).size.width / 10;
 
     return ChangeNotifierProvider<TransferPassengerModel>(
-      create: (context) => TransferPassengerModel(transferResultsData),
+      create: (context) => TransferPassengerModel(transferResultsData,this),
       child: Consumer<TransferPassengerModel>(
         builder: (context, model, child) {
           return Scaffold(
@@ -114,12 +117,12 @@ class _Passenger_infoState extends State<Passenger_info> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(model.requestData.oneWay ? 'One Way' : 'Round Trip', style: CustomStyles.heading,),
+                                      Text(model.requestData.oneWay ? getLocalText("one_way", context):getLocalText("round_trip", context), style: CustomStyles.heading,),
                                       SizedBox( height: 7,),
                                       Wrap(
                                         children: <Widget>[
                                           Text(
-                                            "Source : ",
+                                          getLocalText("source", context),
                                             style: CustomStyles.calenderStyle.copyWith( color: CustomColors.heading, fontWeight: FontWeight.w700),
                                           ),
                                           Text(
@@ -137,7 +140,7 @@ class _Passenger_infoState extends State<Passenger_info> {
                                       Wrap(
                                         children: <Widget>[
                                           Text(
-                                            "Destination : ",
+                                          getLocalText("destination", context),
                                             style: CustomStyles.calenderStyle.copyWith( color: CustomColors.heading, fontWeight: FontWeight.w700),
                                           ),
                                           Text(
@@ -161,7 +164,7 @@ class _Passenger_infoState extends State<Passenger_info> {
                                     },
                                     color: CustomColors.Orange,
                                     child: Text(
-                                      'EDIT', style: CustomStyles.calenderStyle.copyWith(color: CustomColors.White),
+                                    getLocalText("edit", context), style: CustomStyles.calenderStyle.copyWith(color: CustomColors.White),
                                     ),
                                     elevation: 3,
                                     shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5.0),),
@@ -228,7 +231,7 @@ class _Passenger_infoState extends State<Passenger_info> {
                                                   margin: EdgeInsets.symmetric(
                                                       horizontal:
                                                           SizeConstants.SIZE_12),
-                                                  child: Text("Passenger",
+                                                  child: Text(getLocalText("passenger", context),
                                                       style:
                                                           CustomStyles.medium16),
                                                 )),
@@ -263,7 +266,7 @@ class _Passenger_infoState extends State<Passenger_info> {
                                                       ),
                                                       Text(
                                                           model.email.text!= null
-                                                              ? ', Email: ${model.email.text}'
+                                                              ? ', ${getLocalText("email", context)}: ${model.email.text}'
                                                               : '',
                                                           style: CustomStyles
                                                               .medium16
@@ -341,7 +344,9 @@ class _Passenger_infoState extends State<Passenger_info> {
                                             model.selectedVehicleData.first
                                                 .carClass.capacity
                                                 .toString() +
-                                                ' Seater',
+                                                ' ${
+                                                getLocalText("seater", context)
+                                                }',
                                             style:
                                             CustomStyles.calenderStyle,
                                           ),
@@ -354,7 +359,7 @@ class _Passenger_infoState extends State<Passenger_info> {
                                   ),
                                   RaisedButton(
                                     child: Text(
-                                      'CONTINUE',
+                                      getLocalText("continue", context),
                                       style: CustomStyles.button_style,
                                     ),
                                     color: CustomColors.Orange,
@@ -373,6 +378,8 @@ class _Passenger_infoState extends State<Passenger_info> {
                                           model
                                               .placeTransferOrder()
                                               .then((value) {
+                                                if(value!=null)
+                                                  {
                                             Navigator.of(
                                                 _keyLoader.currentContext,
                                                 rootNavigator: true)
@@ -380,17 +387,13 @@ class _Passenger_infoState extends State<Passenger_info> {
 
                                             print(value.isError);
 
-                                            if (!value.isError) {
                                               Navigator.pushNamed(context,
                                               Routes.travelPaymentOptions,
                                                   arguments:
                                                   model.getArgumentData());
-                                            }else{
-                                              print(value.responseException);
-
-                                              showUnavailableDialog(context,value.responseException.toString());
-
                                             }
+                                                else
+                                                  return null;
                                           });
                                         }
                                       }else{
@@ -423,7 +426,7 @@ class _Passenger_infoState extends State<Passenger_info> {
 
         SizedBox(height: 10,),
              Text(
-        "Enter your name as it is mentioned on valid Govt. ID",
+        getLocalText("enter_your_name_as_in_id", context),
              style: CustomStyles.normal12
             .copyWith(color: CustomColors.disabledButton)),
         SizedBox(height: 5,),
@@ -440,13 +443,13 @@ class _Passenger_infoState extends State<Passenger_info> {
          onChanged: (newValue) {
             model.setPassengerCount(newValue);
           },
-           validator:(value) =>value == null ? "select number of passengers" : null,
+           validator:(value) =>value == null ? getLocalText("no_of_passengers", context) : null,
          value: model.passengers,
          decoration: InputDecoration(
          contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
          filled: true,
          fillColor: Colors.white,
-         labelText: "Number of Passengers",
+         labelText: getLocalText("no_of_passengers", context),
              border: new UnderlineInputBorder(
                  borderSide: new BorderSide(
                      color:CustomColors.disabledButton
@@ -461,12 +464,14 @@ class _Passenger_infoState extends State<Passenger_info> {
 
 
         TextFormField(
-
+        inputFormatters: [
+        LengthLimitingTextInputFormatter(30),
+        ],
           textInputAction: TextInputAction.next,
           style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround),
           decoration: InputDecoration(
           alignLabelWithHint: true,
-              labelText: "First Name",
+          labelText: getLocalText("first_name", context),
               labelStyle: CustomStyles.normal16
                   .copyWith(color: CustomColors.disabledButton),
           ),
@@ -478,26 +483,40 @@ class _Passenger_infoState extends State<Passenger_info> {
           FocusScope.of(context).requestFocus(lastNameFocus);
           },
           validator: (value) {
-            return value == null || value.isEmpty ? "Enter First Name" : null;
+            final validCharacters = RegExp(
+                r'[1234567890!@#$%^&*(),.?":{}|<>]');
+
+            if(validCharacters.hasMatch(value))
+              return "Enter Correct Name";
+
+          return value == null || value.isEmpty ? getLocalText("enter_first_name", context) : null;
           },
 
         ),
 
 
         TextFormField(
+        inputFormatters: [
+        LengthLimitingTextInputFormatter(30),
+        ],
         focusNode: lastNameFocus,
           controller: model.lastName,
           textInputAction: TextInputAction.next,
           style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround),
           decoration: InputDecoration(
           alignLabelWithHint: true,
-            labelText: "Last Name",
+          labelText: getLocalText("last_name", context),
             labelStyle: CustomStyles.normal16
                 .copyWith(color: CustomColors.disabledButton),
           ),
-          validator: (value) {
-            return value == null || value.isEmpty ? "Enter Last Name" : null;
-          },
+        validator: (value) {
+          final validCharacters = RegExp(
+              r'[1234567890!@#$%^&*(),.?":{}|<>]');
+
+          if(validCharacters.hasMatch(value))
+            return "Enter Correct Name";
+        return value == null || value.isEmpty ? getLocalText("enter_last_name", context) : null;
+        },
 
           onFieldSubmitted: (v){
 
@@ -513,7 +532,7 @@ class _Passenger_infoState extends State<Passenger_info> {
           style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround),
           decoration: InputDecoration(
           alignLabelWithHint: true,
-            labelText: "Email *",
+          labelText: getLocalText("email_id", context),
             labelStyle: CustomStyles.normal16
                 .copyWith(color: CustomColors.disabledButton),
           ),
@@ -522,21 +541,23 @@ class _Passenger_infoState extends State<Passenger_info> {
         FocusScope.of(context).requestFocus(mobileNode);
         },
 
-          validator: (input) =>input.isEmpty?"Enter Email": isValidEmail(input) ? null : "Enter Valid Email Id",
+        validator: (input) => input.isEmpty ? getLocalText("enter_email", context) : isValidEmail(input) ? null : getLocalText("enter_valid_email", context) ,
 
         ),
 
-
+          SizedBox(height: 10,),
         Container(
         decoration: BoxDecoration(border: Border(bottom: BorderSide(color: CustomColors.disabledButton, width: 2))),
         child: InternationalPhoneNumberInput(
         focusNode: mobileNode,
 
-           selectorConfig: SelectorConfig(
+          isEnabled: true,
+
+          selectorConfig: SelectorConfig(
            selectorType: PhoneInputSelectorType.DIALOG),
            onInputChanged: (PhoneNumber number) {
 
-
+           FocusScope.of(context).requestFocus(mobileNode);
             model.changeCountryCodeSelection(number.dialCode);
 
              },
@@ -552,27 +573,28 @@ class _Passenger_infoState extends State<Passenger_info> {
              phoneValid = value;
             },
 
-             validator: (value) {
-            if (!phoneValid) {
-             return "Invalid Phone number";
-              }
-             return null;
-             },
+        validator: (value) {
+        if (!phoneValid) {
+        return getLocalText("enter_valid_phone_number", context);
+        }
+        return null;
+        },
 
 
            inputDecoration: InputDecoration(
            alignLabelWithHint: true,
-           labelText: "Mobile Number",
-           labelStyle: CustomStyles.normal16
+            labelStyle: CustomStyles.normal16
            .copyWith(color: CustomColors.disabledButton),
-           border: InputBorder.none,
-           focusedBorder: InputBorder.none,
-           enabledBorder: InputBorder.none,
-           errorBorder: InputBorder.none,
-           disabledBorder: InputBorder.none,
+          // border: InputBorder.none,
+             labelText: getLocalText("enter_phone_number", context),
+
+//             focusedBorder: InputBorder.none,
+//           enabledBorder: InputBorder.none,
+//           errorBorder: InputBorder.none,
+//           disabledBorder: InputBorder.none,
            ),
             ignoreBlank: false,
-            initialValue: model.phoneNumber,
+           // initialValue: model.phoneNumber,
            ),
         ),
 
@@ -590,17 +612,16 @@ class _Passenger_infoState extends State<Passenger_info> {
                 readOnly: true,
                 controller: TextEditingController(text: model.destinationDate),
 
-
                 validator: (value) {
-                  return value == null || value.isEmpty ? "Select Departure Date" : null;
+                  return value == null || value.isEmpty ? getLocalText("departure_date_required", context) : null;
                 },
                  // initialValue: model.destinationDate ?? '',
                 style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
                 decoration: InputDecoration(
+                  labelText: getLocalText("departure_time", context),
                 alignLabelWithHint: true,
-                labelStyle: CustomStyles.normal16
-                .copyWith(color: CustomColors.disabledButton),
-                  labelText:  "Departure Date",
+                labelStyle: CustomStyles.normal16,
+
 
                 ),
               ),
@@ -625,14 +646,14 @@ class _Passenger_infoState extends State<Passenger_info> {
 
 
                 validator: (value) {
-                  return value == null || value.isEmpty ? "Select Departure Time" : null;
+                  return value == null || value.isEmpty ? getLocalText("departure_time_required", context) : null;
                 },
                 // initialValue: model.destinationDate ?? '',
                 style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
                 decoration: InputDecoration(
                 labelStyle: CustomStyles.normal16
                 .copyWith(color: CustomColors.disabledButton),
-                  labelText:  "Departure Time",
+                  labelText: getLocalText("departure_time", context),
                   alignLabelWithHint: true,
 
                 ),
@@ -655,14 +676,14 @@ class _Passenger_infoState extends State<Passenger_info> {
 
 
               validator: (value) {
-                return value == null || value.isEmpty ? "Select PickUp Date" : null;
+                return value == null || value.isEmpty ? getLocalText("pickup_date_required", context) : null;
               },
               // initialValue: model.destinationDate ?? '',
               style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
               decoration: InputDecoration(
               labelStyle: CustomStyles.normal16
               .copyWith(color: CustomColors.disabledButton),
-                labelText:  "PickUp Date",
+                labelText:  getLocalText("pick_up_date", context),
                 alignLabelWithHint: true,
 
               ),
@@ -684,14 +705,14 @@ class _Passenger_infoState extends State<Passenger_info> {
 
 
               validator: (value) {
-                return value == null || value.isEmpty ? "Select Pickup Time" : null;
+                return value == null || value.isEmpty ? getLocalText("pickup_time_required", context) : null;
               },
               // initialValue: model.destinationDate ?? '',
               style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
               decoration: InputDecoration(
               labelStyle: CustomStyles.normal16
               .copyWith(color: CustomColors.disabledButton),
-                labelText:  "PickUp Time",
+                labelText:  getLocalText("pick_up_time", context),
                 alignLabelWithHint: true,
 
               ),
@@ -712,11 +733,11 @@ class _Passenger_infoState extends State<Passenger_info> {
                      model.changeTrainFlightNumber(value,"start");
                   },
                 validator: (value) {
-                  return value == null || value.isEmpty ? "Flight No/Train Number" : null;
+                  return value == null || value.isEmpty ? getLocalText("flight_or_train_number", context) : null;
                 },
                   decoration: InputDecoration(
                   alignLabelWithHint: true,
-                    labelText: "Enter Flight No/Train Number",
+                    labelText: getLocalText("flight_or_train_number", context) ,
                     labelStyle: CustomStyles.normal16
                         .copyWith(color: CustomColors.disabledButton),
                     // suffixIcon: Icon(Icons.event_available,color: CustomColors.disabledButton,)
@@ -741,13 +762,13 @@ class _Passenger_infoState extends State<Passenger_info> {
                  onChanged: (newValue) {
                    model.setCarriageTerminalNumber(newValue,"start");
                  },
-                 validator:(value) =>value == null ? "Select Arrival Terminal" : null,
+                 validator:(value) =>value == null ?getLocalText("arrival_terminal_required", context) : null,
                  value: model.startTerminalOrCarriageNumber,
                  decoration: InputDecoration(
                      contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
                      alignLabelWithHint: true,
                      fillColor: Colors.white,
-                     labelText: "Arrival Terminal",
+                     labelText: getLocalText("arrival_terminal", context),
                      labelStyle: CustomStyles.normal16
                      .copyWith(color: CustomColors.disabledButton),
                      border: new UnderlineInputBorder(
@@ -779,11 +800,11 @@ class _Passenger_infoState extends State<Passenger_info> {
               model.changeTrainFlightNumber(value,"finish");
             },
             validator: (value) {
-              return value == null || value.isEmpty ? "Flight No/Train Number" : null;
+              return value == null || value.isEmpty ? getLocalText("flight_or_train_number", context) : null;
             },
             decoration: InputDecoration(
             alignLabelWithHint: true,
-              labelText: "Enter Flight No/Train Number",
+              labelText: getLocalText("flight_or_train_number", context),
               labelStyle: CustomStyles.normal16
                   .copyWith(color: CustomColors.disabledButton),
               // suffixIcon: Icon(Icons.event_available,color: CustomColors.disabledButton,)
@@ -809,13 +830,13 @@ class _Passenger_infoState extends State<Passenger_info> {
             onChanged: (newValue) {
               model.setCarriageTerminalNumber(newValue,"finish");
             },
-            validator:(value) =>value == null ? "Select Arrival Terminal" : null,
+            validator:(value) =>value == null ? getLocalText("arrival_terminal_required", context) : null,
             value: model.finishTerminalOrCarriageNumber,
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
                 alignLabelWithHint: true,
                 fillColor: Colors.white,
-                labelText: "Arrival Terminal",
+                labelText: getLocalText("arrival_terminal", context),
                 labelStyle: CustomStyles.normal16
                 .copyWith(color: CustomColors.disabledButton),
                 border: new UnderlineInputBorder(
@@ -897,7 +918,7 @@ class _Passenger_infoState extends State<Passenger_info> {
                   SizedBox(child: FlatButton(onPressed: (){
                     Navigator.pop(context);
 
-                  }, child: Text('Cancel'),
+                  }, child: Text(getLocalText("cancel", context)),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),side: BorderSide(color: CustomColors.disabledButton,width: 2))
 
@@ -906,7 +927,7 @@ class _Passenger_infoState extends State<Passenger_info> {
 
                   SizedBox(child: FlatButton(
 
-                   child: Text('Ok'),
+                   child: Text(getLocalText("ok", context)),
                    shape: RoundedRectangleBorder(
                    borderRadius: BorderRadius.circular(15.0),
                        side: BorderSide(color: CustomColors.disabledButton,width: 2)
@@ -1021,7 +1042,16 @@ class _Passenger_infoState extends State<Passenger_info> {
 
   }
 
+  @override
+  void onError(String message, bool isFromCreditCard, String asset) {
+   Dialogs.showGenericErrorPopup(context, message, isFromCreditCard, asset);
+  }
 
+
+getLocalText(String key, BuildContext context) {
+
+return  AppLocalizations.of(context).translate(key);
+}
 
 
 }

@@ -159,6 +159,14 @@ class Activity_Model extends ChangeNotifier {
 
   bool validateData(GlobalKey<ScaffoldState> scaffoldKey) {
 
+    bool isGuestError =false;
+
+    if(adultCount!=0) {
+      Age.forEach((element) {
+        if (element == 0)
+          isGuestError = true;
+      });
+    }
 
     SnackBar snackBar;
 
@@ -205,7 +213,20 @@ class Activity_Model extends ChangeNotifier {
       return false;
 
 
-    }else{
+    }
+    else if(isGuestError)
+      {
+        snackBar = SnackBar(content: Text("Add Guests Age",style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
+          backgroundColor: CustomColors.BackGround,);
+
+        scaffoldKey.currentState.showSnackBar(snackBar);
+
+        return false;
+
+      }
+
+
+    else{
       return true;
     }
 //    else{

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/net/service/my_bookings/booking_service.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/strings.dart';
@@ -36,7 +37,7 @@ class _MyBookingsView extends State<MyBookingsView>
           return Scaffold(
 
             appBar: AppBar(
-              title: Text(strings.my_bookings),
+              title: Text(getLocalText("my_bookings", context)),
               backgroundColor: CustomColors.BackGround,
               leading: new IconButton(
                 icon: new Icon(
@@ -55,13 +56,13 @@ class _MyBookingsView extends State<MyBookingsView>
                 labelColor: CustomColors.Orange,
                 tabs: [
                   new Tab(
-                    text: strings.my_bookings_upcoming,
+                    text: getLocalText("upcoming", context),
                   ),
                   new Tab(
-                    text: strings.my_bookings_completed,
+                    text: getLocalText("completed", context),
                   ),
                   new Tab(
-                    text: "Cancelled",
+                    text: getLocalText("cancelled", context),
                   ),
                 ],
                 controller: _tabController,
@@ -99,18 +100,18 @@ class _MyBookingsView extends State<MyBookingsView>
         ),
         PopupMenuItem<String>(
           value: "FLT",
-          child: Text("Flights") ,
+          child: Text(getLocalText("flights", context)) ,
         ),
         PopupMenuItem<String>(
           value: "HTL",
-          child: Text("Hotels") ,
+          child: Text(getLocalText("hotels", context)) ,
         ),
         PopupMenuItem<String>(
           value: "TRF",
-          child: Text("Transfers") ,
+          child: Text(getLocalText("transfers", context)) ,
         ),
         PopupMenuItem<String>(
-          child: Text("Activities") ,
+          child: Text(getLocalText("activities", context)) ,
           value: "ACT",
         ),
 
@@ -128,6 +129,9 @@ class _MyBookingsView extends State<MyBookingsView>
      _viewModel.getFilteredList(choice);
 
   }
+  getLocalText(String key, BuildContext context) {
 
+    return  AppLocalizations.of(context).translate(key);
+  }
 
 }

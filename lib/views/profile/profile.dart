@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
@@ -56,7 +57,8 @@ class _ProfileState extends State<Profile> {
               Navigator.of(context).pop(),
         ),
         title: Text(
-          'Profile',
+          getLocalText("profile", context)
+          ,
           style: CustomStyles.appbar,
         ),
         elevation: 0.0,
@@ -99,7 +101,7 @@ class _ProfileState extends State<Profile> {
                       enabled: model.editStatus,
                       validator: (value) {
                         return value.isEmpty
-                        ? "Enter First Name"
+                        ? getLocalText("enter_first_name", context)
                         : null;
                       },
                       controller: model.firstName,
@@ -112,7 +114,7 @@ class _ProfileState extends State<Profile> {
                         labelStyle: CustomStyles
                         .medium16.copyWith(color: CustomColors.disabledButton),
                         labelText:
-                        "First Name",
+                        getLocalText("first_name", context),
                         alignLabelWithHint:
                         true,
 
@@ -124,7 +126,7 @@ class _ProfileState extends State<Profile> {
                       enabled: model.editStatus,
                       controller: model.lastName,
                       validator: (value) {
-                        return value.isEmpty ? "Enter Last Name" : null;
+                        return value.isEmpty ? getLocalText("enter_last_name", context): null;
                       },
                       style: CustomStyles
                       .medium16
@@ -135,7 +137,7 @@ class _ProfileState extends State<Profile> {
                         labelStyle: CustomStyles
                         .medium16.copyWith(color: CustomColors.disabledButton),
                         labelText:
-                        "Last Name",
+                        getLocalText("last_name", context),
                         alignLabelWithHint: true,
 
 
@@ -147,7 +149,7 @@ class _ProfileState extends State<Profile> {
 
                       controller: model.dateOfBirth,
 
-                      validator: (input) =>input.isEmpty?"Enter DOB":null ,
+                      validator: (input) =>input.isEmpty?getLocalText("enter_date_of_birth", context):null ,
 
                       style: CustomStyles
                       .medium16
@@ -160,7 +162,7 @@ class _ProfileState extends State<Profile> {
                         .copyWith(
                         color: CustomColors.disabledButton),
                         labelText:
-                        "Date of Birth",
+                        getLocalText("date_of_birth", context),
                         alignLabelWithHint:
                         true,
 
@@ -174,7 +176,7 @@ class _ProfileState extends State<Profile> {
 
                       controller: model.emailId,
 
-                      validator: (input) =>input.isEmpty?"Enter Email": isValidEmail(input) ? null : "Enter Valid Email Id",
+                      validator: (input) =>input.isEmpty?getLocalText("enter_email", context): isValidEmail(input) ? null :getLocalText("enter_valid_email", context),
 
                       style: CustomStyles
                       .medium16
@@ -187,7 +189,7 @@ class _ProfileState extends State<Profile> {
                         .copyWith(
                         color: CustomColors.disabledButton),
                         labelText:
-                        "Email Id",
+                       getLocalText("email_id", context),
                         alignLabelWithHint:
                         true,
 
@@ -201,7 +203,7 @@ class _ProfileState extends State<Profile> {
                       controller: model.locationName,
                       validator: (value) {
                         return value.isEmpty
-                        ? "Enter Location"
+                        ? getLocalText("location", context)
                         : null;
                       },
                       style: CustomStyles
@@ -215,7 +217,7 @@ class _ProfileState extends State<Profile> {
                         .copyWith(
                         color: CustomColors.disabledButton),
                         labelText:
-                        "Location Name",
+                        getLocalText("location_name", context),
                         alignLabelWithHint:
                         true,
 
@@ -229,7 +231,7 @@ class _ProfileState extends State<Profile> {
                       controller: model.locationName,
                       validator: (value) {
                         return value.isEmpty
-                        ? "Enter Country Name"
+                        ? getLocalText("country", context)
                         : null;
                       },
                       style: CustomStyles
@@ -243,7 +245,7 @@ class _ProfileState extends State<Profile> {
                         .copyWith(
                         color: CustomColors.disabledButton),
                         labelText:
-                        "Country",
+                        getLocalText("select_country", context),
                         alignLabelWithHint:
                         true,
 
@@ -271,7 +273,7 @@ class _ProfileState extends State<Profile> {
 
                         validator: (value) {
                           if (!validPhoneNumber) {
-                            return "Invalid Phone number";
+                            return getLocalText("enter_valid_phone_number", context);
                           }
                           return null;
                         },
@@ -282,7 +284,7 @@ class _ProfileState extends State<Profile> {
                           .medium16
                           .copyWith(
                           color: CustomColors.disabledButton),
-                          labelText: "Enter phone number",
+                          labelText: getLocalText("phone_number", context),
                           border: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -312,7 +314,7 @@ class _ProfileState extends State<Profile> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),),
 
-                        child: Text("EDIT",style: CustomStyles.medium16.copyWith(color: CustomColors.White),),
+                        child: Text(getLocalText("edit", context),style: CustomStyles.medium16.copyWith(color: CustomColors.White),),
                         color: CustomColors.Orange,
 
 
@@ -338,9 +340,9 @@ class _ProfileState extends State<Profile> {
                           .currentContext, rootNavigator: true)
                           .pop();
 
-                          if(value.isError){
+                          if(value.isError){ 
 
-                            SnackBar snackBar = SnackBar(content: Text("Failed to update profile", style: CustomStyles
+                            SnackBar snackBar = SnackBar(content: Text(getLocalText("profile_update_failed", context), style: CustomStyles
                             .medium16
                             .copyWith(color: CustomColors
                             .White)),
@@ -371,7 +373,7 @@ class _ProfileState extends State<Profile> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),),
 
-                        child: Text("SUBMIT",style: CustomStyles.medium16.copyWith(color: CustomColors.White),),
+                        child: Text(getLocalText("submit", context),style: CustomStyles.medium16.copyWith(color: CustomColors.White),),
                         color: CustomColors.Orange,
 
 
@@ -416,4 +418,12 @@ class _ProfileState extends State<Profile> {
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
     .hasMatch(email);
   }
+
+
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+
 }

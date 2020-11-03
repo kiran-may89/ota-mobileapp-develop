@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/flights/data_model/pass_arguments.dart';
 import 'package:ota/utils/Dash_seperator.dart';
 import 'package:ota/utils/colors.dart';
@@ -33,7 +34,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: Text('Payment Options',style: CustomStyles.appbar,),
+      appBar: AppBar(title: Text(getLocalText("payment_options", context),style: CustomStyles.appbar,),
     leading: new IconButton(
     icon: new Icon(Icons.arrow_back_ios, color: Colors.white,size: 13,),
     onPressed: () => Navigator.of(context).pop(),
@@ -86,9 +87,9 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                flightTravelInfoData.flightResultsData.requestData.adults!=0?Text('Adult ${flightTravelInfoData.flightResultsData.requestData.adults} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
-                                flightTravelInfoData.flightResultsData.requestData.children!=0?Text('Children ${flightTravelInfoData.flightResultsData.requestData.children} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
-                                flightTravelInfoData.flightResultsData.requestData.infants!=0?Text('Infants ${flightTravelInfoData.flightResultsData.requestData.infants} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
+                                flightTravelInfoData.flightResultsData.requestData.adults!=0?Text('${getLocalText("adults", context)} ${flightTravelInfoData.flightResultsData.requestData.adults} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
+                                flightTravelInfoData.flightResultsData.requestData.children!=0?Text('${getLocalText("children", context)} ${flightTravelInfoData.flightResultsData.requestData.children} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
+                                flightTravelInfoData.flightResultsData.requestData.infants!=0?Text('${getLocalText("infants", context)} ${flightTravelInfoData.flightResultsData.requestData.infants} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
                               ],),
 
                             Text(flightTravelInfoData.flightResultsData.requestData.cabinSelection_name,
@@ -106,7 +107,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
                         Navigator.of(context).pop();
                       } ,
                         color: CustomColors.Orange,
-                        child: Text('EDIT',style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
+                        child: Text(getLocalText("edit", context),style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
                         elevation: 3,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -124,7 +125,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Flight Price",style: CustomStyles.normal12,),
+                  Text(getLocalText("flight_price", context),style: CustomStyles.normal12,),
 
                   Text( flightTravelInfoData.flightResultsData.currency+" "+flightTravelInfoData.flightResultsData.baseRate.toString(),style: CustomStyles.bold16,),
 
@@ -136,7 +137,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Tax and other charges",style: CustomStyles.normal12,),
+                  Text(getLocalText("tax_and_other_charges", context),style: CustomStyles.normal12,),
 
                   Text( flightTravelInfoData.flightResultsData.currency+" "+flightTravelInfoData.flightResultsData.taxAndOtherCharges.toString(),style: CustomStyles.bold16,),
 
@@ -164,7 +165,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Total Amount Payable",style: CustomStyles.normal12,),
+                  Text(getLocalText("total_amount_payable", context),style: CustomStyles.normal12,),
 
                   Text( flightTravelInfoData.flightResultsData.currency+" "+flightTravelInfoData.flightResultsData.totalPriceWithMarkup.toString(),style: CustomStyles.bold16,),
 
@@ -176,7 +177,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
 
               SizedBox(height:5 ,),
 
-              Text('Apply Coupon',style: CustomStyles.medium14.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
+              Text(getLocalText("apply_coupon", context),style: CustomStyles.medium14.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
 
 
               SizedBox(height:20,),
@@ -191,7 +192,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
 
               SizedBox(height:25,),
 
-              Text('Payment Options',style: CustomStyles.medium14.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
+              Text(getLocalText("payment_options", context),style: CustomStyles.medium14.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
 
               SizedBox(height:30,),
 
@@ -227,7 +228,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
                 child: Row(children: <Widget>[
                   Image.asset('assets/images/credit_card.png',height: 20,width: 20,),
                   SizedBox(width: 20,),
-                  Text('Credit / Debit / ATM Card',style: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),),
+                  Text(getLocalText("credit_card", context),style: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),),
                   Flexible(fit: FlexFit.tight,
                       child: SizedBox()),
                   Icon(Icons.arrow_forward_ios,color: CustomColors.disabledButton,size: 15,)
@@ -277,5 +278,9 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
 
     );
 
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

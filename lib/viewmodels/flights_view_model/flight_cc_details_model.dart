@@ -70,7 +70,7 @@ class FlightCCModel extends ChangeNotifier{
     flightSaveBookingResponse = await _flightService.saveBooking(flightSaveBookingRequest);
 
     if(flightSaveBookingResponse.isError)
-      _delegate.onError("ddd");
+      _delegate.onError("Booking failed ,please try another flight",false,"assets/images/flights.png");
     print(flightSaveBookingResponse.message);
 
     return flightSaveBookingResponse;
@@ -101,8 +101,11 @@ class FlightCCModel extends ChangeNotifier{
 
 
 fligthBookingRes = await _flightService.bookFlight(request);
+if(fligthBookingRes.isError)
+  _delegate.onError("Booking failed ,please try another flight",true,"assets/images/flights.png");
 
-print(jsonEncode(fligthBookingRes.toJson()));
+
+  // print(jsonEncode(fligthBookingRes.toJson()));
 
 
 

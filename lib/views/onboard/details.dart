@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
@@ -49,7 +50,7 @@ class _DetailsState extends State<Details> {
                 height: 9,
               ),
               Text(
-                strings.congrats_abroad,
+                getLocalText("congrats_abroad", context),
                 style: CustomStyles.style1,
               ),
               SizedBox(
@@ -194,5 +195,9 @@ class _DetailsState extends State<Details> {
         ),
       ),
     );
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/app_drawer.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/prefs/session_manager.dart';
@@ -39,152 +40,161 @@ class DashBoard extends StatelessWidget {
       },
       child: Consumer<DashBoardViewModel>(
         builder: (context, model, child) {
-          return Scaffold(
-            key: scaffoldKey,
-            drawer: AppDrawer(),
-            bottomNavigationBar: BottomAppBar(
-              color: CustomColors.BackGround,
-              child: new Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.home, color: Colors.white),
-                    onPressed: () {
+       return   Directionality(
+             textDirection: TextDirection.ltr,
+             child: Scaffold(
+              key: scaffoldKey,
+              drawer: AppDrawer(),
+              bottomNavigationBar: BottomAppBar(
+                color: CustomColors.BackGround,
+                child: new Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.home, color: Colors.white),
+                      onPressed: () {
 
 
-                     //   Navigator.pushNamed(context, Routes.dashboard);
+                       //   Navigator.pushNamed(context, Routes.dashboard);
 
 
 
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.collections_bookmark, color: Colors.white54),
-                    onPressed: () {
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.collections_bookmark, color: Colors.white54),
+                      onPressed: () {
 
-                        Navigator.pushNamed(context, Routes.myBookings);
+                        if(SessionManager.getInstance().isGuest){
 
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.notifications, color: Colors.white54),
-                    onPressed: () {
+                          scaffoldKey.currentState.openDrawer();
 
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.person, color: Colors.white54),
-                    onPressed: () {
+                        }else{
+
+                          Navigator.pushNamed(context, Routes.myBookings);
+
+                        }
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.notifications, color: Colors.white54),
+                      onPressed: () {
+
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.person, color: Colors.white54),
+                      onPressed: () {
 
 
-                      if(SessionManager.getInstance().isGuest){
+                        if(SessionManager.getInstance().isGuest){
 
-                        scaffoldKey.currentState.openDrawer();
+                          scaffoldKey.currentState.openDrawer();
 
-                      }else{
+                        }else{
 
-                        Navigator.pushNamed(context, Routes.profile_management);
+                          Navigator.pushNamed(context, Routes.profile_management);
 
-                      }
-                    },
-                  ),
-                ],
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            body:model.loading?
-            ShimmerContainer(MediaQuery.of(context).size.height):
-                  Container(
-                  height: screenHeight*10,
-                  width: screenWidth*10,
-                  decoration: BoxDecoration(
-                    color: Colors.white
+              body:model.loading?
+              ShimmerContainer(MediaQuery.of(context).size.height):
+                    Container(
+                    height: screenHeight*10,
+                    width: screenWidth*10,
+                    decoration: BoxDecoration(
+                      color: Colors.white
 
-                  ),
-                  child:
-                  SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                         // padding: EdgeInsets.only(bottom: screenHeight*.3),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40)),
+                    ),
+                    child:
+                    SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                           // padding: EdgeInsets.only(bottom: screenHeight*.3),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40)),
 
-                          ),
-                          height: screenHeight*5,
-                          width: screenWidth*10,
-                          child:
-                          Stack(
-                            fit: StackFit.loose,
-                            children: [
-                              Container(
+                            ),
+                            height: screenHeight*5,
+                            width: screenWidth*10,
+                            child:
+                            Stack(
+                              fit: StackFit.loose,
+                              children: [
+                                Container(
 
-                                height: screenHeight*4.2,
-                                width: screenWidth*10,
-                                decoration: BoxDecoration(
-                                  color: Colors.blueGrey[300],
-                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40)),
-                                ),
-                              ),
-                              Container(
-                                height: screenHeight*4.0,
-                                width: screenWidth*10,
-                                child:
-                                Column(children: [
-                                  Padding(
-
-                                    padding: EdgeInsets.only(top: screenHeight*.6, left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
-
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            IconButton(
-                                              onPressed: (){
-                                                if(SessionManager.getInstance().isGuest){
-
-                                                  scaffoldKey.currentState.openDrawer();
-
-                                                }else{
-
-                                                  Navigator.pushNamed(context, Routes.profile_management);
-
-                                                }
-                                              },
-                                            icon: Icon(Icons.menu,color: Colors.white,)),
-                                            Image.asset('assets/images/dashboard/tripshop_logo.png',color: Colors.white,height: screenHeight*.6,width: screenWidth*1.8,),
-                                            Icon(Icons.location_on,color: Colors.white,)
-
-                                          ],
-                                        ),
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            SizedBox(height: 20,),
-                                            CircleAvatar(
-                                            radius: 20,
-                                            backgroundImage: AssetImage(
-                                            "assets/images/profile_img.png"),
-                                            backgroundColor: Colors.transparent
-                                            ),
-                                            SizedBox(height: 10,),
-                                            Text('Welcome',style: CustomStyles.medium12.copyWith(color: Colors.white),),
-                                            SizedBox(height: 2,),
-                                            Text("Mr."+SessionManager.getInstance().getUser.firstName+" "+SessionManager.getInstance().getUser.lastName,style: CustomStyles.bold16.copyWith(color: Colors.white),)
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                  height: screenHeight*4.2,
+                                  width: screenWidth*10,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blueGrey[300],
+                                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40)),
                                   ),
+                                ),
+                                Container(
+                                  height: screenHeight*4.0,
+                                  width: screenWidth*10,
+                                  child:
+                                  Column(children: [
+                                    Padding(
 
-                                  SizedBox(height: 30,),
+                                      padding: EdgeInsets.only(top: screenHeight*.6, left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
+
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              IconButton(
+                                                onPressed: (){
+                                                  if(SessionManager.getInstance().isGuest){
+
+                                                    scaffoldKey.currentState.openDrawer();
+
+                                                  }else{
+
+                                                    Navigator.pushNamed(context, Routes.profile_management);
+
+                                                  }
+                                                },
+                                              icon: Icon(Icons.menu,color: Colors.white,)),
+                                              Image.asset('assets/images/dashboard/tripshop_logo.png',color: Colors.white,height: screenHeight*.6,width: screenWidth*1.8,),
+                                              Icon(Icons.location_on,color: Colors.white,)
+
+                                            ],
+                                          ),
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              SizedBox(height: 20,),
+                                              CircleAvatar(
+                                              radius: 20,
+                                              backgroundImage: AssetImage(
+                                              "assets/images/profile_img.png"),
+                                              backgroundColor: Colors.transparent
+                                              ),
+                                              SizedBox(height: 10,),
+                                              Text(getLocalText("welcome", context),style: CustomStyles.medium12.copyWith(color: Colors.white),),
+                                              SizedBox(height: 2,),
+                                              Text("Mr."+SessionManager.getInstance().getUser.firstName+" "+SessionManager.getInstance().getUser.lastName,style: CustomStyles.bold16.copyWith(color: Colors.white),)
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    SizedBox(height: 30,),
 
 
 //                                  Container(
@@ -235,257 +245,257 @@ class DashBoard extends StatelessWidget {
 //                                  )
 
 
-                                ],),
+                                  ],),
 
 
-                                decoration: BoxDecoration(
+                                  decoration: BoxDecoration(
 
-                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40)),
-                                 image: DecorationImage(
-                                // colorFilter: new ColorFilter.mode(Colors.black54.withOpacity(0.4), BlendMode.darken),
-                                 image: AssetImage("assets/images/dashboard/cover.jpg"),  fit: BoxFit.cover)
-                                ),
-
-
-
-                              ),
-                              Positioned(
-                                left: screenWidth*.2,
-                                top:screenHeight*3.4 ,
-                                child: Container(
-                                  height: screenHeight*1.4,
-                                  width: screenWidth*10,
-                                  child: ListView.builder(
-
-                                    physics: BouncingScrollPhysics(),
-                                    itemCount: model.dashBoardItems.length,
-                                    itemExtent: 100,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      DashBoardItem item = model.dashBoardItems[index];
-                                      return GestureDetector(
-                                        child: DashBoardMenu(item, (index + 1)),
-                                        onTap: () {
-                                          if (item.navigation != null) {
-                                            Navigator.pushNamed(context, item.navigation);
-                                          }
-                                        },
-                                      );
-                                    },
+                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40)),
+                                   image: DecorationImage(
+                                  // colorFilter: new ColorFilter.mode(Colors.black54.withOpacity(0.4), BlendMode.darken),
+                                   image: AssetImage("assets/images/dashboard/cover.jpg"),  fit: BoxFit.cover)
                                   ),
+
+
+
                                 ),
-                              )
+                                Positioned(
+                                  left: screenWidth*.2,
+                                  top:screenHeight*3.4 ,
+                                  child: Container(
+                                    height: screenHeight*1.4,
+                                    width: screenWidth*10,
+                                    child: ListView.builder(
 
-
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConstants.SIZE_12,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: SizeConstants.SIZE_12),
-                          child: Text(
-                            "Popular Categories",
-                            style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),
-                          ),
-                        ),
-
-                        Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          height: SizeConstants.SIZE_30,
-                          margin: EdgeInsets.only(top: SizeConstants.SIZE_12, bottom: SizeConstants.SIZE_12,left:SizeConstants.SIZE_10,right: SizeConstants.SIZE_10 ),
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: model.categoriesList.result.length,
-                          //  itemExtent: SizeConstants.SIZE_200,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: (){
-                                  Dialogs.showLoadingDialog(context, _keyLoader);
-
-                                  model.getPackageByCategory(model.categoriesList.result[index].id).then((value){
-                                    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
-                                  });
-                                },
-                                borderRadius: BorderRadius.circular(5),
-                                //hoverColor: CustomColors.disabledButton,
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  alignment: Alignment.center,
-                                  child: Text(model.categoriesList.result[index].name,style: CustomStyles.medium14,),
-                                  padding: EdgeInsets.symmetric(vertical: 4,horizontal: 12),
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: CustomColors.disabledButton)),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-
-                        model.groupByCategoryResults.result!=null?
-
-                        model.groupByCategoryResults.result.length!=0?
-
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: SizeConstants.SIZE_120,
-                          margin: EdgeInsets.only(top: SizeConstants.SIZE_10, bottom: SizeConstants.SIZE_20),
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: model.groupByCategoryResults.result.length,
-                            //  itemExtent: SizeConstants.SIZE_200,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return  Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              clipBehavior: Clip.antiAlias,
-                              // width: SizeConstants.SIZE_200,
-                              height: SizeConstants.SIZE_120,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-                              child: Stack(
-                                fit: StackFit.loose,
-
-                                children: [
-                                  model.groupByCategoryResults.result[index].images.isNotEmpty?
-                                  Image.network(
-                                    model.groupByCategoryResults.result[index].images.first.imageUrl,
-                                    fit: BoxFit.contain,
-                                  ): Image.asset(
-                                'assets/images/dash_board_pic2.png',
-                                fit: BoxFit.contain,
-                              ),
-
-
-                                  Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    child: Container(
-                                      decoration: BoxDecoration(color: Colors.black54, shape: BoxShape.rectangle),
-                                      height: SizeConstants.SIZE_40,
-                                      padding: EdgeInsets.all(SizeConstants.SIZE_4),
-                                      margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_4),
-                                      width:  SizeConstants.SIZE_190,
-                                      alignment: Alignment.centerLeft,
-                                      child:
-                                      Text(
-                                        model.groupByCategoryResults.result[index].name,
-                                        style: CustomStyles.medium14.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-                                      ),
+                                      physics: BouncingScrollPhysics(),
+                                      itemCount: model.dashBoardItems.length,
+                                      itemExtent: 100,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        DashBoardItem item = model.dashBoardItems[index];
+                                        return GestureDetector(
+                                          child: DashBoardMenu(item, (index + 1)),
+                                          onTap: () {
+                                            if (item.navigation != null) {
+                                              Navigator.pushNamed(context, item.navigation);
+                                            }
+                                          },
+                                        );
+                                      },
                                     ),
                                   ),
-                                ],
-                              ));
-                            },
+                                )
+
+
+                              ],
+                            ),
                           ),
-                        ):Padding(padding: EdgeInsets.all(SizeConstants.SIZE_20),child: Text("Packages not available"),):SizedBox.shrink(),
-
-
-                        SizedBox(
-                          height: SizeConstants.SIZE_8,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: SizeConstants.SIZE_12),
-                          child: Text(
-                            "Popular Destinations",
-                            style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),
+                          SizedBox(
+                            height: SizeConstants.SIZE_12,
                           ),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.only(left: SizeConstants.SIZE_12,right:SizeConstants.SIZE_12 ),
+                            child: Text(
+                              getLocalText("popular_categories", context),
+                              style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),
+                            ),
+                          ),
 
-                        Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          height: SizeConstants.SIZE_30,
-                          margin: EdgeInsets.only(top: SizeConstants.SIZE_12, bottom: SizeConstants.SIZE_12,left:SizeConstants.SIZE_10,right: SizeConstants.SIZE_10 ),
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: model.destinationsList.result.length,
+                          Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            height: SizeConstants.SIZE_30,
+                            margin: EdgeInsets.only(top: SizeConstants.SIZE_12, bottom: SizeConstants.SIZE_12,left:SizeConstants.SIZE_10,right: SizeConstants.SIZE_10 ),
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemCount: model.categoriesList.result.length,
                             //  itemExtent: SizeConstants.SIZE_200,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: (){
-                                  Dialogs.showLoadingDialog(context, _keyLoader);
-                                  model.getPackageByCategory(model.destinationsList.result[index].id).then((value){
-                                    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-                                  });
-                                },
-                                borderRadius: BorderRadius.circular(5),
-                                //hoverColor: CustomColors.disabledButton,
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  alignment: Alignment.center,
-                                  child: Text(model.destinationsList.result[index].name,style: CustomStyles.medium14,),
-                                  padding: EdgeInsets.symmetric(vertical: 7,horizontal: 12),
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: CustomColors.disabledButton)),
-                                ),
-                              );
-                            },
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: (){
+                                    Dialogs.showLoadingDialog(context, _keyLoader);
+
+                                    model.getPackageByCategory(model.categoriesList.result[index].id).then((value){
+                                      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+                                    });
+                                  },
+                                  borderRadius: BorderRadius.circular(5),
+                                  //hoverColor: CustomColors.disabledButton,
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    alignment: Alignment.center,
+                                    child: Text(model.categoriesList.result[index].name,style: CustomStyles.medium14,),
+                                    padding: EdgeInsets.symmetric(vertical: 4,horizontal: 12),
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: CustomColors.disabledButton)),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                        ),
 
+                          model.groupByCategoryResults.result!=null?
 
-                        model.groupTopDestinationsResults.result!=null?
+                          model.groupByCategoryResults.result.length!=0?
 
-                        model.groupTopDestinationsResults.result.length!=0?
-
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: SizeConstants.SIZE_120,
-                          margin: EdgeInsets.only(top: SizeConstants.SIZE_20, bottom: SizeConstants.SIZE_20),
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: model.groupTopDestinationsResults.result.length,
-                           // itemExtent: SizeConstants.SIZE_200,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  clipBehavior: Clip.antiAlias,
-                               // width: SizeConstants.SIZE_200,
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: SizeConstants.SIZE_120,
+                            margin: EdgeInsets.only(top: SizeConstants.SIZE_10, bottom: SizeConstants.SIZE_20),
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemCount: model.groupByCategoryResults.result.length,
+                              //  itemExtent: SizeConstants.SIZE_200,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return  Container(
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                clipBehavior: Clip.antiAlias,
+                                // width: SizeConstants.SIZE_200,
                                 height: SizeConstants.SIZE_120,
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                                 child: Stack(
                                   fit: StackFit.loose,
 
                                   children: [
-                                    model.groupTopDestinationsResults.result[index].images.isNotEmpty?
+                                    model.groupByCategoryResults.result[index].images.isNotEmpty?
                                     Image.network(
-                                      model.groupTopDestinationsResults.result[index].images.first.imageUrl,
+                                      model.groupByCategoryResults.result[index].images.first.imageUrl,
                                       fit: BoxFit.contain,
                                     ): Image.asset(
-                                      'assets/images/dash_board_pic2.png',
-                                      fit: BoxFit.contain,
+                                  'assets/images/dash_board_pic2.png',
+                                  fit: BoxFit.contain,
+                                ),
+
+
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      child: Container(
+                                        decoration: BoxDecoration(color: Colors.black54, shape: BoxShape.rectangle),
+                                        height: SizeConstants.SIZE_40,
+                                        padding: EdgeInsets.all(SizeConstants.SIZE_4),
+                                        margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_4),
+                                        width:  SizeConstants.SIZE_190,
+                                        alignment: Alignment.centerLeft,
+                                        child:
+                                        Text(
+                                          model.groupByCategoryResults.result[index].name,
+                                          style: CustomStyles.medium14.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
-
-
-                                  Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  child: Container(
-                                  decoration: BoxDecoration(color: Colors.black54, shape: BoxShape.rectangle),
-                                  height: SizeConstants.SIZE_40,
-                                  padding: EdgeInsets.all(SizeConstants.SIZE_4),
-                                    margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_4),
-                                  width:  SizeConstants.SIZE_190,
-                                  alignment: Alignment.centerLeft,
-                                  child:
-                                  Text(
-                                    model.groupTopDestinationsResults.result[index].name,
-                                    style: CustomStyles.medium14.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-                                  ),
-                                  ),
-                                  ),
                                   ],
                                 ));
-                            },
+                              },
+                            ),
+                          ):Padding(padding: EdgeInsets.all(SizeConstants.SIZE_20),child: Text(getLocalText("packages_not_found", context)),):SizedBox.shrink(),
+
+
+                          SizedBox(
+                            height: SizeConstants.SIZE_8,
                           ),
-                        ) :Padding(padding: EdgeInsets.all(SizeConstants.SIZE_20),child: Text("Packages not available"),):SizedBox.shrink(),
+                          Padding(
+                            padding: EdgeInsets.only(left: SizeConstants.SIZE_12,right:SizeConstants.SIZE_12 ),
+                            child: Text(
+                              getLocalText("popular_destinations", context ),
+                              style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),
+                            ),
+                          ),
+
+                          Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            height: SizeConstants.SIZE_30,
+                            margin: EdgeInsets.only(top: SizeConstants.SIZE_12, bottom: SizeConstants.SIZE_12,left:SizeConstants.SIZE_10,right: SizeConstants.SIZE_10 ),
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemCount: model.destinationsList.result.length,
+                              //  itemExtent: SizeConstants.SIZE_200,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: (){
+                                    Dialogs.showLoadingDialog(context, _keyLoader);
+                                    model.getPackageByCategory(model.destinationsList.result[index].id).then((value){
+                                      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+                                    });
+                                  },
+                                  borderRadius: BorderRadius.circular(5),
+                                  //hoverColor: CustomColors.disabledButton,
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    alignment: Alignment.center,
+                                    child: Text(model.destinationsList.result[index].name,style: CustomStyles.medium14,),
+                                    padding: EdgeInsets.symmetric(vertical: 7,horizontal: 12),
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: CustomColors.disabledButton)),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+
+                          model.groupTopDestinationsResults.result!=null?
+
+                          model.groupTopDestinationsResults.result.length!=0?
+
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: SizeConstants.SIZE_120,
+                            margin: EdgeInsets.only(top: SizeConstants.SIZE_20, bottom: SizeConstants.SIZE_20),
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemCount: model.groupTopDestinationsResults.result.length,
+                             // itemExtent: SizeConstants.SIZE_200,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    clipBehavior: Clip.antiAlias,
+                                 // width: SizeConstants.SIZE_200,
+                                  height: SizeConstants.SIZE_120,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                                  child: Stack(
+                                    fit: StackFit.loose,
+
+                                    children: [
+                                      model.groupTopDestinationsResults.result[index].images.isNotEmpty?
+                                      Image.network(
+                                        model.groupTopDestinationsResults.result[index].images.first.imageUrl,
+                                        fit: BoxFit.contain,
+                                      ): Image.asset(
+                                        'assets/images/dash_board_pic2.png',
+                                        fit: BoxFit.contain,
+                                      ),
+
+
+                                    Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    child: Container(
+                                    decoration: BoxDecoration(color: Colors.black54, shape: BoxShape.rectangle),
+                                    height: SizeConstants.SIZE_40,
+                                    padding: EdgeInsets.all(SizeConstants.SIZE_4),
+                                      margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_4),
+                                    width:  SizeConstants.SIZE_190,
+                                    alignment: Alignment.centerLeft,
+                                    child:
+                                    Text(
+                                      model.groupTopDestinationsResults.result[index].name,
+                                      style: CustomStyles.medium14.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                                    ),
+                                    ),
+                                    ),
+                                    ],
+                                  ));
+                              },
+                            ),
+                          ) :Padding(padding: EdgeInsets.all(SizeConstants.SIZE_20),child: Text(getLocalText("packages_not_found", context)),):SizedBox.shrink(),
 
 
 //                        Padding(
@@ -496,9 +506,9 @@ class DashBoard extends StatelessWidget {
 //                            style: CustomStyles.medium16.copyWith(color: Colors.white),
 //                          ),
 //                        ),
-                        SizedBox(
-                          height: SizeConstants.SIZE_10,
-                        ),
+                          SizedBox(
+                            height: SizeConstants.SIZE_10,
+                          ),
 //                        Column(
 //                          children: List.generate(
 //                              5,
@@ -509,17 +519,24 @@ class DashBoard extends StatelessWidget {
 //                                    child: DashBoardBooking(),
 //                                  )),
 //                        )
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                )
+                  )
 
 
-          );
+          ),
+           );
         },
       ),
     );
   }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+
 }
 
 class DashBoardBooking extends StatelessWidget {
@@ -627,7 +644,8 @@ class DashBoardMenu extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    item.name,
+                    getLocalText(item.name, context)
+                    ,
                     style: CustomStyles.medium12.copyWith(color:CustomColors.BackGround),
                   )
                 ],
@@ -642,6 +660,10 @@ class DashBoardMenu extends StatelessWidget {
             )
           ],
         ));
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }
 

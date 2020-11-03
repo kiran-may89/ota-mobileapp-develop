@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ota/app/Router.dart';
 import 'package:ota/net/api_service_config.dart';
@@ -31,28 +32,17 @@ import 'package:ota/net/service/transfers/transfer_service_implementation.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/prefs/shared_prefernce.dart';
 
+import 'app_localizations.dart';
+
 class BaseApp extends StatelessWidget {
 
+  Future<String> language;
 
   BaseApp() {
-    GetIt it = GetIt.instance;
-    var config = ApiServiceConfig.instance;
-    it.registerLazySingleton<FlightService>(
-        () => FlightServiceImpl(config.dio));
-    it.registerLazySingleton<HotelService>(() => HotelServiceImpl(config.dio));
-    it.registerLazySingleton<GooglePlaces>(() => GooglePlaceRepository());
-    it.registerLazySingleton<TransferService>(
-        () => TransferServiceImplementation(config.dio));
-    it.registerLazySingleton<ActivityService>(
-        () => ActivityService_Impl(config.dio));
-    it.registerLazySingleton<OnBoarding>(() => OnBoardRepo(config.dio));
-    it.registerLazySingleton<ProfileService>(() => ProfileServiceImpl(config.dio));
+    language = Pref.getInstnace().getData(Pref().language);
 
-    it.registerLazySingleton<CommonService>(
-        () => CommonServiceImpl(config.dio));
-    it.registerLazySingleton<BookingService>(() => BookingServiceImpl(config.dio));
 
-    it.registerLazySingleton<PackageService>(() => PackageServiceImpl(config.dio));
+    setUpLocator();
     SessionManager session = SessionManager.getInstance();
     CommonService commonService = GetIt.instance<CommonService>();
     if (session.isGuest) {
@@ -60,6 +50,8 @@ class BaseApp extends StatelessWidget {
     } else {
       commonService.refreshAccessToken(session.getRefreshToken);
     }
+
+
 
 
 
@@ -71,6 +63,7 @@ class BaseApp extends StatelessWidget {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     return MaterialApp(
+
       title: "TripShop",
       theme: ThemeData(
         primarySwatch: Colors.red,
@@ -82,10 +75,35 @@ class BaseApp extends StatelessWidget {
         disabledColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-//      supportedLocales: [
-//        Locale('en', 'US'),
-//        Locale('ar', 'AR'),
-//      ],
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ar', 'AR')
+
+      ],
+      localizationsDelegates: [
+
+        AppLocalizations.delegate,
+
+        GlobalMaterialLocalizations.delegate,
+
+        GlobalWidgetsLocalizations.delegate,
+      ],
+
+
+      localeResolutionCallback: (locale, supportedLocales) {
+        print(language);
+
+        // Check if the current device locale is supported
+        for (var supportedLocale in supportedLocales) {
+          if (locale.languageCode == language) {
+            return supportedLocale;
+          }
+        }
+        // If the locale of the device is not supported, use the first one
+        // from the list (English, in this case).
+        return supportedLocales.first;
+      },
+
 
       debugShowCheckedModeBanner: false,
 
@@ -100,6 +118,31 @@ class BaseApp extends StatelessWidget {
 
 
   }
+
+
+  setUpLocator()
+  {
+    GetIt it = GetIt.instance;
+    var config = ApiServiceConfig.instance;
+    it.registerLazySingleton<FlightService>(
+            () => FlightServiceImpl(config.dio));
+    it.registerLazySingleton<HotelService>(() => HotelServiceImpl(config.dio));
+    it.registerLazySingleton<GooglePlaces>(() => GooglePlaceRepository());
+    it.registerLazySingleton<TransferService>(
+            () => TransferServiceImplementation(config.dio));
+    it.registerLazySingleton<ActivityService>(
+            () => ActivityService_Impl(config.dio));
+    it.registerLazySingleton<OnBoarding>(() => OnBoardRepo(config.dio));
+    it.registerLazySingleton<ProfileService>(() => ProfileServiceImpl(config.dio));
+
+    it.registerLazySingleton<CommonService>(
+            () => CommonServiceImpl(config.dio));
+    it.registerLazySingleton<BookingService>(() => BookingServiceImpl(config.dio));
+
+    it.registerLazySingleton<PackageService>(() => PackageServiceImpl(config.dio));
+
+  }
+
 
 //  Future _showNotificationWithoutSound(Map<String, dynamic> msg) async {
 //    final title = msg['notification']['title'];

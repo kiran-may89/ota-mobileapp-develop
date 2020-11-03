@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/card_form.dart';
 import 'package:ota/models/activity/request/activity_traveller_data.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
@@ -21,7 +23,7 @@ class ActivityCCDetails extends StatefulWidget {
   _ActivityCCDetailsState createState() => _ActivityCCDetailsState(activityTravellerData);
 }
 
-class _ActivityCCDetailsState extends State<ActivityCCDetails> {
+class _ActivityCCDetailsState extends State<ActivityCCDetails> implements Delegate {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   ActivityTravellerData activityTravellerData;
 
@@ -32,7 +34,7 @@ class _ActivityCCDetailsState extends State<ActivityCCDetails> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ActivityCCModel>(
-      create: (context) => ActivityCCModel(activityTravellerData),
+      create: (context) => ActivityCCModel(activityTravellerData,this),
       child: Consumer<ActivityCCModel>(
         builder: (context, model, child) {
           return Scaffold(
@@ -62,7 +64,7 @@ class _ActivityCCDetailsState extends State<ActivityCCDetails> {
                       child: RaisedButton(
                           color: CustomColors.Orange,
                           child: Text(
-                            "BOOK ACTIVITY",
+                            getLocalText("book_activity", context),
                             style: CustomStyles.button_style,
                           ),
                           shape: RoundedRectangleBorder(
@@ -75,25 +77,32 @@ class _ActivityCCDetailsState extends State<ActivityCCDetails> {
                               Dialogs.showLoadingDialog(context, _keyLoader);
 
                               model.bookTheActivity().then((value) {
-                                Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-                                if (model.data.questions.isEmpty) {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                } else {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                }
+                                if(value!=null) {
+                                  Navigator.of(_keyLoader.currentContext,
+                                      rootNavigator: true).pop();
+                                  if (model.data.questions.isEmpty) {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  } else {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  }
 
-                                Navigator.pushNamed(context, Routes.activityBookingStatus,
-                                    arguments: model.getArgumentData());
-                              });
+                                  Navigator.pushNamed(
+                                      context, Routes.activityBookingStatus,
+                                      arguments: model.getArgumentData());
+                                }
+                                else
+                                  return null;
+                                  });
+
                             }
                           }),
                     ),
@@ -108,5 +117,15 @@ class _ActivityCCDetailsState extends State<ActivityCCDetails> {
         },
       ),
     );
+  }
+
+  @override
+  void onError(String message, bool isFromCreditCard, String asset) {
+    Dialogs.showGenericErrorPopup(context, message, isFromCreditCard, asset);
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

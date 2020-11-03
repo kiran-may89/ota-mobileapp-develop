@@ -214,19 +214,23 @@ class FlightServiceImpl extends FlightService{
 
 
 
-      var data = response.data;
 
 
-      FlightBookingRes results = FlightBookingRes.fromJson(data);
+      FlightBookingRes results = FlightBookingRes();
 
+       if(response.statusCode==200)
+         return FlightBookingRes.fromJson(response.data);
 
+       results.message = response.statusMessage;
+       results.isError =true;
 
       return results;
 
     } catch (error, stacktrace) {
 
       FlightBookingRes results = FlightBookingRes();
-
+      results.isError =true;
+      results.message = error.toString();
       print(results.message);
 
       print(results.responseException.toString());

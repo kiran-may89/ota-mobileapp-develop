@@ -8,6 +8,9 @@ import 'package:ota/models/onboard/requests/external_auth_request_model.dart';
 import 'base_view_model.dart';
 
 class SignInViewModel extends BaseViewModel {
+
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
   LoginRequest request = LoginRequest();
 
   OnBoarding _service;

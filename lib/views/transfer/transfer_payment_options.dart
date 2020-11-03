@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/transfers/requests/transfers_passenger_data.dart';
 import 'package:ota/utils/Dash_seperator.dart';
 import 'package:ota/utils/colors.dart';
@@ -29,7 +30,7 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
 
 
     return Scaffold(
-      appBar: AppBar(title: Text('Payment Options',style: CustomStyles.appbar,),
+      appBar: AppBar(title: Text(getLocalText("payment_options", context),style: CustomStyles.appbar,),
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back_ios, color: Colors.white,size: 13,),
           onPressed: () => Navigator.of(context).pop(),
@@ -65,13 +66,14 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(transferPassengerData.requestData.oneWay?'One Way':'Round Trip',style: CustomStyles.heading,),
+                          Text(transferPassengerData.requestData.oneWay? getLocalText("one_way", context):getLocalText("round_trip", context),style: CustomStyles.heading,),
                           SizedBox(height: 7,),
 
 
                           Wrap(children: <Widget>[
 
-                            Text("Source : ",style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),),
+                            Text(getLocalText("source", context)
+                              ,style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),),
 
 
                             Text(transferPassengerData.requestData.pichUpPlace,style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading),),
@@ -83,7 +85,8 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
 
                           Wrap(children: <Widget>[
 
-                            Text("Destination : ",style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),),
+                            Text( getLocalText("destination", context),
+                              style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),),
 
 
                             Text(transferPassengerData.requestData.dropPlace,style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading),),
@@ -110,7 +113,8 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
                         Navigator.of(context).pop();
 
                       } ,color: CustomColors.Orange,
-                        child: Text('EDIT',style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
+                        child: Text(
+                        getLocalText("edit", context),style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
                         elevation: 3,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -130,7 +134,7 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Base Rate",style: CustomStyles.normal12,),
+                  Text(getLocalText("base_rate", context),style: CustomStyles.normal12,),
 
                   Text(transferPassengerData.selectedVehicleData.first.displayRateInfoWithMarkup.currency +" "+
 
@@ -147,7 +151,7 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Tax and other charges",style: CustomStyles.normal12,),
+                  Text(getLocalText("tax_and_other_charges", context),style: CustomStyles.normal12,),
 
                   Text(transferPassengerData.selectedVehicleData.first.displayRateInfoWithMarkup.currency +" "+
 
@@ -179,7 +183,7 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Total Amount Payable",style: CustomStyles.normal12,),
+                  Text(getLocalText("total_amount_payable", context),style: CustomStyles.normal12,),
 
                   Text(transferPassengerData.selectedVehicleData.first.displayRateInfoWithMarkup.currency+" "+
 
@@ -194,7 +198,7 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
 
               SizedBox(height:5 ,),
 
-              Text('Apply Coupon',style: CustomStyles.medium14.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
+              Text(getLocalText("apply_coupon", context),style: CustomStyles.medium14.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
 
 
               SizedBox(height:20,),
@@ -209,7 +213,7 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
 
               SizedBox(height:25,),
 
-              Text('Payment Options',style: CustomStyles.medium14.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
+              Text(getLocalText("payment_options", context),style: CustomStyles.medium14.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
 
               SizedBox(height:30,),
 
@@ -217,7 +221,7 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
                 child: Row(children: <Widget>[
                   Image.asset('assets/images/credit_card.png',height: 20,width: 20,),
                   SizedBox(width: 20,),
-                  Text('Credit / Debit / ATM Card',style: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),),
+                  Text(getLocalText("credit_card", context),style: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),),
                   Flexible(fit: FlexFit.tight,
                       child: SizedBox()),
                   Icon(Icons.arrow_forward_ios,color: CustomColors.disabledButton,size: 15,)
@@ -277,5 +281,9 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
     );;
 
 
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

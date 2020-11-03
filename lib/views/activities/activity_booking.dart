@@ -6,6 +6,7 @@ import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/activity/request/search_activity_data.dart';
 import 'package:ota/models/googleplaces/predictions.dart';
 import 'package:ota/utils/colors.dart';
@@ -51,7 +52,7 @@ class _ActivityBookingState extends State<ActivityBooking> {
 
             appBar: AppBar(
               title: Text(
-                "Search Activity",
+                getLocalText("search_activity", context),
                 style: CustomStyles.button_style.copyWith(fontSize: 20),
               ),
               leading: new IconButton(
@@ -129,7 +130,7 @@ class _ActivityBookingState extends State<ActivityBooking> {
 
                          model.startPlaceData==null?
 
-                         Text("From",
+                         Text(getLocalText("from", context),
                            style: CustomStyles
                                .destinationStyle
                                .copyWith(fontSize: 12),)
@@ -139,7 +140,7 @@ class _ActivityBookingState extends State<ActivityBooking> {
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
 
-                             Text("From",
+                             Text(getLocalText("from", context),
                                style: CustomStyles
                                    .destinationStyle
                                    .copyWith(fontSize: 9),),
@@ -160,56 +161,6 @@ class _ActivityBookingState extends State<ActivityBooking> {
                        )
 
 
-
-
-
-
-
-//                                    TypeAheadFormField(
-//                                      hideOnError: true,
-//                                      hideOnEmpty: true,
-//                                      hideOnLoading: true,
-//                                      textFieldConfiguration: TextFieldConfiguration(
-//                                        maxLines: 2,
-//                                        controller: model.fromTypeHeadController,
-//                                        autofocus: false,
-//                                        style: CustomStyles.cardContentStyle.copyWith(fontSize: 14),
-//                                        decoration: InputDecoration(
-//                                          suffixIcon: IconButton(
-//                                            color: Colors.red,
-//                                            onPressed: () {
-//                                              model.fromTypeHeadController.clear();
-//                                            },
-//                                            icon: Icon(
-//                                              Icons.cancel,
-//                                              size: SizeConstants.SIZE_20,
-//                                            ),
-//                                          ),
-//                                          isDense: true,
-//                                          alignLabelWithHint: false,
-//                                          labelText: strings.from,
-//                                          labelStyle: CustomStyles.cardHeadingStyle.copyWith(fontSize: 12),
-//                                          border: InputBorder.none,
-//                                        ),
-//                                      ),
-//                                      suggestionsCallback: (pattern) async {
-//                                        var response = await model.getPredcitions(pattern);
-//                                        return response.predictions;
-//                                      },
-//                                      itemBuilder: (context, Prediction suggestion) {
-//                                        return ListTile(
-//                                          title: Text(
-//                                            suggestion.description,
-//                                            style: CustomStyles.countDownStyle.copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
-//                                          ),
-//                                        );
-//                                      },
-//                                      onSuggestionSelected: (suggestion) {
-//                                        model.setFromSelected(suggestion);
-//
-//                                        // print()
-//                                      },
-//                                    ),
                                   ],
                                 ),
                                 flex: 8,
@@ -229,7 +180,7 @@ class _ActivityBookingState extends State<ActivityBooking> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            strings.set_dates,
+                            getLocalText("setDates", context),
                             style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
                           ),
                           Card(
@@ -270,14 +221,14 @@ class _ActivityBookingState extends State<ActivityBooking> {
                                                   .spaceBetween,
                                               children: <Widget>[
                                                 Text(
-                                                  "From ${model.startDateMOnth}",
+                                                  "${ getLocalText("from", context)}   ${model.startDateMOnth}   ",
                                                   style: CustomStyles
                                                       .cardContentStyle.copyWith(fontSize: 14),
                                                   textAlign:
                                                   TextAlign.start,
                                                 ),
                                                 Text(
-                                                  "   Return ${model.returnDateMonth}",
+                                                  "${ getLocalText("return", context)}    ${model.returnDateMonth}",
                                                   style: CustomStyles
                                                       .cardContentStyle.copyWith(fontSize: 14),
                                                   textAlign:
@@ -341,7 +292,7 @@ class _ActivityBookingState extends State<ActivityBooking> {
                     ),
 
                     Text(
-                      'Add number of persons',
+                      getLocalText("add_number_of_persons", context),
                       style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
                     ),
 
@@ -362,7 +313,7 @@ class _ActivityBookingState extends State<ActivityBooking> {
                           children: <Widget>[
                             Expanded(
                               flex: 5,
-                              child: Text('Guests',
+                              child: Text(getLocalText("guests", context),
                                   style: model.adultCount == 0
                                       ? CustomStyles.normal16.copyWith(color: CustomColors.disabledButton)
                                       : CustomStyles.normal16),
@@ -422,7 +373,7 @@ class _ActivityBookingState extends State<ActivityBooking> {
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    "Person ${index + 1} Age",
+                                    "${getLocalText("person", context)} ${index + 1} ${getLocalText("age", context)}",
                                     style: CustomStyles.whiteTextSytle12Size.copyWith(color: Colors.grey),
                                   ),
                                   Card(
@@ -465,7 +416,7 @@ class _ActivityBookingState extends State<ActivityBooking> {
                       child: RaisedButton(
                           color: CustomColors.Orange,
                           child: Text(
-                            "SEARCH ACTIVITIES",
+                            getLocalText("search_activities", context),
                             style: CustomStyles.button_style,
                           ),
                           shape: RoundedRectangleBorder(
@@ -517,4 +468,11 @@ class _ActivityBookingState extends State<ActivityBooking> {
 
 
   }
+
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+
 }

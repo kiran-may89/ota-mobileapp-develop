@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/styles.dart';
 
@@ -13,7 +15,7 @@ class Dialogs {
 
         builder: (BuildContext context) {
           return new WillPopScope(
-              onWillPop: () async => false,
+              onWillPop: () async => true,
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,23 +56,79 @@ class Dialogs {
   }
 
 
-  static void showGenericErrorPopup(BuildContext context, String messege) {
+  static void showGenericErrorPopup(BuildContext _context, String messege,bool isFromCreditCard,String asset) {
     showDialog(
-        context: context,
-        barrierColor: Colors.black12,
+        context: _context,
+
         barrierDismissible: true,
-        builder: (context) => AlertDialog(
-          title: new Text("Alert"),
-          content: new Text(messege),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        builder:(context) {
+          return Scaffold(
+            body: WillPopScope(
+              onWillPop: () async => false,
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width:MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(top: 40),
+                      child: Image.asset(
+                        asset,
+                        height: 150,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(7.0),
+                      child: Text(messege,
+                          textAlign: TextAlign.center,
+                          style: CustomStyles.medium20.copyWith(
+                              color: CustomColors.disabledButton)),
+                    ),
+
+                    SizedBox(height: 20,),
+                    GestureDetector(
+                      onTap: (){
+
+                        if(isFromCreditCard==false) {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }
+                        else
+                          {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+
+                          }
+                      },
+                      child: Container(
+                        height: kToolbarHeight-20,
+                        width: kToolbarHeight,
+
+                        decoration: BoxDecoration(
+
+                          borderRadius: BorderRadius.circular(5),
+                          color: CustomColors.BackGround,
+
+                        ),
+
+                        child: Center(child: Text("OK",style:  CustomStyles.medium18.copyWith(
+                            color: Colors.white)),),
+
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
-          ],
-        ));
+          );
+        }
+          );
+
   }
 
   static void showSpinkitLoading(BuildContext context) {
@@ -88,5 +146,14 @@ class Dialogs {
             color: CustomColors.BackGround,
           ),
         ));
+
+
   }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+
+
 }

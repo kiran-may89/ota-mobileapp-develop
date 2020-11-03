@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/activity/request/activity_answers.dart';
 import 'package:ota/models/activity/request/activity_details_data.dart';
 import 'package:ota/models/activity/request/activity_questions_data.dart';
@@ -180,43 +181,42 @@ return activityDetailsData;
 
   }
 
-  bool validateData(GlobalKey<ScaffoldState> scaffoldKey, BuildContext context) {
+  bool validateData(GlobalKey<ScaffoldState> scaffoldKey, BuildContext context)
+  {
     SnackBar snackBar;
 
     answers.asMap().forEach((index,element) {
-
-      if(element=="") {
-
-        snackBar = SnackBar(content:Text("Please answer question ${index.toString()}",style: CustomStyles.medium16.copyWith(color: CustomColors.White),),
+      if (element == "") {
+        snackBar = SnackBar(content: Text(
+          "${getLocalText("please_answer_question", context)} ${(index + 1)
+              .toString()}",
+          style: CustomStyles.medium16.copyWith(color: CustomColors.White),),
           backgroundColor: CustomColors.BackGround,
         );
 
         scaffoldKey.currentState.showSnackBar(snackBar);
         return false;
-
-      }else{
-
-        Navigator.pushNamed(context, Routes.activityTravellerInfo,
-            arguments: getArgumentData()
-        );
-
-
-        return true;
       }
 
 
     });
-
-
-
-
-
+    return true;
   }
 
 
 
 
 
+
+
+
+
+
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
 
 
 

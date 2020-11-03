@@ -11,6 +11,7 @@ class Pref {
   Future<SharedPreferences> _prefs;
   final String _accessToken = "access_token";
   final String _refreshToken = "refresh_token";
+  final String language = "language";
 
   Pref._privateConstrutor() {
     _prefs = SharedPreferences.getInstance();
@@ -46,6 +47,16 @@ class Pref {
   Future<String> getAccessToken() async {
     String acesstoken = await _secureStorage.read(key: _accessToken);
     return acesstoken;
+  }
+
+  Future<String> getLang()async {
+
+    return getData(language);
+  }
+
+  void saveCurrentLang(String value)
+  {
+    saveData(language, value);
   }
 
   void saveRefreshToken(String value) {

@@ -7,18 +7,19 @@ import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
+import 'package:ota/viewmodels/bookings/cancellation_policy_view_model.dart';
 import 'package:ota/viewmodels/my_bookings_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class CancelPolicyView extends StatelessWidget
 {
   
-  MyBookingsViewModel _viewModel;
+//  MyBookingsViewModel _viewModel;
   String reservationId;
   CancelPolicyView(List<dynamic> list)
   {
-    _viewModel = list[0] as MyBookingsViewModel;
-    reservationId =list[1] as String;
+   // _viewModel = list[0] as MyBookingsViewModel;
+    reservationId =list[0] as String;
 
   }
   @override
@@ -40,14 +41,14 @@ class CancelPolicyView extends StatelessWidget
 
       ),
       
-      body: ChangeNotifierProvider.value(
-        value: _viewModel,
-        child: Consumer<MyBookingsViewModel>(
+      body: ChangeNotifierProvider(
+      create: (context) =>CancellationPolicyModel(reservationId),
+        child: Consumer<CancellationPolicyModel>(
 
           builder: (context,model,child) {
 
             return  FutureBuilder(
-                future: _viewModel.getCancellationPolicy(reservationId),
+                future: model.getCancelationPolicy(),
               builder: (context,snapshot){
                   if(snapshot.hasData) {
 

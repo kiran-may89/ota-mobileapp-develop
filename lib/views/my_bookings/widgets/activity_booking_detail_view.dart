@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/my_bookings/booking_resposne.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/utils/colors.dart';
@@ -34,7 +35,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
       child: Scaffold(
 
         appBar: AppBar(
-          title: Text("Booking Detail"),
+          title: Text(getLocalText("booking_details", context)),
           backgroundColor: CustomColors.BackGround,
           leading: new IconButton(
             icon: new Icon(
@@ -55,7 +56,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                _topHeaderBookingDetails(),
+                _topHeaderBookingDetails(context),
                 SizedBox(
                   height: 10,
                 ),
@@ -64,7 +65,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                   height: 10,
                 ),
                 _reservationNoContainer(context),
-                _imageContainer(),
+                _imageContainer(context),
                 SizedBox(
                   height: 10,
                 ),
@@ -77,7 +78,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "Modality Name",
+                    getLocalText("modality_name", context),
                     _model.bookings[0].summaryInfo.modalityDetails.name == null
                         ? "NA"
                         : _model.bookings[0].summaryInfo.modalityDetails.name),
@@ -90,7 +91,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "Location",
+                    getLocalText("location", context),
                     _model.bookings[0].summaryInfo.fromLocationName == null
                         ? "NA"
                         : _model.bookings[0].summaryInfo.fromLocationName),
@@ -104,13 +105,13 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _doubleData(
-                    "Start Date",
+                    getLocalText("start_date", context),
                     _model.bookings[0].reservationDate == null
-                        ? "NA"
+                        ? getLocalText("na", context) 
                         : _model.bookings[0].reservationDate.toIso8601String().split('T')[0],
-                    "Duration",
+                    getLocalText("duration", context), 
                     _model.bookings[0].summaryInfo.modalityDetails.duration.value == null
-                        ? "NA"
+                        ? getLocalText("na", context) 
                         : _model.bookings[0].summaryInfo.modalityDetails.duration.value.toString() + " " + _model.bookings[0].summaryInfo.modalityDetails.duration.metric.toString()),
                 Divider(
                   thickness: 0.2,
@@ -120,10 +121,10 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "No of Person",
+                    getLocalText("number_of_persons", context),
                     _model.bookings[0].summaryInfo.selectedPersons == null
-                        ? "NA"
-                        : _model.bookings[0].summaryInfo.selectedPersons.toString()),
+                        ? getLocalText("na", context)
+                    : _model.bookings[0].summaryInfo.selectedPersons.toString()),
                 Divider(
                   thickness: 0.2,
                   color: Colors.grey,
@@ -132,7 +133,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
-                _singleData("Name", _model.contact.firstname.isEmpty?"NA":_model.contact.firstname +" " +_model.contact.lastname),
+                _singleData(getLocalText("name", context) , _model.contact.firstname.isEmpty?getLocalText("na", context) :_model.contact.firstname +" " +_model.contact.lastname),
                 Divider(
                   thickness: 0.2,
                   color: Colors.grey,
@@ -141,7 +142,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
-                _singleData("Phone Number", _model.contact.email.isEmpty?"NA":_model.contact.phoneNumber),
+                _singleData(getLocalText("phone_number", context) , _model.contact.email.isEmpty?getLocalText("na", context) :_model.contact.phoneNumber),
                 Divider(
                   thickness: 0.2,
                   color: Colors.grey,
@@ -151,7 +152,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
-                _singleData("Email", _model.contact.email.isEmpty?"NA":_model.contact.email),
+                _singleData(getLocalText("email", context) , _model.contact.email.isEmpty?getLocalText("na", context) :_model.contact.email),
                 Divider(
                   thickness: 0.2,
                   color: Colors.grey,
@@ -180,7 +181,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
             onTap: (){
               if( _model.bookings[0].reservationNumber!=null)
 
-                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_viewModel,_model.bookings[0].reservationNumber]);
+                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_model.bookings[0].reservationNumber]);
 
 
             },
@@ -192,7 +193,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5)),
               child: Center(
                   child: Text(
-                    "View Cancellation Policy",
+                    getLocalText("view_cancellation_policy", _context),
 
                     style: TextStyle(fontFamily: "roboto",color:_model.bookings[0].reservationNumber!=null? Colors.grey :Colors.white ),
                   )),
@@ -212,11 +213,11 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                     barrierColor: Colors.black12,
                     barrierDismissible: true,
                     builder: (context) => AlertDialog(
-                      title: new Text("Alert"),
-                      content: new Text("Are you Sure you want to Cancel this booking"),
+                      title: new Text(getLocalText("alert", context)),
+                      content: new Text(getLocalText("are_you_sure_you_want_cancel_booking", context)),
                       actions: <Widget>[
                         new FlatButton(
-                          child: new Text("Yes"),
+                          child: new Text(getLocalText("yes", context)),
                           onPressed: () {
                             Navigator.pop(context);
 
@@ -237,7 +238,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                         ),
 
                         new FlatButton(
-                          child: new Text("No"),
+                          child: new Text(getLocalText("no", context)),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },)
@@ -252,7 +253,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5)),
               child: Center(
                 child: Text(
-                  "Cancel Booking",
+                  getLocalText("cancel_booking", _context),
                   style: TextStyle(color: Colors.white, fontFamily: "roboto"),
                 ),
               ),
@@ -373,7 +374,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _imageContainer() {
+  Widget _imageContainer(BuildContext context) {
     return Container(
         height: kToolbarHeight * 3,
         child: _model.bookings[0].summaryInfo.image==null
@@ -387,7 +388,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                   color: Colors.grey,
                 ),
                 Text(
-                  "No Image Available",
+                  getLocalText("no_image_available", context),
                   style: TextStyle(fontSize: 18),
                 )
               ],
@@ -409,7 +410,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Reservation No:",
+             getLocalText("reservation_no", context),
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -427,13 +428,13 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
                     Clipboard.setData(new ClipboardData(text:_model.bookings[0].reservationNumber));
                     Scaffold.of(context).showSnackBar(SnackBar(
                       backgroundColor: CustomColors.Orange,
-                      content: Text("Copied to Clipbaord"),
+                      content: Text(getLocalText("copied_to_clipboard", context)),
                       duration: Duration(seconds: 2),
                     )) ;
 
                   },
                   child: Text(
-                    "Copy",
+                    getLocalText("copy", context),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -445,14 +446,14 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _topHeaderBookingDetails() {
+  Widget _topHeaderBookingDetails(BuildContext context) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _topHeaderRightView(),
-          _topHeaderLeftView(),
+          _topHeaderRightView(context),
+          _topHeaderLeftView(context),
         ],
       ),
     );
@@ -509,7 +510,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _topHeaderRightView() {
+  Widget _topHeaderRightView(BuildContext context) {
     return Flexible(
       flex: 6,
       child: Row(children: [
@@ -517,7 +518,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
           width: 10,
         ),
         Text(
-          strings.booking_id + " : ",
+          getLocalText("booking_id", context) + " : ",
           style: TextStyle(color: Colors.grey,fontFamily: "roboto"),
         ),
         Text(_model.bookingId, style: CustomStyles.bookingNumberTextStyle),
@@ -525,7 +526,7 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _topHeaderLeftView() {
+  Widget _topHeaderLeftView(BuildContext context) {
     return Flexible(
       flex: 4,
       fit: FlexFit.tight,
@@ -583,5 +584,9 @@ class ActivtiyBoookingDetailView extends StatelessWidget {
         ],
       ),
     );
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

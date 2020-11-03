@@ -1,6 +1,8 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/prefs/session_manager.dart';
 
 import 'package:ota/utils/colors.dart';
@@ -43,11 +45,11 @@ class _MyHomePageState extends BaseModelWidget<HomePageViewModel> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Hello Guest,",
+                      Text("${getLocalText("hello",context)} Guest,",
                           textAlign: TextAlign.start,
                           style: CustomStyles.style1),
                       SizedBox(height: 25),
-                      Text("What are you \nlooking for ,",
+                      Text("${getLocalText("what_are_you_looking_for",context)},",
                           textAlign: TextAlign.start,
                           style: CustomStyles.style2),
                       SizedBox(height: 75),
@@ -63,7 +65,7 @@ class _MyHomePageState extends BaseModelWidget<HomePageViewModel> {
                       ),
                       Container(
                           alignment: Alignment.center,
-                          child: Text(model.sliders[index].title,
+                          child: Text(getLocalText(model.sliders[index].title, context),
                               style: CustomStyles.button_style
                                   .copyWith(fontSize: 16))),
                       SizedBox(height: 75),
@@ -94,7 +96,7 @@ class _MyHomePageState extends BaseModelWidget<HomePageViewModel> {
             alignment: Alignment.bottomRight,
             child: FlatButton(
               color: CustomColors.BackGround,
-              child: Text(strings.skip, style: CustomStyles.button_style),
+              child: Text(getLocalText("skip", context), style: CustomStyles.button_style),
               onPressed: () {
                 if (SessionManager.getInstance().isGuest) {
                   Navigator.pushNamed(context, Routes.signIn);
@@ -122,5 +124,10 @@ class _MyHomePageState extends BaseModelWidget<HomePageViewModel> {
           color: isActive ? CustomColors.Orange : Colors.grey,
           borderRadius: BorderRadius.all(Radius.circular(12))),
     );
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+  return  AppLocalizations.of(context).translate(key);
   }
 }

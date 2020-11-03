@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/viewmodels/activities_view_models/activity_results_view_model.dart';
@@ -63,7 +64,8 @@ class _ActivityFilterState extends State<ActivityFilter> {
                         children: [
 
                           SizedBox(height: 10,),
-                          Text('Price Range per Person',
+                          Text(
+                          getLocalText("price_range_per_person", context),
                             style: CustomStyles.medium14.copyWith(
                                 color: CustomColors.heading.withOpacity(.5)),),
                           SizedBox(height: 10,),
@@ -516,5 +518,10 @@ class _ActivityFilterState extends State<ActivityFilter> {
         )
 
     );
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/models/transfers/data_model/search_transfer_data.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/net/service/transfers/transfer_results_data.dart';
 import 'package:ota/utils/Dash_seperator.dart';
 import 'package:ota/utils/colors.dart';
+import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
@@ -26,7 +29,7 @@ class TransferResults extends StatefulWidget {
 }
 
 class _TransferResultsState
-    extends State<TransferResults> {
+    extends State<TransferResults> implements Delegate {
   SearchTransferData requestData;
 
   _TransferResultsState(this.requestData);
@@ -38,12 +41,12 @@ class _TransferResultsState
     return ChangeNotifierProvider<
         TransferResultsModel>(
       create: (context) => transferResultsModel =
-          TransferResultsModel(requestData),
+          TransferResultsModel(requestData,this),
       child: Consumer<TransferResultsModel>(
         builder: (context, model, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Transfer Results',
+              title: Text(getLocalText("transfer_results", context), 
                   style: CustomStyles.appbar),
               leading: new IconButton(
                 icon: new Icon(
@@ -143,7 +146,7 @@ class _TransferResultsState
                                   EdgeInsets.only(
                                       top: 40),
                               child: Text(
-                                  'SomeThing Went Wrong',
+                                  getLocalText("something_went_wrong", context), 
                                   textAlign:
                                       TextAlign
                                           .center,
@@ -160,7 +163,7 @@ class _TransferResultsState
                             .transferSearchResponse
                             .result
                             .vechiles
-                            .isEmpty
+                            .length<=0
                         ? Center(
                             child: Column(
                               mainAxisAlignment:
@@ -187,7 +190,7 @@ class _TransferResultsState
                                           top:
                                               40),
                                   child: Text(
-                                      'No Transfers Found',
+                                      getLocalText("no_transfers_found", context),
                                       textAlign:
                                           TextAlign
                                               .center,
@@ -254,7 +257,7 @@ class _TransferResultsState
                                                   Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        model.oneWay ? 'One Way' : 'Round Trip',
+                                                        model.oneWay ? getLocalText("one_way", context) : getLocalText("round_trip", context),
                                                         style: CustomStyles.heading,
                                                       ),
                                                     ],
@@ -265,7 +268,7 @@ class _TransferResultsState
                                                   Wrap(
                                                     children: <Widget>[
                                                       Text(
-                                                        "Source : ",
+                                                        getLocalText("source", context),
                                                         style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading, fontWeight: FontWeight.w700),
                                                       ),
                                                       Text(
@@ -280,7 +283,7 @@ class _TransferResultsState
                                                   Wrap(
                                                     children: <Widget>[
                                                       Text(
-                                                        "Destination : ",
+                                                        getLocalText("destination", context),
                                                         style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading, fontWeight: FontWeight.w700),
                                                       ),
                                                       Text(
@@ -307,7 +310,7 @@ class _TransferResultsState
                                                 },
                                                 color: CustomColors.Orange,
                                                 child: Text(
-                                                  'EDIT',
+                                                  getLocalText("edit", context),
                                                   style: CustomStyles.calenderStyle.copyWith(color: CustomColors.White),
                                                 ),
                                                 elevation: 3,
@@ -381,7 +384,7 @@ class _TransferResultsState
                                                           child: Container(
                                                               margin: EdgeInsets.only(bottom: 10),
                                                               child: Text(
-                                                                'Price :',
+                                                                getLocalText("price", context),
                                                                 style: CustomStyles.button_style.copyWith(fontSize: 13),
                                                                 textAlign: TextAlign.center,
                                                               )),
@@ -398,7 +401,7 @@ class _TransferResultsState
                                                                   Expanded(
                                                                       child: GestureDetector(
                                                                     child: Text(
-                                                                      'Low-High',
+                                                                      getLocalText("low_high", context),
                                                                       style: !model.priceHighLowFilter ? CustomStyles.button_style.copyWith(fontSize: 13) : CustomStyles.button_style.copyWith(fontSize: 13, color: CustomColors.White.withOpacity(.5)),
                                                                       textAlign: TextAlign.center,
                                                                     ),
@@ -409,7 +412,7 @@ class _TransferResultsState
                                                                   Expanded(
                                                                       child: GestureDetector(
                                                                     child: Text(
-                                                                      'High-Low',
+                                                                      getLocalText("high_low", context),
                                                                       style: model.priceHighLowFilter ? CustomStyles.button_style.copyWith(fontSize: 13) : CustomStyles.button_style.copyWith(fontSize: 13, color: CustomColors.White.withOpacity(.5)),
                                                                       textAlign: TextAlign.center,
                                                                     ),
@@ -452,7 +455,7 @@ class _TransferResultsState
                                                               ),
                                                               Padding(
                                                                 padding: EdgeInsets.all(7.0),
-                                                                child: Text('Transfers Not Found', textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.White)),
+                                                                child: Text(getLocalText("no_transfers_found", context), textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.White)),
                                                               ),
                                                               Padding(
                                                                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
@@ -467,7 +470,7 @@ class _TransferResultsState
                                                                       onPressed: () async {
                                                                         Navigator.pop(context);
                                                                       },
-                                                                      child: Text('Back to Search', style: CustomStyles.normal16.copyWith(color: CustomColors.White)),
+                                                                      child: Text(getLocalText("back_to_search", context), style: CustomStyles.normal16.copyWith(color: CustomColors.White)),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -487,7 +490,7 @@ class _TransferResultsState
                                                                   ),
                                                                   Padding(
                                                                     padding: EdgeInsets.all(7.0),
-                                                                    child: Text('Transfers Not Found', textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.White)),
+                                                                    child: Text(getLocalText("no_transfers_found", context), textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.White)),
                                                                   ),
                                                                 ],
                                                               )
@@ -527,7 +530,7 @@ class _TransferResultsState
                                                                                             width: 10,
                                                                                           ),
                                                                                           Text(
-                                                                                            "Source",
+                                                                                            getLocalText("source", context),
                                                                                             style: CustomStyles.normal12.copyWith(color: CustomColors.heading),
                                                                                           )
                                                                                         ],
@@ -563,7 +566,7 @@ class _TransferResultsState
                                                                                             width: 10,
                                                                                           ),
                                                                                           Text(
-                                                                                            "Destination",
+                                                                                            getLocalText("destination", context),
                                                                                             style: CustomStyles.normal12.copyWith(color: CustomColors.heading),
                                                                                           )
                                                                                         ],
@@ -577,7 +580,7 @@ class _TransferResultsState
                                                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                                                     children: [
                                                                                       Text(
-                                                                                        model.transferList[index].carClass.capacity.toString() + " Seater",
+                                                                                       "${ model.transferList[index].carClass.capacity.toString() }   ${getLocalText("seater", context)}",
                                                                                         style: CustomStyles.normal16.copyWith(color: CustomColors.disabledButton),
                                                                                       ),
                                                                                       SizedBox(
@@ -700,7 +703,7 @@ class _TransferResultsState
                             .spaceBetween,
                     children: <Widget>[
                       Text(
-                        strings.filter,
+                        getLocalText("filter", context),
                         style: CustomStyles.appbar
                             .copyWith(
                                 color:
@@ -724,6 +727,20 @@ class _TransferResultsState
         });
   }
 
+
+  @override
+  void onError(String message, bool isFromCreditCard, String asset) {
+
+    Dialogs.showGenericErrorPopup(context, message, isFromCreditCard, asset);
+    // TODO: implement onError
+  }
+
+
+  getLocalText(String key, BuildContext context) {
+
+  return  AppLocalizations.of(context).translate(key);
+  }
+  
 //  void _showBottomSheet(BuildContext context) {
 //
 //

@@ -41,8 +41,18 @@ import 'package:ota/net/service/transfers/transfer_service.dart';
 
       var correlationId = response.headers.value('X-Correlation-ID');
 
+      TransferSearchResponse results = TransferSearchResponse();
+      if(response.statusCode==200)
+        {
+           results = TransferSearchResponse.fromMap(data);
 
-      TransferSearchResponse results = TransferSearchResponse.fromMap(data);
+        }
+      else
+        {
+          results.isError =true;
+          results.message =response.statusMessage;
+        }
+
 
       TransferSearchResponseData transferSearchResponseData = TransferSearchResponseData(correlationId:correlationId ,transferSearchResponse: results);
 
@@ -54,7 +64,7 @@ import 'package:ota/net/service/transfers/transfer_service.dart';
       TransferSearchResponse results = TransferSearchResponse();
 
       print(error.toString());
-
+      results.isError =true;
 
       TransferSearchResponseData transferSearchResponseData = TransferSearchResponseData(correlationId:"" , transferSearchResponse: results);
 
@@ -77,19 +87,25 @@ import 'package:ota/net/service/transfers/transfer_service.dart';
 
 
       var data = response.data;
-
-
       TransferPlaceOrderResponseEntity results = TransferPlaceOrderResponseEntity();
 
+      if(response.statusCode ==200)
+        {
+          return results.fromJson(data);
+        }
 
-      return results.fromJson(data);
+       results.isError =true;
+       results.message =response.statusMessage;
+
+
+      return results;
 
     } catch (error, stacktrace) {
 
       TransferPlaceOrderResponseEntity results = TransferPlaceOrderResponseEntity();
 
       print(results.responseException.toString());
-
+     results.isError =true;
 
       return results;
     }
@@ -107,17 +123,19 @@ import 'package:ota/net/service/transfers/transfer_service.dart';
 
 
        var data = response.data;
+       TransferBookingResponse results = TransferBookingResponse();
+       if(response.statusCode==200)
+       return TransferBookingResponse.fromMap(data);
 
-
-       TransferBookingResponse results = TransferBookingResponse.fromMap(data);
-
+       results.isError =true;
+       results.message =response.statusMessage;
 
        return results;
 
      } catch (error, stacktrace) {
 
        TransferBookingResponse results = TransferBookingResponse();
-
+       results.isError=true;
        print(results.responseException.toString());
 
 

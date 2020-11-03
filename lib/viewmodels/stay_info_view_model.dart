@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:ota/models/flights/validation_model.dart';
 import 'package:ota/models/hotels/responses/room_option.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
@@ -43,14 +44,25 @@ class StayInfoViewModel extends BaseViewModel {
   bool isLoading = true;
   HotelService _hotelService;
   RoomOption selectedRoom;
+  List<ValidationModel> contentFilledList = List();
+
   StayInfoViewModel(this.hotel, this.selectGroup) {
 
     _hotelPaymentModel = new HotelPaymentModel();
     _commonService = GetIt.instance<CommonService>();
     _hotelService = GetIt.instance<HotelService>();
     selectedRoom = hotel.hotel.roomOption[selectGroup];
+
     generateTotalGuests();
     getCountryCodes();
+
+    var list = passengers;
+
+    for(int i=0;i<passengers.length;i++)
+      {
+        contentFilledList.add(new ValidationModel(passengers[i].id, passengers[i].type, false));
+      }
+
   }
 
   void getCountryCodes() async {
@@ -248,12 +260,24 @@ class StayInfoViewModel extends BaseViewModel {
   }
 
   void enabledEditMode(PassengerModel value) async {
-    value.isFlipped = !value.isFlipped;
+    value.isFlipped = true;
     passengers.forEach((element) {
-      if (element.id != value.id) {
+      if (element.id == value.id && element.type == value.type)
+        element.isFlipped = true;
+        else
         element.isFlipped = false;
-      }
+
     });
+        contentFilledList.forEach((element) {
+      if(value.id == element.index && value.type == element.passangerType  )
+        element.isFilled =false;
+    });
+
+    notifyListeners();
+  }
+
+  void disableEditMode(PassengerModel value) async {
+    value.isFlipped = false;
     notifyListeners();
   }
 

@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/flights/flight_search_response.dart';
 import 'package:ota/models/flights/flight_search_response_entity.dart';
 import 'package:ota/models/flights/data_model/pass_arguments.dart';
@@ -64,7 +66,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
       key: key,
       backgroundColor: CustomColors.BackGround,
 
-      appBar: AppBar(title: Text('Booking Status',style: CustomStyles.appbar,),
+      appBar: AppBar(title: Text(getLocalText("booking_status", context),style: CustomStyles.appbar,),
         leading: new IconButton(
           icon: new Icon(Icons.home, color: Colors.white,size: 13,),
           onPressed: ()  {
@@ -124,8 +126,8 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                         children: [
                           Container(
 
-                           // height: screenHeight*4.4,
-                           // margin: EdgeInsets.only(bottom: screenHeight*.8),
+                            height: screenHeight*3.57,
+                            margin: EdgeInsets.only(bottom: screenHeight*.31),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20))
@@ -140,45 +142,45 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
 
-                                SizedBox(height: 15,),
+                                SizedBox(height: screenHeight*.22,),
 
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset('assets/images/dashboard/logo_plane.png',height: screenHeight*.45,color: CustomColors.Orange,),
-
-                                      Image.asset('assets/images/flights.png',height: screenHeight*1.5,),
-
-                                      Container(
-                                        //margin: EdgeInsets.only(top: 55),
-                                        decoration: new BoxDecoration(
-                                          color: CustomColors.green,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(color: CustomColors.White,width: 3),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey,
-                                              offset: Offset(0.0, 1.0), //(x,y)
-                                              blurRadius: 6.0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Image.asset('assets/images/check.png',height: 40,width: 40,),
-                                      ),
-
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 15,),
-
-
-//                                Image.asset('assets/images/flights.png',height: screenHeight*1.5,),
+//                                Padding(
+//                                  padding: const EdgeInsets.all(8.0),
+//                                  child: Row(
+//                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                    crossAxisAlignment: CrossAxisAlignment.center,
+//                                    children: [
+//                                      Image.asset('assets/images/dashboard/logo_plane.png',height: screenHeight*.45,color: CustomColors.Orange,),
+//
+//                                      Image.asset('assets/images/flights.png',height: screenHeight*1.5,),
+//
+//                                      Container(
+//                                        //margin: EdgeInsets.only(top: 55),
+//                                        decoration: new BoxDecoration(
+//                                          color: CustomColors.green,
+//                                          shape: BoxShape.circle,
+//                                          border: Border.all(color: CustomColors.White,width: 3),
+//                                          boxShadow: [
+//                                            BoxShadow(
+//                                              color: Colors.grey,
+//                                              offset: Offset(0.0, 1.0), //(x,y)
+//                                              blurRadius: 6.0,
+//                                            ),
+//                                          ],
+//                                        ),
+//                                        child: Image.asset('assets/images/check.png',height: 40,width: 40,),
+//                                      ),
+//
+//                                    ],
+//                                  ),
+//                                ),
 //                                SizedBox(height: 15,),
 
-                                Center(child: Text('Reservation Number',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
+
+                                Image.asset('assets/images/flights.png',height: screenHeight*1.2,),
+                                SizedBox(height: screenHeight*.22,),
+
+                                Center(child: Text(getLocalText("reservation_no", context),style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
 
                                 SizedBox(height: 3,),
 
@@ -204,9 +206,9 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                                   ],
                                 ),
 
+                                SizedBox(height: screenHeight*.22,),
 
-
-                                Center(child: Text('Flight Booking Id',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
+                                Center(child: Text(getLocalText("flight_booking_id", context),style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
 
                                 SizedBox(height: 3,),
 
@@ -233,7 +235,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                                   ],
                                 ),
 
-                                SizedBox(height: 15,),
+                                SizedBox(height: screenHeight*.4,),
 
 
 
@@ -244,37 +246,38 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                           ),
 
 
-//                          Positioned(
-//                            left: screenWidth*4.3,
-//                            top: screenHeight*3.85,
-//                            child: Container(
-//                              alignment: Alignment.center,
-//                              height: MediaQuery.of(context).size.height*.1,
-//                              child: Container(
-//                                //margin: EdgeInsets.only(top: 55),
-//                                decoration: new BoxDecoration(
-//                                  color: CustomColors.green,
-//                                  shape: BoxShape.circle,
-//                                  border: Border.all(color: CustomColors.White,width: 3),
-//                                  boxShadow: [
-//                                    BoxShadow(
-//                                      color: Colors.grey,
-//                                      offset: Offset(0.0, 1.0), //(x,y)
-//                                      blurRadius: 6.0,
-//                                    ),
-//                                  ],
-//                                ),
-//                                child: Image.asset('assets/images/check.png',height: 50,width: 50,),
-//                              ),
-//                            ),
-//                          ),
+                          Positioned(
+                            left: screenWidth*4.3,
+                            top: screenHeight*3,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: MediaQuery.of(context).size.height*.1,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                //margin: EdgeInsets.only(top: 55),
+                                decoration: new BoxDecoration(
+                                  color: CustomColors.green,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: CustomColors.White,width: 3),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      offset: Offset(0.0, 1.0), //(x,y)
+                                      blurRadius: 6.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Image.asset('assets/images/check.png',height: 25,width: 25,),
+                              ),
+                            ),
+                          ),
 
 
                         ],
                       ),
 
 
-                      SizedBox(height: screenHeight*.3,),
+                      SizedBox(height: screenHeight*.15,),
 
 
                      _paymentSummary(model),
@@ -282,7 +285,12 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                       SizedBox(height: screenHeight*.4,),
 
 
-                      _flightSummary(model)
+                      _flightSummary(model),
+                      SizedBox(height: screenHeight*.4,),
+
+                      _passengerInfo(model),
+
+                      SizedBox(height: screenHeight*.4,),
 
                     ],
                   ),
@@ -435,7 +443,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                         children: <Widget>[
                           Flexible(
                             fit: FlexFit.tight,
-                            child:Text("Airport Name",style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
+                            child:Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
 
                           ),
                           Flexible(
@@ -447,7 +455,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                           ),
                           Flexible(
                             fit: FlexFit.tight,
-                            child: Text("Airport Name",style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
+                            child: Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
                           ),
 
 
@@ -518,7 +526,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                         children: <Widget>[
                           Flexible(
                               fit: FlexFit.loose,
-                              child: Text('Baggage:',style: CustomStyles.calenderStyle,)
+                              child: Text(getLocalText("baggage", context),style: CustomStyles.calenderStyle,)
                           ),
                           Flexible(
                               fit: FlexFit.tight,
@@ -526,7 +534,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
                               RichText(
                                 text: TextSpan(
-                                    text: 'Check-In',
+                                    text: getLocalText("check_in", context),
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text: " ${model.flightResultsData.selectedList[0].baglimit.holdWeight.toString()}"+' kgs',
@@ -542,7 +550,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                               fit: FlexFit.loose,
                               child:   RichText(
                                 text: TextSpan(
-                                    text: 'Cabin',
+                                    text: getLocalText("cabin", context),
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text:" ${model.flightResultsData.selectedList[0].baglimit.handWeight.toString()}"+' kgs',
@@ -596,7 +604,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
         return_.add(
             model.flightResultsData.selectedList[0].route[i]);
       }
-      print("Segregating");
+
 
     }
 
@@ -608,7 +616,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 15,right: 15),
-          child: Text('Departure',style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
+          child: Text(getLocalText("departure", context),style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
         ),
 
         SizedBox(height: 10,),
@@ -623,7 +631,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
         Padding(
           padding: const EdgeInsets.only(left: 15,right: 15),
-          child: Text('Return',style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
+          child: Text(getLocalText("return", context),style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
         ),
 
         SizedBox(height: 10,),
@@ -775,7 +783,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                         children: <Widget>[
                           Flexible(
                             fit: FlexFit.tight,
-                            child:Text("Airport Name",style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
+                            child:Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
 
                           ),
                           Flexible(
@@ -787,7 +795,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                           ),
                           Flexible(
                             fit: FlexFit.tight,
-                            child: Text("Airport Name",style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
+                            child: Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
                           ),
 
 
@@ -873,7 +881,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                         children: <Widget>[
                           Flexible(
                               fit: FlexFit.loose,
-                              child: Text('Baggage:',style: CustomStyles.calenderStyle,)
+                              child: Text(getLocalText("baggage", context),style: CustomStyles.calenderStyle,)
                           ),
                           Flexible(
                               fit: FlexFit.tight,
@@ -881,7 +889,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
                               RichText(
                                 text: TextSpan(
-                                    text: 'Check-In',
+                                    text: getLocalText("check_in", context),
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text: " ${model.flightResultsData.selectedList[0].baglimit.holdWeight.toString()}"+' kgs',
@@ -897,7 +905,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                               fit: FlexFit.loose,
                               child:   RichText(
                                 text: TextSpan(
-                                    text: 'Cabin',
+                                    text: getLocalText("cabin", context),
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text: " ${model.flightResultsData.selectedList[0].baglimit.handWeight.toString()}"+' kgs',
@@ -1048,7 +1056,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                     children: <Widget>[
                       Flexible(
                         fit: FlexFit.tight,
-                        child:Text("Airport Name",style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
+                        child:Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
 
                       ),
                       Flexible(
@@ -1060,7 +1068,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                       ),
                       Flexible(
                         fit: FlexFit.tight,
-                        child: Text("Airport Name",style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
+                        child: Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
                       ),
 
 
@@ -1135,7 +1143,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                         children: <Widget>[
                           Flexible(
                               fit: FlexFit.loose,
-                              child: Text('Baggage:',style: CustomStyles.calenderStyle,)
+                              child: Text(getLocalText("baggage", context),style: CustomStyles.calenderStyle,)
                           ),
                           Flexible(
                               fit: FlexFit.tight,
@@ -1143,7 +1151,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
                               RichText(
                                 text: TextSpan(
-                                    text: 'Check-In',
+                                    text: getLocalText("check_in", context),
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text: " ${model.flightResultsData.selectedList[0].baglimit.holdWeight.toString()}"+' kgs',
@@ -1159,7 +1167,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                               fit: FlexFit.loose,
                               child:   RichText(
                                 text: TextSpan(
-                                    text: 'Cabin',
+                                    text: getLocalText("cabin", context),
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text: " ${model.flightResultsData.selectedList[0].baglimit.handWeight.toString()}"+' kgs',
@@ -1210,7 +1218,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
       
 
       key.currentState.showSnackBar(
-          new SnackBar(content: new Text("Screen Captured",style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
+          new SnackBar(content: new Text(getLocalText("screen_captured", context),style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
               backgroundColor: CustomColors.BackGround));
 
     } catch (e) {
@@ -1224,7 +1232,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
     Clipboard.setData(new ClipboardData(text:reservationNumber ));
     key.currentState.showSnackBar(
-        new SnackBar(content: new Text("Copied to Clipboard",style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
+        new SnackBar(content: new Text(getLocalText("copied_to_clipboard", context),style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
     backgroundColor: CustomColors.BackGround));
 
   }
@@ -1259,7 +1267,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15),
-            child: Text('Payment Summary',style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
+            child: Text(getLocalText("payment_summary", context),style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
           ),
 
 
@@ -1271,7 +1279,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Flight Price",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("flight_price", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 RichText(
                   text: TextSpan(
@@ -1301,7 +1309,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Tax and other charges",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("tax_and_other_charges", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 RichText(
                   text: TextSpan(
@@ -1332,7 +1340,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Total Amount Payable",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("total_amount_payable", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
 
                 RichText(
@@ -1386,7 +1394,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15),
-            child: Text('Flights Summary',style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
+            child: Text(getLocalText("flight_summary", context),style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
           ),
 
           SizedBox(height:20 ,),
@@ -1399,7 +1407,7 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
               Padding(
                 padding: const EdgeInsets.only(left: 15,right: 15),
-                child: Text('Departure',style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
+                child: Text(getLocalText("departure", context),style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
               ),
 
               SizedBox(height: 10,),
@@ -1413,9 +1421,6 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
             ],): getRoundTripList(model),
 
 
-          SizedBox(height: 20,),
-          Text('Cancellation & Refund Policy',style: CustomStyles.normal12.copyWith(color: CustomColors.BackGround,decoration: TextDecoration.underline,),),
-
 
           SizedBox(height:30 ,),
 
@@ -1427,7 +1432,120 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
   }
 
+  getLocalText(String key, BuildContext context) {
 
+    return  AppLocalizations.of(context).translate(key);
+  }
+
+  _passengerInfo(FlightBookingStatusModel model) {
+
+    return Container(
+      margin: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4),
+      padding: EdgeInsets.only(left: screenWidth*.4,right:screenWidth *.4,top: 15),
+
+      decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(15)
+      ),
+      child:
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Text("Passsenger Summary",style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
+          ),
+
+          SizedBox(height:20 ,),
+
+          ListView.builder(
+    //physics: NeverScrollableScrollPhysics(),
+
+    primary: false,
+    shrinkWrap: true,
+    //padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * .12),
+    itemCount: model.flightTravelInfoData.traveldetails.length, // records.length
+    itemBuilder: (BuildContext context, int index) {
+
+      return Padding(
+        padding: const EdgeInsets.only(left: 15,right: 15),
+        child: Column(
+
+          children: [
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("First Name",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+                Text(model.flightTravelInfoData.traveldetails[index].firstname,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+
+              ],
+            ),
+
+            SizedBox(height:15 ,),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Last Name",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+                Text( model.flightTravelInfoData.traveldetails[index].lastname,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+
+              ],
+            ),
+
+            SizedBox(height:15 ,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Email",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+                Text( model.flightTravelInfoData.traveldetails[index].email,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+
+              ],
+            ),
+
+            SizedBox(height:15 ,),
+
+            Container(
+            margin: EdgeInsets.only(top: 20,bottom: 20),
+            child: MySeparator(color: CustomColors.TabDisabled,height: 1,Horizontal: true,)),
+
+
+          ],
+        ),
+      );
+
+    }),
+
+
+
+          GestureDetector(
+          onTap: (){
+
+            Navigator.pushNamed(context, Routes.cancelPolicyView,arguments:[model.flightBookingRes.result.bookings.first.reservationNumber]);
+
+          },
+
+          child: Text(getLocalText("cancellation_and_refund_policy", context),style: CustomStyles.normal12.copyWith(color: CustomColors.BackGround,decoration: TextDecoration.underline,),)),
+
+
+          SizedBox(height:30 ,),
+
+
+
+        ],
+      ),
+    );
+
+  }
 
 }
 

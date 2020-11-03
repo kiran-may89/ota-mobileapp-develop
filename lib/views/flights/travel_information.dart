@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:age/age.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/flights/flight_booking_response_entity.dart';
 import 'package:ota/models/flights/data_model/pass_arguments.dart';
 import 'package:ota/models/flights/requests/flight_save_booking_request.dart';
@@ -33,21 +36,15 @@ class TravelInformation extends StatefulWidget {
       _TravelInformationState(flightResultsData);
 }
 
-class _TravelInformationState
-    extends State<TravelInformation> {
+class _TravelInformationState extends State<TravelInformation> {
   GlobalKey<FormState> _formState = GlobalKey();
-
-
 
   var size;
 
   BuildContext context;
 
-  FlightBookingResponseEntity
-      flightBookingResponseEntity =
+  FlightBookingResponseEntity flightBookingResponseEntity =
       FlightBookingResponseEntity();
-
-
 
   bool phoneNumberValidated = false;
 
@@ -79,46 +76,33 @@ class _TravelInformationState
   void initState() {
     // TODO: implement initState
 
-    for(int i=0;i<  widget.flightResultsData.requestData.adults;i++
-    )
-    contentFilledList.add(new ValidationModel(i, 0, false));
+    for (int i = 0; i < widget.flightResultsData.requestData.adults; i++)
+      contentFilledList.add(new ValidationModel(i, 0, false));
 
-    if( widget.flightResultsData.requestData.children!=0)
-    for(int i=0;i<  widget.flightResultsData.requestData.children;i++
-    )
-      contentFilledList.add(new ValidationModel(i, 1, false));
+    if (widget.flightResultsData.requestData.children != 0)
+      for (int i = 0; i < widget.flightResultsData.requestData.children; i++)
+        contentFilledList.add(new ValidationModel(i, 1, false));
 
-    if( widget.flightResultsData.requestData.infants!=0)
-    for(int i=0;i<  widget.flightResultsData.requestData.infants;i++
-    )
-      contentFilledList.add(new ValidationModel(i, 2, false));
-
-
+    if (widget.flightResultsData.requestData.infants != 0)
+      for (int i = 0; i < widget.flightResultsData.requestData.infants; i++)
+        contentFilledList.add(new ValidationModel(i, 2, false));
   }
 
   @override
   Widget build(context) {
+    height = MediaQuery.of(context).size.height / 10;
 
-    height =
-        MediaQuery.of(context).size.height / 10;
+    width = MediaQuery.of(context).size.width / 10;
 
-    width =
-        MediaQuery.of(context).size.width / 10;
-
-    print("START");
-
-    return ChangeNotifierProvider<
-        FlightPassengerInfoModel>(
-      create: (context) =>
-          FlightPassengerInfoModel(
-              flightResultsData),
+    return ChangeNotifierProvider<FlightPassengerInfoModel>(
+      create: (context) => FlightPassengerInfoModel(flightResultsData),
       child: Consumer<FlightPassengerInfoModel>(
         builder: (context, model, child) {
           return Scaffold(
             backgroundColor: CustomColors.White,
             appBar: AppBar(
               title: Text(
-                'Travellers Information',
+                getLocalText("travel_information", context),
                 style: CustomStyles.appbar,
               ),
               leading: new IconButton(
@@ -127,8 +111,7 @@ class _TravelInformationState
                   color: Colors.white,
                   size: 13,
                 ),
-                onPressed: () =>
-                    Navigator.of(context).pop(),
+                onPressed: () => Navigator.of(context).pop(),
               ),
               actions: <Widget>[
                 IconButton(
@@ -144,74 +127,45 @@ class _TravelInformationState
             body: model.isLoading
                 ? SpinKitChasingDots(
                     size: SizeConstants.SIZE_50,
-                    color:
-                        CustomColors.BackGround,
+                    color: CustomColors.BackGround,
                   )
                 : Container(
                     margin: EdgeInsets.only(
-                        left: width * .4,
-                        right: width * .4,
-                        top: 15),
+                        left: width * .4, right: width * .4, top: 15),
                     child: SingleChildScrollView(
                       physics: ScrollPhysics(),
                       child: Column(
-                        mainAxisSize:
-                            MainAxisSize.min,
-                        mainAxisAlignment:
-                            MainAxisAlignment
-                                .start,
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
-                            mainAxisSize:
-                                MainAxisSize.min,
-                            mainAxisAlignment:
-                                MainAxisAlignment
-                                    .start,
-                            crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .center,
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Expanded(
                                 flex: 8,
                                 child: Column(
-                                  mainAxisSize:
-                                      MainAxisSize
-                                          .min,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment
-                                          .start,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment
-                                          .start,
-                                  children: <
-                                      Widget>[
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
                                     Row(
-                                      children: <
-                                          Widget>[
+                                      children: <Widget>[
                                         Text(
-                                          model
-                                              .flightResultsData
-                                              .requestData
+                                          model.flightResultsData.requestData
                                               .flyFrom,
-                                          style: CustomStyles
-                                              .heading,
+                                          style: CustomStyles.heading,
                                         ),
                                         Icon(
-                                          Icons
-                                              .swap_horiz,
-                                          color: CustomColors
-                                              .heading,
+                                          Icons.swap_horiz,
+                                          color: CustomColors.heading,
                                         ),
                                         Text(
-                                          model
-                                              .flightResultsData
-                                              .requestData
+                                          model.flightResultsData.requestData
                                               .flyTo,
-                                          style: CustomStyles
-                                              .heading,
+                                          style: CustomStyles.heading,
                                         ),
                                       ],
                                     ),
@@ -219,48 +173,80 @@ class _TravelInformationState
                                       height: 7,
                                     ),
                                     Wrap(
-                                      spacing:
-                                          1.2,
-                                      alignment:
-                                          WrapAlignment
-                                              .start,
-                                      direction: Axis
-                                          .horizontal,
-                                      children: <
-                                          Widget>[
+                                      spacing: 1.2,
+                                      alignment: WrapAlignment.start,
+                                      direction: Axis.horizontal,
+                                      children: <Widget>[
                                         Text(
                                             model.flightResultsData.requestData.oneway
-                                                ? model.flightResultsData.requestData.monthFrom + " | "
-                                                : model.flightResultsData.requestData.monthFrom + " - " + model.flightResultsData.requestData.monthTo + " | ",
-                                            style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))),
+                                                ? model.flightResultsData
+                                                        .requestData.monthFrom +
+                                                    " | "
+                                                : model.flightResultsData
+                                                        .requestData.monthFrom +
+                                                    " - " +
+                                                    model.flightResultsData
+                                                        .requestData.monthTo +
+                                                    " | ",
+                                            style: CustomStyles.calenderStyle
+                                                .copyWith(
+                                                    color: CustomColors.heading
+                                                        .withOpacity(.5))),
                                         Row(
-                                          mainAxisSize:
-                                              MainAxisSize.min,
+                                          mainAxisSize: MainAxisSize.min,
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                          children: <
-                                              Widget>[
-                                            model.flightResultsData.requestData.adults != 0
-                                                ? Text('Adult ${model.flightResultsData.requestData.adults} | ', style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)))
+                                          children: <Widget>[
+                                            model.flightResultsData.requestData
+                                                        .adults !=
+                                                    0
+                                                ? Text(
+                                                    '${getLocalText("adults", context) + model.flightResultsData.requestData.adults.toString()} | ',
+                                                    style: CustomStyles
+                                                        .calenderStyle
+                                                        .copyWith(
+                                                            color: CustomColors
+                                                                .heading
+                                                                .withOpacity(
+                                                                    .5)))
                                                 : SizedBox.shrink(),
-                                            model.flightResultsData.requestData.children != 0
-                                                ? Text('Children ${model.flightResultsData.requestData.children} | ', style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)))
+                                            model.flightResultsData.requestData
+                                                        .children !=
+                                                    0
+                                                ? Text(
+                                                    '${getLocalText("children", context) + model.flightResultsData.requestData.children.toString()} | ',
+                                                    style: CustomStyles
+                                                        .calenderStyle
+                                                        .copyWith(
+                                                            color: CustomColors
+                                                                .heading
+                                                                .withOpacity(
+                                                                    .5)))
                                                 : SizedBox.shrink(),
-                                            model.flightResultsData.requestData.infants != 0
-                                                ? Text('Infants ${model.flightResultsData.requestData.infants} | ', style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)))
+                                            model.flightResultsData.requestData
+                                                        .infants !=
+                                                    0
+                                                ? Text(
+                                                    '${getLocalText("infants", context) + model.flightResultsData.requestData.infants.toString()} | ',
+                                                    style: CustomStyles
+                                                        .calenderStyle
+                                                        .copyWith(
+                                                            color: CustomColors
+                                                                .heading
+                                                                .withOpacity(
+                                                                    .5)))
                                                 : SizedBox.shrink(),
                                           ],
                                         ),
                                         Text(
-                                          model
-                                              .flightResultsData
-                                              .requestData
+                                          model.flightResultsData.requestData
                                               .cabinSelection_name,
-                                          style: CustomStyles
-                                              .calenderStyle
-                                              .copyWith(color: CustomColors.heading.withOpacity(.5)),
+                                          style: CustomStyles.calenderStyle
+                                              .copyWith(
+                                                  color: CustomColors.heading
+                                                      .withOpacity(.5)),
                                         ),
                                       ],
                                     )
@@ -271,37 +257,21 @@ class _TravelInformationState
                                 flex: 2,
                                 child: SizedBox(
                                   height: 24,
-                                  child:
-                                      RaisedButton(
-                                    onPressed:
-                                        () {
-                                      Navigator.of(
-                                              context)
-                                          .pop();
-                                      Navigator.of(
-                                              context)
-                                          .pop();
-                                      Navigator.of(
-                                              context)
-                                          .pop();
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
                                     },
-                                    color:
-                                        CustomColors
-                                            .Orange,
+                                    color: CustomColors.Orange,
                                     child: Text(
-                                      'EDIT',
-                                      style: CustomStyles
-                                          .calenderStyle
-                                          .copyWith(
-                                              color:
-                                                  CustomColors.White),
+                                      getLocalText("edit", context),
+                                      style: CustomStyles.calenderStyle
+                                          .copyWith(color: CustomColors.White),
                                     ),
                                     elevation: 3,
-                                    shape:
-                                        RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(
-                                              5.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
                                     ),
                                   ),
                                 ),
@@ -309,13 +279,9 @@ class _TravelInformationState
                             ],
                           ),
                           Container(
-                              margin:
-                                  EdgeInsets.only(
-                                      top: 10,
-                                      bottom: 10),
+                              margin: EdgeInsets.only(top: 10, bottom: 10),
                               child: MySeparator(
-                                color: CustomColors
-                                    .TabDisabled,
+                                color: CustomColors.TabDisabled,
                                 height: 1,
                                 Horizontal: true,
                               )),
@@ -323,110 +289,152 @@ class _TravelInformationState
                             height: 5,
                           ),
                           Form(
-                            key:
-                            _formState,
+                            key: _formState,
                             child: Column(
-                              mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .start,
-                              crossAxisAlignment:
-                                  CrossAxisAlignment
-                                      .start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Visibility(
-                                  visible: model
-                                          .flightResultsData
-                                          .requestData
+                                  visible: model.flightResultsData.requestData
                                           .adults !=
                                       0,
                                   child: Container(
                                       child: Column(
-                                            children: List.generate(
-                                        model.flightResultsData.requestData.adults,
-                                        (int
-                                            index) {
-                                      int passengerType =
-                                          0;
+                                    children: List.generate(
+                                        model.flightResultsData.requestData
+                                            .adults, (int index) {
+                                      int passengerType = 0;
 
-                                      print(
-                                          "Started");
+                                      bool phoneNumberValidated = false;
 
-                                      bool
-                                          phoneNumberValidated =
-                                          false;
-
-                                      ///For dateSelectionDialog --dob or passport_expiry_date  selection
-                                      bool
-                                          isDoB;
+                                      bool isDoB;
 
                                       return Container(
 //                                              margin:
 //                                                  EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                        child:
-                                            Column(
+                                        child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             GestureDetector(
-                                                onTap: (){
-
-                                                  contentFilledList.forEach((element) {
-                                                    if(element.passangerType==passengerType && element.index==index)
-                                                      element.isFilled =false;
-
+                                                onTap: () {
+                                                  contentFilledList
+                                                      .forEach((element) {
+                                                    if (element.passangerType ==
+                                                            passengerType &&
+                                                        element.index == index)
+                                                      element.isFilled = false;
                                                   });
 
-                                                  model.enabledEditModeOnContinue(index,passengerType);},
+                                                  model
+                                                      .enabledEditModeOnContinue(
+                                                          index, passengerType);
+                                                },
                                                 child: Container(
-                                                  color: model.getPassengerName(index, passengerType) == "" ? CustomColors.Orange : CustomColors.BackGround,
-                                                  width: MediaQuery.of(context).size.width,
+                                                  color: model.getPassengerName(
+                                                              index,
+                                                              passengerType) ==
+                                                          ""
+                                                      ? CustomColors.Orange
+                                                      : CustomColors.BackGround,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
                                                   height: 50,
                                                   child: Container(
-                                                    margin: EdgeInsets.only(left: SizeConstants.SIZE_4),
-                                                    width: MediaQuery.of(context).size.width,
+                                                    margin: EdgeInsets.only(
+                                                        left: SizeConstants
+                                                            .SIZE_4),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
                                                     height: 50,
                                                     decoration: BoxDecoration(
                                                       color: CustomColors.White,
                                                       boxShadow: [
                                                         BoxShadow(
-                                                          color: Colors.black.withOpacity(0.1),
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
                                                           spreadRadius: 0.5,
                                                           blurRadius: 0.5,
 
-                                                          offset: Offset(0, 1), // changes position of shadow
+                                                          offset: Offset(0,
+                                                              1), // changes position of shadow
                                                         ),
                                                       ],
                                                     ),
                                                     child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Visibility(
-                                                            visible: model.getPassengerName(index, passengerType) == "",
+                                                            visible: model
+                                                                    .getPassengerName(
+                                                                        index,
+                                                                        passengerType) ==
+                                                                "",
                                                             child: Container(
-                                                              margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                                              child: Text(index == 0 ? "Primary" : "Adult " + "${index + 1}", style: CustomStyles.medium16),
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          SizeConstants
+                                                                              .SIZE_12),
+                                                              child: Text(
+                                                                  index == 0
+                                                                      ? "${getLocalText("primary", context)}"
+                                                                      : "${getLocalText("adult", context)}" +
+                                                                          "${index + 1}",
+                                                                  style: CustomStyles
+                                                                      .medium16),
                                                             )),
                                                         Visibility(
-                                                            visible: model.getPassengerName(index, passengerType) != "",
+                                                            visible: model
+                                                                    .getPassengerName(
+                                                                        index,
+                                                                        passengerType) !=
+                                                                "",
                                                             child: Container(
-                                                              margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          SizeConstants
+                                                                              .SIZE_12),
                                                               child: Row(
                                                                 children: [
-                                                                  SvgPicture.asset("assets/images/user.svg", width: SizeConstants.SIZE_20, height: SizeConstants.SIZE_20, color: Colors.black54),
+                                                                  SvgPicture.asset(
+                                                                      "assets/images/user.svg",
+                                                                      width: SizeConstants
+                                                                          .SIZE_20,
+                                                                      height: SizeConstants
+                                                                          .SIZE_20,
+                                                                      color: Colors
+                                                                          .black54),
                                                                   SizedBox(
-                                                                    width: SizeConstants.SIZE_8,
+                                                                    width: SizeConstants
+                                                                        .SIZE_8,
                                                                   ),
-                                                                  Text(model.getPassengerName(index, passengerType), style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
-                                                                  SizedBox(
-                                                                    width: SizeConstants.SIZE_8,
-                                                                  ),
-                                                                  Flexible(
-                                                                    child: Text(
-                                                                      model.emailId == null ? "" : ', Email: ${model.emailId}',
-                                                                      style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                                      overflow: TextOverflow.fade,
-                                                                    ),
-                                                                  ),
+                                                                  Text(
+                                                                      model.getPassengerName(
+                                                                          index,
+                                                                          passengerType),
+                                                                      style: CustomStyles
+                                                                          .medium16
+                                                                          .copyWith(
+                                                                              color: CustomColors.BackGround)),
+//                                                                  SizedBox(
+//                                                                    width: SizeConstants.SIZE_8,
+//                                                                  ),
+//                                                                  Flexible(
+//                                                                    child: Text(
+//                                                                      model.emailId == null ? "" : ', ${getLocalText("email", context)}: ${model.emailId}',
+//                                                                      style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
+//                                                                      overflow: TextOverflow.fade,
+//                                                                    ),
+//                                                                  ),
                                                                 ],
                                                               ),
                                                             )),
@@ -436,66 +444,143 @@ class _TravelInformationState
                                                 )),
                                             Visibility(
                                                 maintainSize: false,
-                                                visible: model.areDetailsShown(index, passengerType),
+                                                visible: model.areDetailsShown(
+                                                    index, passengerType),
                                                 child: Container(
 // margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
                                                   child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
                                                     children: [
                                                       Align(
-                                                        alignment: Alignment.center,
+                                                        alignment:
+                                                            Alignment.center,
                                                         child: Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
                                                             Container(
-                                                              width: MediaQuery.of(context).size.width / 10 * 4,
-                                                              height: MediaQuery.of(context).size.height / 10 * .5,
-                                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: CustomColors.TabDisabled),
-                                                              margin: EdgeInsets.only(left: 0, right: 0, top: 20),
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  10 *
+                                                                  4,
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height /
+                                                                  10 *
+                                                                  .5,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  color: CustomColors
+                                                                      .TabDisabled),
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 0,
+                                                                      right: 0,
+                                                                      top: 20),
                                                               child: Stack(
-                                                                alignment: Alignment.center,
-                                                                children: <Widget>[
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                children: <
+                                                                    Widget>[
                                                                   AnimatedContainer(
-                                                                    duration: Duration(microseconds: 1000),
-                                                                    alignment: model.getGender(index, passengerType) ? Alignment.bottomLeft : Alignment.bottomRight,
-                                                                    child: Container(
-                                                                      height: MediaQuery.of(context).size.height / 10 * .7,
-                                                                      width: MediaQuery.of(context).size.width / 10 * 2,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20),
-                                                                        color: CustomColors.BackGround,
+                                                                    duration: Duration(
+                                                                        microseconds:
+                                                                            1000),
+                                                                    alignment: model.getGender(
+                                                                            index,
+                                                                            passengerType)
+                                                                        ? Alignment
+                                                                            .bottomLeft
+                                                                        : Alignment
+                                                                            .bottomRight,
+                                                                    child:
+                                                                        Container(
+                                                                      height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height /
+                                                                          10 *
+                                                                          .7,
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                          10 *
+                                                                          2,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(20),
+                                                                        color: CustomColors
+                                                                            .BackGround,
                                                                       ),
                                                                     ),
                                                                   ),
                                                                   Container(
                                                                     child: Row(
-                                                                      children: <Widget>[
+                                                                      children: <
+                                                                          Widget>[
                                                                         Expanded(
-                                                                            child: GestureDetector(
-                                                                          child: Container(
-                                                                            alignment: Alignment.center,
-                                                                            height: double.infinity,
-                                                                            width: double.infinity,
-                                                                            child: Text('Male', textAlign: TextAlign.center, style: model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                          child:
+                                                                              Container(
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            height:
+                                                                                double.infinity,
+                                                                            width:
+                                                                                double.infinity,
+                                                                            child: Text(getLocalText("male", context),
+                                                                                textAlign: TextAlign.center,
+                                                                                style: model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
                                                                           ),
-                                                                          onTap: () {
-                                                                            model.setGender(index, passengerType, 0);
+                                                                          onTap:
+                                                                              () {
+                                                                            model.setGender(
+                                                                                index,
+                                                                                passengerType,
+                                                                                0);
                                                                           },
                                                                         )),
                                                                         Expanded(
-                                                                            child: GestureDetector(
-                                                                          child: Container(
-                                                                            alignment: Alignment.center,
-                                                                            height: double.infinity,
-                                                                            width: double.infinity,
-                                                                            child: Text('Female', textAlign: TextAlign.center, style: !model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                          child:
+                                                                              Container(
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            height:
+                                                                                double.infinity,
+                                                                            width:
+                                                                                double.infinity,
+                                                                            child: Text(getLocalText("female", context),
+                                                                                textAlign: TextAlign.center,
+                                                                                style: !model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
                                                                           ),
-                                                                          onTap: () {
-                                                                            model.setGender(index, passengerType, 1);
+                                                                          onTap:
+                                                                              () {
+                                                                            model.setGender(
+                                                                                index,
+                                                                                passengerType,
+                                                                                1);
                                                                           },
                                                                         )),
                                                                       ],
@@ -508,107 +593,258 @@ class _TravelInformationState
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: SizeConstants.SIZE_12,
+                                                        width: SizeConstants
+                                                            .SIZE_12,
                                                       ),
                                                       Flexible(
                                                         child: TextFormField(
-                                                          onFieldSubmitted: (v) {
-                                                            FocusScope.of(context).requestFocus(adultLastNameFocus);
+                                                      inputFormatters: [
+                                          LengthLimitingTextInputFormatter(30),
+                                          ],
+                                                          onFieldSubmitted:
+                                                              (v) {
+                                                            FocusScope.of(
+                                                                    context)
+                                                                .requestFocus(
+                                                                    adultLastNameFocus);
                                                           },
                                                           validator: (value) {
-                                                            return value == null || value.isEmpty ? "Enter First Name" : null;
+                                                            final validCharacters =
+                                                                RegExp(
+                                                                    r'[0123456789!@#$%^&*(),.?":{}|<>]');
+
+                                                            if (validCharacters
+                                                                .hasMatch(
+                                                                    value))
+                                                              return "Enter Correct Name";
+
+                                                            return value ==
+                                                                        null ||
+                                                                    value
+                                                                        .isEmpty
+                                                                ? getLocalText(
+                                                                    "enter_first_name",
+                                                                    context)
+                                                                : null;
                                                           },
-                                                          onChanged: (value) => model.setPassengerName(index, passengerType, value),
-                                                          initialValue: model.getPassengerName(index, passengerType),
-                                                          style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                          decoration: InputDecoration(
-                                                            labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                            labelText: "First Name",
-                                                            alignLabelWithHint: true,
+                                                          onChanged: (value) =>
+                                                              model.setPassengerName(
+                                                                  index,
+                                                                  passengerType,
+                                                                  value),
+                                                          initialValue: model
+                                                              .getPassengerName(
+                                                                  index,
+                                                                  passengerType),
+                                                          style: CustomStyles
+                                                              .medium16
+                                                              .copyWith(
+                                                                  color: CustomColors
+                                                                      .BackGround),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelStyle: CustomStyles
+                                                                .medium16
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .grey),
+                                                            labelText:
+                                                                getLocalText(
+                                                                    "first_name",
+                                                                    context),
+                                                            alignLabelWithHint:
+                                                                true,
                                                           ),
                                                         ),
                                                       ),
                                                       TextFormField(
-                                                        focusNode: adultLastNameFocus,
+                                                        inputFormatters: [
+                                                          LengthLimitingTextInputFormatter(30),
+                                                        ],
+                                                        focusNode:
+                                                            adultLastNameFocus,
                                                         validator: (value) {
-                                                          if (value == null || value.isEmpty) {
-                                                            return "Enter Last Name";
+                                                          final validCharacters =
+                                                              RegExp(
+                                                                  r'[01234567890!@#$%^&*(),.?":{}|<>]');
+
+                                                          if (validCharacters
+                                                              .hasMatch(value))
+                                                            return "Enter Correct Name";
+
+                                                          if (value == null ||
+                                                              value.isEmpty) {
+                                                            return getLocalText(
+                                                                "enter_last_name",
+                                                                context);
                                                           }
                                                           return null;
                                                         },
                                                         onFieldSubmitted: (v) {
-                                                          FocusScope.of(context).requestFocus(model.isPrimary(index, passengerType) ? adultEmailFocus : adultPassportFocus);
+                                                          FocusScope.of(context)
+                                                              .requestFocus(model
+                                                                      .isPrimary(
+                                                                          index,
+                                                                          passengerType)
+                                                                  ? adultEmailFocus
+                                                                  : adultPassportFocus);
                                                         },
-                                                        onChanged: (value) => model.setPassengerLastName(index, passengerType, value),
-                                                        initialValue: model.getPassengerLastName(index, passengerType),
-
-                                                        style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                        decoration: InputDecoration(
-                                                          labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                          labelText: "Last Name",
-                                                          alignLabelWithHint: true,
+                                                        onChanged: (value) => model
+                                                            .setPassengerLastName(
+                                                                index,
+                                                                passengerType,
+                                                                value),
+                                                        initialValue: model
+                                                            .getPassengerLastName(
+                                                                index,
+                                                                passengerType),
+                                                        style: CustomStyles
+                                                            .medium16
+                                                            .copyWith(
+                                                                color: CustomColors
+                                                                    .BackGround),
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelStyle: CustomStyles
+                                                              .medium16
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .grey),
+                                                          labelText:
+                                                              getLocalText(
+                                                                  "last_name",
+                                                                  context),
+                                                          alignLabelWithHint:
+                                                              true,
                                                         ),
                                                       ),
                                                       Visibility(
-                                                        visible: model.isPrimary(index, passengerType),
+                                                        visible:
+                                                            model.isPrimary(
+                                                                index,
+                                                                passengerType),
                                                         child: Column(
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
                                                             TextFormField(
-                                                              focusNode: adultEmailFocus,
-                                                              onChanged: (value) => model.setPassengersEmail(value),
-                                                              validator: (input) => input.isEmpty
-                                                                  ? "Enter Email"
-                                                                  : isValidEmail(input)
+                                                              focusNode:
+                                                                  adultEmailFocus,
+                                                              onChanged:
+                                                                  (value) => model
+                                                                      .setPassengersEmail(
+                                                                          value),
+                                                              validator: (input) => input
+                                                                      .isEmpty
+                                                                  ? getLocalText(
+                                                                      "enter_email",
+                                                                      context)
+                                                                  : isValidEmail(
+                                                                          input)
                                                                       ? null
-                                                                      : "Enter Valid Email Id",
-                                                              onFieldSubmitted: (v) {
-                                                                FocusScope.of(context).requestFocus(adultMobileFocus);
+                                                                      : getLocalText(
+                                                                          "enter_valid_email",
+                                                                          context),
+                                                              onFieldSubmitted:
+                                                                  (v) {
+                                                                FocusScope.of(
+                                                                        context)
+                                                                    .requestFocus(
+                                                                        adultMobileFocus);
                                                               },
-                                                              initialValue: model.emailId ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                              decoration: InputDecoration(
-                                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                labelText: "Email",
-                                                                alignLabelWithHint: true,
+                                                              initialValue:
+                                                                  model.emailId ??
+                                                                      '',
+                                                              style: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: CustomColors
+                                                                          .BackGround),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelStyle: CustomStyles
+                                                                    .medium16
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                labelText:
+                                                                    getLocalText(
+                                                                        "email_id",
+                                                                        context),
+                                                                alignLabelWithHint:
+                                                                    true,
                                                               ),
                                                             ),
                                                             SizedBox(
                                                               height: 5,
                                                             ),
                                                             Visibility(
-                                                              visible: model.isPrimary(index, passengerType),
+                                                              visible: model
+                                                                  .isPrimary(
+                                                                      index,
+                                                                      passengerType),
                                                               child: Container(
-                                                                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: CustomColors.disabledButton, width: 2))),
-                                                                child: InternationalPhoneNumberInput(
-                                                                  focusNode: adultMobileFocus,
-                                                                  selectorConfig: SelectorConfig(selectorType: PhoneInputSelectorType.DIALOG),
-                                                                  onInputChanged: (PhoneNumber number) {
-                                                                    model.onCountryCodeChanged(number);
+//                                                                decoration: BoxDecoration(
+//                                                                    border: Border(
+//                                                                        bottom: BorderSide(
+//                                                                            color:
+//                                                                                CustomColors.disabledButton,
+//                                                                            width: 2))),
+                                                                child:
+                                                                    InternationalPhoneNumberInput(
+                                                                  focusNode:
+                                                                      adultMobileFocus,
+
+                                                                  selectorConfig:
+                                                                      SelectorConfig(
+                                                                          selectorType:
+                                                                              PhoneInputSelectorType.DIALOG),
+                                                                  onInputChanged:
+                                                                      (PhoneNumber
+                                                                          number) {
+                                                                        FocusScope.of(context).requestFocus(adultMobileFocus);
+                                                                    model.onCountryCodeChanged(
+                                                                        number);
                                                                   },
-                                                                  onInputValidated: (bool value) {
-                                                                    phoneNumberValidated = value;
+
+//
+                                                                  onFieldSubmitted:
+                                                                      (v) {
+                                                                    FocusScope.of(
+                                                                            context)
+                                                                        .requestFocus(
+                                                                            adultPassportFocus);
                                                                   },
-                                                                  validator: (value) {
-                                                                    if (!phoneNumberValidated) {
-                                                                      return "Invalid Phone number";
-                                                                    }
-                                                                    return null;
-                                                                  },
-                                                                  onFieldSubmitted: (v) {
-                                                                    FocusScope.of(context).requestFocus(adultPassportFocus);
-                                                                  },
-                                                                  inputDecoration: InputDecoration(
-                                                                    labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                    labelText: "Mobile Number",
-                                                                    border: InputBorder.none,
-                                                                    focusedBorder: InputBorder.none,
-                                                                    enabledBorder: InputBorder.none,
-                                                                    errorBorder: InputBorder.none,
-                                                                    disabledBorder: InputBorder.none,
+                                                                  inputDecoration:
+                                                                      InputDecoration(
+                                                                    labelStyle: CustomStyles
+                                                                        .medium16
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.grey),
+                                                                    labelText: getLocalText(
+                                                                        "phone_number",
+                                                                        context),
+                                                                    //border:
+                                                                   // OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+//                                                                    focusedBorder:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    enabledBorder:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    errorBorder:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    disabledBorder:
+//                                                                        InputBorder
+//                                                                            .none,
                                                                   ),
-                                                                  ignoreBlank: false,
-                                                                  initialValue: model.phoneNumber,
+                                                                  ignoreBlank:
+                                                                      false,
+                                                                  initialValue:
+                                                                      model
+                                                                          .phoneNumber,
                                                                 ),
                                                               ),
                                                             )
@@ -616,10 +852,17 @@ class _TravelInformationState
                                                         ),
                                                       ),
                                                       Visibility(
-                                                        visible: !model.isPrimary(index, passengerType),
+                                                        visible:
+                                                            !model.isPrimary(
+                                                                index,
+                                                                passengerType),
                                                         child: GestureDetector(
                                                           onTap: () {
-                                                            showSourceBottomSheet(context, model, index, passengerType);
+                                                            showSourceBottomSheet(
+                                                                context,
+                                                                model,
+                                                                index,
+                                                                passengerType);
                                                           },
                                                           child:
 
@@ -645,30 +888,63 @@ class _TravelInformationState
 
                                                               AbsorbPointer(
                                                             absorbing: true,
-                                                            child: TextFormField(
-                                                              controller: TextEditingController(text: model.getNationality(index, passengerType)),
+                                                            child:
+                                                                TextFormField(
+                                                              controller: TextEditingController(
+                                                                  text: model
+                                                                      .getNationality(
+                                                                          index,
+                                                                          passengerType)),
                                                               showCursor: false,
                                                               readOnly: true,
 //onSaved: (value) => pasenger.email = value.trimRight(),
-                                                              validator: (value) {
-                                                                return value == null || value.isEmpty ? "Select Nationality" : null;
+                                                              validator:
+                                                                  (value) {
+                                                                return value ==
+                                                                            null ||
+                                                                        value
+                                                                            .isEmpty
+                                                                    ? getLocalText(
+                                                                        "select_nationality",
+                                                                        context)
+                                                                    : null;
                                                               },
 //  initialValue: pasenger.email ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                              decoration: InputDecoration(
-                                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                labelText: "Nationality",
-                                                                alignLabelWithHint: true,
+                                                              style: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: CustomColors
+                                                                          .BackGround),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelStyle: CustomStyles
+                                                                    .medium16
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                labelText:
+                                                                    getLocalText(
+                                                                        "nationality",
+                                                                        context),
+                                                                alignLabelWithHint:
+                                                                    true,
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
+                                                      SizedBox(height: 7),
                                                       Flexible(
                                                         child: GestureDetector(
                                                           onTap: () {
                                                             isDoB = true;
-                                                            showDobDialog(context, model, isDoB, index, passengerType);
+
+                                                            showDobDialog(
+                                                                context,
+                                                                model,
+                                                                isDoB,
+                                                                index,
+                                                                passengerType);
                                                           },
                                                           child:
 
@@ -692,20 +968,61 @@ class _TravelInformationState
 //                                                )
 
                                                               AbsorbPointer(
-                                                            child: TextFormField(
-                                                              controller: TextEditingController(text: model.getPassengerDOB(index, passengerType) ?? ""),
+                                                            child:
+                                                                TextFormField(
+                                                              controller: TextEditingController(
+                                                                  text: model.getPassengerDOB(
+                                                                          index,
+                                                                          passengerType) ??
+                                                                      ""),
                                                               showCursor: false,
                                                               readOnly: true,
-                                                              validator: (value) {
-                                                                return value == null || value.isEmpty ? "Date of Birth" : null;
+                                                              validator:
+                                                                  (value) {
+                                                                if (value == "")
+                                                                  return getLocalText(
+                                                                      "date_of_birth",
+                                                                      context);
+
+                                                                int age = DateTime
+                                                                            .now()
+                                                                        .year -
+                                                                    int.parse(value
+                                                                        .split(
+                                                                            '-')[0]);
+                                                                if (age < 18)
+                                                                  return "Age should be greater than 18 years for adults";
+                                                                return value ==
+                                                                            null ||
+                                                                        value
+                                                                            .isEmpty ||
+                                                                        value ==
+                                                                            ""
+                                                                    ? getLocalText(
+                                                                        "date_of_birth",
+                                                                        context)
+                                                                    : null;
                                                               },
 // onSaved: (value) => pasenger.firstName = value.trimRight(),
 //initialValue: model.getPassengerDOB(index, passengerType) ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                              decoration: InputDecoration(
-                                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                labelText: "Date of birth",
-                                                                alignLabelWithHint: true,
+                                                              style: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: CustomColors
+                                                                          .BackGround),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelStyle: CustomStyles
+                                                                    .medium16
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                labelText:
+                                                                    getLocalText(
+                                                                        "date_of_birth",
+                                                                        context),
+                                                                alignLabelWithHint:
+                                                                    true,
                                                               ),
                                                             ),
                                                           ),
@@ -716,32 +1033,74 @@ class _TravelInformationState
                                                       ),
                                                       Flexible(
                                                         child: TextFormField(
-                                                          focusNode: adultPassportFocus,
+                                                          focusNode:
+                                                              adultPassportFocus,
                                                           validator: (value) {
-                                                            return value == null || value.isEmpty ? "Passport Number" : null;
+                                                            return value ==
+                                                                        null ||
+                                                                    value
+                                                                        .isEmpty
+                                                                ? getLocalText(
+                                                                    "passport_number",
+                                                                    context)
+                                                                : null;
                                                           },
                                                           onSaved: (v) {
-                                                            FocusManager.instance.primaryFocus.unfocus();
+                                                            FocusManager
+                                                                .instance
+                                                                .primaryFocus
+                                                                .unfocus();
                                                           },
 //                                                                onFieldSubmitted: (v){
 //
 //                                                                },
-                                                          onChanged: (value) => model.setPassengerPassportNumber(index, passengerType, value),
-                                                          initialValue: model.getPassengerPassportNumber(index, passengerType),
-                                                          style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                          decoration: InputDecoration(
-                                                            labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                            labelText: "Passport Number",
-                                                            alignLabelWithHint: true,
+                                                          onChanged: (value) =>
+                                                              model.setPassengerPassportNumber(
+                                                                  index,
+                                                                  passengerType,
+                                                                  value),
+                                                          initialValue: model
+                                                              .getPassengerPassportNumber(
+                                                                  index,
+                                                                  passengerType),
+                                                          style: CustomStyles
+                                                              .medium16
+                                                              .copyWith(
+                                                                  color: CustomColors
+                                                                      .BackGround),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelStyle: CustomStyles
+                                                                .medium16
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .grey),
+                                                            labelText: getLocalText(
+                                                                "passport_number_is_required",
+                                                                context),
+                                                            alignLabelWithHint:
+                                                                true,
                                                           ),
                                                         ),
                                                       ),
+                                                      SizedBox(
+                                                        height: 7,
+                                                      ),
                                                       Flexible(
-                                                          child: GestureDetector(
+                                                          child:
+                                                              GestureDetector(
                                                         onTap: () {
                                                           isDoB = false;
 
-                                                          showDobDialog(context, model, isDoB, index, passengerType);
+                                                          showDobDialog(
+                                                              context,
+                                                              model,
+                                                              isDoB,
+                                                              index,
+                                                              passengerType);
+
+                                                          FocusScope.of(context)
+                                                              .unfocus();
                                                         },
                                                         child:
 //                                                Container(
@@ -767,50 +1126,96 @@ class _TravelInformationState
                                                             AbsorbPointer(
                                                           absorbing: true,
                                                           child: TextFormField(
-                                                            controller: TextEditingController(text: model.getPassengerPassportExpData(index, passengerType)),
+                                                            controller: TextEditingController(
+                                                                text: model
+                                                                    .getPassengerPassportExpData(
+                                                                        index,
+                                                                        passengerType)),
 
                                                             validator: (value) {
-                                                              return value == null || value.isEmpty ? "Passport Expiry Date" : null;
+
+                                                              if(!value.isEmpty)
+                                                              {
+                                                                var date = DateTime.now();
+                                                                if (!model.tempDate.isAfter(new DateTime(date.year, date.month +6, date.day)))
+                                                                  return "Passport expiry should be greater than six months";
+                                                              }
+
+                                                              return value ==
+                                                                          null ||
+                                                                      value
+                                                                          .isEmpty
+                                                                  ? getLocalText(
+                                                                      "passport_expiry",
+                                                                      context)
+                                                                  : null;
                                                             },
 // onSaved: (value) => pasenger.firstName = value.trimRight(),
 // initialValue: model.getPassengerPassportExpData(index, passengerType),
-                                                            style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                            decoration: InputDecoration(
-                                                              labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                              labelText: "Enter Passport Expiry Date",
-                                                              alignLabelWithHint: true,
+                                                            style: CustomStyles
+                                                                .medium16
+                                                                .copyWith(
+                                                                    color: CustomColors
+                                                                        .BackGround),
+                                                            decoration:
+                                                                InputDecoration(
+                                                              labelStyle: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .grey),
+                                                              labelText:
+                                                                  getLocalText(
+                                                                      "enter_passport_expiry_date",
+                                                                      context),
+                                                              alignLabelWithHint:
+                                                                  true,
                                                             ),
                                                           ),
                                                         ),
                                                       )),
                                                       Align(
-                                                        alignment: Alignment.bottomRight,
+                                                        alignment: Alignment
+                                                            .bottomRight,
                                                         child: RaisedButton(
-                                                            color: CustomColors.Orange,
+                                                            color: CustomColors
+                                                                .Orange,
                                                             child: Text(
-                                                              "SAVE",
+                                                              getLocalText(
+                                                                  "save",
+                                                                  context),
 // strings.save.toUpperCase(),
-                                                              style: CustomStyles.button_style,
+                                                              style: CustomStyles
+                                                                  .button_style,
                                                             ),
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(10.0),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
                                                             ),
-                                                            onPressed: () async {
-
-
-
-
-                                                              if (_formState.currentState.validate()) {
-
-
-                                                                contentFilledList.forEach((element) {
-                                                                  if(element.passangerType==0 && element.index==index)
-                                                                      element.isFilled =true;
-
+                                                            onPressed:
+                                                                () async {
+                                                              if (_formState
+                                                                  .currentState
+                                                                  .validate()) {
+                                                                contentFilledList
+                                                                    .forEach(
+                                                                        (element) {
+                                                                  if (element.passangerType ==
+                                                                          0 &&
+                                                                      element.index ==
+                                                                          index)
+                                                                    element.isFilled =
+                                                                        true;
                                                                 });
-                                                                model.enabledEditMode(passengerType, index);
-                                                                _formState.currentState.save();
-
+                                                                model.enabledEditMode(
+                                                                    passengerType,
+                                                                    index);
+                                                                _formState
+                                                                    .currentState
+                                                                    .save();
                                                               }
                                                             }),
                                                       )
@@ -823,101 +1228,162 @@ class _TravelInformationState
                                           ],
                                         ),
                                       );
-                                            }),
-                                          )),
+                                    }),
+                                  )),
                                 ),
 
 // model.flightResultsData.requestData.children!=0?
 
                                 Visibility(
-                                  visible: model
-                                          .flightResultsData
-                                          .requestData
+                                  visible: model.flightResultsData.requestData
                                           .children !=
                                       0,
                                   child: Container(
                                       child: Column(
-                                            children: List.generate(
-                                        model.flightResultsData.requestData.children,
-                                        (int
-                                            index) {
-                                      int passengerType =
-                                          1;
+                                    children: List.generate(
+                                        model.flightResultsData.requestData
+                                            .children, (int index) {
+                                      int passengerType = 1;
 
-
-
-                                      bool
-                                          phoneNumberValidated =
-                                          false;
+                                      bool phoneNumberValidated = false;
 
                                       ///For dateSelectionDialog --dob or passport_expiry_date  selection
-                                      bool
-                                          isDoB;
+                                      bool isDoB;
 
                                       return Container(
 //                                              margin:
 //                                                  EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                        child:
-                                            Column(
+                                        child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             GestureDetector(
                                                 onTap: () {
-                                      contentFilledList.forEach((element) {
-                                      if(element.passangerType==passengerType && element.index==index)
-                                      element.isFilled =false;
-
-                                      });
-                                                  model.enabledEditModeOnContinue(index, passengerType);},
+                                                  contentFilledList
+                                                      .forEach((element) {
+                                                    if (element.passangerType ==
+                                                            passengerType &&
+                                                        element.index == index)
+                                                      element.isFilled = false;
+                                                  });
+                                                  model
+                                                      .enabledEditModeOnContinue(
+                                                          index, passengerType);
+                                                },
                                                 child: Container(
-                                                  color: model.getPassengerName(index, passengerType) == "" ? CustomColors.Orange : CustomColors.BackGround,
-                                                  width: MediaQuery.of(context).size.width,
+                                                  color: model.getPassengerName(
+                                                              index,
+                                                              passengerType) ==
+                                                          ""
+                                                      ? CustomColors.Orange
+                                                      : CustomColors.BackGround,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
                                                   height: 50,
                                                   child: Container(
-                                                    margin: EdgeInsets.only(left: SizeConstants.SIZE_4),
-                                                    width: MediaQuery.of(context).size.width,
+                                                    margin: EdgeInsets.only(
+                                                        left: SizeConstants
+                                                            .SIZE_4),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
                                                     height: 50,
                                                     decoration: BoxDecoration(
                                                       color: CustomColors.White,
                                                       boxShadow: [
                                                         BoxShadow(
-                                                          color: Colors.black.withOpacity(0.1),
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
                                                           spreadRadius: 0.5,
                                                           blurRadius: 0.5,
 
-                                                          offset: Offset(0, 1), // changes position of shadow
+                                                          offset: Offset(0,
+                                                              1), // changes position of shadow
                                                         ),
                                                       ],
                                                     ),
                                                     child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Visibility(
-                                                            visible: model.getPassengerName(index, passengerType) == "",
+                                                            visible: model
+                                                                    .getPassengerName(
+                                                                        index,
+                                                                        passengerType) ==
+                                                                "",
                                                             child: Container(
-                                                              margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                                              child: Text(model.isPrimary(index, passengerType) ? "Primary" : "Child " + "${index + 1}", style: CustomStyles.medium16),
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          SizeConstants
+                                                                              .SIZE_12),
+                                                              child: Text(
+                                                                  model.isPrimary(
+                                                                          index,
+                                                                          passengerType)
+                                                                      ? "${getLocalText("primary", context)}"
+                                                                      : "${getLocalText("child", context)}" +
+                                                                          "${index + 1}",
+                                                                  style: CustomStyles
+                                                                      .medium16),
                                                             )),
                                                         Visibility(
-                                                            visible: model.getPassengerName(index, passengerType) != "",
+                                                            visible: model
+                                                                    .getPassengerName(
+                                                                        index,
+                                                                        passengerType) !=
+                                                                "",
                                                             child: Container(
-                                                              margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          SizeConstants
+                                                                              .SIZE_12),
                                                               child: Row(
                                                                 children: [
-                                                                  SvgPicture.asset("assets/images/user.svg", width: SizeConstants.SIZE_20, height: SizeConstants.SIZE_20, color: Colors.black54),
+                                                                  SvgPicture.asset(
+                                                                      "assets/images/user.svg",
+                                                                      width: SizeConstants
+                                                                          .SIZE_20,
+                                                                      height: SizeConstants
+                                                                          .SIZE_20,
+                                                                      color: Colors
+                                                                          .black54),
                                                                   SizedBox(
-                                                                    width: SizeConstants.SIZE_8,
+                                                                    width: SizeConstants
+                                                                        .SIZE_8,
                                                                   ),
-                                                                  Text(model.getPassengerName(index, passengerType), style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
+                                                                  Text(
+                                                                      model.getPassengerName(
+                                                                          index,
+                                                                          passengerType),
+                                                                      style: CustomStyles
+                                                                          .medium16
+                                                                          .copyWith(
+                                                                              color: CustomColors.BackGround)),
                                                                   SizedBox(
-                                                                    width: SizeConstants.SIZE_8,
+                                                                    width: SizeConstants
+                                                                        .SIZE_8,
                                                                   ),
                                                                   Flexible(
                                                                     child: Text(
-                                                                      model.emailId == null ? "" : ', Email: ${model.emailId}',
-                                                                      style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                                      overflow: TextOverflow.fade,
+                                                                      model.emailId ==
+                                                                              null
+                                                                          ? ""
+                                                                          : ', ${getLocalText("email", context)}:  ${model.emailId}',
+                                                                      style: CustomStyles
+                                                                          .medium16
+                                                                          .copyWith(
+                                                                              color: CustomColors.BackGround),
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .fade,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -929,66 +1395,143 @@ class _TravelInformationState
                                                 )),
                                             Visibility(
                                                 maintainSize: false,
-                                                visible: model.areDetailsShown(index, passengerType),
+                                                visible: model.areDetailsShown(
+                                                    index, passengerType),
                                                 child: Container(
 // margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
                                                   child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
                                                     children: [
                                                       Align(
-                                                        alignment: Alignment.center,
+                                                        alignment:
+                                                            Alignment.center,
                                                         child: Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
                                                             Container(
-                                                              width: MediaQuery.of(context).size.width / 10 * 4,
-                                                              height: MediaQuery.of(context).size.height / 10 * .5,
-                                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: CustomColors.TabDisabled),
-                                                              margin: EdgeInsets.only(left: 0, right: 0, top: 20),
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  10 *
+                                                                  4,
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height /
+                                                                  10 *
+                                                                  .5,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  color: CustomColors
+                                                                      .TabDisabled),
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 0,
+                                                                      right: 0,
+                                                                      top: 20),
                                                               child: Stack(
-                                                                alignment: Alignment.center,
-                                                                children: <Widget>[
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                children: <
+                                                                    Widget>[
                                                                   AnimatedContainer(
-                                                                    duration: Duration(microseconds: 1000),
-                                                                    alignment: model.getGender(index, passengerType) ? Alignment.bottomLeft : Alignment.bottomRight,
-                                                                    child: Container(
-                                                                      height: MediaQuery.of(context).size.height / 10 * .7,
-                                                                      width: MediaQuery.of(context).size.width / 10 * 2,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20),
-                                                                        color: CustomColors.BackGround,
+                                                                    duration: Duration(
+                                                                        microseconds:
+                                                                            1000),
+                                                                    alignment: model.getGender(
+                                                                            index,
+                                                                            passengerType)
+                                                                        ? Alignment
+                                                                            .bottomLeft
+                                                                        : Alignment
+                                                                            .bottomRight,
+                                                                    child:
+                                                                        Container(
+                                                                      height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height /
+                                                                          10 *
+                                                                          .7,
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                          10 *
+                                                                          2,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(20),
+                                                                        color: CustomColors
+                                                                            .BackGround,
                                                                       ),
                                                                     ),
                                                                   ),
                                                                   Container(
                                                                     child: Row(
-                                                                      children: <Widget>[
+                                                                      children: <
+                                                                          Widget>[
                                                                         Expanded(
-                                                                            child: GestureDetector(
-                                                                          child: Container(
-                                                                            alignment: Alignment.center,
-                                                                            height: double.infinity,
-                                                                            width: double.infinity,
-                                                                            child: Text('Male', textAlign: TextAlign.center, style: model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                          child:
+                                                                              Container(
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            height:
+                                                                                double.infinity,
+                                                                            width:
+                                                                                double.infinity,
+                                                                            child: Text(getLocalText("male", context),
+                                                                                textAlign: TextAlign.center,
+                                                                                style: model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
                                                                           ),
-                                                                          onTap: () {
-                                                                            model.setGender(index, passengerType, 0);
+                                                                          onTap:
+                                                                              () {
+                                                                            model.setGender(
+                                                                                index,
+                                                                                passengerType,
+                                                                                0);
                                                                           },
                                                                         )),
                                                                         Expanded(
-                                                                            child: GestureDetector(
-                                                                          child: Container(
-                                                                            alignment: Alignment.center,
-                                                                            height: double.infinity,
-                                                                            width: double.infinity,
-                                                                            child: Text('Female', textAlign: TextAlign.center, style: !model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                          child:
+                                                                              Container(
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            height:
+                                                                                double.infinity,
+                                                                            width:
+                                                                                double.infinity,
+                                                                            child: Text(getLocalText("female", context),
+                                                                                textAlign: TextAlign.center,
+                                                                                style: model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
                                                                           ),
-                                                                          onTap: () {
-                                                                            model.setGender(index, passengerType, 1);
+                                                                          onTap:
+                                                                              () {
+                                                                            model.setGender(
+                                                                                index,
+                                                                                passengerType,
+                                                                                1);
                                                                           },
                                                                         )),
                                                                       ],
@@ -1001,106 +1544,271 @@ class _TravelInformationState
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: SizeConstants.SIZE_12,
+                                                        width: SizeConstants
+                                                            .SIZE_12,
                                                       ),
                                                       Flexible(
                                                         child: TextFormField(
-                                                          onFieldSubmitted: (v) {
-                                                            FocusScope.of(context).requestFocus(childLastNameFocus);
+                                                          inputFormatters: [
+                                                            LengthLimitingTextInputFormatter(30),
+                                                          ],
+                                                          onFieldSubmitted:
+                                                              (v) {
+                                                            FocusScope.of(
+                                                                    context)
+                                                                .requestFocus(
+                                                                    childLastNameFocus);
                                                           },
                                                           validator: (value) {
-                                                            return value == null || value.isEmpty ? "Enter First Name" : null;
+                                                            final validCharacters =
+                                                                RegExp(
+                                                                    r'[01234567890!@#$%^&*(),.?":{}|<>]');
+
+                                                            if (validCharacters
+                                                                .hasMatch(
+                                                                    value))
+                                                              return "Enter Correct Name";
+
+                                                            return value ==
+                                                                        null ||
+                                                                    value
+                                                                        .isEmpty
+                                                                ? getLocalText(
+                                                                    "enter_first_name",
+                                                                    context)
+                                                                : null;
                                                           },
-                                                          onChanged: (value) => model.setPassengerName(index, passengerType, value),
-                                                          initialValue: model.getPassengerName(index, passengerType),
-                                                          style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                          decoration: InputDecoration(
-                                                            labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                            labelText: "First Name",
-                                                            alignLabelWithHint: true,
+                                                          onChanged: (value) =>
+                                                              model.setPassengerName(
+                                                                  index,
+                                                                  passengerType,
+                                                                  value),
+                                                          initialValue: model
+                                                              .getPassengerName(
+                                                                  index,
+                                                                  passengerType),
+                                                          style: CustomStyles
+                                                              .medium16
+                                                              .copyWith(
+                                                                  color: CustomColors
+                                                                      .BackGround),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelStyle: CustomStyles
+                                                                .medium16
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .grey),
+                                                            labelText:
+                                                                getLocalText(
+                                                                    "first_name",
+                                                                    context),
+                                                            alignLabelWithHint:
+                                                                true,
                                                           ),
                                                         ),
                                                       ),
                                                       TextFormField(
-                                                        focusNode: childLastNameFocus,
+                                                        inputFormatters: [
+                                                          LengthLimitingTextInputFormatter(30),
+                                                        ],
+                                                        focusNode:
+                                                            childLastNameFocus,
                                                         validator: (value) {
-                                                          if (value == null || value.isEmpty) {
-                                                            return "Enter Last Name";
-                                                          }
-                                                          return null;
+                                                          final validCharacters =
+                                                              RegExp(
+                                                                  r'[01234567890!@#$%^&*(),.?":{}|<>]');
+
+                                                          if (validCharacters
+                                                              .hasMatch(value))
+                                                            return "Enter Correct Name";
+
+                                                          return value ==
+                                                                      null ||
+                                                                  value.isEmpty
+                                                              ? getLocalText(
+                                                                  "enter_last_name",
+                                                                  context)
+                                                              : null;
                                                         },
                                                         onFieldSubmitted: (v) {
-                                                          FocusScope.of(context).requestFocus(model.isPrimary(index, passengerType) ? childEmailFocus : childPassportFocus);
+                                                          FocusScope.of(context)
+                                                              .requestFocus(model
+                                                                      .isPrimary(
+                                                                          index,
+                                                                          passengerType)
+                                                                  ? childEmailFocus
+                                                                  : childPassportFocus);
                                                         },
-                                                        onChanged: (value) => model.setPassengerLastName(index, passengerType, value),
-                                                        initialValue: model.getPassengerLastName(index, passengerType),
-                                                        style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                        decoration: InputDecoration(
-                                                          labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                          labelText: "Last Name",
-                                                          alignLabelWithHint: true,
+                                                        onChanged: (value) => model
+                                                            .setPassengerLastName(
+                                                                index,
+                                                                passengerType,
+                                                                value),
+                                                        initialValue: model
+                                                            .getPassengerLastName(
+                                                                index,
+                                                                passengerType),
+                                                        style: CustomStyles
+                                                            .medium16
+                                                            .copyWith(
+                                                                color: CustomColors
+                                                                    .BackGround),
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelStyle: CustomStyles
+                                                              .medium16
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .grey),
+                                                          labelText:
+                                                              getLocalText(
+                                                                  "last_name",
+                                                                  context),
+                                                          alignLabelWithHint:
+                                                              true,
                                                         ),
                                                       ),
                                                       Visibility(
-                                                        visible: model.isPrimary(index, passengerType),
+                                                        visible:
+                                                            model.isPrimary(
+                                                                index,
+                                                                passengerType),
                                                         child: Column(
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
                                                             TextFormField(
-                                                              focusNode: childEmailFocus,
-                                                              onChanged: (value) => model.setPassengersEmail(value),
-                                                              validator: (input) => input.isEmpty
-                                                                  ? "Enter Email"
-                                                                  : isValidEmail(input)
+                                                              focusNode:
+                                                                  childEmailFocus,
+                                                              onChanged:
+                                                                  (value) => model
+                                                                      .setPassengersEmail(
+                                                                          value),
+                                                              validator: (input) => input
+                                                                      .isEmpty
+                                                                  ? getLocalText(
+                                                                      "enter_email",
+                                                                      context)
+                                                                  : isValidEmail(
+                                                                          input)
                                                                       ? null
-                                                                      : "Enter Valid Email Id",
-                                                              onFieldSubmitted: (v) {
-                                                                FocusScope.of(context).requestFocus(childMobileFocus);
+                                                                      : getLocalText(
+                                                                          "enter_valid_email",
+                                                                          context),
+                                                              onFieldSubmitted:
+                                                                  (v) {
+                                                                FocusScope.of(
+                                                                        context)
+                                                                    .requestFocus(
+                                                                        childMobileFocus);
                                                               },
-                                                              initialValue: model.emailId ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                              decoration: InputDecoration(
-                                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                labelText: "Email",
-                                                                alignLabelWithHint: true,
+                                                              initialValue:
+                                                                  model.emailId ??
+                                                                      '',
+                                                              style: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: CustomColors
+                                                                          .BackGround),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelStyle: CustomStyles
+                                                                    .medium16
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                labelText:
+                                                                    getLocalText(
+                                                                        "email_id",
+                                                                        context),
+                                                                alignLabelWithHint:
+                                                                    true,
                                                               ),
                                                             ),
                                                             SizedBox(
                                                               height: 5,
                                                             ),
                                                             Visibility(
-                                                              visible: model.isPrimary(index, passengerType),
+                                                              visible: model
+                                                                  .isPrimary(
+                                                                      index,
+                                                                      passengerType),
                                                               child: Container(
-                                                                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: CustomColors.disabledButton, width: 2))),
-                                                                child: InternationalPhoneNumberInput(
-                                                                  focusNode: childMobileFocus,
-                                                                  selectorConfig: SelectorConfig(selectorType: PhoneInputSelectorType.DIALOG),
-                                                                  onInputChanged: (PhoneNumber number) {
-                                                                    model.onCountryCodeChanged(number);
+//                                                                decoration: BoxDecoration(
+//                                                                    border: Border(
+//                                                                        bottom: BorderSide(
+//                                                                            color:
+//                                                                                CustomColors.disabledButton,
+//                                                                            width: 2))),
+                                                                child:
+                                                                    InternationalPhoneNumberInput(
+                                                                  focusNode:
+                                                                      childMobileFocus,
+                                                                  selectorConfig:
+                                                                      SelectorConfig(
+                                                                          selectorType:
+                                                                              PhoneInputSelectorType.DIALOG),
+                                                                  onInputChanged:
+                                                                      (PhoneNumber
+                                                                          number) {
+                                                                        FocusScope.of(context).requestFocus(childMobileFocus);
+                                                                    model.onCountryCodeChanged(
+                                                                        number);
                                                                   },
-                                                                  onFieldSubmitted: (v) {
-                                                                    FocusScope.of(context).requestFocus(childPassportFocus);
+                                                                  onFieldSubmitted:
+                                                                      (v) {
+                                                                    FocusScope.of(
+                                                                            context)
+                                                                        .requestFocus(
+                                                                            childPassportFocus);
                                                                   },
-                                                                  onInputValidated: (bool value) {
-                                                                    phoneNumberValidated = value;
+                                                                  onInputValidated:
+                                                                      (bool
+                                                                          value) {
+                                                                    phoneNumberValidated =
+                                                                        value;
                                                                   },
-                                                                  validator: (value) {
+                                                                  validator:
+                                                                      (value) {
                                                                     if (!phoneNumberValidated) {
-                                                                      return "Invalid Phone number";
+                                                                      return getLocalText(
+                                                                          "enter_valid_phone_number",
+                                                                          context);
                                                                     }
                                                                     return null;
                                                                   },
-                                                                  inputDecoration: InputDecoration(
-                                                                    labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                    labelText: "Mobile Number",
-                                                                    border: InputBorder.none,
-                                                                    focusedBorder: InputBorder.none,
-                                                                    enabledBorder: InputBorder.none,
-                                                                    errorBorder: InputBorder.none,
-                                                                    disabledBorder: InputBorder.none,
+                                                                  inputDecoration:
+                                                                      InputDecoration(
+                                                                    labelStyle: CustomStyles
+                                                                        .medium16
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.grey),
+                                                                    labelText: getLocalText(
+                                                                        "phone_number",
+                                                                        context),
+//                                                                    border:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    focusedBorder:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    enabledBorder:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    errorBorder:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    disabledBorder:
+//                                                                        InputBorder
+//                                                                            .none,
                                                                   ),
-                                                                  ignoreBlank: false,
-                                                                  initialValue: model.phoneNumber,
+                                                                  ignoreBlank:
+                                                                      false,
+                                                                  initialValue:
+                                                                      model
+                                                                          .phoneNumber,
                                                                 ),
                                                               ),
                                                             )
@@ -1108,10 +1816,17 @@ class _TravelInformationState
                                                         ),
                                                       ),
                                                       Visibility(
-                                                        visible: !model.isPrimary(index, passengerType),
+                                                        visible:
+                                                            !model.isPrimary(
+                                                                index,
+                                                                passengerType),
                                                         child: GestureDetector(
                                                           onTap: () {
-                                                            showSourceBottomSheet(context, model, index, passengerType);
+                                                            showSourceBottomSheet(
+                                                                context,
+                                                                model,
+                                                                index,
+                                                                passengerType);
                                                           },
                                                           child:
 
@@ -1137,20 +1852,47 @@ class _TravelInformationState
 
                                                               AbsorbPointer(
                                                             absorbing: true,
-                                                            child: TextFormField(
-                                                              controller: TextEditingController(text: model.getNationality(index, passengerType)),
+                                                            child:
+                                                                TextFormField(
+                                                              controller: TextEditingController(
+                                                                  text: model
+                                                                      .getNationality(
+                                                                          index,
+                                                                          passengerType)),
                                                               showCursor: false,
                                                               readOnly: true,
 //onSaved: (value) => pasenger.email = value.trimRight(),
-                                                              validator: (value) {
-                                                                return value == null || value.isEmpty ? "Select Nationality" : null;
+                                                              validator:
+                                                                  (value) {
+                                                                return value ==
+                                                                            null ||
+                                                                        value
+                                                                            .isEmpty
+                                                                    ? getLocalText(
+                                                                        "select_nationality",
+                                                                        context)
+                                                                    : null;
                                                               },
 //  initialValue: pasenger.email ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                              decoration: InputDecoration(
-                                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                labelText: "Nationality",
-                                                                alignLabelWithHint: true,
+//  initialValue: pasenger.email ?? '',
+                                                              style: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: CustomColors
+                                                                          .BackGround),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelStyle: CustomStyles
+                                                                    .medium16
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                labelText:
+                                                                    getLocalText(
+                                                                        "nationality",
+                                                                        context),
+                                                                alignLabelWithHint:
+                                                                    true,
                                                               ),
                                                             ),
                                                           ),
@@ -1160,7 +1902,12 @@ class _TravelInformationState
                                                         child: GestureDetector(
                                                           onTap: () {
                                                             isDoB = true;
-                                                            showDobDialog(context, model, isDoB, index, passengerType);
+                                                            showDobDialog(
+                                                                context,
+                                                                model,
+                                                                isDoB,
+                                                                index,
+                                                                passengerType);
                                                           },
                                                           child:
 
@@ -1184,20 +1931,65 @@ class _TravelInformationState
 //                                                )
 
                                                               AbsorbPointer(
-                                                            child: TextFormField(
-                                                              controller: TextEditingController(text: model.getPassengerDOB(index, passengerType) ?? ""),
+                                                            child:
+                                                                TextFormField(
+                                                              controller: TextEditingController(
+                                                                  text: model.getPassengerDOB(
+                                                                          index,
+                                                                          passengerType) ??
+                                                                      ""),
                                                               showCursor: false,
                                                               readOnly: true,
-                                                              validator: (value) {
-                                                                return value == null || value.isEmpty ? "Date of Birth" : null;
+                                                              validator:
+                                                                  (value) {
+                                                                if (value
+                                                                    .isEmpty)
+                                                                  return getLocalText(
+                                                                      "date_of_birth",
+                                                                      context);
+
+                                                                int age = DateTime
+                                                                            .now()
+                                                                        .year -
+                                                                    int.parse(value
+                                                                        .split(
+                                                                            '-')[0]);
+
+                                                                if (age >= 18)
+                                                                  return "Age should be lesser than 18 years for child";
+                                                                else if (age <=
+                                                                    2)
+                                                                  return "Age should be greater than 2 years for child";
+
+                                                                return value ==
+                                                                            null ||
+                                                                        value
+                                                                            .isEmpty
+                                                                    ? getLocalText(
+                                                                        "date_of_birth",
+                                                                        context)
+                                                                    : null;
                                                               },
 // onSaved: (value) => pasenger.firstName = value.trimRight(),
 //initialValue: model.getPassengerDOB(index, passengerType) ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                              decoration: InputDecoration(
-                                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                labelText: "Date of birth",
-                                                                alignLabelWithHint: true,
+                                                              style: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: CustomColors
+                                                                          .BackGround),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelStyle: CustomStyles
+                                                                    .medium16
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                labelText:
+                                                                    getLocalText(
+                                                                        "date_of_birth",
+                                                                        context),
+                                                                alignLabelWithHint:
+                                                                    true,
                                                               ),
                                                             ),
                                                           ),
@@ -1208,95 +2000,167 @@ class _TravelInformationState
                                                       ),
                                                       Flexible(
                                                         child: TextFormField(
-                                                          focusNode: childPassportFocus,
+                                                          focusNode:
+                                                              childPassportFocus,
                                                           validator: (value) {
-                                                            return value == null || value.isEmpty ? "Passport Number" : null;
+                                                            return value ==
+                                                                        null ||
+                                                                    value
+                                                                        .isEmpty
+                                                                ? getLocalText(
+                                                                    "passport_number_is_required",
+                                                                    context)
+                                                                : null;
                                                           },
                                                           onSaved: (v) {
-                                                            FocusManager.instance.primaryFocus.unfocus();
+                                                            FocusManager
+                                                                .instance
+                                                                .primaryFocus
+                                                                .unfocus();
                                                           },
 //                                                                onFieldSubmitted: (v){
 //
 //                                                                },
-                                                          onChanged: (value) => model.setPassengerPassportNumber(index, passengerType, value),
-                                                          initialValue: model.getPassengerPassportNumber(index, passengerType),
-                                                          style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                          decoration: InputDecoration(
-                                                            labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                            labelText: "Passport Number",
-                                                            alignLabelWithHint: true,
+                                                          onChanged: (value) =>
+                                                              model.setPassengerPassportNumber(
+                                                                  index,
+                                                                  passengerType,
+                                                                  value),
+                                                          initialValue: model
+                                                              .getPassengerPassportNumber(
+                                                                  index,
+                                                                  passengerType),
+                                                          style: CustomStyles
+                                                              .medium16
+                                                              .copyWith(
+                                                                  color: CustomColors
+                                                                      .BackGround),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelStyle: CustomStyles
+                                                                .medium16
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .grey),
+                                                            labelText: getLocalText(
+                                                                "passport_number",
+                                                                context),
+                                                            alignLabelWithHint:
+                                                                true,
                                                           ),
                                                         ),
                                                       ),
                                                       Flexible(
-                                                          child: GestureDetector(
+                                                          child:
+                                                              GestureDetector(
                                                         onTap: () {
                                                           isDoB = false;
 
-                                                          showDobDialog(context, model, isDoB, index, passengerType);
+                                                          showDobDialog(
+                                                              context,
+                                                              model,
+                                                              isDoB,
+                                                              index,
+                                                              passengerType);
                                                         },
                                                         child:
-//                                                Container(
-//                                                  width: double.infinity,
-//                                                  padding:   EdgeInsets.symmetric(vertical: 14),
-//                                                  child: model.getPassengerPassportExpData(index, passengerType)!=""?
 //
-//                                                  Text(model.getPassengerPassportExpData(index, passengerType),style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),):
-//
-//                                                  Text('Passport Expiry Date',style: CustomStyles.medium16.copyWith(color: Colors.grey),),
-//
-//
-//                                                  decoration: BoxDecoration(
-//                                                    border: Border(
-//
-//                                                      bottom: BorderSide( width: 1,color: CustomColors.disabledButton),
-//                                                    ),
-//
-//                                                  ),
-//
-//                                                ),
-
                                                             AbsorbPointer(
                                                           absorbing: true,
                                                           child: TextFormField(
-                                                            controller: TextEditingController(text: model.getPassengerPassportExpData(index, passengerType)),
-
+                                                            controller: TextEditingController(
+                                                                text: model
+                                                                    .getPassengerPassportExpData(
+                                                                        index,
+                                                                        passengerType)),
                                                             validator: (value) {
-                                                              return value == null || value.isEmpty ? "Passport Expiry Date" : null;
+                                                              if (!value
+                                                                  .isEmpty) {
+                                                                var date =
+                                                                    DateTime
+                                                                        .now();
+                                                                if (!model
+                                                                    .tempDate
+                                                                    .isAfter(new DateTime(
+                                                                        date
+                                                                            .year,
+                                                                        date.month +
+                                                                            6,
+                                                                        date.day)))
+                                                                  return "Passport expiry should be greater than six months";
+                                                              }
+                                                              return value
+                                                                      .isEmpty
+                                                                  ? getLocalText(
+                                                                      "enter_passport_expiry_date",
+                                                                      context)
+                                                                  // : isValidExpiryDate(value)?getLocalText("please_select_passport_expiry_after_3_months", context)
+                                                                  : null;
                                                             },
-// onSaved: (value) => pasenger.firstName = value.trimRight(),
-// initialValue: model.getPassengerPassportExpData(index, passengerType),
-                                                            style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                            decoration: InputDecoration(
-                                                              labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                              labelText: "Enter Passport Expiry Date",
-                                                              alignLabelWithHint: true,
+                                                            style: CustomStyles
+                                                                .medium16
+                                                                .copyWith(
+                                                                    color: CustomColors
+                                                                        .BackGround),
+                                                            decoration:
+                                                                InputDecoration(
+                                                              labelStyle: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .grey),
+                                                              labelText:
+                                                                  getLocalText(
+                                                                      "enter_passport_expiry_date",
+                                                                      context),
+                                                              alignLabelWithHint:
+                                                                  true,
                                                             ),
                                                           ),
                                                         ),
                                                       )),
                                                       Align(
-                                                        alignment: Alignment.bottomRight,
+                                                        alignment: Alignment
+                                                            .bottomRight,
                                                         child: RaisedButton(
-                                                            color: CustomColors.Orange,
+                                                            color: CustomColors
+                                                                .Orange,
                                                             child: Text(
-                                                              "SAVE",
+                                                              getLocalText(
+                                                                  "save",
+                                                                  context),
 // strings.save.toUpperCase(),
-                                                              style: CustomStyles.button_style,
+                                                              style: CustomStyles
+                                                                  .button_style,
                                                             ),
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(10.0),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
                                                             ),
-                                                            onPressed: () async {
-                                                              if (_formState.currentState.validate()) {
-
-                                                                contentFilledList.forEach((element) {
-                                                                  if(element.passangerType==1 && element.index==index)
-                                                                    element.isFilled =true;
-
+                                                            onPressed:
+                                                                () async {
+                                                              if (_formState
+                                                                  .currentState
+                                                                  .validate()) {
+                                                                contentFilledList
+                                                                    .forEach(
+                                                                        (element) {
+                                                                  if (element.passangerType ==
+                                                                          1 &&
+                                                                      element.index ==
+                                                                          index)
+                                                                    element.isFilled =
+                                                                        true;
                                                                 });
-                                                                model.enabledEditMode(passengerType, index);
-                                                                _formState.currentState.save();
+                                                                model.enabledEditMode(
+                                                                    passengerType,
+                                                                    index);
+                                                                _formState
+                                                                    .currentState
+                                                                    .save();
 //model.enableNext(passengerType,index);
                                                               }
                                                             }),
@@ -1310,103 +2174,166 @@ class _TravelInformationState
                                           ],
                                         ),
                                       );
-                                            }),
-                                          )),
+                                    }),
+                                  )),
                                 ),
 
 //  model.flightResultsData.requestData.infants!=0?
 
                                 Visibility(
-                                  visible: model
-                                          .flightResultsData
-                                          .requestData
+                                  visible: model.flightResultsData.requestData
                                           .infants !=
                                       0,
                                   child: Container(
                                       child: Column(
-                                            children: List.generate(
-                                        model.flightResultsData.requestData.infants,
-                                        (int
-                                            index) {
-                                      int passengerType =
-                                          2;
+                                    children: List.generate(
+                                        model.flightResultsData.requestData
+                                            .infants, (int index) {
+                                      int passengerType = 2;
 
-                                      print(
-                                          "Started");
+                                      print("Started");
 
-                                      bool
-                                          phoneNumberValidated =
-                                          false;
+                                      bool phoneNumberValidated = false;
 
                                       ///For dateSelectionDialog --dob or passport_expiry_date  selection
-                                      bool
-                                          isDoB;
+                                      bool isDoB;
 
                                       return Container(
 //                                              margin:
 //                                                  EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                        child:
-                                            Column(
+                                        child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             GestureDetector(
                                                 onTap: () {
-
-                                                  contentFilledList.forEach((element) {
-                                                    if(element.passangerType==passengerType && element.index==index)
-                                                      element.isFilled =false;
-
+                                                  contentFilledList
+                                                      .forEach((element) {
+                                                    if (element.passangerType ==
+                                                            passengerType &&
+                                                        element.index == index)
+                                                      element.isFilled = false;
                                                   });
-                                                  model.enabledEditModeOnContinue(index,passengerType);},
+                                                  model
+                                                      .enabledEditModeOnContinue(
+                                                          index, passengerType);
+                                                },
                                                 child: Container(
-                                                  color: model.getPassengerName(index, passengerType) == "" ? CustomColors.Orange : CustomColors.BackGround,
-                                                  width: MediaQuery.of(context).size.width,
+                                                  color: model.getPassengerName(
+                                                              index,
+                                                              passengerType) ==
+                                                          ""
+                                                      ? CustomColors.Orange
+                                                      : CustomColors.BackGround,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
                                                   height: 50,
                                                   child: Container(
-                                                    margin: EdgeInsets.only(left: SizeConstants.SIZE_4),
-                                                    width: MediaQuery.of(context).size.width,
+                                                    margin: EdgeInsets.only(
+                                                        left: SizeConstants
+                                                            .SIZE_4),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
                                                     height: 50,
                                                     decoration: BoxDecoration(
                                                       color: CustomColors.White,
                                                       boxShadow: [
                                                         BoxShadow(
-                                                          color: Colors.black.withOpacity(0.1),
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
                                                           spreadRadius: 0.5,
                                                           blurRadius: 0.5,
 
-                                                          offset: Offset(0, 1), // changes position of shadow
+                                                          offset: Offset(0,
+                                                              1), // changes position of shadow
                                                         ),
                                                       ],
                                                     ),
                                                     child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Visibility(
-                                                            visible: model.getPassengerName(index, passengerType) == "",
+                                                            visible: model
+                                                                    .getPassengerName(
+                                                                        index,
+                                                                        passengerType) ==
+                                                                "",
                                                             child: Container(
-                                                              margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                                              child: Text(model.isPrimary(index, passengerType) ? "Primary" : "Infant " + "${index + 1}", style: CustomStyles.medium16),
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          SizeConstants
+                                                                              .SIZE_12),
+                                                              child: Text(
+                                                                  model.isPrimary(
+                                                                          index,
+                                                                          passengerType)
+                                                                      ? getLocalText(
+                                                                          "primary",
+                                                                          context)
+                                                                      : "${getLocalText("infant", context)}"
+                                                                          "${index + 1}",
+                                                                  style: CustomStyles
+                                                                      .medium16),
                                                             )),
                                                         Visibility(
-                                                            visible: model.getPassengerName(index, passengerType) != "",
+                                                            visible: model
+                                                                    .getPassengerName(
+                                                                        index,
+                                                                        passengerType) !=
+                                                                "",
                                                             child: Container(
-                                                              margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          SizeConstants
+                                                                              .SIZE_12),
                                                               child: Row(
                                                                 children: [
-                                                                  SvgPicture.asset("assets/images/user.svg", width: SizeConstants.SIZE_20, height: SizeConstants.SIZE_20, color: Colors.black54),
+                                                                  SvgPicture.asset(
+                                                                      "assets/images/user.svg",
+                                                                      width: SizeConstants
+                                                                          .SIZE_20,
+                                                                      height: SizeConstants
+                                                                          .SIZE_20,
+                                                                      color: Colors
+                                                                          .black54),
                                                                   SizedBox(
-                                                                    width: SizeConstants.SIZE_8,
+                                                                    width: SizeConstants
+                                                                        .SIZE_8,
                                                                   ),
-                                                                  Text(model.getPassengerName(index, passengerType), style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
+                                                                  Text(
+                                                                      model.getPassengerName(
+                                                                          index,
+                                                                          passengerType),
+                                                                      style: CustomStyles
+                                                                          .medium16
+                                                                          .copyWith(
+                                                                              color: CustomColors.BackGround)),
                                                                   SizedBox(
-                                                                    width: SizeConstants.SIZE_8,
+                                                                    width: SizeConstants
+                                                                        .SIZE_8,
                                                                   ),
                                                                   Flexible(
                                                                     child: Text(
-                                                                      model.emailId == null ? "" : ', Email: ${model.emailId}',
-                                                                      style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                                      overflow: TextOverflow.fade,
+                                                                      model.emailId ==
+                                                                              null
+                                                                          ? ""
+                                                                          : ', ${getLocalText("email", context)}: ${model.emailId}',
+                                                                      style: CustomStyles
+                                                                          .medium16
+                                                                          .copyWith(
+                                                                              color: CustomColors.BackGround),
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .fade,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -1418,66 +2345,143 @@ class _TravelInformationState
                                                 )),
                                             Visibility(
                                                 maintainSize: false,
-                                                visible: model.areDetailsShown(index, passengerType),
+                                                visible: model.areDetailsShown(
+                                                    index, passengerType),
                                                 child: Container(
 // margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
                                                   child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
                                                     children: [
                                                       Align(
-                                                        alignment: Alignment.center,
+                                                        alignment:
+                                                            Alignment.center,
                                                         child: Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
                                                             Container(
-                                                              width: MediaQuery.of(context).size.width / 10 * 4,
-                                                              height: MediaQuery.of(context).size.height / 10 * .5,
-                                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: CustomColors.TabDisabled),
-                                                              margin: EdgeInsets.only(left: 0, right: 0, top: 20),
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  10 *
+                                                                  4,
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height /
+                                                                  10 *
+                                                                  .5,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  color: CustomColors
+                                                                      .TabDisabled),
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 0,
+                                                                      right: 0,
+                                                                      top: 20),
                                                               child: Stack(
-                                                                alignment: Alignment.center,
-                                                                children: <Widget>[
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                children: <
+                                                                    Widget>[
                                                                   AnimatedContainer(
-                                                                    duration: Duration(microseconds: 1000),
-                                                                    alignment: model.getGender(index, passengerType) ? Alignment.bottomLeft : Alignment.bottomRight,
-                                                                    child: Container(
-                                                                      height: MediaQuery.of(context).size.height / 10 * .7,
-                                                                      width: MediaQuery.of(context).size.width / 10 * 2,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20),
-                                                                        color: CustomColors.BackGround,
+                                                                    duration: Duration(
+                                                                        microseconds:
+                                                                            1000),
+                                                                    alignment: model.getGender(
+                                                                            index,
+                                                                            passengerType)
+                                                                        ? Alignment
+                                                                            .bottomLeft
+                                                                        : Alignment
+                                                                            .bottomRight,
+                                                                    child:
+                                                                        Container(
+                                                                      height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height /
+                                                                          10 *
+                                                                          .7,
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                          10 *
+                                                                          2,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(20),
+                                                                        color: CustomColors
+                                                                            .BackGround,
                                                                       ),
                                                                     ),
                                                                   ),
                                                                   Container(
                                                                     child: Row(
-                                                                      children: <Widget>[
+                                                                      children: <
+                                                                          Widget>[
                                                                         Expanded(
-                                                                            child: GestureDetector(
-                                                                          child: Container(
-                                                                            alignment: Alignment.center,
-                                                                            height: double.infinity,
-                                                                            width: double.infinity,
-                                                                            child: Text('Male', textAlign: TextAlign.center, style: model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                          child:
+                                                                              Container(
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            height:
+                                                                                double.infinity,
+                                                                            width:
+                                                                                double.infinity,
+                                                                            child: Text(getLocalText("male", context),
+                                                                                textAlign: TextAlign.center,
+                                                                                style: model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
                                                                           ),
-                                                                          onTap: () {
-                                                                            model.setGender(index, passengerType, 0);
+                                                                          onTap:
+                                                                              () {
+                                                                            model.setGender(
+                                                                                index,
+                                                                                passengerType,
+                                                                                0);
                                                                           },
                                                                         )),
                                                                         Expanded(
-                                                                            child: GestureDetector(
-                                                                          child: Container(
-                                                                            alignment: Alignment.center,
-                                                                            height: double.infinity,
-                                                                            width: double.infinity,
-                                                                            child: Text('Female', textAlign: TextAlign.center, style: !model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                          child:
+                                                                              Container(
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            height:
+                                                                                double.infinity,
+                                                                            width:
+                                                                                double.infinity,
+                                                                            child: Text(getLocalText("female", context),
+                                                                                textAlign: TextAlign.center,
+                                                                                style: !model.getGender(index, passengerType) ? CustomStyles.button_style.copyWith(fontSize: 12) : CustomStyles.button_style.copyWith(fontSize: 12, color: CustomColors.disabledButton)),
                                                                           ),
-                                                                          onTap: () {
-                                                                            model.setGender(index, passengerType, 1);
+                                                                          onTap:
+                                                                              () {
+                                                                            model.setGender(
+                                                                                index,
+                                                                                passengerType,
+                                                                                1);
                                                                           },
                                                                         )),
                                                                       ],
@@ -1490,106 +2494,263 @@ class _TravelInformationState
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: SizeConstants.SIZE_12,
+                                                        width: SizeConstants
+                                                            .SIZE_12,
                                                       ),
                                                       Flexible(
                                                         child: TextFormField(
-                                                          onFieldSubmitted: (v) {
-                                                            FocusScope.of(context).requestFocus(infantLastNameFocus);
+                                                          inputFormatters: [
+                                                            LengthLimitingTextInputFormatter(30),
+                                                          ],
+                                                          onFieldSubmitted:
+                                                              (v) {
+                                                            FocusScope.of(
+                                                                    context)
+                                                                .requestFocus(
+                                                                    infantLastNameFocus);
                                                           },
                                                           validator: (value) {
-                                                            return value == null || value.isEmpty ? "Enter First Name" : null;
+                                                            return value ==
+                                                                        null ||
+                                                                    value
+                                                                        .isEmpty
+                                                                ? getLocalText(
+                                                                    "enter_first_name",
+                                                                    context)
+                                                                : null;
                                                           },
-                                                          onChanged: (value) => model.setPassengerName(index, passengerType, value),
-                                                          initialValue: model.getPassengerName(index, passengerType),
-                                                          style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                          decoration: InputDecoration(
-                                                            labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                            labelText: "First Name",
-                                                            alignLabelWithHint: true,
+                                                          onChanged: (value) =>
+                                                              model.setPassengerName(
+                                                                  index,
+                                                                  passengerType,
+                                                                  value),
+                                                          initialValue: model
+                                                              .getPassengerName(
+                                                                  index,
+                                                                  passengerType),
+                                                          style: CustomStyles
+                                                              .medium16
+                                                              .copyWith(
+                                                                  color: CustomColors
+                                                                      .BackGround),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelStyle: CustomStyles
+                                                                .medium16
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .grey),
+                                                            labelText:
+                                                                getLocalText(
+                                                                    "first_name",
+                                                                    context),
+                                                            alignLabelWithHint:
+                                                                true,
                                                           ),
                                                         ),
                                                       ),
                                                       TextFormField(
-                                                        focusNode: infantLastNameFocus,
+                                                        inputFormatters: [
+                                                          LengthLimitingTextInputFormatter(30),
+                                                        ],
+                                                        focusNode:
+                                                            infantLastNameFocus,
                                                         validator: (value) {
-                                                          if (value == null || value.isEmpty) {
-                                                            return "Enter Last Name";
-                                                          }
-                                                          return null;
+                                                          final validCharacters =
+                                                              RegExp(
+                                                                  r'[01234567890!@#$%^&*(),.?":{}|<>]');
+
+                                                          if (validCharacters
+                                                              .hasMatch(value))
+                                                            return "Enter Correct Name";
+
+                                                          return value ==
+                                                                      null ||
+                                                                  value.isEmpty
+                                                              ? getLocalText(
+                                                                  "enter_last_name",
+                                                                  context)
+                                                              : null;
                                                         },
                                                         onFieldSubmitted: (v) {
-                                                          FocusScope.of(context).requestFocus(model.isPrimary(index, passengerType) ? infantEmailFocus : infantPassportFocus);
+                                                          FocusScope.of(context)
+                                                              .requestFocus(model
+                                                                      .isPrimary(
+                                                                          index,
+                                                                          passengerType)
+                                                                  ? infantEmailFocus
+                                                                  : infantPassportFocus);
                                                         },
-                                                        onChanged: (value) => model.setPassengerLastName(index, passengerType, value),
-                                                        initialValue: model.getPassengerLastName(index, passengerType),
-                                                        style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                        decoration: InputDecoration(
-                                                          labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                          labelText: "Last Name",
-                                                          alignLabelWithHint: true,
+                                                        onChanged: (value) => model
+                                                            .setPassengerLastName(
+                                                                index,
+                                                                passengerType,
+                                                                value),
+                                                        initialValue: model
+                                                            .getPassengerLastName(
+                                                                index,
+                                                                passengerType),
+                                                        style: CustomStyles
+                                                            .medium16
+                                                            .copyWith(
+                                                                color: CustomColors
+                                                                    .BackGround),
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelStyle: CustomStyles
+                                                              .medium16
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .grey),
+                                                          labelText:
+                                                              getLocalText(
+                                                                  "last_name",
+                                                                  context),
+                                                          alignLabelWithHint:
+                                                              true,
                                                         ),
                                                       ),
                                                       Visibility(
-                                                        visible: model.isPrimary(index, passengerType),
+                                                        visible:
+                                                            model.isPrimary(
+                                                                index,
+                                                                passengerType),
                                                         child: Column(
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
                                                             TextFormField(
-                                                              focusNode: infantEmailFocus,
-                                                              onChanged: (value) => model.setPassengersEmail(value),
-                                                              validator: (input) => input.isEmpty
-                                                                  ? "Enter Email"
-                                                                  : isValidEmail(input)
+                                                              focusNode:
+                                                                  infantEmailFocus,
+                                                              onChanged:
+                                                                  (value) => model
+                                                                      .setPassengersEmail(
+                                                                          value),
+                                                              validator: (input) => input
+                                                                      .isEmpty
+                                                                  ? getLocalText(
+                                                                      "enter_email",
+                                                                      context)
+                                                                  : isValidEmail(
+                                                                          input)
                                                                       ? null
-                                                                      : "Enter Valid Email Id",
-                                                              onFieldSubmitted: (v) {
-                                                                FocusScope.of(context).requestFocus(infantMobileFocus);
+                                                                      : getLocalText(
+                                                                          "enter_valid_email",
+                                                                          context),
+                                                              onFieldSubmitted:
+                                                                  (v) {
+                                                                FocusScope.of(
+                                                                        context)
+                                                                    .requestFocus(
+                                                                        infantMobileFocus);
                                                               },
-                                                              initialValue: model.emailId ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                              decoration: InputDecoration(
-                                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                labelText: "Email",
-                                                                alignLabelWithHint: true,
+                                                              initialValue:
+                                                                  model.emailId ??
+                                                                      '',
+                                                              style: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: CustomColors
+                                                                          .BackGround),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelStyle: CustomStyles
+                                                                    .medium16
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                labelText:
+                                                                    getLocalText(
+                                                                        "email_id",
+                                                                        context),
+                                                                alignLabelWithHint:
+                                                                    true,
                                                               ),
                                                             ),
                                                             SizedBox(
                                                               height: 5,
                                                             ),
                                                             Visibility(
-                                                              visible: model.isPrimary(index, passengerType),
+                                                              visible: model
+                                                                  .isPrimary(
+                                                                      index,
+                                                                      passengerType),
                                                               child: Container(
-                                                                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),
-                                                                child: InternationalPhoneNumberInput(
-                                                                  focusNode: infantMobileFocus,
-                                                                  selectorConfig: SelectorConfig(selectorType: PhoneInputSelectorType.DIALOG),
-                                                                  onInputChanged: (PhoneNumber number) {
-                                                                    model.onCountryCodeChanged(number);
+//                                                                decoration: BoxDecoration(
+//                                                                    border: Border(
+//                                                                        bottom: BorderSide(
+//                                                                            color:
+//                                                                                Colors.grey,
+//                                                                            width: 1))),
+                                                                child:
+                                                                    InternationalPhoneNumberInput(
+                                                                  focusNode:
+                                                                      infantMobileFocus,
+                                                                  selectorConfig:
+                                                                      SelectorConfig(
+                                                                          selectorType:
+                                                                              PhoneInputSelectorType.DIALOG),
+                                                                  onInputChanged:
+                                                                      (PhoneNumber
+                                                                          number) {
+                                                                    model.onCountryCodeChanged(
+                                                                        number);
                                                                   },
-                                                                  onFieldSubmitted: (v) {
-                                                                    FocusScope.of(context).requestFocus(infantPassportFocus);
+                                                                  onFieldSubmitted:
+                                                                      (v) {
+                                                                    FocusScope.of(
+                                                                            context)
+                                                                        .requestFocus(
+                                                                            infantPassportFocus);
                                                                   },
-                                                                  onInputValidated: (bool value) {
-                                                                    phoneNumberValidated = value;
+                                                                  onInputValidated:
+                                                                      (bool
+                                                                          value) {
+
+                                                                        FocusScope.of(context).requestFocus(infantMobileFocus);
+                                                                    phoneNumberValidated =
+                                                                        value;
                                                                   },
-                                                                  validator: (value) {
+                                                                  validator:
+                                                                      (value) {
                                                                     if (!phoneNumberValidated) {
-                                                                      return "Invalid Phone number";
+                                                                      return getLocalText(
+                                                                          "enter_valid_phone_number",
+                                                                          context);
                                                                     }
                                                                     return null;
                                                                   },
-                                                                  inputDecoration: InputDecoration(
-                                                                    labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                    labelText: "Mobile Number",
-                                                                    border: InputBorder.none,
-                                                                    focusedBorder: InputBorder.none,
-                                                                    enabledBorder: InputBorder.none,
-                                                                    errorBorder: InputBorder.none,
-                                                                    disabledBorder: InputBorder.none,
+                                                                  inputDecoration:
+                                                                      InputDecoration(
+                                                                    labelStyle: CustomStyles
+                                                                        .medium16
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.grey),
+                                                                    labelText: getLocalText(
+                                                                        "enter_phone_number",
+                                                                        context),
+//                                                                    border:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    focusedBorder:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    enabledBorder:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    errorBorder:
+//                                                                        InputBorder
+//                                                                            .none,
+//                                                                    disabledBorder:
+//                                                                        InputBorder
+//                                                                            .none,
                                                                   ),
-                                                                  ignoreBlank: false,
-                                                                  initialValue: model.phoneNumber,
+                                                                  ignoreBlank:
+                                                                      false,
+                                                                  initialValue:
+                                                                      model
+                                                                          .phoneNumber,
                                                                 ),
                                                               ),
                                                             )
@@ -1597,29 +2758,58 @@ class _TravelInformationState
                                                         ),
                                                       ),
                                                       Visibility(
-                                                        visible: !model.isPrimary(index, passengerType),
+                                                        visible:
+                                                            !model.isPrimary(
+                                                                index,
+                                                                passengerType),
                                                         child: GestureDetector(
                                                           onTap: () {
-                                                            showSourceBottomSheet(context, model, index, passengerType);
+                                                            showSourceBottomSheet(
+                                                                context,
+                                                                model,
+                                                                index,
+                                                                passengerType);
                                                           },
-                                                          child:
-
-                                                              AbsorbPointer(
+                                                          child: AbsorbPointer(
                                                             absorbing: true,
-                                                            child: TextFormField(
-                                                              controller: TextEditingController(text: model.getNationality(index, passengerType)),
+                                                            child:
+                                                                TextFormField(
+                                                              controller: TextEditingController(
+                                                                  text: model
+                                                                      .getNationality(
+                                                                          index,
+                                                                          passengerType)),
                                                               showCursor: false,
                                                               readOnly: true,
-//onSaved: (value) => pasenger.email = value.trimRight(),
-                                                              validator: (value) {
-                                                                return  value.isEmpty ? "Select Nationality" : null;
+                                                              validator:
+                                                                  (value) {
+                                                                return value ==
+                                                                            null ||
+                                                                        value
+                                                                            .isEmpty
+                                                                    ? getLocalText(
+                                                                        "select_nationality",
+                                                                        context)
+                                                                    : null;
                                                               },
-//  initialValue: pasenger.email ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                              decoration: InputDecoration(
-                                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                labelText: "Nationality",
-                                                                alignLabelWithHint: true,
+                                                              style: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: CustomColors
+                                                                          .BackGround),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelStyle: CustomStyles
+                                                                    .medium16
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                labelText:
+                                                                    getLocalText(
+                                                                        "nationality",
+                                                                        context),
+                                                                alignLabelWithHint:
+                                                                    true,
                                                               ),
                                                             ),
                                                           ),
@@ -1629,7 +2819,12 @@ class _TravelInformationState
                                                         child: GestureDetector(
                                                           onTap: () {
                                                             isDoB = true;
-                                                            showDobDialog(context, model, isDoB, index, passengerType);
+                                                            showDobDialog(
+                                                                context,
+                                                                model,
+                                                                isDoB,
+                                                                index,
+                                                                passengerType);
                                                           },
                                                           child:
 
@@ -1653,20 +2848,62 @@ class _TravelInformationState
 //                                                )
 
                                                               AbsorbPointer(
-                                                            child: TextFormField(
-                                                              controller: TextEditingController(text: model.getPassengerDOB(index, passengerType) ?? ""),
+                                                            child:
+                                                                TextFormField(
+                                                              controller: TextEditingController(
+                                                                  text: model.getPassengerDOB(
+                                                                          index,
+                                                                          passengerType) ??
+                                                                      ""),
                                                               showCursor: false,
                                                               readOnly: true,
-                                                              validator: (value) {
-                                                                return value == null || value.isEmpty ? "Date of Birth" : null;
+                                                              validator:
+                                                                  (value) {
+                                                                if (value
+                                                                    .isEmpty)
+                                                                  return getLocalText(
+                                                                      "date_of_birth",
+                                                                      context);
+
+                                                                int age = DateTime
+                                                                            .now()
+                                                                        .year -
+                                                                    int.parse(value
+                                                                        .split(
+                                                                            '-')[0]);
+
+                                                                if (age > 2)
+                                                                  return "Age should be lesser than 2 years for infants";
+
+                                                                return value ==
+                                                                            null ||
+                                                                        value
+                                                                            .isEmpty
+                                                                    ? getLocalText(
+                                                                        "date_of_birth",
+                                                                        context)
+                                                                    : null;
                                                               },
 // onSaved: (value) => pasenger.firstName = value.trimRight(),
 //initialValue: model.getPassengerDOB(index, passengerType) ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                              decoration: InputDecoration(
-                                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                                labelText: "Date of birth",
-                                                                alignLabelWithHint: true,
+                                                              style: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: CustomColors
+                                                                          .BackGround),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelStyle: CustomStyles
+                                                                    .medium16
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                labelText:
+                                                                    getLocalText(
+                                                                        "date_of_birth",
+                                                                        context),
+                                                                alignLabelWithHint:
+                                                                    true,
                                                               ),
                                                             ),
                                                           ),
@@ -1677,78 +2914,163 @@ class _TravelInformationState
                                                       ),
                                                       Flexible(
                                                         child: TextFormField(
-                                                          focusNode: infantPassportFocus,
+                                                          focusNode:
+                                                              infantPassportFocus,
                                                           validator: (value) {
-                                                            return value == null || value.isEmpty ? "Passport Number" : null;
+                                                            return value ==
+                                                                        null ||
+                                                                    value
+                                                                        .isEmpty
+                                                                ? getLocalText(
+                                                                    "passport_number",
+                                                                    context)
+                                                                : null;
                                                           },
                                                           onSaved: (v) {
-                                                            FocusManager.instance.primaryFocus.unfocus();
+                                                            FocusManager
+                                                                .instance
+                                                                .primaryFocus
+                                                                .unfocus();
                                                           },
 //                                                                onFieldSubmitted: (v){
 //
 //                                                                },
-                                                          onChanged: (value) => model.setPassengerPassportNumber(index, passengerType, value),
-                                                          initialValue: model.getPassengerPassportNumber(index, passengerType),
-                                                          style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                          decoration: InputDecoration(
-                                                            labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                            labelText: "Passport Number",
-                                                            alignLabelWithHint: true,
+                                                          onChanged: (value) =>
+                                                              model.setPassengerPassportNumber(
+                                                                  index,
+                                                                  passengerType,
+                                                                  value),
+                                                          initialValue: model
+                                                              .getPassengerPassportNumber(
+                                                                  index,
+                                                                  passengerType),
+                                                          style: CustomStyles
+                                                              .medium16
+                                                              .copyWith(
+                                                                  color: CustomColors
+                                                                      .BackGround),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelStyle: CustomStyles
+                                                                .medium16
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .grey),
+                                                            labelText: getLocalText(
+                                                                "passport_number_is_required",
+                                                                context),
+                                                            alignLabelWithHint:
+                                                                true,
                                                           ),
                                                         ),
                                                       ),
                                                       Flexible(
-                                                          child: GestureDetector(
+                                                          child:
+                                                              GestureDetector(
                                                         onTap: () {
                                                           isDoB = false;
 
-                                                          showDobDialog(context, model, isDoB, index, passengerType);
+                                                          showDobDialog(
+                                                              context,
+                                                              model,
+                                                              isDoB,
+                                                              index,
+                                                              passengerType);
                                                         },
                                                         child:
 //
                                                             AbsorbPointer(
                                                           absorbing: true,
                                                           child: TextFormField(
-                                                            controller: TextEditingController(text: model.getPassengerPassportExpData(index, passengerType)),
+                                                            controller: TextEditingController(
+                                                                text: model
+                                                                    .getPassengerPassportExpData(
+                                                                        index,
+                                                                        passengerType)),
 
                                                             validator: (value) {
-                                                              return value.isEmpty ? "Passport Expiry Date" : null;
+
+                                                              if(!value.isEmpty)
+                                                              {
+                                                                var date = DateTime.now();
+                                                                if (!model.tempDate.isAfter(new DateTime(date.year, date.month +6, date.day)))
+                                                                  return "Passport expiry should be greater than six months";
+                                                              }
+                                                              return value ==
+                                                                          null ||
+                                                                      value
+                                                                          .isEmpty
+                                                                  ? getLocalText(
+                                                                      "passport_expiry",
+                                                                      context)
+                                                                  : null;
                                                             },
 // onSaved: (value) => pasenger.firstName = value.trimRight(),
 // initialValue: model.getPassengerPassportExpData(index, passengerType),
-                                                            style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                                            decoration: InputDecoration(
-                                                              labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                                              labelText: "Enter Passport Expiry Date",
-                                                              alignLabelWithHint: true,
+                                                            style: CustomStyles
+                                                                .medium16
+                                                                .copyWith(
+                                                                    color: CustomColors
+                                                                        .BackGround),
+                                                            decoration:
+                                                                InputDecoration(
+                                                              labelStyle: CustomStyles
+                                                                  .medium16
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .grey),
+                                                              labelText:
+                                                                  getLocalText(
+                                                                      "enter_passport_expiry_date",
+                                                                      context),
+                                                              alignLabelWithHint:
+                                                                  true,
                                                             ),
                                                           ),
                                                         ),
                                                       )),
                                                       Align(
-                                                        alignment: Alignment.bottomRight,
+                                                        alignment: Alignment
+                                                            .bottomRight,
                                                         child: RaisedButton(
-                                                            color: CustomColors.Orange,
+                                                            color: CustomColors
+                                                                .Orange,
                                                             child: Text(
-                                                              "SAVE",
+                                                              getLocalText(
+                                                                  "save",
+                                                                  context),
 // strings.save.toUpperCase(),
-                                                              style: CustomStyles.button_style,
+                                                              style: CustomStyles
+                                                                  .button_style,
                                                             ),
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(10.0),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
                                                             ),
-                                                            onPressed: () async {
-
-
-                                                              if (_formState.currentState.validate()) {
-
-                                                                contentFilledList.forEach((element) {
-                                                                  if(element.passangerType==2 && element.index==index)
-                                                                    element.isFilled =true;
-
+                                                            onPressed:
+                                                                () async {
+                                                              if (_formState
+                                                                  .currentState
+                                                                  .validate()) {
+                                                                contentFilledList
+                                                                    .forEach(
+                                                                        (element) {
+                                                                  if (element.passangerType ==
+                                                                          2 &&
+                                                                      element.index ==
+                                                                          index)
+                                                                    element.isFilled =
+                                                                        true;
                                                                 });
-                                                                model.enabledEditMode(passengerType, index);
-                                                                _formState.currentState.save();
+                                                                model.enabledEditMode(
+                                                                    passengerType,
+                                                                    index);
+                                                                _formState
+                                                                    .currentState
+                                                                    .save();
 //model.enableNext(passengerType,index);
                                                               }
                                                             }),
@@ -1762,8 +3084,8 @@ class _TravelInformationState
                                           ],
                                         ),
                                       );
-                                            }),
-                                          )),
+                                    }),
+                                  )),
                                 ),
                               ],
                             ),
@@ -1773,83 +3095,117 @@ class _TravelInformationState
                           ),
                           Card(
                             elevation: 3,
-                            shape:
-                                RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius
-                                      .circular(
-                                          15.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
                             ),
                             child: Container(
-                              margin:
-                                  EdgeInsets.all(
-                                      15),
+                              margin: EdgeInsets.all(15),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .spaceBetween,
-                                children: <
-                                    Widget>[
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
                                   Expanded(
                                       flex: 6,
-                                      child:
-                                          Column(
+                                      child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .start,
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                        children: <
-                                            Widget>[
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
                                           SizedBox(
-                                            height:
-                                                5,
+                                            height: 5,
                                           ),
                                           Text(
                                             model.flightResultsData.currency +
                                                 " " +
-                                                (model.flightResultsData.baseRate).toStringAsFixed(2),
-                                            style: CustomStyles
-                                                .appbar
-                                                .copyWith(color: CustomColors.BackGround),
+                                                (model.flightResultsData
+                                                        .baseRate)
+                                                    .toStringAsFixed(2),
+                                            style: CustomStyles.appbar.copyWith(
+                                                color: CustomColors.BackGround),
                                           ),
                                           SizedBox(
-                                            height:
-                                                9,
+                                            height: 9,
                                           ),
                                           Wrap(
-                                            spacing:
-                                                1.2,
+                                            spacing: 1.2,
 //
-                                            alignment:
-                                                WrapAlignment.start,
-                                            direction:
-                                                Axis.horizontal,
+                                            alignment: WrapAlignment.start,
+                                            direction: Axis.horizontal,
 
 //
 
-                                            children: <
-                                                Widget>[
+                                            children: <Widget>[
                                               Row(
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: <Widget>[
-                                                  model.flightResultsData.requestData.adults != 0 ? Text('Adult ${model.flightResultsData.requestData.adults} | ', style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))) : SizedBox.shrink(),
-                                                  model.flightResultsData.requestData.children != 0 ? Text('Children ${model.flightResultsData.requestData.children} | ', style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))) : SizedBox.shrink(),
-                                                  model.flightResultsData.requestData.infants != 0 ? Text('Infants ${model.flightResultsData.requestData.infants} | ', style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))) : SizedBox.shrink(),
+                                                  model
+                                                              .flightResultsData
+                                                              .requestData
+                                                              .adults !=
+                                                          0
+                                                      ? Text(
+                                                          '${getLocalText("adult", context)} ${model.flightResultsData.requestData.adults} | ',
+                                                          style: CustomStyles
+                                                              .calenderStyle
+                                                              .copyWith(
+                                                                  color: CustomColors
+                                                                      .heading
+                                                                      .withOpacity(
+                                                                          .5)))
+                                                      : SizedBox.shrink(),
+                                                  model
+                                                              .flightResultsData
+                                                              .requestData
+                                                              .children !=
+                                                          0
+                                                      ? Text(
+                                                          '${getLocalText("children", context)} ${model.flightResultsData.requestData.children} | ',
+                                                          style: CustomStyles
+                                                              .calenderStyle
+                                                              .copyWith(
+                                                                  color: CustomColors
+                                                                      .heading
+                                                                      .withOpacity(
+                                                                          .5)))
+                                                      : SizedBox.shrink(),
+                                                  model
+                                                              .flightResultsData
+                                                              .requestData
+                                                              .infants !=
+                                                          0
+                                                      ? Text(
+                                                          '${getLocalText("infants", context)} ${model.flightResultsData.requestData.infants} | ',
+                                                          style: CustomStyles
+                                                              .calenderStyle
+                                                              .copyWith(
+                                                                  color: CustomColors
+                                                                      .heading
+                                                                      .withOpacity(
+                                                                          .5)))
+                                                      : SizedBox.shrink(),
                                                 ],
                                               ),
                                               Text(
-                                                model.flightResultsData.requestData.cabinSelection_name,
-                                                style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),
+                                                model
+                                                    .flightResultsData
+                                                    .requestData
+                                                    .cabinSelection_name,
+                                                style: CustomStyles
+                                                    .calenderStyle
+                                                    .copyWith(
+                                                        color: CustomColors
+                                                            .heading
+                                                            .withOpacity(.5)),
                                               ),
                                             ],
                                           ),
                                           SizedBox(
-                                            height:
-                                                5,
+                                            height: 5,
                                           ),
                                         ],
                                       )),
@@ -1857,9 +3213,8 @@ class _TravelInformationState
                                       flex: 4,
                                       child: RaisedButton(
                                           child: Text(
-                                            'CONTINUE',
-                                            style:
-                                                CustomStyles.button_style,
+                                            getLocalText("continue", context),
+                                            style: CustomStyles.button_style,
                                           ),
                                           color: CustomColors.Orange,
                                           padding: EdgeInsets.all(12),
@@ -1868,38 +3223,37 @@ class _TravelInformationState
                                                 BorderRadius.circular(8.0),
                                           ),
                                           onPressed: () {
-                                            bool isAllValid =false;
+                                            bool isAllValid = false;
 
                                             var list = contentFilledList;
 
-                                            for(int i=0 ; i<contentFilledList.length;i++) {
+                                            for (int i = 0;
+                                                i < contentFilledList.length;
+                                                i++) {
                                               if (!contentFilledList[i]
                                                   .isFilled) {
                                                 model.enabledEditModeOnContinue(
-                                                    contentFilledList[i]
-                                                        .index,
+                                                    contentFilledList[i].index,
                                                     contentFilledList[i]
                                                         .passangerType);
 
                                                 break;
                                               }
 
-                                              if(i == contentFilledList.length-1)
-                                                isAllValid =true;
-
+                                              if (i ==
+                                                  contentFilledList.length - 1)
+                                                isAllValid = true;
                                             }
 
-                                            _formState.currentState
-                                                .validate();
-             if(isAllValid) {
-               if (_formState.currentState
-                   .validate())
-                 Navigator.pushNamed(
-                     context,
-                     Routes.flightPaymentOptions,
-                     arguments: model
-                         .getArguments());
-             }
+                                            _formState.currentState.validate();
+                                            if (isAllValid) {
+                                              if (_formState.currentState
+                                                  .validate())
+                                                Navigator.pushNamed(context,
+                                                    Routes.flightPaymentOptions,
+                                                    arguments:
+                                                        model.getArguments());
+                                            }
 //                                            if(model.showAdultDetails[0])
 //                                             model.enabledEditMode(0, 0);
 //                                            else {
@@ -1918,8 +3272,6 @@ class _TravelInformationState
 //                                      _child_formState.currentState.save();
 //
 //                                      _infant_formState.currentState.save();
-
-
                                           }))
                                 ],
                               ),
@@ -1938,11 +3290,8 @@ class _TravelInformationState
     );
   }
 
-  showSourceBottomSheet(
-      BuildContext context,
-      FlightPassengerInfoModel model,
-      int index,
-      int passengerType) {
+  showSourceBottomSheet(BuildContext context, FlightPassengerInfoModel model,
+      int index, int passengerType) {
     return showModalBottomSheet(
         isDismissible: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -1951,16 +3300,11 @@ class _TravelInformationState
         context: context,
         builder: (context) => Container(
 //margin: EdgeInsets.all(15),
-            child: SelectCountry(model, context,
-                index, passengerType)));
+            child: SelectCountry(model, context, index, passengerType)));
   }
 
-  void showDobDialog(
-      BuildContext context,
-      FlightPassengerInfoModel model,
-      bool isDoB,
-      int index,
-      int passengerType) {
+  void showDobDialog(BuildContext context, FlightPassengerInfoModel model,
+      bool isDoB, int index, int passengerType) {
     Dialog simpleDialog = Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
@@ -1970,69 +3314,53 @@ class _TravelInformationState
           height: 370.0,
           width: 300.0,
           child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center,
-            crossAxisAlignment:
-                CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                   height: 310.0,
                   width: 300.0,
                   child: DateSelector2(
-                      model,
-                      context,
-                      isDoB,
-                      index,
-                      passengerType)),
+                      model, context, isDoB, index, passengerType)),
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceAround,
-                crossAxisAlignment:
-                    CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
                       child: FlatButton(
                           onPressed: () {
-                            Navigator.pop(
-                                context);
+                            Navigator.pop(context);
                           },
-                          child: Text('Cancel'),
+                          child: Text(getLocalText("cancel", context)),
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius
-                                      .circular(
-                                          15.0),
+                              borderRadius: BorderRadius.circular(15.0),
                               side: BorderSide(
-                                  color: CustomColors
-                                      .disabledButton,
+                                  color: CustomColors.disabledButton,
                                   width: 2)))),
                   SizedBox(
                     child: FlatButton(
                         onPressed: () {
-                          if (isDoB) {
-                            model.setPassengerDOB(
-                                index,
-                                passengerType,
-                                model.tempDate);
-                          } else {
-                            model.setPassengerPassportExpDate(
-                                index,
-                                passengerType,
-                                model.tempDate);
+                          if (model.tempDate.toString().split(' ')[0] !=
+                              DateTime.now().toString().split(' ')[0]) {
+                            if (model.tempDate.toString().substring(0, 2) !=
+                                "00") {
+                              if (isDoB) {
+                                model.setPassengerDOB(
+                                    index, passengerType, model.tempDate);
+                                Navigator.pop(context);
+                              } else {
+                                model.setPassengerPassportExpDate(
+                                    index, passengerType, model.tempDate);
+                                Navigator.pop(context);
+                              }
+                            }
                           }
-
-                          Navigator.pop(context);
                         },
-                        child: Text('Ok'),
+                        child: Text(getLocalText("ok", context)),
                         shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius
-                                    .circular(
-                                        15.0),
+                            borderRadius: BorderRadius.circular(15.0),
                             side: BorderSide(
-                                color: CustomColors
-                                    .disabledButton,
-                                width: 2))),
+                                color: CustomColors.disabledButton, width: 2))),
                   ),
                 ],
               )
@@ -2040,9 +3368,11 @@ class _TravelInformationState
           )),
     );
     showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            simpleDialog);
+        context: context, builder: (BuildContext context) => simpleDialog);
+  }
+
+  getLocalText(String key, BuildContext context) {
+    return AppLocalizations.of(context).translate(key);
   }
 
   bool isValidEmail(email) {
@@ -2050,4 +3380,14 @@ class _TravelInformationState
             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(email);
   }
+
+//  isValidExpiryDate(String expDate) {
+//
+//    AgeDuration timeDifference =
+//    Age.dateDifference(fromDate: DateTime.now(), toDate: exdate.toString());
+//
+//
+//    return  timeDifference.months<3;
+//
+//  }
 }

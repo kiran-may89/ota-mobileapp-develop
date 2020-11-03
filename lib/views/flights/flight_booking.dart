@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/utils/Dash_seperator.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/size_constants.dart';
@@ -38,7 +39,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
         key:   _scaffoldKey,
         appBar: AppBar(
           title: Text(
-            strings.search_a_flight,
+            getLocalText("book_flight", context),
             style: CustomStyles.button_style.copyWith(fontSize: 20),
           ),
           leading: new IconButton(
@@ -98,7 +99,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                 alignment: Alignment.center,
                                 height: double.infinity,
                                 width: double.infinity,
-                                child: Text(strings.one_way,
+                                child: Text(getLocalText("one_way", context),
                                     textAlign: TextAlign.center,
                                     style: model.oneWay
                                         ? CustomStyles.button_style
@@ -117,7 +118,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                 alignment: Alignment.center,
                                 height: double.infinity,
                                 width: double.infinity,
-                                child: Text(strings.round_trip,
+                                child: Text(getLocalText("round_trip", context),
                                     textAlign: TextAlign.center,
                                     style: !model.oneWay
                                         ? CustomStyles.button_style
@@ -179,7 +180,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                         child:
                                             model.selectedSource==null?
 
-                                                Text("From",
+                                                 Text(getLocalText("from", context),
                                                   style: CustomStyles
                                                     .destinationStyle
                                                     .copyWith(fontSize: 12),)
@@ -189,8 +190,8 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
 
-                                                    Text("From",
-                                                      style: CustomStyles
+                                                    Text(getLocalText("from", context),
+                                                       style: CustomStyles
                                                           .destinationStyle
                                                           .copyWith(fontSize: 9),),
 
@@ -353,7 +354,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
 
                                         model.selectedDestination==null?
 
-                                        Text("Destination",
+                                        Text(getLocalText("destination", context),
                                           style: CustomStyles
                                               .destinationStyle
                                               .copyWith(fontSize: 12),)
@@ -363,7 +364,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
 
-                                            Text("Destination",
+                                            Text(getLocalText("destination", context),
                                               style: CustomStyles
                                                   .destinationStyle
                                                   .copyWith(fontSize: 9),),
@@ -540,7 +541,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            strings.set_dates,
+                           getLocalText("setDates", context),
                             style: CustomStyles.heading.copyWith(
                                 color: CustomColors.heading.withOpacity(.5)),
                           ),
@@ -578,7 +579,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                           children: <Widget>[
                                             model.oneWay
                                                 ? Text(
-                                              "From ${model.startDateMOnth}",
+                                              " ${getLocalText("from", context)+model.startDateMOnth}",
                                               style: CustomStyles
                                                   .cardContentStyle.copyWith(fontSize: 14),
                                               textAlign: TextAlign.start,
@@ -592,14 +593,14 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                                   .spaceBetween,
                                               children: <Widget>[
                                                 Text(
-                                                  "From ${model.startDateMOnth}",
+                                                  "${getLocalText("from", context)+model.startDateMOnth}",
                                                   style: CustomStyles
                                                       .cardContentStyle.copyWith(fontSize: 14),
                                                   textAlign:
                                                   TextAlign.start,
                                                 ),
                                                 Text(
-                                                  "   Return ${model.returnDateMonth}",
+                                                  "${getLocalText("return", context)+model.returnDateMonth}",
                                                   style: CustomStyles
                                                       .cardContentStyle.copyWith(fontSize: 14),
                                                   textAlign:
@@ -654,7 +655,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                     ),
 
                     Text(
-                      'Add number of travellers',
+                      getLocalText("add_number_of_travellers", context),
                       style: CustomStyles.heading.copyWith(
                           color: CustomColors.heading.withOpacity(.5)),
                     ),
@@ -672,7 +673,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                           children: <Widget>[
                             Expanded(
                               flex: 5,
-                              child: Text('Adult',
+                              child: Text(getLocalText("adults", context),
                                   style: model.adultCount == 0
                                       ? CustomStyles.normal16.copyWith(
                                       color: CustomColors.disabledButton)
@@ -734,7 +735,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                           children: <Widget>[
                             Expanded(
                               flex: 5,
-                              child: Text('Children',
+                              child: Text(getLocalText("children", context),
                                   style: model.childCount == 0
                                       ? CustomStyles.normal16.copyWith(
                                       color: CustomColors.disabledButton)
@@ -793,7 +794,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                           children: <Widget>[
                             Expanded(
                               flex: 5,
-                              child: Text('Infants',
+                              child: Text(getLocalText("infants", context),
                                   style: model.infantsCount == 0
                                       ? CustomStyles.normal16.copyWith(
                                       color: CustomColors.disabledButton)
@@ -839,7 +840,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                     ),
 
                     Text(
-                      'Choose cabin class',
+                      getLocalText("choose_cabin_class", context),
                       style: CustomStyles.heading.copyWith(
                           color: CustomColors.heading.withOpacity(.5)),
                     ),
@@ -878,7 +879,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                       child: RaisedButton(
                           color: CustomColors.Orange,
                           child: Text(
-                            "SEARCH FLIGHTS",
+                            getLocalText("search_flights", context),
                             style: CustomStyles.button_style,
                           ),
                           shape: RoundedRectangleBorder(
@@ -921,5 +922,10 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
 
 
 
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

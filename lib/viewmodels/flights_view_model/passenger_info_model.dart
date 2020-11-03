@@ -48,6 +48,8 @@ class FlightPassengerInfoModel
   int primaryMemberIndex;
 
 
+
+
   /// for 2 api's savebooking and booking
   List<TravelInfoModel> adultSaveBookingDetails =
       List();
@@ -86,7 +88,7 @@ class FlightPassengerInfoModel
 
   DateTime Dob;
 
-  DateTime tempDate;
+  DateTime tempDate = DateTime.now();
 
   DateTime passportExpiryDate;
 
@@ -536,6 +538,8 @@ class FlightPassengerInfoModel
     }
 
     notifyListeners();
+
+
   }
 
   getPassengerDOB(int index, int passengerType) {
@@ -580,6 +584,8 @@ class FlightPassengerInfoModel
     }
 
     notifyListeners();
+
+
   }
 
   isPrimary(int index, int passengerType) {
@@ -744,7 +750,7 @@ class FlightPassengerInfoModel
       }
 
       element.phone =
-          "+${telephoneCode} ${phoneNumber.phoneNumber}";
+          phoneNumber.phoneNumber;
     });
     print(adultSaveBookingDetails);
     childSaveBookingDetails
@@ -755,7 +761,7 @@ class FlightPassengerInfoModel
         element.nationality = countryCode;
       }
       element.phone =
-          "+${telephoneCode} ${phoneNumber.phoneNumber}";
+          phoneNumber.phoneNumber;
     });
 
     infantSaveBookingDetails
@@ -766,7 +772,7 @@ class FlightPassengerInfoModel
         element.nationality = countryCode;
       }
       element.phone =
-          "+${telephoneCode} ${phoneNumber.phoneNumber}";
+            phoneNumber.phoneNumber;
     });
 
     // notifyListeners();

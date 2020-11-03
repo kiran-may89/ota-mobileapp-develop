@@ -47,8 +47,14 @@ class ActivityService_Impl extends ActivityService{
           .post(_SEARCH_ACTIVITIES, data: jsonEncode(body.toJson()));
 
       var data = response.data;
-
-      ActivitySearchResponse results = ActivitySearchResponse.fromJson(data);
+      ActivitySearchResponse results = ActivitySearchResponse();
+      if (response.statusCode == 200)
+        results = ActivitySearchResponse.fromJson(data);
+    else
+  {
+    results.isError =true;
+    results.message =response.statusMessage;
+  }
 
       var correlationId = response.headers.value('X-Correlation-ID');
 
@@ -66,6 +72,7 @@ class ActivityService_Impl extends ActivityService{
       ActivitySearchResponseData activitySearchResponseData  = ActivitySearchResponseData(correlationId:"" ,activitySearchResponse: results);
 
       results.isError = true;
+      activitySearchResponseData.activitySearchResponse.isError =true;
 
       print(error.toString());
 
@@ -87,8 +94,12 @@ class ActivityService_Impl extends ActivityService{
 
       var data = response.data;
 
-      FullDetailsResponse results = FullDetailsResponse.fromJson(data);
+      FullDetailsResponse results = FullDetailsResponse();
+       if(response.statusCode == 200)
+         return FullDetailsResponse.fromJson(data);
 
+       results.isError =true;
+       results.message =response.statusMessage;
       return results;
 
     } catch (error, stacktrace) {
@@ -121,8 +132,12 @@ class ActivityService_Impl extends ActivityService{
 
       var data = response.data;
 
-      SmallDetailsResponse results = SmallDetailsResponse.fromJson(data);
+      SmallDetailsResponse results  = SmallDetailsResponse();
+      if(response.statusCode==200)
+      return  SmallDetailsResponse.fromJson(data);
 
+      results.message =response.statusMessage;
+      results.isError =true;
       return results;
 
     } catch (error, stacktrace) {
@@ -157,8 +172,13 @@ class ActivityService_Impl extends ActivityService{
       var data = response.data;
 
       PrebookingResponseEntity results = PrebookingResponseEntity();
-
+      if(response.statusCode==200)
       return results.fromJson(data);
+
+      results.isError =true;
+      results.message =response.statusMessage;
+
+      return results;
 
     } catch (error, stacktrace) {
 
@@ -188,8 +208,12 @@ class ActivityService_Impl extends ActivityService{
       var data = response.data;
 
       ActivityBookingResponseEntity results = ActivityBookingResponseEntity();
-
+      if(response.statusCode==200)
       return results.fromJson(data);
+
+      results.isError =true;
+      results.message = response.statusMessage;
+      return results;
 
     } catch (error, stacktrace) {
 

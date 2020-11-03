@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/models/activity/request/search_activity_data.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/utils/Dash_seperator.dart';
 import 'package:ota/utils/colors.dart';
+import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
@@ -26,7 +29,7 @@ class ActivityResults extends StatefulWidget {
   _ActivityResultsState createState() => _ActivityResultsState(this.searchActivityData);
 }
 
-class _ActivityResultsState extends State<ActivityResults> {
+class _ActivityResultsState extends State<ActivityResults> implements Delegate{
 
   SearchActivityData searchActivityData;
 
@@ -48,14 +51,14 @@ class _ActivityResultsState extends State<ActivityResults> {
 
     return ChangeNotifierProvider<ActivityResultsModel>(
 
-      create: (context) => ActivityResultsModel(searchActivityData),
+      create: (context) => ActivityResultsModel(searchActivityData,this),
       child:
       Consumer<ActivityResultsModel>(
 
         builder: (context, model, child) {
 
           return Scaffold(
-            appBar: AppBar(title: Text('Activity Results',style: CustomStyles.appbar,),
+            appBar: AppBar(title: Text(getLocalText("activity_results", context),style: CustomStyles.appbar,),
               leading: new IconButton(
                 icon: new Icon(Icons.arrow_back_ios, color: Colors.white,size: 13,),
                 onPressed: () => Navigator.of(context).pop(),
@@ -123,7 +126,9 @@ class _ActivityResultsState extends State<ActivityResults> {
                     child: Image.asset('assets/images/event.png', height: 150,),
                   ),
                   Padding(padding: EdgeInsets.only(top: 40),
-                    child: Text('SomeThing Went Wrong', textAlign: TextAlign
+                    child: Text(
+                    getLocalText("something_went_wrong", context),
+                    textAlign: TextAlign
                         .center, style: CustomStyles.medium20
                         .copyWith(color: CustomColors.Orange)),
                   ),
@@ -140,7 +145,9 @@ class _ActivityResultsState extends State<ActivityResults> {
                     child: Image.asset('assets/images/event.png', height: 150,),
                   ),
                   Padding(padding: EdgeInsets.only(top: 40),
-                    child: Text('No Activities Found', textAlign: TextAlign
+                    child: Text(
+                    getLocalText("no_activities_found", context),
+                    textAlign: TextAlign
                         .center, style: CustomStyles.medium20
                         .copyWith(color: CustomColors.disabledButton)),
                   ),
@@ -188,7 +195,7 @@ class _ActivityResultsState extends State<ActivityResults> {
                                           Text(model.requestData.returnDateMonth+" | ",style : CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)) ,),
 
 
-                                          Text(model.requestData.adultCnt.toString() +' Person',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),)
+                                          Text(model.requestData.adultCnt.toString() +' ${getLocalText("person", context)}',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),)
 
 
                                         ],)
@@ -203,7 +210,7 @@ class _ActivityResultsState extends State<ActivityResults> {
                                       child: RaisedButton(onPressed: (){
                                         Navigator.of(context).pop();
                                       } ,color: CustomColors.Orange,
-                                        child: Text('EDIT',style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
+                                        child: Text( getLocalText("edit", context),style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
                                         elevation: 3,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(5.0),
@@ -248,7 +255,9 @@ class _ActivityResultsState extends State<ActivityResults> {
                                           child: Container(
                                               margin: EdgeInsets.only(
                                                   bottom: 10),
-                                              child: Text('Price :', style: CustomStyles.button_style.copyWith(fontSize: 13), textAlign: TextAlign.center,)),
+                                              child: Text(
+                                                getLocalText("price", context),
+                                                style: CustomStyles.button_style.copyWith(fontSize: 13), textAlign: TextAlign.center,)),
                                           flex: 1,
                                         ),
                                         Expanded(
@@ -263,7 +272,7 @@ class _ActivityResultsState extends State<ActivityResults> {
                                                       child:
                                                       GestureDetector(
                                                         child: Text(
-                                                          'Low-High',
+                                                          getLocalText("low_high", context),
                                                           style: !model.priceFilterHighLow ? CustomStyles.button_style.copyWith(fontSize: 13)
                                                               :
                                                           CustomStyles.button_style.copyWith(fontSize: 13, color: CustomColors.White.withOpacity(.5)), textAlign: TextAlign.center,
@@ -277,7 +286,7 @@ class _ActivityResultsState extends State<ActivityResults> {
                                                       child:
                                                       GestureDetector(
                                                         child: Text(
-                                                          'High-Low',
+                                                          getLocalText("high_low", context),
                                                           style: model
                                                               .priceFilterHighLow
                                                               ? CustomStyles
@@ -365,7 +374,7 @@ class _ActivityResultsState extends State<ActivityResults> {
                                                 padding:
                                                 EdgeInsets.all(7.0),
                                                 child: Text(
-                                                    'Activities Not Found',
+                                                getLocalText("no_activities_found", context),
                                                     textAlign: TextAlign
                                                         .center,
                                                     style: CustomStyles
@@ -409,7 +418,7 @@ class _ActivityResultsState extends State<ActivityResults> {
                                                         Navigator.pop(
                                                             context);
                                                       },
-                                                      child: Text('Back to Search', style: CustomStyles
+                                                      child: Text(getLocalText("back_to_search", context), style: CustomStyles
                                                           .normal16
                                                           .copyWith(color: CustomColors
                                                           .White)),
@@ -436,7 +445,7 @@ class _ActivityResultsState extends State<ActivityResults> {
                                                 EdgeInsets.all(
                                                     7.0),
                                                 child: Text(
-                                                    'Activities Not Found',
+                                                getLocalText("no_activities_found", context),
                                                     textAlign:
                                                     TextAlign
                                                         .center,
@@ -484,7 +493,10 @@ class _ActivityResultsState extends State<ActivityResults> {
                                                                 width: 120,
                                                                   height: 190,
 
-                                                                  child: Image.network( model.activityList[index].content.media.images.first.urls[3].resource,fit: BoxFit.cover,)),
+                                                                  child:model.activityList[index].content.media.images==null?
+                                                                  Image.asset("assets/images/no_image_available.jpg",fit: BoxFit.cover,) :
+                                                                  Image.network( model.activityList[index].content.media.images.first.urls[3].resource,
+                                                                    fit: BoxFit.cover,)),
                                                               Expanded(
                                                                   flex: 6,
                                                                   child: Stack(
@@ -540,7 +552,7 @@ class _ActivityResultsState extends State<ActivityResults> {
 
                                                                             ],),
                                                                             SizedBox(height: 5,),
-                                                                            Text( model.activityList[index].content.scheduling.duration==null?'Duration : '+"Full Day": 'Duration : '+
+                                                                            Text( model.activityList[index].content.scheduling.duration==null?'${getLocalText("duration", context)}'+"${getLocalText("full_day", context)}": '${getLocalText("duration", context)}'+
 
                                                                                 '${model.activityList[index].content.scheduling.duration.value}  ${model.activityList[index].content.scheduling.duration.metric}',style: CustomStyles.normal12,),
 
@@ -717,8 +729,7 @@ class _ActivityResultsState extends State<ActivityResults> {
                   children: <
                       Widget>[
                     Text(
-                      strings
-                          .filter,
+                      getLocalText("filter", context),
                       style: CustomStyles
                           .appbar
                           .copyWith(
@@ -779,5 +790,16 @@ class _ActivityResultsState extends State<ActivityResults> {
     return value;
 
 
+  }
+
+
+  @override
+  void onError(String message, bool isFromCreditCard, String asset) {
+    Dialogs.showGenericErrorPopup(context, message, isFromCreditCard, asset);
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

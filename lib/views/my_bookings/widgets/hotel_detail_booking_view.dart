@@ -170,7 +170,7 @@ class HotelBookingDetailView extends StatelessWidget {
             onTap: (){
               if( _model.bookings[0].reservationNumber!=null)
 
-                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_viewModel,_model.bookings[0].reservationNumber]);
+                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_model.bookings[0].reservationNumber]);
 
 
             },

@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart' as CCard;
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/card_form.dart';
 import 'package:ota/models/transfers/requests/credit_card_transfers_data.dart';
 import 'package:ota/models/transfers/requests/reservation_request.dart';
 import 'package:ota/models/transfers/requests/transfers_passenger_data.dart';
+import 'package:ota/net/service/delegate.dart';
 
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
@@ -25,7 +27,7 @@ class TranferCcDetails extends StatefulWidget {
   _TranferCcDetailsState createState() => _TranferCcDetailsState(transferPassengerData);
 }
 
-class _TranferCcDetailsState extends State<TranferCcDetails> {
+class _TranferCcDetailsState extends State<TranferCcDetails> implements Delegate{
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   TransferPassengerData transferPassengerData;
@@ -37,7 +39,7 @@ class _TranferCcDetailsState extends State<TranferCcDetails> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TransferCCModel>(
-      create: (context) => TransferCCModel(transferPassengerData),
+      create: (context) => TransferCCModel(transferPassengerData,this),
       child: Consumer<TransferCCModel>(
         builder: (context, model, child) {
           return Scaffold(
@@ -67,7 +69,7 @@ class _TranferCcDetailsState extends State<TranferCcDetails> {
                       child: RaisedButton(
                           color: CustomColors.Orange,
                           child: Text(
-                            "Book Transfers",
+                            getLocalText("book_transfers", context),
                             style: CustomStyles.button_style,
                           ),
                           shape: RoundedRectangleBorder(
@@ -80,18 +82,24 @@ class _TranferCcDetailsState extends State<TranferCcDetails> {
                               Dialogs.showLoadingDialog(context, _keyLoader);
 
                               model.bookTransfer().then((value) {
-                                Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+                                if(value!=null) {
+                                  Navigator.of(_keyLoader.currentContext,
+                                      rootNavigator: true).pop();
 
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
 
-                                Navigator.pushNamed(context, Routes.transferBookingStatus,
-                                    arguments: model.getResponse());
-                              });
+                                  Navigator.pushNamed(
+                                      context, Routes.transferBookingStatus,
+                                      arguments: model.getResponse());
+                                }
+                                else
+                                  return null;
+                                  });
                             }
                           }),
                     ),
@@ -107,4 +115,17 @@ class _TranferCcDetailsState extends State<TranferCcDetails> {
       ),
     );
   }
+
+  @override
+  void onError(String message, bool isFromCreditCard, String asset) {
+    Dialogs.showGenericErrorPopup(context, message, isFromCreditCard, asset);
+  }
+
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+
+
 }

@@ -5,6 +5,7 @@ import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/common/country_codes_response_entity.dart';
 import 'package:ota/models/hotels/city_look_up_response.dart';
 import 'package:ota/models/hotels/responses/hotel_auto_search_model.dart';
@@ -16,6 +17,9 @@ import 'package:ota/utils/utils.dart';
 import 'package:ota/viewmodels/hotel_search_view_model.dart';
 import 'package:ota/views/base/base_view.dart';
 import 'package:ota/views/base/base_widget.dart';
+
+import 'bottom_sheet/search_country.dart';
+import 'bottom_sheet/search_location.dart';
 
 class HotelSearch extends StatelessWidget {
   @override
@@ -30,14 +34,24 @@ class HotelSearch extends StatelessWidget {
 }
 
 class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context, HotelSearchViewModel model) {
     // TODO: implement build
     return Scaffold(
+      key:scaffoldKey,
       appBar: AppBar(
         title: Text(
           strings.hotel_booking,
           style: CustomStyles.appbar,
+        ),
+        leading: new IconButton(
+          icon: new Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 13,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: SingleChildScrollView(
@@ -45,115 +59,73 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Card(
-                elevation: 3,
-                margin: EdgeInsets.only(top: SizeConstants.SIZE_30, left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
-                ),
-                child: Container(
-                  height: SizeConstants.SIZE_70,
-                  margin: EdgeInsets.only(
-                    left: SizeConstants.SIZE_20,
+            GestureDetector(
+              onTap: (){
+
+                showSourceBottomSheetForLocation(context, model);
+
+              },
+              child: Card(
+                  elevation: 3,
+                  margin: EdgeInsets.only(top: SizeConstants.SIZE_30, left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      Image.asset(
-                        'assets/images/location.png',
-                        height: SizeConstants.SIZE_20,
-                      ),
-                      SizedBox(
-                        width: SizeConstants.SIZE_8,
-                      ),
-                      Expanded(
-                          child: Theme(
-                        data: ThemeData(primaryColor: Colors.red),
-                        child: TypeAheadFormField(
-                          key: model.key,
-                          hideOnError: true,
-                          hideOnEmpty: true,
-                          hideOnLoading: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Destination";
-                            }
-                            return null;
-                          },
-                          textFieldConfiguration: TextFieldConfiguration(
-                            controller: model.typeAheadController,
-                            autofocus: false,
-                            style: CustomStyles.cardContentStyle,
-                            decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    model.typeAheadController.clear();
-                                  },
-                                  icon: Icon(
-                                    Icons.cancel,
-                                    size: SizeConstants.SIZE_20,
-                                  ),
-                                ),
-                                alignLabelWithHint: false,
-                                labelText: strings.destination,
-                                labelStyle: CustomStyles.destinationStyle,
-                                border: InputBorder.none),
-                          ),
-                          suggestionsCallback: (pattern) async {
-                            if (pattern.isEmpty || pattern.length < 3) {
-                              return null;
-                            }
-                            var response = await model.getAutoComplete(pattern);
-                            return response.result;
-                          },
-                          itemBuilder: (context, City suggestion) {
-                            return ListTile(
-                              title: Text(
-                                suggestion.name,
-                                style: CustomStyles.countDownStyle.copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
-                              ),
-                            );
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            model.setSelectedPlace(suggestion);
-                          },
+                  child: Container(
+                    height: SizeConstants.SIZE_70,
+                    margin: EdgeInsets.only(
+                      left: SizeConstants.SIZE_20,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/location.png',
+                          height: SizeConstants.SIZE_20,
                         ),
-                      )),
-                    ],
-                  ),
-                )),
+                        SizedBox(
+                          width: SizeConstants.SIZE_10,
+                        ),
+                        Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(model.typeAheadController.text.isEmpty?strings.destination:model.typeAheadController.text ,
+                                  style: CustomStyles.destinationStyle),
+                            )
+
+
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
             Container(
                 margin: EdgeInsets.only(right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   Text(
-                    strings.nationality,
+                    getLocalText("nationality", context),
                     style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
                   ),
-                  Card(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
-                      ),
-                      child: Container(
-                        height: 45,
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.only(
-                            left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16, top: SizeConstants.SIZE_4, bottom: SizeConstants.SIZE_4),
-                        child: DropdownButton(
-                          icon: Container(),
-                          underline: Container(),
-                          onChanged: (value) => model.setCountryCode(value),
-                          items: List.generate(model.countryCodes?.length ?? 0, (index) {
-                            return DropdownMenuItem(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Text(model.countryCodes[index].name, overflow: TextOverflow.ellipsis),
-                              ),
-                              value: index,
-                            );
-                          }),
-                          value: model.selectedCountryCodeIndex,
+                  GestureDetector(
+                    onTap: (){
+                      showSourceBottomSheet(context, model, 0, 0);
+                    },
+                    child: Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(SizeConstants.SIZE_16),
                         ),
-                      )),
+                        child: Container(
+                          height: 45,
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.only(
+                              left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16, top: SizeConstants.SIZE_4, bottom: SizeConstants.SIZE_4),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(model.country,style: CustomStyles.destinationStyle,))
+                        )),
+                  ),
+
+
                 ])),
             Container(
               margin: EdgeInsets.only(right: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, top: SizeConstants.SIZE_20),
@@ -161,7 +133,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    strings.set_dates,
+                    getLocalText("setDates", context),
                     style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
                   ),
                   Card(
@@ -186,7 +158,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                 Flexible(
                                   flex: 2,
                                   child: Text(
-                                    "${strings.checkIn} ${convertToDate(model.requestDto.checkInDate)} - ${strings.checkOut} ${convertToDate(model.requestDto.checkOutDate)}",
+                                    "${getLocalText("check_in", context)} ${convertToDate(model.requestDto.checkInDate)} - ${getLocalText("check_out", context)} ${convertToDate(model.requestDto.checkOutDate)}",
                                     style: CustomStyles.cardContentStyle,
                                     textAlign: TextAlign.start,
                                   ),
@@ -240,7 +212,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    strings.rooms,
+                    getLocalText("rooms", context),
                     style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
                   ),
                   Card(
@@ -256,7 +228,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            strings.rooms,
+                            getLocalText("rooms", context),
                             style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
                           ),
                           Row(
@@ -313,7 +285,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    "Room ${(index + 1)}",
+                                    "${getLocalText("room", context)} ${(index + 1)}",
                                     style: CustomStyles.heading.copyWith(color: CustomColors.heading.withOpacity(.5)),
                                   ),
                                   IconButton(
@@ -331,7 +303,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    strings.adult,
+                                    getLocalText("adult", context),
                                     style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
                                   ),
                                   Row(
@@ -362,7 +334,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    strings.children,
+                                    getLocalText("children", context),
                                     style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading, fontSize: SizeConstants.SIZE_16),
                                   ),
                                   Row(
@@ -397,7 +369,7 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
                                       (ind) => Column(
                                             children: <Widget>[
                                               Text(
-                                                "Child ${ind + 1} Age",
+                                                "${getLocalText("child", context)} ${ind + 1} Age",
                                                 style: CustomStyles.whiteTextSytle12Size.copyWith(color: Colors.grey),
                                               ),
                                               Card(
@@ -439,22 +411,61 @@ class HotelSearchState extends BaseModelWidget<HotelSearchViewModel> {
               child: RaisedButton(
                   color: CustomColors.Orange,
                   child: Text(
-                    "SEARCH HOTELS",
+                    getLocalText("search_hotels", context),
                     style: CustomStyles.button_style,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   onPressed: () {
-                    if (model.key.currentState.validate()) {
-                      model.roomPaxes();
-                      Navigator.pushNamed(context, Routes.searchHotels, arguments: model.requestDto);
-                    } else {}
+                        if(model.validateData(scaffoldKey)) {
+                          model.roomPaxes();
+                          Navigator.pushNamed(context, Routes.searchHotels,
+                              arguments: model.requestDto);
+                        }
                   }),
             )
           ],
         ),
       ),
     );
+  }
+
+  showSourceBottomSheet(
+      BuildContext context,
+      HotelSearchViewModel model,
+      int index,
+      int passengerType) {
+    return showModalBottomSheet(
+        isDismissible: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        backgroundColor: Colors.white,
+        isScrollControlled: true,
+        context: context,
+        builder: (context) => Container(
+//margin: EdgeInsets.all(15),
+            child: SelectCountry(model, context,
+                index, passengerType)));
+  }
+
+  showSourceBottomSheetForLocation(BuildContext context, HotelSearchViewModel model) {
+    return showModalBottomSheet(
+        isDismissible: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        backgroundColor: Colors.white,
+        isScrollControlled: true,
+        context: context,
+        builder: (context) =>
+            Container(
+              //margin: EdgeInsets.all(15),
+                child: SearchLocation(model, context)
+
+
+            ));
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/styles.dart';
@@ -82,7 +83,7 @@ class _SearchTransfer extends State<SearchTransfer> {
                 },
 
                 decoration:   InputDecoration(
-                  hintText: widget.model.sourceType ? "From" : "Destination",
+                  hintText: widget.model.sourceType ? getLocalText("from", context)  : getLocalText("destination", context),
                   hintStyle: CustomStyles.medium16,
 
 //                  suffixIcon: IconButton(
@@ -183,5 +184,12 @@ class _SearchTransfer extends State<SearchTransfer> {
                 });
           }),
     );
+
   }
+
+  getLocalText(String key, BuildContext context) {
+
+  return  AppLocalizations.of(context).translate(key);
+  }
+
 }

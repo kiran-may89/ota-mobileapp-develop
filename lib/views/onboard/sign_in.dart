@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/onboard/requests/external_auth_request_model.dart';
 import 'package:ota/models/onboard/response/fb_graph_model.dart';
 import 'package:ota/models/onboard/response/login_response.dart';
@@ -118,7 +119,7 @@ class _SignInState extends State<SignIn> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: screenHeight*.3),
-              Text(strings.hi, style: CustomStyles.style1),
+              Text(getLocalText("hi", context), style: CustomStyles.style1),
               SizedBox(height: 10),
               Text(strings.welcome_to, style: CustomStyles.style2),
 
@@ -133,20 +134,23 @@ class _SignInState extends State<SignIn> {
                   child: Column(
                     children: [
                       TextFormField(
+                        controller: model.emailController ,
                         style: CustomStyles.HintStyle.copyWith(color: Colors.black),
                         onSaved: (value) {
                           model.request.email = value;
                         },
                         keyboardType: TextInputType.name,
-                        validator: (value) {
-                          return value == null || value.isEmpty ? "Enter Email" : null;
-                        },
+
+                          validator: (input) =>input.isEmpty?getLocalText("enter_email", context): isValidEmail(input) ? null :getLocalText("enter_valid_email", context),
+
                         decoration: InputDecoration(
-                        hintText: "Email Id",
+                        hintText: getLocalText("email_id", context),
                         hintStyle: CustomStyles.HintStyle,
-                        contentPadding: EdgeInsets.only(left: 20, top: 5),
+                        contentPadding: EdgeInsets.only(left: 20, top: 5,right: 20),
                         suffixIcon: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          model.emailController.clear();
+                        },
                         icon: Icon(
                           Icons.cancel,
                           size: 18,
@@ -161,6 +165,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       SizedBox(height: SizeConstants.SIZE_16),
                       TextFormField(
+                        controller: model.passwordController,
                         style: CustomStyles.HintStyle.copyWith(color: Colors.black),
                         onSaved: (value) {
                           model.request.password = value;
@@ -171,19 +176,21 @@ class _SignInState extends State<SignIn> {
                         validator: (value) {
                           bool valid = passwordExp.hasMatch(value);
                           if (value.isEmpty) {
-                            return "Enter Password";
+                            return getLocalText("enter_password", context);
                           } else if (!valid) {
-                            return "Enter Valid Password";
+                            return getLocalText("enter_valid_password", context);
                           } else {
                             return null;
                           }
                         },
                         decoration: InputDecoration(
-                        hintText: "Password",
+                        hintText: getLocalText("password", context),
                         hintStyle: CustomStyles.HintStyle,
-                        contentPadding: EdgeInsets.only(left: 20, top: 5),
+                        contentPadding: EdgeInsets.only(left: 20, top: 5,right: 20),
                         suffixIcon: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            model.passwordController.clear() ;
+                          },
                           icon: Icon(
                             Icons.cancel,
                             size: 18,
@@ -205,19 +212,21 @@ class _SignInState extends State<SignIn> {
                     width: MediaQuery.of(context).size.width,
                     child: RaisedButton(
                     color: CustomColors.Orange,
-                    child: Text("Login", style: CustomStyles.button_style),
+                    child: Text(getLocalText("login", context), style: CustomStyles.button_style),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () {
                       if (key.currentState.validate()) {
                         key.currentState.save();
                         Dialogs.showSpinkitLoading(context);
                         loginAction();
-                      } else {}
+                      } else {
+
+                      }
                     }),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("OR", style: CustomStyles.style1.copyWith(color: Colors.white, fontSize: 12)),
+                    child: Text(getLocalText("or", context), style: CustomStyles.style1.copyWith(color: Colors.white, fontSize: 12)),
                   ),
                   SizedBox(
                     height: 48,
@@ -225,7 +234,7 @@ class _SignInState extends State<SignIn> {
                     child: RaisedButton(
                     color: CustomColors.Orange,
                     child: Text(
-                      "Continue As Guest",
+                      getLocalText("continue_as_guest", context),
                       style: CustomStyles.button_style.copyWith(),
                     ),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -479,7 +488,7 @@ class _SignInState extends State<SignIn> {
                 child: GestureDetector(
                   child: Container(
                     margin: EdgeInsets.only(bottom: screenHeight*.2, right: 16),
-                    child: Text("Sign Up", style: CustomStyles.button_style),
+                    child: Text(getLocalText("signup", context), style: CustomStyles.button_style),
                   ),
                   onTap: () {
                     Navigator.of(context).pushNamed(Routes.signUp);
@@ -504,5 +513,15 @@ class _SignInState extends State<SignIn> {
       SessionManager.getInstance().isGuest = true;
       Navigator.pushNamedAndRemoveUntil(context, Routes.dashboard, (route) => false);
     }
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+  bool isValidEmail(email) {
+    return RegExp(
+    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+    .hasMatch(email);
   }
 }

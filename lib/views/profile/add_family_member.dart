@@ -1,6 +1,7 @@
 import 'package:age/age.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/profile/responses/family_list.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
@@ -72,7 +73,7 @@ class _AddFamilyMemberState
             backgroundColor: CustomColors.White,
             appBar: AppBar(
               title: Text(
-                'Add Family Members',
+                getLocalText("add_family_members", context), 
                 style: CustomStyles.appbar,
               ),
               leading: new IconButton(
@@ -102,8 +103,8 @@ class _AddFamilyMemberState
                       children: [
                         TextFormField(
                           validator: (value) {
-                            return value.isEmpty
-                                ? "Enter First Name"
+                            return value.isEmpty 
+                                ? getLocalText("enter_first_name", context)
                                 : null;
                           },
                           onFieldSubmitted: (v){
@@ -121,7 +122,7 @@ class _AddFamilyMemberState
                                   .copyWith(
                                       color: CustomColors.disabledButton),
                               labelText:
-                                  "First Name",
+                                  getLocalText("first_name", context), 
                               alignLabelWithHint:
                                   true,
 
@@ -134,7 +135,7 @@ class _AddFamilyMemberState
                           controller: model.lastName,
                           validator: (value) {
                             return value.isEmpty
-                            ? "Enter Last Name"
+                            ? getLocalText("enter_last_name", context) 
                             : null;
                           },
                           onFieldSubmitted: (v){
@@ -151,7 +152,7 @@ class _AddFamilyMemberState
                           .copyWith(
                           color: CustomColors.disabledButton),
                           labelText:
-                          "Last Name",
+                          getLocalText("last_name", context), 
                           alignLabelWithHint:
                           true,
 
@@ -165,14 +166,14 @@ class _AddFamilyMemberState
                           controller: model.passportNumber,
                           validator: (value) {
                             return value.isEmpty
-                            ? "Enter Passport Number"
-                            : value.length<=5?"Invalid Passport Number":isAlphaNumeric(value) && value.length<=12?null:"Invalid Passport Number";
+                            ? getLocalText("passport_number_is_required", context) 
+                            : value.length<=5?getLocalText("please_enter_valid_password", context):isAlphaNumeric(value) && value.length<=12?null:getLocalText("please_enter_valid_password", context);
 
-                          },
+                          }, 
 
                           onFieldSubmitted: (v){
                             FocusScope.of(context).requestFocus(emailFocus);
-                          },
+                          }, 
                           style: CustomStyles
                           .medium16
                           .copyWith(
@@ -184,7 +185,7 @@ class _AddFamilyMemberState
                           .copyWith(
                           color: CustomColors.disabledButton),
                           labelText:
-                          "Passport Number",
+                          getLocalText("passport_number", context), 
                           alignLabelWithHint:
                           true,
 
@@ -212,8 +213,8 @@ class _AddFamilyMemberState
 
                               validator: (value) {
                                 return value.isEmpty
-                                ? "Select Passport Expiry Date"
-                                : isValidExpiryDate(model)?"Please select After 3 months date":null;
+                                ? getLocalText("enter_passport_expiry_date", context)
+                                : isValidExpiryDate(model)?getLocalText("please_select_passport_expiry_after_3_months", context):null;
 
                               },
 
@@ -228,7 +229,7 @@ class _AddFamilyMemberState
                                 .copyWith(
                                 color: CustomColors.disabledButton),
                                 labelText:
-                                "Passport Expiry Date",
+                                getLocalText("passport_expiry", context),
                                 alignLabelWithHint:
                                 true,
 
@@ -259,7 +260,7 @@ class _AddFamilyMemberState
 
                               validator: (value) {
                                 return value.isEmpty
-                                ? "Enter Date Of Birth"
+                                ? getLocalText("enter_date_of_birth", context)
                                 :null;
 
                               },
@@ -274,7 +275,7 @@ class _AddFamilyMemberState
                                 .copyWith(
                                 color: CustomColors.disabledButton),
                                 labelText:
-                                "Date of birth",
+                                getLocalText("date_of_birth", context),
                                 alignLabelWithHint:
                                 true,
 
@@ -290,7 +291,7 @@ class _AddFamilyMemberState
 
                           controller: model.emailId,
 
-                          validator: (input) =>input.isEmpty?"Enter Email": isValidEmail(input) ? null : "Enter Valid Email Id",
+                          validator: (input) =>input.isEmpty?getLocalText("enter_email", context): isValidEmail(input) ? null :getLocalText("enter_valid_email", context),
 
                           onFieldSubmitted: (v){
                             FocusScope.of(context).requestFocus(locationNameFocus);
@@ -306,8 +307,7 @@ class _AddFamilyMemberState
                             .medium16
                             .copyWith(
                             color: CustomColors.disabledButton),
-                            labelText:
-                            "Email Id",
+                            labelText: getLocalText("email_id", context),
                             alignLabelWithHint:
                             true,
 
@@ -330,7 +330,7 @@ class _AddFamilyMemberState
                               controller: model.nationality,
                               validator: (value) {
                                 return value.isEmpty
-                                ? "Select Nationality"
+                                ? getLocalText("please_select_nationality", context)
                                 : null;
                               },
                               style: CustomStyles
@@ -344,7 +344,8 @@ class _AddFamilyMemberState
                                 .copyWith(
                                 color: CustomColors.disabledButton),
                                 labelText:
-                                "Nationality",
+                               getLocalText("nationality", context)
+                                ,
                                 alignLabelWithHint:
                                 true,
 
@@ -362,7 +363,7 @@ class _AddFamilyMemberState
                           controller: model.locationName,
                           validator: (value) {
                             return value.isEmpty
-                            ? "Enter Location"
+                            ? getLocalText("location_name", context)
                             : null;
                           },
                           style: CustomStyles
@@ -376,7 +377,7 @@ class _AddFamilyMemberState
                             .copyWith(
                             color: CustomColors.disabledButton),
                             labelText:
-                            "Location Name",
+                           getLocalText("location", context),
                             alignLabelWithHint:
                             true,
 
@@ -400,13 +401,13 @@ class _AddFamilyMemberState
                           onChanged: (newValue) {
                             model.setGender(newValue);
                           },
-                          validator:(value) =>value == null ? "Select Gender" : null,
+                          validator:(value) =>value == null ? getLocalText("please_select_gender", context) : null,
                           value: model.selectedGender,
                           decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: "Gender",
+                          labelText: getLocalText("gender", context),
                           labelStyle: CustomStyles
                           .medium16
                           .copyWith(
@@ -432,13 +433,13 @@ class _AddFamilyMemberState
                           onChanged: (newValue) {
                             model.setGenderRelation(newValue);
                           },
-                          validator:(value) =>value == null ? "Select Relation" : null,
+                          validator:(value) =>value == null ? getLocalText("select_relation", context) : null,
                           value: model.selectedRelation,
                           decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: "Relation",
+                          labelText: getLocalText("relation", context),
                           labelStyle: CustomStyles
                           .medium16
                           .copyWith(
@@ -478,7 +479,7 @@ class _AddFamilyMemberState
 
                             validator: (value) {
                               if (!validPhoneNumber) {
-                                return "Invalid Phone number";
+                                return getLocalText("enter_valid_phone_number", context); 
                               }
                               return null;
                             },
@@ -490,7 +491,7 @@ class _AddFamilyMemberState
                               .medium16
                               .copyWith(
                               color: CustomColors.disabledButton),
-                              labelText: "Phone Number",
+                              labelText: getLocalText("phone_number", context),
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,
                               errorBorder: InputBorder.none,
@@ -518,7 +519,7 @@ class _AddFamilyMemberState
                           child: RaisedButton(
 
                           color: CustomColors.Orange,
-                          child: Text("Update Member",
+                          child: Text(getLocalText("update_member", context),
                             style: CustomStyles.button_style
                             ,),
                           shape: RoundedRectangleBorder(
@@ -541,7 +542,7 @@ class _AddFamilyMemberState
                                 .pop();
                                 if (value
                                 .isError) {
-                                  SnackBar snackBar = SnackBar(content: Text("Failed to update member", style: CustomStyles
+                                  SnackBar snackBar = SnackBar(content: Text(getLocalText("failed_to_update_member", context), style: CustomStyles
                                   .medium16
                                   .copyWith(color: CustomColors
                                   .White)),
@@ -554,7 +555,7 @@ class _AddFamilyMemberState
                                   .showSnackBar(snackBar);
                                 } else {
                                   Navigator
-                                  .pop(context, 'done');
+                                  .pop(context, getLocalText("done", context));
                                 }
                               });
                             }
@@ -572,7 +573,7 @@ class _AddFamilyMemberState
                           child: RaisedButton(
 
                           color: CustomColors.Orange,
-                          child: Text("Add Member",
+                          child: Text(getLocalText("add_member", context),
                             style: CustomStyles.button_style
                             ,),
                           shape: RoundedRectangleBorder(
@@ -595,7 +596,7 @@ class _AddFamilyMemberState
                                 .pop();
                                 if (value
                                 .isError) {
-                                  SnackBar snackBar = SnackBar(content: Text("Failed to add member", style: CustomStyles
+                                  SnackBar snackBar = SnackBar(content: Text(getLocalText("failed_to_add_member", context), style: CustomStyles
                                   .medium16
                                   .copyWith(color: CustomColors
                                   .White)),
@@ -608,7 +609,7 @@ class _AddFamilyMemberState
                                   .showSnackBar(snackBar);
                                 } else {
                                   Navigator
-                                  .pop(context, 'done');
+                                  .pop(context, getLocalText("done", context));
                                 }
                               });
                             }
@@ -733,6 +734,10 @@ class _AddFamilyMemberState
     return RegExp(
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
     .hasMatch(email);
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 
    showNationalitySelection(BuildContext context, AddMemberViewModel model) {

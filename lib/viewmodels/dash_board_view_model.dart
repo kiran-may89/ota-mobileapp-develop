@@ -47,14 +47,14 @@ class DashBoardViewModel extends BaseViewModel {
   }
   void initItems() {
     dashBoardItems = [
-      DashBoardItem(assets: "assets/images/dashboard/icon_hotel.png", name: strings.hotels, isSelected: true, navigation: Routes.hotelBooking),
-      DashBoardItem(assets: "assets/images/dashboard/icon_flight.png", name: strings.flights, isSelected: false, navigation: Routes.flightBooking),
+      DashBoardItem(assets: "assets/images/dashboard/icon_hotel.png", name: "hotels", isSelected: true, navigation: Routes.hotelBooking),
+      DashBoardItem(assets: "assets/images/dashboard/icon_flight.png", name: "flights", isSelected: false, navigation: Routes.flightBooking),
       DashBoardItem(
-          assets: "assets/images/dashboard/icon_activities.png", name: strings.activites, isSelected: false, navigation: Routes.activityBooking),
+          assets: "assets/images/dashboard/icon_activities.png", name: "activities", isSelected: false, navigation: Routes.activityBooking),
       DashBoardItem(
-          assets: "assets/images/dashboard/icon_transfer.png", name: strings.transfer, isSelected: false, navigation: Routes.transferBooking),
-      DashBoardItem(assets: "assets/images/dashboard/icon_package.png", name: strings.package, isSelected: false,navigation: Routes.packages),
-      DashBoardItem(assets: "assets/images/dashboard/icon_cruise.png", name: strings.cruise, isSelected: false),
+          assets: "assets/images/dashboard/icon_transfer.png", name: "transfers", isSelected: false, navigation: Routes.transferBooking),
+      DashBoardItem(assets: "assets/images/dashboard/icon_package.png", name: "packages", isSelected: false,navigation: Routes.packages),
+      DashBoardItem(assets: "assets/images/dashboard/icon_cruise.png", name: "cruise", isSelected: false),
     ];
 
   }

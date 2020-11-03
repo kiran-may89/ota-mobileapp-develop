@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/transfers/data_model/search_transfer_data.dart';
 import 'package:ota/models/transfers/search_transfer_response_entity.dart';
 import 'package:ota/net/service/transfers/transfer_results_data.dart';
@@ -62,7 +63,7 @@ class _TransferDetailsState extends State<TransferDetails> {
 
     return Scaffold(
 
-      appBar: AppBar(title: Text("Transfer Details",style: CustomStyles.button_style.copyWith(fontSize: 20),
+      appBar: AppBar(title: Text(getLocalText("transfer_details", context),style: CustomStyles.button_style.copyWith(fontSize: 20),
       ),
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back_ios, color: Colors.white,size: 13,),
@@ -110,14 +111,14 @@ class _TransferDetailsState extends State<TransferDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
 
-                              Text(model.requestData.oneWay?'One Way':'Round Trip',style: CustomStyles.heading,),
+                              Text(model.requestData.oneWay?getLocalText("one_way", context):getLocalText("round_trip", context),style: CustomStyles.heading,),
 
                               SizedBox(height: 7,),
 
 
                               Wrap(children: <Widget>[
 
-                                Text("Source : ",style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),),
+                                Text(getLocalText("source", context),style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),),
 
 
                                 Text(model.requestData.pichUpPlace,style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading),),
@@ -129,7 +130,7 @@ class _TransferDetailsState extends State<TransferDetails> {
 
                               Wrap(children: <Widget>[
 
-                                Text("Destination : ",style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),),
+                                Text(getLocalText("destination", context),style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),),
 
 
                                 Text(model.requestData.dropPlace,style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading),),
@@ -152,7 +153,7 @@ class _TransferDetailsState extends State<TransferDetails> {
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
                           } ,color: CustomColors.Orange,
-                            child: Text('EDIT',style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
+                            child: Text(getLocalText("edit", context),style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
                             elevation: 3,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
@@ -170,13 +171,13 @@ class _TransferDetailsState extends State<TransferDetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Location Details',style: CustomStyles.medium14.copyWith(color: CustomColors.heading.withOpacity(.5)),),
+                    Text(getLocalText("location_details", context),style: CustomStyles.medium14.copyWith(color: CustomColors.heading.withOpacity(.5)),),
 
                     SizedBox(height: 15,),
 
                     RichText(
                       text: TextSpan(
-                          text: "Distance : ",
+                          text: getLocalText("distance", context)+" ",
                           style:  CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),
                           children: <TextSpan>[
 
@@ -192,7 +193,7 @@ class _TransferDetailsState extends State<TransferDetails> {
 
                     RichText(
                       text: TextSpan(
-                          text: "Time        :  ",
+                          text: getLocalText("time", context)+" ",
                           style:  CustomStyles.calenderStyle.copyWith(color: CustomColors.heading,fontWeight: FontWeight.w700),
                           children: <TextSpan>[
 
@@ -267,7 +268,7 @@ class _TransferDetailsState extends State<TransferDetails> {
                             ],
                           ) ,
 
-                          RaisedButton(child: Text('BOOK NOW',style:CustomStyles.button_style ,),color: CustomColors.Orange,padding: EdgeInsets.all(12),
+                          RaisedButton(child: Text(getLocalText("book_now", context),style:CustomStyles.button_style ,),color: CustomColors.Orange,padding: EdgeInsets.all(12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ) ,
@@ -325,7 +326,10 @@ class _TransferDetailsState extends State<TransferDetails> {
 
 
 
+  getLocalText(String key, BuildContext context) {
 
+    return  AppLocalizations.of(context).translate(key);
+  }
 
 
 }

@@ -42,6 +42,10 @@ class ApiServiceConfig {
     return dio
       ..interceptors.add(
         NetworkInterceptor(onError: (error) async {
+          print("StatusCode${error.response.statusCode.toString()}");
+
+          print("Error${error.message}");
+
           if (error.response?.statusCode == 403 || error.response?.statusCode == 401) {
             CommonService commonService = GetIt.instance<CommonService>();
             String refrestoken = SessionManager.getInstance().getRefreshToken;

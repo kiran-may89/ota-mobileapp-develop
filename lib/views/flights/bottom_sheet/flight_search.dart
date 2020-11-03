@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/flights/airport_look_up_response.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/size_constants.dart';
@@ -115,7 +116,7 @@ class _FlightSearchState extends State<FlightSearch> {
                   decoration:
                   InputDecoration(
 
-                  hintText: flightType==0?"From" : "Destination" ,
+                  hintText: flightType==0?"${getLocalText("from", context)}" : "${getLocalText("destination", context)}" ,
                    hintStyle: CustomStyles.medium16,
 
                     suffixIcon: IconButton(
@@ -309,5 +310,9 @@ class _FlightSearchState extends State<FlightSearch> {
   )
 
   );
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

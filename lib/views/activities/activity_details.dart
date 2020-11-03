@@ -3,9 +3,12 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/activity/request/activity_results_data.dart';
 import 'package:ota/models/activity/request/fill_details_request.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/utils/colors.dart';
+import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/viewmodels/activities_view_models/activity_details_view_model.dart';
@@ -29,7 +32,7 @@ class ActivityDetails extends StatefulWidget {
   _ActivityDetailsState createState() => _ActivityDetailsState(this.activityResultsData.fullDetailsData,this.activityResultsData.travelDetails,this.activityResultsData.correlationId);
 }
 
-class _ActivityDetailsState extends State<ActivityDetails> {
+class _ActivityDetailsState extends State<ActivityDetails>  implements Delegate{
 
    TravelDetails travelDetails;
 
@@ -58,13 +61,13 @@ class _ActivityDetailsState extends State<ActivityDetails> {
 
 
     return ChangeNotifierProvider<ActivityDetailsModel>(
-        create: (context) => ActivityDetailsModel(fullDetailsData,travelDetails,correlationId),
+        create: (context) => ActivityDetailsModel(fullDetailsData,travelDetails,correlationId,this),
         child: Consumer<ActivityDetailsModel>(
             builder: (context, model, child) {
 
 
      return Scaffold(
-      appBar: AppBar(title: Text('Activity Details',style: CustomStyles.appbar,),
+      appBar: AppBar(title: Text(getLocalText("activity_details", context),style: CustomStyles.appbar,),
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back_ios, color: Colors.white,size: 13,),
           onPressed: () => Navigator.of(context).pop(),
@@ -241,6 +244,11 @@ class _ActivityDetailsState extends State<ActivityDetails> {
     ),
   ];
 
+  @override
+  void onError(String message, bool isFromCreditCard, String asset) {
+   Dialogs.showGenericErrorPopup(context, message, isFromCreditCard, asset);
+  }
+
 //  List<Widget> bodies = [
 //    Modality(activityDetailsModel),
 //    Overview(),
@@ -248,4 +256,9 @@ class _ActivityDetailsState extends State<ActivityDetails> {
 //  ];
 
 
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
 }

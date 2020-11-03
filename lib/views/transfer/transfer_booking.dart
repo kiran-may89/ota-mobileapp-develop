@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
@@ -35,7 +36,7 @@ class _BookTransferState extends BaseModelWidget<BookTransferViewModel> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          'Book a Transfer',
+          getLocalText("book_a_transfers", context),
           style: CustomStyles.appbar,
         ),
         leading: new IconButton(
@@ -94,7 +95,7 @@ class _BookTransferState extends BaseModelWidget<BookTransferViewModel> {
                       child: Container(
                         alignment: Alignment.center,
                         height: double.infinity,
-                        child: Text('One Way',
+                        child: Text(getLocalText("one_way", context),
                             textAlign: TextAlign.center,
                             style: model.OneWay
                                 ? CustomStyles.button_style
@@ -111,7 +112,7 @@ class _BookTransferState extends BaseModelWidget<BookTransferViewModel> {
                         child: Container(
                       alignment: Alignment.center,
                       height: double.infinity,
-                      child: Text('Round Trip',
+                      child: Text(getLocalText("round_trip", context),
                           textAlign: TextAlign.center,
                           style: !model.OneWay
                               ? CustomStyles.button_style.copyWith(fontSize: 12)
@@ -162,7 +163,7 @@ class _BookTransferState extends BaseModelWidget<BookTransferViewModel> {
                           Theme(
                             data: ThemeData(primaryColor: Colors.red),
                             child: Text(
-                              model.from??"From",
+                              model.from??getLocalText("from", context),
                               style: CustomStyles.cardContentStyle
                                   .copyWith(fontSize: 14),
                             ),
@@ -220,7 +221,7 @@ class _BookTransferState extends BaseModelWidget<BookTransferViewModel> {
                           Theme(
                             data: ThemeData(primaryColor: Colors.red),
                             child: Text(
-                              model.destination??"Destination",
+                              model.destination??getLocalText("destination", context),
                               style: CustomStyles.cardContentStyle
                                   .copyWith(fontSize: 14),
                             ),
@@ -249,7 +250,7 @@ class _BookTransferState extends BaseModelWidget<BookTransferViewModel> {
             child: RaisedButton(
                 color: CustomColors.Orange,
                 child: Text(
-                  "SEARCH TRANSFER",
+                  getLocalText("search_transfers", context),
                   style: CustomStyles.button_style,
                 ),
                 shape: RoundedRectangleBorder(
@@ -284,4 +285,10 @@ class _BookTransferState extends BaseModelWidget<BookTransferViewModel> {
             //margin: EdgeInsets.all(15),
             child: SearchTransfer(model)));
   }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+  
 }

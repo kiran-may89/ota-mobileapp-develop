@@ -68,92 +68,97 @@ class _OverviewState extends State<Overview> {
 //          Text('Duration: 1 Day',style:CustomStyles.normal16.copyWith(color: CustomColors.White),) ,
 //          SizedBox(height: 30,),
 
-             Card(child:
+             Card(
+
+             child:
 
 
-          Column(
-            children: [
-              SizedBox(height: 5,),
-              GestureDetector(
-                child: Row(
-                  children: [
-                    SizedBox(width: 10,),
-                    Text('Operation Days',style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),),
-                    Spacer(),
-                    model.showOperationDays?Icon(Icons.keyboard_arrow_up):Icon(Icons.expand_more)
-
-                  ],
-                ),
-                onTap: (){
-                  model.closeOperationDays();
-                },
-              ),
-              SizedBox(height: 5,),
-              Visibility(visible: model.showOperationDays,
-                  child:
-              Column(children: [
-                SizedBox(height: 10,),
-                Row(
-                  children: [
-                    SizedBox(width: 5,),
-                    Icon(Icons.location_on,color: CustomColors.Orange,),SizedBox(width: 5,)
-                    ,
-                    Text(model.fullDetailsResponse.result.activity.country.name,style: CustomStyles.medium14.copyWith(color: CustomColors.heading),),
-                  ],
-                ),
-
+          Padding(
+            padding: EdgeInsets.all(5),
+            child: Column(
+              children: [
                 SizedBox(height: 5,),
+                GestureDetector(
+                  child: Row(
+                    children: [
+                    //  SizedBox(width: 10,),
+                      Text('Operation Days',style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),),
+                      Spacer(),
+                      model.showOperationDays?Icon(Icons.keyboard_arrow_up):Icon(Icons.expand_more)
 
-                Row(
-                  children: [
-                    SizedBox(width: 5,),
-                    Icon(Icons.calendar_today,color: CustomColors.Orange,),SizedBox(width: 5,),
-
-                    Row(
-                      children:  model.getWeekDays(model.fullDetailsResponse.result.activity),
-                    ),
-
-
-
-                  ],
+                    ],
+                  ),
+                  onTap: (){
+                    model.closeOperationDays();
+                  },
                 ),
-
                 SizedBox(height: 5,),
+                Visibility(visible: model.showOperationDays,
+                    child:
+                Column(children: [
+                  SizedBox(height: 10,),
+                  Row(
+                    children: [
 
+                      Icon(Icons.location_on,color: CustomColors.Orange,),SizedBox(width: 5,)
+                      ,
+                      Text(model.fullDetailsResponse.result.activity.country.name,style: CustomStyles.medium14.copyWith(color: CustomColors.heading),),
+                    ],
+                  ),
 
-                Row(
-                  children: [
-                    SizedBox(width: 5,),
-                    Icon(Icons.access_time,color: CustomColors.Orange,),SizedBox(width: 5,)
-                    ,
-                    Text(
-                      (model.fullDetailsResponse.result.activity.content.scheduling==null
-                          ||model.fullDetailsResponse.result.activity.content.scheduling.opened==null)?
+                  SizedBox(height: 5,),
 
-                          "Full Day":
+                  Row(
+                    children: [
 
-                      model.fullDetailsResponse.result.activity.content.scheduling.opened.first.openingTime+ " - "+
+                      Icon(Icons.calendar_today,color: CustomColors.Orange,),SizedBox(width: 5,),
 
-                        model.fullDetailsResponse.result.activity.content.scheduling.opened.first.closeTime
-
-                      ,style: CustomStyles.medium14.copyWith(color: CustomColors.heading),),
-                  ],
-                ),
-
-                SizedBox(height: 5,),
-
-
-
-
-
-
-              ],)
-              )
+                      Row(
+                        children:  model.getWeekDays(model.fullDetailsResponse.result.activity),
+                      ),
 
 
 
+                    ],
+                  ),
 
-            ],
+                  SizedBox(height: 5,),
+
+
+                  Row(
+                    children: [
+
+                      Icon(Icons.access_time,color: CustomColors.Orange,),SizedBox(width: 5,)
+                      ,
+                      Text(
+                        (model.fullDetailsResponse.result.activity.content.scheduling==null
+                            ||model.fullDetailsResponse.result.activity.content.scheduling.opened==null)?
+
+                            "Full Day":
+
+                        model.fullDetailsResponse.result.activity.content.scheduling.opened.first.openingTime+ " - "+
+
+                          model.fullDetailsResponse.result.activity.content.scheduling.opened.first.closeTime
+
+                        ,style: CustomStyles.medium14.copyWith(color: CustomColors.heading),),
+                    ],
+                  ),
+
+                  SizedBox(height: 5,),
+
+
+
+
+
+
+                ],)
+                )
+
+
+
+
+              ],
+            ),
           )) ,
 
              SizedBox(height: 10,),
@@ -281,9 +286,13 @@ class _OverviewState extends State<Overview> {
                   },
                 ),
                 SizedBox(height: 5,),
-                Visibility(visible: model.showLocationOptions,
+                Visibility(
+                    visible: model.showLocationOptions,
                     child:
-                    Column(children: model.getLocationOptions( model.fullDetailsResponse.result.activity.content.location.startingPoints)
+                    Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: model.getLocationOptions( model.fullDetailsResponse.result.activity.content.location.startingPoints)
                       ,)
                 )
 
@@ -302,105 +311,8 @@ class _OverviewState extends State<Overview> {
                 getRoutes( model.fullDetailsResponse.result.activity.content.routes),))
 
                 ,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            SizedBox(height: 10,),
-
-            Text(strings.located_at,style: CustomStyles.medium12.copyWith(color: CustomColors.White.withOpacity(.5),height: 1.5),) ,
-            SizedBox(height: 20,),
-
-            Text(strings.facilities,style: CustomStyles.medium12.copyWith(color: CustomColors.White,height: 1.5),) ,
-            SizedBox(height: 5,),
-
-            Text(strings.content,style: CustomStyles.medium12.copyWith(color: CustomColors.White.withOpacity(.5),height: 1.5),textAlign: TextAlign.justify,) ,
-
             SizedBox(height: 30,),
 
-            MySeparator(height: 1,color: CustomColors.White.withOpacity(.5),Horizontal: true,),
-            SizedBox(height: 30,),
-
-            Text('Availability',style: CustomStyles.medium14.copyWith(color: CustomColors.White),),
-            SizedBox(height: 30,),
-
-            Text('Activity Dates & Info',style:CustomStyles.medium12.copyWith(color: CustomColors.White.withOpacity(.5)),) ,
-            SizedBox(height: 20,),
-
-
-
-
-
-
-
-            TextField(
-
-            decoration: InputDecoration(enabled: false,
-                prefixIcon: Padding(child: Image.asset('assets/images/calender.png',height: 20,width: 20,),
-                  padding: EdgeInsets.only(left: 5,right: 15,top: 15,bottom: 15),
-
-                ),
-                fillColor: CustomColors.White,filled: true,
-              labelText: "24 August - 2020",
-              labelStyle: CustomStyles.normal16,
-
-                  border: new OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      const Radius.circular(10.0),
-                    ),
-                  ),
-              //contentPadding: EdgeInsets.only(left: 15),
-              //prefixIconConstraints: BoxConstraints(maxWidth: 25,maxHeight: 25),
-
-            ),
-
-          ),
-            SizedBox(height: 5,),
-
-            TextField(
-
-              decoration: InputDecoration(enabled: false,
-                suffixIcon: Padding(child: Icon(Icons.keyboard_arrow_down,color: CustomColors.disabledButton,),
-                  padding: EdgeInsets.only(left: 5,right: 15,top: 15,bottom: 15),
-
-                ),
-                fillColor: CustomColors.White,filled: true,
-                labelText: "Select Duration",
-                labelStyle: CustomStyles.normal16.copyWith(color: CustomColors.disabledButton),
-
-                border: new OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(
-                    const Radius.circular(10.0),
-                  ),
-                ),
-                //contentPadding: EdgeInsets.only(left: 15),
-                //prefixIconConstraints: BoxConstraints(maxWidth: 25,maxHeight: 25),
-
-              ),
-
-            ),
-          SizedBox(height: 20,),
-            SizedBox(height: 15,),
 //            Card(
 //              elevation: 3,
 //              shape: RoundedRectangleBorder(
@@ -447,7 +359,12 @@ class _OverviewState extends State<Overview> {
 //            ),
 
 
-        ],),
+
+        ],
+
+
+
+        ),
 
 
       ),
@@ -493,80 +410,92 @@ class _OverviewState extends State<Overview> {
 
       routeList.add(
 
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              SizedBox(height: 5,),
-
-              GestureDetector(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        Text("Description :"+ element.description,style: CustomStyles.medium16,),
-
-                        Spacer(),
-
-                        model.showRoutes[i]?Icon(Icons.keyboard_arrow_up):Icon(Icons.expand_more)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 
 
-                      ],
+                SizedBox(height: 5,),
+                        Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Text("Description : ",style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),),
+                            Text("Description :"+ element.description,style: CustomStyles.medium16,),
+                          ],
+                        ),
+
+                GestureDetector(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                          Text("Description :"+ element.description,style: CustomStyles.medium16,),
+
+                          Spacer(),
+
+                          model.showRoutes[i]?Icon(Icons.keyboard_arrow_up):Icon(Icons.expand_more)
+
+
+                        ],
 
 
 
 
-                    ),
-                    SizedBox(height: 3,),
-
-                   // element.==[]?Text("Duration: ",):
-
-                    Text("Duration: "+ element.duration.value.toString()+""+element.duration.metric ),
-
-                    SizedBox(height: 15,)
-
-
-
-                  ],
-                ),
-                onTap: (){
-
-                  model.showRoutesExpand(i);
-
-                }
-
-
-                ,
-              ),
-
-              SizedBox(height: 15,),
-
-
-              Visibility(
-                visible: model.showRoutes[i] ,
-                child: Container(
-                    padding: EdgeInsets.all(20),
-                    height: 350,
-                    child: GoogleMap(
-                      markers: model.getMarkers(element.points),
-                      onMapCreated: _onMapCreated,
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(1.3521, 103.8198),
-                        zoom: 10.5,
                       ),
-                    )),
-              ),
+                      SizedBox(height: 3,),
+
+                     // element.==[]?Text("Duration: ",):
+
+                      Text("Duration: "+ element.duration.value.toString()+""+element.duration.metric ),
+
+                      SizedBox(height: 15,)
+
+
+
+                    ],
+                  ),
+                  onTap: (){
+
+                    model.showRoutesExpand(i);
+
+                  }
+
+
+                  ,
+                ),
+
+                SizedBox(height: 15,),
+
+
+                Visibility(
+                  visible: model.showRoutes[i] ,
+                  child: Container(
+                      padding: EdgeInsets.all(20),
+                      height: 350,
+                      child: GoogleMap(
+                        markers: model.getMarkers(element.points),
+                        onMapCreated: _onMapCreated,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(1.3521, 103.8198),
+                          zoom: 10.5,
+                        ),
+                      )),
+                ),
 
 
 
 
-            ],)
+              ],),
+          )
 
 
 

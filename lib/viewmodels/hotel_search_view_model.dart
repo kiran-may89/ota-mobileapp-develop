@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ota/models/base_model.dart';
@@ -12,10 +13,14 @@ import 'package:ota/models/hotels/search_hotel_request.dart';
 import 'package:ota/net/service/common/common_service.dart';
 import 'package:ota/net/service/hotel/hotels_service.dart';
 import 'package:ota/prefs/session_manager.dart';
+import 'package:ota/utils/colors.dart';
+import 'package:ota/utils/styles.dart';
 import 'package:ota/viewmodels/base_view_model.dart';
 
 class HotelSearchViewModel extends BaseViewModel {
   GlobalKey<FormFieldState> key = GlobalKey();
+  List<CountryCodesResponseResult>
+  tempCountryCodes;
   DateTime _firstDate;
   DateTime _lastDate;
   DatePeriod _selectedPeriod;
@@ -24,7 +29,15 @@ class HotelSearchViewModel extends BaseViewModel {
   final TextEditingController _typeAheadController = TextEditingController();
   bool isCalenderExpanded = true;
   SearchHotelRequest requestDto = SearchHotelRequest(cityIds: List(), rooms: List(), roomPaxes: List());
+  var searchCountry = TextEditingController();
+  bool startSearch = false;
+  String _country = "Select Country";
+  String get country => _country;
+  set country (String text)
+  {
+    _country =text;
 
+  }
   TextEditingController get typeAheadController => _typeAheadController;
 
   DateTime get firstDate => _firstDate;
@@ -61,12 +74,32 @@ class HotelSearchViewModel extends BaseViewModel {
       getCountryCodes();
     } else {
       countryCodes = sessionManager.getCountryCodes;
+      tempCountryCodes =countryCodes;
     }
   }
 
   void getCountryCodes() async {
     var result = await _commonService.getCountryCodes();
     countryCodes = result.result;
+    tempCountryCodes =countryCodes;
+    notifyListeners();
+  }
+
+
+  void searchCountryList(String text) {
+    var searchValue = text.trim();
+
+    tempCountryCodes = [];
+
+    searchValue.isNotEmpty
+        ? tempCountryCodes =
+        countryCodes.where((results) {
+          return results.name
+              .toLowerCase()
+              .contains(text.toLowerCase());
+        }).toList()
+        : tempCountryCodes.addAll(countryCodes);
+
     notifyListeners();
   }
 
@@ -89,6 +122,7 @@ class HotelSearchViewModel extends BaseViewModel {
     requestDto.cityIds = [suggestion.id.toString()];
     requestDto.city = suggestion.name;
     requestDto.isCity = suggestion.isCity;
+    startSearch = false;
   }
 
   void setSelectedTimerPeriod(DatePeriod period) {
@@ -103,7 +137,22 @@ class HotelSearchViewModel extends BaseViewModel {
 
     notifyListeners();
   }
+  void dataChanged(String text){
 
+    if(text.length!=0){
+      startSearch = true;
+    }else{
+      startSearch =false;
+    }
+
+
+    notifyListeners();
+  }
+
+  void cancelSearch() {
+    startSearch =false;
+    notifyListeners();
+  }
   void addAdultCount(bool increment, int index) {
     var room = requestDto.rooms[index];
     if (increment) {
@@ -158,10 +207,51 @@ class HotelSearchViewModel extends BaseViewModel {
     });
   }
 
-  void setCountryCode(newValue) {
+  bool validateData(GlobalKey<ScaffoldState> scaffoldKey) {
 
-    selectedCountryCodeIndex = newValue;
-    requestDto.clientNationality = countryCodes[selectedCountryCodeIndex].alpha2Code;
+    bool isGuestError =false;
+
+
+
+    SnackBar snackBar;
+
+
+
+    if(_typeAheadController.text.isEmpty ){
+
+      snackBar = SnackBar(content:Text("Please Select Destination",style: CustomStyles.medium16.copyWith(color: CustomColors.White),),
+        backgroundColor: CustomColors.BackGround,
+      );
+
+      scaffoldKey.currentState.showSnackBar(snackBar);
+      return false;
+
+    }else if(_country == "Select Country"){
+
+
+      snackBar = SnackBar(content: Text("Please Select Country",style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
+        backgroundColor: CustomColors.BackGround,);
+
+      scaffoldKey.currentState.showSnackBar(snackBar);
+
+
+      return false;
+
+
+    }
+
+    else{
+      return true;
+    }
+
+
+  }
+
+
+  void setCountryCode(CountryCodesResponseResult  newValue) {
+
+    requestDto.clientNationality = newValue.alpha2Code;
+    _country = newValue.name;
     notifyListeners();
   }
 }

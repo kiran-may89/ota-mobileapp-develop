@@ -8,6 +8,7 @@ import 'package:ota/models/transfers/requests/search_transfer_request.dart';
 import 'package:ota/models/transfers/data_model/search_transfer_data.dart';
 import 'package:ota/models/transfers/search_transfer_response_entity.dart';
 import 'package:ota/models/transfers/search_transfers_response.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/net/service/transfers/transfer_results_data.dart';
 import 'package:ota/net/service/transfers/transfer_service.dart';
 
@@ -65,9 +66,11 @@ class TransferResultsModel extends ChangeNotifier{
   RangeValues priceRange ;
 
   bool loading = true;
+  Delegate _delegate;
 
-  TransferResultsModel(this._requestData){
+  TransferResultsModel(this._requestData,Delegate delegate){
 
+    _delegate =delegate;
     oneWay = _requestData.oneWay;
 
     _transferService = GetIt.instance<TransferService>();
@@ -96,18 +99,23 @@ class TransferResultsModel extends ChangeNotifier{
 
        transferSearchResponseData = await _transferService
        .getTransfers(searchTransferRequest);
-
+       var response = transferSearchResponseData.transferSearchResponse;
+        if( response.isError) {
+          _delegate.onError("Something Went wrong, Please Try Again..", false, "assets/images/transfer.png");
+          return;
+        }
        transferSearchResponse = transferSearchResponseData
        .transferSearchResponse;
 
        if (transferSearchResponse != null) {
-         if (!transferSearchResponse.isError) {
+         if (!transferSearchResponse.isError && transferSearchResponse.result.vechiles.length>0 ) {
            setData();
            sortPrices();
          }
 
          _setloading(false);
        }
+
      }
 
 

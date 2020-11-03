@@ -3,19 +3,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/googleplaces/predictions.dart';
+import 'package:ota/models/hotels/responses/hotel_auto_search_model.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/viewmodels/activities_view_models/activity_search_view_model.dart';
+import 'package:ota/viewmodels/hotel_search_view_model.dart';
 import 'package:provider/provider.dart';
 
 
 
 class SearchLocation extends StatefulWidget {
 
-  Activity_Model model;
+  HotelSearchViewModel model;
 
   BuildContext context;
 
@@ -30,7 +31,7 @@ class _SearchLocationState extends State<SearchLocation> {
   var height;
   var width;
 
-  Activity_Model model;
+  HotelSearchViewModel model;
 
   BuildContext context;
 
@@ -50,7 +51,7 @@ class _SearchLocationState extends State<SearchLocation> {
 
         child:
 
-        Consumer<Activity_Model>(builder: (context, model, child) {
+        Consumer<HotelSearchViewModel>(builder: (context, model, child) {
           return
 
             Column(
@@ -83,15 +84,17 @@ class _SearchLocationState extends State<SearchLocation> {
                     child:Row(children: <Widget>[
 
                       Container(
-                        width: width*1.5,
+                          width: width*1.5,
 
-                        child:
+                          child:
 
-                        IconButton(icon: Icon(Icons.arrow_back_ios,color: CustomColors.BackGround,),
-                            onPressed: (){
-                          Navigator.pop(context);
-                            }
-                            )
+                          IconButton(icon: Icon(Icons.arrow_back_ios,color: CustomColors.BackGround,),
+                              onPressed: (){
+                            model.typeAheadController.clear();
+                           model.startSearch = false;
+                                Navigator.pop(context);
+                              }
+                          )
 
                       ),
 
@@ -101,7 +104,7 @@ class _SearchLocationState extends State<SearchLocation> {
 
                         child: TextFormField(
                           textAlign: TextAlign.start,
-                          controller:model.fromTypeHeadController,
+                          controller:model.typeAheadController,
 
                           autofocus: true,
                           onChanged: (text){
@@ -110,13 +113,13 @@ class _SearchLocationState extends State<SearchLocation> {
 
 
                           decoration:
-                          InputDecoration(hintText: getLocalText("from", context),
-                               hintStyle: CustomStyles.medium16,
+                          InputDecoration(hintText: "From",
+                            hintStyle: CustomStyles.medium16,
 
                             suffixIcon: IconButton(
                               color: Colors.red,
                               onPressed: () {
-                                model.fromTypeHeadController.clear();
+                                model.typeAheadController.clear();
                               },
                               icon: Icon(
                                 Icons.cancel,
@@ -131,8 +134,8 @@ class _SearchLocationState extends State<SearchLocation> {
                             border: InputBorder.none,
                           ),
 
-                              ),
                         ),
+                      ),
                     ],
 
                     ),
@@ -151,21 +154,21 @@ class _SearchLocationState extends State<SearchLocation> {
 
                     SizedBox.shrink():
 
-                    FutureBuilder<Predictions>(
-                        future:  model.getPredcitions(model.fromTypeHeadController.text),  //returns bool
-                        builder: (BuildContext context, AsyncSnapshot<Predictions> snapshot) {
+                    FutureBuilder<HotelAutoSearchModel>(
+                        future:  model.getAutoComplete(model.typeAheadController.text),  //returns bool
+                        builder: (BuildContext context, AsyncSnapshot<HotelAutoSearchModel> snapshot) {
                           if (snapshot.connectionState == ConnectionState.done) {
                             // YOUR CUSTOM CODE GOES HERE
                             return ListView.builder(
                               primary: false,
                               shrinkWrap: true,
                               physics: BouncingScrollPhysics(),
-                              itemCount: snapshot.data.predictions.length,
+                              itemCount: snapshot.data.result.length,
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: (){
 
-                                    model.setFromSelected(snapshot.data.predictions[index]);
+                                    model.setSelectedPlace(snapshot.data.result[index]);
 
                                     model.cancelSearch();
                                     Navigator.pop(context);
@@ -214,10 +217,10 @@ class _SearchLocationState extends State<SearchLocation> {
                                                   SizedBox(
                                                     height: 4,
                                                   ),
-                                              Text(
-                                                snapshot.data.predictions[index].description,
-                                            style: CustomStyles.countDownStyle.copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
-                                          ),
+                                                  Text(
+                                                    snapshot.data.result[index].name,
+                                                    style: CustomStyles.countDownStyle.copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
+                                                  ),
                                                   SizedBox(
                                                     height: 10,
                                                   ),
@@ -272,9 +275,5 @@ class _SearchLocationState extends State<SearchLocation> {
         )
 
     );
-  }
-  getLocalText(String key, BuildContext context) {
-
-    return  AppLocalizations.of(context).translate(key);
   }
 }

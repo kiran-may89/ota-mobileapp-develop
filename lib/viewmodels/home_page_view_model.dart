@@ -21,12 +21,12 @@ class HomePageViewModel extends BaseViewModel {
 
   void initialise() {}
   List<Sliders> sliders = [
-    Sliders('assets/images/hotels.png', "Book a hotel"),
-    Sliders('assets/images/flights.png', "Book a flight"),
-    Sliders('assets/images/event.png', "Book an Activity"),
-    Sliders('assets/images/transfer.png', "Book a transfer"),
-    Sliders('assets/images/package.png', "Book a package"),
-    Sliders('assets/images/cruise.png', "Book a cruise"),
+    Sliders('assets/images/hotels.png', "book_a_hotel"),
+    Sliders('assets/images/flights.png', "book_a_flight"),
+    Sliders('assets/images/event.png', "book_a_activity"),
+    Sliders('assets/images/transfer.png', "book_a_transfer"),
+    Sliders('assets/images/package.png', "book_a_package"),
+    Sliders('assets/images/cruise.png', "book_a_cruise"),
   ];
 
   HomePageViewModel() {
@@ -52,7 +52,6 @@ class HomePageViewModel extends BaseViewModel {
     _firebaseMessaging.getToken().then((token){
       Pref.getInstnace().saveData(Pref().FCM_TOKEN, token);
 
-      print('Token $token');
     });
 
   }

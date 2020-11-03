@@ -10,6 +10,7 @@ import 'package:ota/models/activity/request/fill_details_request.dart';
 import 'package:ota/models/activity/request/search_activity_data.dart';
 import 'package:ota/models/activity/request/search_activity_request.dart';
 import 'package:ota/net/service/activity/activity_service.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/viewmodels/activities_view_models/data_models/activity_booking_data.dart';
 import 'package:ota/views/activities/fulldetails_data.dart';
 
@@ -67,12 +68,13 @@ class ActivityResultsModel extends ChangeNotifier {
   bool applyDurationFilter = false;
 
   bool applyRecommendedActivity = false;
-
+   Delegate _delegate;
   bool applyCategories = false;
 
   ActivitySearchResponseData activitySearchResponseData;
 
-  ActivityResultsModel(this.requestData) {
+  ActivityResultsModel(this.requestData,Delegate delegate ) {
+    _delegate= delegate;
     _activityService = GetIt.instance<ActivityService>();
 
     print(requestData.startPlaceName);
@@ -87,15 +89,20 @@ class ActivityResultsModel extends ChangeNotifier {
         from: requestData.fromDate,
         to: requestData.returnDate,
         order: "DEFAULT",
-        pagination: Pagination(itemsPerPage: 50, page: 1),
+        pagination: Pagination(itemsPerPage: 10, page: 1),
         paxes: getPaxes());
     print(searchActivityRequest.toJson());
 
     activitySearchResponseData = await _activityService.getActivities(searchActivityRequest);
+    if(activitySearchResponseData.activitySearchResponse.isError) {
+      _delegate.onError("Something Went Wrong, Please Try Again..", false,
+          "assets/images/event.png");
+     return;
+    }
+      print("CorrelationId${activitySearchResponseData.correlationId}");
 
-    print("CorrelationId${activitySearchResponseData.correlationId}");
-
-    activitySearchResponse = activitySearchResponseData.activitySearchResponse;
+      activitySearchResponse =
+          activitySearchResponseData.activitySearchResponse;
 
 
 
@@ -159,6 +166,7 @@ class ActivityResultsModel extends ChangeNotifier {
 
 
     activitySearchResponse.result.activities.forEach((activity) {
+      if(activity.content.segmentationGroups!=null)
       activity.content.segmentationGroups.forEach((element) {
         if (element.code == 3) {
           element.segments.forEach((activity) {

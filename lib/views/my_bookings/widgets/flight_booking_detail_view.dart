@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/my_bookings/booking_resposne.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/utils/Dash_seperator.dart';
@@ -36,7 +37,7 @@ class FlightBookingDetailView extends StatelessWidget {
       child: Scaffold(
 
         appBar: AppBar(
-          title: Text("Booking Detail"),
+          title: Text(getLocalText("booking_details", context)),
           backgroundColor: CustomColors.BackGround,
           leading: new IconButton(
             icon: new Icon(
@@ -57,11 +58,11 @@ class FlightBookingDetailView extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                _topHeaderBookingDetails(),
+                _topHeaderBookingDetails(context),
                 SizedBox(
                   height: 10,
                 ),
-                _topHeaderBottomView(),
+                _topHeaderBottomView(context),
                 SizedBox(
                   height: 10,
                 ),
@@ -79,9 +80,9 @@ class FlightBookingDetailView extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: getDepartureList(_model.bookings[0].summaryInfo.flight[0]),
+                    children: getDepartureList(_model.bookings[0].summaryInfo.flight[0],context),
                   ),
-                ):_imageContainer(),
+                ):_imageContainer(context),
                 SizedBox(
                   height: 10,
                 ),
@@ -90,9 +91,9 @@ class FlightBookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "CityFrom",
+                    getLocalText("city_from", context), 
                     _model.bookings[0].summaryInfo.flight[0].cityFrom == null
-                        ? "NA"
+                        ? getLocalText("na", context)
                         : _model.bookings[0].summaryInfo.flight[0].cityFrom),
                 Divider(
                   thickness: 0.2,
@@ -103,9 +104,9 @@ class FlightBookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "CityTo",
+                    getLocalText("city_to", context), 
                     _model.bookings[0].summaryInfo.flight[0].cityTo == null
-                        ? "NA"
+                        ? getLocalText("na", context)
                         : _model.bookings[0].summaryInfo.flight[0].cityTo),
                 Divider(
                   thickness: 0.2,
@@ -116,9 +117,9 @@ class FlightBookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "Flight Type",
+                    getLocalText("flight_type", context), 
                     _model.bookings[0].summaryInfo.flightType == null
-                        ? "NA"
+                        ? getLocalText("na", context)
                         : _model.bookings[0].summaryInfo.flightType),
                 Divider(
                   thickness: 0.2,
@@ -126,13 +127,13 @@ class FlightBookingDetailView extends StatelessWidget {
                 ),
 
             _doubleData(
-                    "Reservation Date",
+                    getLocalText("reservation_date", context), 
                     _model.bookings[0].reservationDate == null
-                        ? "NA"
+                        ? getLocalText("na", context)
                         : _model.bookings[0].reservationDate.toString().split(' ')[0],
-                    "Return Date",
+                   getLocalText("return_date", context), 
                     _model.bookings[0].summaryInfo.returnDate == null
-                        ? "NA"
+                        ? getLocalText("na", context)
                         : _model.bookings[0].summaryInfo.returnDate),
                 Divider(
                   thickness: 0.2,
@@ -144,26 +145,26 @@ class FlightBookingDetailView extends StatelessWidget {
 
 
 //
-                _singleData("Name", _model.contact.firstname.isEmpty?"NA":_model.contact.firstname +" " +_model.contact.lastname),
+                _singleData(getLocalText("name", context), _model.contact.firstname.isEmpty?getLocalText("na", context) :_model.contact.firstname +" " +_model.contact.lastname),
+                Divider(
+                  thickness: 0.2,
+                  color: Colors.grey,
+                ), 
+
+                SizedBox(
+                  height: 5,
+                ),
+                _singleData(getLocalText("phone_number", context), _model.contact.email.isEmpty?getLocalText("na", context) :_model.contact.phoneNumber),
                 Divider(
                   thickness: 0.2,
                   color: Colors.grey,
                 ),
 
-                SizedBox(
-                  height: 5,
-                ),
-                _singleData("Phone Number", _model.contact.email.isEmpty?"NA":_model.contact.phoneNumber),
-                Divider(
-                  thickness: 0.2,
-                  color: Colors.grey,
-                ),
-
 
                 SizedBox(
                   height: 5,
                 ),
-                _singleData("Email", _model.contact.email.isEmpty?"NA":_model.contact.email),
+                _singleData(getLocalText("email", context), _model.contact.email.isEmpty?getLocalText("na", context) :_model.contact.email),
                 Divider(
                   thickness: 0.2,
                   color: Colors.grey,
@@ -191,7 +192,7 @@ class FlightBookingDetailView extends StatelessWidget {
             onTap: (){
               if( _model.bookings[0].reservationNumber!=null)
 
-                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_viewModel,_model.bookings[0].reservationNumber]);
+                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_model.bookings[0].reservationNumber]);
 
 
             },
@@ -203,7 +204,7 @@ class FlightBookingDetailView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5)),
               child: Center(
                   child: Text(
-                    "View Cancellation Policy",
+                    getLocalText("view_cancellation_policy", _context),
 
                     style: TextStyle(fontFamily: "roboto",color:_model.bookings[0].reservationNumber!=null? Colors.grey :Colors.white ),
                   )),
@@ -223,11 +224,11 @@ class FlightBookingDetailView extends StatelessWidget {
                     barrierColor: Colors.black12,
                     barrierDismissible: true,
                     builder: (context) => AlertDialog(
-                      title: new Text("Alert"),
-                      content: new Text("Are you Sure you want to Cancel this booking"),
+                      title: new Text(getLocalText("alert", context)),
+                      content: new Text(getLocalText("are_you_sure_you_want_cancel_booking", context)),
                       actions: <Widget>[
                         new FlatButton(
-                          child: new Text("Yes"),
+                          child: new Text(getLocalText("yes", context)),
                           onPressed: () {
                             Navigator.pop(context);
 
@@ -248,7 +249,7 @@ class FlightBookingDetailView extends StatelessWidget {
                         ),
 
                         new FlatButton(
-                          child: new Text("No"),
+                          child: new Text(getLocalText("no", context)),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },)
@@ -263,7 +264,7 @@ class FlightBookingDetailView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5)),
               child: Center(
                 child: Text(
-                  "Cancel Booking",
+                  getLocalText("cancel_booking", _context),
                   style: TextStyle(color: Colors.white, fontFamily: "roboto"),
                 ),
               ),
@@ -384,7 +385,7 @@ class FlightBookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _imageContainer() {
+  Widget _imageContainer(BuildContext context) {
     return Container(
         height: kToolbarHeight * 3,
         child: _model.bookings[0].summaryInfo.image==null
@@ -399,7 +400,7 @@ class FlightBookingDetailView extends StatelessWidget {
                 ),
                 SizedBox(height: 10,),
                 Text(
-                  "No Flight Detail Available",
+                  getLocalText("no_flight_detail_available", context),
                   style: TextStyle(fontSize: 18),
                 )
               ],
@@ -421,7 +422,7 @@ class FlightBookingDetailView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Reservation No:",
+             getLocalText("reservation_no", context),
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -431,7 +432,7 @@ class FlightBookingDetailView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                 _model.bookings[0].reservationNumber==null?"NA": _model.bookings[0].reservationNumber,
+                 _model.bookings[0].reservationNumber==null?getLocalText("na", context) : _model.bookings[0].reservationNumber,
                   style: TextStyle(color: Colors.white),
                 ),
                 GestureDetector(
@@ -439,13 +440,13 @@ class FlightBookingDetailView extends StatelessWidget {
                     Clipboard.setData(new ClipboardData(text:_model.bookings[0].reservationNumber));
                     Scaffold.of(context).showSnackBar(SnackBar(
                       backgroundColor: CustomColors.Orange,
-                      content: Text("Copied to Clipbaord"),
+                      content: Text(getLocalText("copied_to_clipboard", context)),
                       duration: Duration(seconds: 2),
                     )) ;
 
                   },
                   child: Text(
-                    "Copy",
+                    getLocalText("copy", context),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -457,14 +458,14 @@ class FlightBookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _topHeaderBookingDetails() {
+  Widget _topHeaderBookingDetails(BuildContext context) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _topHeaderRightView(),
-          _topHeaderLeftView(),
+          _topHeaderRightView(context),
+          _topHeaderLeftView(context),
         ],
       ),
     );
@@ -521,7 +522,7 @@ class FlightBookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _topHeaderRightView() {
+  Widget _topHeaderRightView(BuildContext context) {
     return Flexible(
       flex: 6,
       child: Row(children: [
@@ -529,7 +530,7 @@ class FlightBookingDetailView extends StatelessWidget {
           width: 10,
         ),
         Text(
-          strings.booking_id + " : ",
+         getLocalText("booking_id", context)+ " : ",
           style: TextStyle(color: Colors.grey,fontFamily: "roboto"),
         ),
         Text(_model.bookingId, style: CustomStyles.bookingNumberTextStyle),
@@ -537,7 +538,7 @@ class FlightBookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _topHeaderLeftView() {
+  Widget _topHeaderLeftView(BuildContext context) {
     return Flexible(
       flex: 4,
       fit: FlexFit.tight,
@@ -570,7 +571,7 @@ class FlightBookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _topHeaderBottomView() {
+  Widget _topHeaderBottomView(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 5),
       child: Row(
@@ -578,7 +579,7 @@ class FlightBookingDetailView extends StatelessWidget {
         children: [
           Text(
             _model.bookings[0].bookingDate == null
-                ? "NA"
+                ? getLocalText("na", context)
                 : _model.bookings[0].bookingDate.toString().split(' ')[0],
             style: TextStyle(color: Colors.grey),
           ),
@@ -702,7 +703,7 @@ class FlightBookingDetailView extends StatelessWidget {
 
 
 
-  getDepartureList(Flight model) {
+  getDepartureList(Flight model, BuildContext context) {
 
     List<Widget>widgetlist = List();
 
@@ -892,7 +893,7 @@ class FlightBookingDetailView extends StatelessWidget {
                           Flexible(
 
                               fit: FlexFit.loose,
-                              child: Text('Baggage:',style: CustomStyles.calenderStyle,)
+                              child: Text(getLocalText("baggage", context),style: CustomStyles.calenderStyle,)
                           ),
                           Flexible(
 
@@ -902,7 +903,7 @@ class FlightBookingDetailView extends StatelessWidget {
                               RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
-                                    text: 'Check-In',
+                                    text: getLocalText("check_in", context), 
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text: " ${model.baglimit.holdWeight.toString()}"+' kgs',
@@ -920,7 +921,7 @@ class FlightBookingDetailView extends StatelessWidget {
                               child:   RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
-                                    text: 'Cabin',
+                                    text: getLocalText("cabin", context),
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text:" ${model.baglimit.handWeight.toString()}"+' kgs',
@@ -949,5 +950,9 @@ class FlightBookingDetailView extends StatelessWidget {
 
   }
 
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
 
 }

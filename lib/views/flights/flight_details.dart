@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/flights/flight_search_response.dart';
 import 'package:ota/models/flights/flight_search_response_entity.dart';
 import 'package:ota/models/flights/data_model/pass_arguments.dart';
@@ -52,7 +53,7 @@ class _FlightDetailsState extends State<FlightDetails> {
             builder: (context, model, child) {
 
               return  Scaffold(appBar:
-              AppBar(title: Text('Flight Details',style: CustomStyles.appbar,),
+              AppBar(title: Text(getLocalText("flight-details", context),style: CustomStyles.appbar,),
        leading: new IconButton(
         icon: new Icon(Icons.arrow_back_ios, color: Colors.white,size: 13,),
         onPressed: () => Navigator.of(context).pop(),
@@ -111,9 +112,9 @@ class _FlightDetailsState extends State<FlightDetails> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                model.flightResultsData.requestData.adults!=0?Text('Adult ${model.flightResultsData.requestData.adults} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
-                                model.flightResultsData.requestData.children!=0?Text('Children ${model.flightResultsData.requestData.children} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
-                                model.flightResultsData.requestData.infants!=0?Text('Infants ${model.flightResultsData.requestData.infants} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
+                                model.flightResultsData.requestData.adults!=0?Text('${getLocalText("adults", context)+model.flightResultsData.requestData.adults.toString()} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
+                                model.flightResultsData.requestData.children!=0?Text('${getLocalText("children", context)+model.flightResultsData.requestData.children.toString()} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
+                                model.flightResultsData.requestData.infants!=0?Text('${getLocalText("infants", context)+model.flightResultsData.requestData.infants.toString()} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
                               ],),
 
                             Text(model.flightResultsData.requestData.cabinSelection_name,
@@ -136,7 +137,7 @@ class _FlightDetailsState extends State<FlightDetails> {
 
 
                       } ,color: CustomColors.Orange,
-                        child: Text('EDIT',style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
+                        child: Text(getLocalText("edit", context),style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
                         elevation: 3,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -157,7 +158,7 @@ class _FlightDetailsState extends State<FlightDetails> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
 
-                Text('Departure',style: CustomStyles.heading.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
+                Text(getLocalText("departure", context),style: CustomStyles.heading.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
 
                 SizedBox(height: 10,),
 
@@ -205,9 +206,9 @@ class _FlightDetailsState extends State<FlightDetails> {
 //                                mainAxisAlignment: MainAxisAlignment.start,
 //                                crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      model.flightResultsData.requestData.adults!=0?Text('Adult ${model.flightResultsData.requestData.adults} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
-                                      model.flightResultsData.requestData.children!=0?Text('Children ${model.flightResultsData.requestData.children} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
-                                      model.flightResultsData.requestData.infants!=0?Text('Infants ${model.flightResultsData.requestData.infants} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
+                                      model.flightResultsData.requestData.adults!=0?Text('${getLocalText("adults", context)} ${model.flightResultsData.requestData.adults} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
+                                      model.flightResultsData.requestData.children!=0?Text('${getLocalText("children", context)} ${model.flightResultsData.requestData.children} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
+                                      model.flightResultsData.requestData.infants!=0?Text('${getLocalText("infants", context)}  ${model.flightResultsData.requestData.infants} | ',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5))):SizedBox.shrink(),
                                     ],),
 
                                   Text(model.flightResultsData.requestData.cabinSelection_name,
@@ -222,7 +223,7 @@ class _FlightDetailsState extends State<FlightDetails> {
 
                       Expanded(
                         flex: 4,
-                          child:RaisedButton(child: Text('BOOK NOW',style:CustomStyles.button_style ,),color: CustomColors.Orange,padding: EdgeInsets.all(12),
+                          child:RaisedButton(child: Text(getLocalText("book_now", context),style:CustomStyles.button_style ,),color: CustomColors.Orange,padding: EdgeInsets.all(12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ) ,
@@ -466,7 +467,7 @@ class _FlightDetailsState extends State<FlightDetails> {
                           Flexible(
 
                               fit: FlexFit.loose,
-                              child: Text('Baggage:',style: CustomStyles.calenderStyle,)
+                              child: Text(getLocalText("baggage", context),style: CustomStyles.calenderStyle,)
                           ),
                           Flexible(
 
@@ -476,7 +477,7 @@ class _FlightDetailsState extends State<FlightDetails> {
                               RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
-                                    text: 'Check-In',
+                                    text: getLocalText("check_in", context), 
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text: " ${model.flightResultsData.selectedList[0].baglimit.holdWeight.toString()}"+' kgs',
@@ -494,7 +495,7 @@ class _FlightDetailsState extends State<FlightDetails> {
                               child:   RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
-                                    text: 'Cabin',
+                                    text: getLocalText("cabin", context),
                                     style: CustomStyles.calenderStyle,
                                     children: <TextSpan>[
                                       TextSpan(text:" ${model.flightResultsData.selectedList[0].baglimit.handWeight.toString()}"+' kgs',
@@ -540,7 +541,7 @@ return widgetlist;
         return_.add(
             model.flightResultsData.selectedList[0].route[i]);
       }
-      print("Segregating");
+
 
     }
 
@@ -550,7 +551,7 @@ return widgetlist;
       crossAxisAlignment: CrossAxisAlignment.start,
 
       children: <Widget>[
-        Text('Departure',style: CustomStyles.heading.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
+        Text(getLocalText("departure", context),style: CustomStyles.heading.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
 
         SizedBox(height: 10,),
 
@@ -561,7 +562,7 @@ return widgetlist;
 
 
         SizedBox(height: 10,),
-        Text('Return',style: CustomStyles.heading.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
+        Text(getLocalText("return", context),style: CustomStyles.heading.copyWith(color:CustomColors.heading.withOpacity(.5) ),),
 
         SizedBox(height: 10,),
 
@@ -831,7 +832,7 @@ return widgetlist;
                          Flexible(
 
                          fit: FlexFit.loose,
-                         child: Text('Baggage:',style: CustomStyles.calenderStyle,)
+                         child: Text(getLocalText("baggage", context),style: CustomStyles.calenderStyle,)
                          ),
                          Flexible(
 
@@ -841,7 +842,7 @@ return widgetlist;
                          RichText(
                            textAlign: TextAlign.center,
                            text: TextSpan(
-                           text: 'Check-In',
+                           text: getLocalText("check_in", context),
                            style: CustomStyles.calenderStyle,
                            children: <TextSpan>[
                              TextSpan(text: " ${model.flightResultsData.selectedList[0].baglimit.holdWeight.toString()}"+' kgs',
@@ -859,7 +860,7 @@ return widgetlist;
                          child:   RichText(
                            textAlign: TextAlign.center,
                            text: TextSpan(
-                           text: 'Cabin',
+                           text: getLocalText("cabin", context),
                            style: CustomStyles.calenderStyle,
                            children: <TextSpan>[
                              TextSpan(text:" ${model.flightResultsData.selectedList[0].baglimit.handWeight.toString()}"+' kgs',
@@ -1119,7 +1120,7 @@ return widgetlist;
                       Flexible(
 
                       fit: FlexFit.loose,
-                      child: Text('Baggage:',style: CustomStyles.calenderStyle,)
+                      child: Text(getLocalText("baggage", context),style: CustomStyles.calenderStyle,)
                       ),
                       Flexible(
 
@@ -1129,7 +1130,7 @@ return widgetlist;
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                        text: 'Check-In',
+                        text: getLocalText("check_in", context),
                         style: CustomStyles.calenderStyle,
                         children: <TextSpan>[
                           TextSpan(text: " ${model.flightResultsData.selectedList[0].baglimit.holdWeight.toString()}"+' kgs',
@@ -1147,7 +1148,7 @@ return widgetlist;
                       child:   RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                        text: 'Cabin',
+                        text: getLocalText("cabin", context),
                         style: CustomStyles.calenderStyle,
                         children: <TextSpan>[
                           TextSpan(text:" ${model.flightResultsData.selectedList[0].baglimit.handWeight.toString()}"+' kgs',
@@ -1177,6 +1178,9 @@ return widgetlist;
 
   }
 
+  getLocalText(String key, BuildContext context) {
 
+    return  AppLocalizations.of(context).translate(key);
+  }
 
 }

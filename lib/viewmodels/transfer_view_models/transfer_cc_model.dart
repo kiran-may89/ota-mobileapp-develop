@@ -16,6 +16,7 @@ import 'package:ota/models/transfers/search_transfer_response_entity.dart';
 import 'package:ota/models/transfers/search_transfers_response.dart';
 import 'package:ota/models/transfers/transfer_booking_response.dart';
 import 'package:ota/models/transfers/transfer_booking_response_entity.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/net/service/transfers/transfer_service.dart';
 import 'package:ota/prefs/session_manager.dart';
 
@@ -48,9 +49,10 @@ class TransferCCModel extends ChangeNotifier{
   TransferPassengerData transferPassengerData;
 
   BookingRequest bookingRequest ;
+ Delegate _delegate;
 
-
-  TransferCCModel (this.transferPassengerData){
+  TransferCCModel (this.transferPassengerData,Delegate delegate){
+    _delegate =delegate;
     requestData = transferPassengerData.requestData;
 
     selectedVehicleData = transferPassengerData.selectedVehicleData;
@@ -188,6 +190,14 @@ class TransferCCModel extends ChangeNotifier{
 
      transferBookingResponse  = await _transferService.bookTransfer(bookingRequest);
 
+     if(transferBookingResponse.isError)
+       {
+         _delegate.onError("Something Went Wrong, Please Try with another transfers", true,
+             "assets/images/transfer.png");
+         return null;
+
+
+       }
      print(transferBookingResponse.result.bookingId);
 
         return transferBookingResponse;

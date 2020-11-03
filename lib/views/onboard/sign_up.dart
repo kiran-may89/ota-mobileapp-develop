@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:http/http.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/common/models/validation_errors.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
@@ -102,7 +104,7 @@ class _SignupState extends State<SignUp> {
                                 height: SizeConstants.SIZE_10,
                               ),
                               Text(
-                                strings.createAccount,
+                                getLocalText('create_account', context),
                                 style: CustomStyles.style1,
                               ),
                               SizedBox(
@@ -118,12 +120,12 @@ class _SignupState extends State<SignUp> {
                                       },
                                       keyboardType: TextInputType.name,
                                       validator: (value) {
-                                        return value == null || value.isEmpty ? "Enter First Name" : null;
+                                        return value == null || value.isEmpty ? getLocalText("enter_first_name", context) : null;
                                       },
                                       decoration: InputDecoration(
-                                          hintText: "First Name",
+                                          hintText: getLocalText("first_name", context),
                                           hintStyle: CustomStyles.HintStyle,
-                                          contentPadding: EdgeInsets.only(left: 20, top: 5),
+                                          contentPadding: EdgeInsets.only(left: 10, top: 5,right: 10),
                                           suffixIcon: IconButton(
                                             onPressed: () {},
                                             icon: Icon(
@@ -152,13 +154,12 @@ class _SignupState extends State<SignUp> {
                                       },
                                       keyboardType: TextInputType.name,
                                       validator: (value) {
-                                        return value == null || value.isEmpty ? "Enter Last Name" : null;
+                                        return value == null || value.isEmpty ? getLocalText("enter_last_name", context) : null;
                                       },
                                       decoration: InputDecoration(
-                                          hintText: "Last Name",
+                                          hintText: getLocalText("last_name", context),
                                           hintStyle: CustomStyles.HintStyle,
-                                          contentPadding: EdgeInsets.only(left: 20, top: 5),
-                                          suffixIcon: IconButton(
+                                          contentPadding: EdgeInsets.only(left: 10, top: 5,right: 10),                                          suffixIcon: IconButton(
                                             onPressed: () {},
                                             icon: Icon(
                                               Icons.cancel,
@@ -186,14 +187,13 @@ class _SignupState extends State<SignUp> {
                                   model.signupRequest.email = value;
                                 },
                                 keyboardType: TextInputType.emailAddress,
-                                validator: (value) {
-                                  return value == null || value.isEmpty ? "Enter Email" : null;
-                                },
+
+                                validator: (input) =>input.isEmpty?getLocalText("enter_email", context): isValidEmail(input) ? null :getLocalText("enter_valid_email", context),
+
                                 decoration: InputDecoration(
-                                    hintText: "Enter your email Id",
+                                    hintText:  getLocalText("email_id", context),
                                     hintStyle: CustomStyles.HintStyle,
-                                    contentPadding: EdgeInsets.only(left: 20, top: 5),
-                                    suffixIcon: IconButton(
+                                    contentPadding: EdgeInsets.only(left: 10, top: 5,right: 10),                                    suffixIcon: IconButton(
                                       onPressed: () {},
                                       icon: Icon(
                                         Icons.cancel,
@@ -229,7 +229,7 @@ class _SignupState extends State<SignUp> {
                                   },
                                   validator: (value) {
                                     if (!phoneNumberValidated) {
-                                      return "Enter PhoneNumber";
+                                      return getLocalText("enter_phone_number", context);
                                     }
                                     return null;
                                   },
@@ -240,7 +240,8 @@ class _SignupState extends State<SignUp> {
                                       enabledBorder: InputBorder.none,
                                       errorBorder: InputBorder.none,
                                       disabledBorder: InputBorder.none,
-                                      hintText: strings.phoneNumber),
+                                      hintText: getLocalText("phone_number", context),
+                                    hintStyle: CustomStyles.HintStyle,),
                                   ignoreBlank: false,
                                   initialValue: model.phoneNumber,
                                 ),
@@ -259,10 +260,9 @@ class _SignupState extends State<SignUp> {
                                   return value == null || value.isEmpty ? "Enter address" : null;
                                 },
                                 decoration: InputDecoration(
-                                    hintText: strings.address,
+                                    hintText: getLocalText("address", context),
                                     hintStyle: CustomStyles.HintStyle,
-                                    contentPadding: EdgeInsets.only(left: 20, top: 5),
-                                    suffixIcon: IconButton(
+                                    contentPadding: EdgeInsets.only(left: 10, top: 5,right: 10),                                    suffixIcon: IconButton(
                                       icon: Icon(
                                         Icons.cancel,
                                         size: 24,
@@ -290,15 +290,14 @@ class _SignupState extends State<SignUp> {
                                 obscuringCharacter: "*",
                                 validator: (value) {
                                   bool valid = passwordExp.hasMatch(value);
-                                  return !valid ? "Enter Valid Password" : null;
+                                  return !valid ? getLocalText("enter_valid_password", context) : null;
 
                                 },
                                 onChanged: (value) => model.signupRequest.passwordHash = value,
                                 decoration: InputDecoration(
-                                    hintText: strings.pasword,
+                                    hintText: getLocalText("password",context),
                                     hintStyle: CustomStyles.HintStyle,
-                                    contentPadding: EdgeInsets.only(left: 20, top: 5),
-                                    suffixIcon: IconButton(
+                                    contentPadding: EdgeInsets.only(left: 10, top: 5,right: 10),                                    suffixIcon: IconButton(
                                       onPressed: () {},
                                       icon: Icon(
                                         Icons.cancel,
@@ -329,14 +328,14 @@ class _SignupState extends State<SignUp> {
                                   bool valid = passwordExp.hasMatch(value);
 
                                   if (!valid) {
-                                    return "Enter Valid Password";
+                                    return getLocalText("enter_password", context);
                                   } else if (value != model.signupRequest.passwordHash) {
-                                    return "Passwords Should Match";
+                                    return getLocalText("password_did_not_match", context);
                                   }
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                    hintText: strings.confirmPassword,
+                                    hintText: getLocalText("confirm_password", context),
                                     suffixIcon: IconButton(
                                       onPressed: () {},
                                       icon: Icon(
@@ -345,8 +344,7 @@ class _SignupState extends State<SignUp> {
                                       ),
                                     ),
                                     hintStyle: CustomStyles.HintStyle,
-                                    contentPadding: EdgeInsets.only(left: 20, top: 5),
-                                    border: new OutlineInputBorder(
+                                    contentPadding: EdgeInsets.only(left: 10, top: 5,right: 10),                                    border: new OutlineInputBorder(
                                       borderRadius: const BorderRadius.all(
                                         const Radius.circular(5.0),
                                       ),
@@ -363,7 +361,7 @@ class _SignupState extends State<SignUp> {
                                 child: RaisedButton(
                                     color: CustomColors.Orange,
                                     child: Text(
-                                      strings.done,
+                                      getLocalText('done', context),
                                       style: CustomStyles.button_style,
                                     ),
                                     shape: RoundedRectangleBorder(
@@ -385,7 +383,7 @@ class _SignupState extends State<SignUp> {
                                 alignment: Alignment.bottomRight,
                                 child: GestureDetector(
                                   child: Text(
-                                    strings.skip,
+                                    getLocalText('skip', context),
                                     style: CustomStyles.countDownStyle,
                                   ),
                                   onTap: () {
@@ -403,5 +401,17 @@ class _SignupState extends State<SignUp> {
         },
       ),
     );
+    
+    
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+  bool isValidEmail(email) {
+    return RegExp(
+    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+    .hasMatch(email);
   }
 }

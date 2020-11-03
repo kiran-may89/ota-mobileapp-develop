@@ -216,6 +216,8 @@ class _DateSelector2State extends State<DateSelector2> {
         if(index < 7) return _weekDayTitle(index);
 
        // if(model.oneWay){
+
+
           if(_sequentialDates[index - 7].date == model.tempDate) {
             return _selector(_sequentialDates[index - 7]);
           }else{
@@ -430,7 +432,7 @@ class _DateSelector2State extends State<DateSelector2> {
     if(DOB){
       if(model.getPassengerDOB(index, passengerType)!=""){
 
-      DateTime dateTime = DateFormat("dd/MM/yyyy").parse(model.getPassengerDOB(index, passengerType));
+      DateTime dateTime = DateFormat("dd-MM-yyyy").parse(model.getPassengerDOB(index, passengerType));
 
     model.tempDate   = dateTime;
 
@@ -440,7 +442,7 @@ class _DateSelector2State extends State<DateSelector2> {
 
       if(model.getPassengerPassportExpData(index, passengerType)!=""){
 
-        DateTime dateTime = DateFormat("dd/MM/yyyy").parse(model.getPassengerDOB(index, passengerType));
+        DateTime dateTime = DateFormat("dd-MM-yyyy").parse(model.getPassengerDOB(index, passengerType));
 
         model.tempDate = dateTime;
 
@@ -484,9 +486,7 @@ class _DateSelector2State extends State<DateSelector2> {
 
         }else{
 
-          if (calendarDate.date.isAfter(DateTime.now()) ||
-              calendarDate.date == DateTime.now())
-            if ( model.tempDate != calendarDate.date) {
+             if ( model.tempDate != calendarDate.date) {
               if (calendarDate.nextMonth) {
                 _getNextMonth();
               }

@@ -14,6 +14,7 @@ import 'package:ota/models/transfers/search_transfer_response_entity.dart';
 import 'package:ota/models/transfers/search_transfers_response.dart';
 import 'package:ota/models/transfers/transfer_place_order_response_entity.dart';
 import 'package:ota/net/service/common/common_service.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/net/service/transfers/transfer_results_data.dart';
 import 'package:ota/net/service/transfers/transfer_service.dart';
 import 'package:ota/prefs/session_manager.dart';
@@ -99,9 +100,10 @@ class TransferPassengerModel extends ChangeNotifier {
   List<Vechile> selectedVehicleData = [];
 
   TransferResultsData transferResultsData;
+  Delegate _delegate;
 
-  TransferPassengerModel(this.transferResultsData) {
-
+  TransferPassengerModel(this.transferResultsData,Delegate delegate) {
+   _delegate =delegate;
     selectedVehicleData = transferResultsData.selectedVehicleData;
 
     requestData = transferResultsData.requestData;
@@ -148,6 +150,14 @@ class TransferPassengerModel extends ChangeNotifier {
 
     transferPlaceOrderResponseEntity = await _transferService.placeOrder(transferPlaceOrderRequest);
 
+     if(transferPlaceOrderResponseEntity.isError)
+       {
+         _delegate.onError("Something Went Wrong, Please Try Again..", false,
+             "assets/images/transfer.png");
+
+         return null;
+
+       }
     return transferPlaceOrderResponseEntity;
   }
 

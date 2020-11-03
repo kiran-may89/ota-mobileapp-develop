@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/viewmodels/my_bookings_viewmodel.dart';
 import 'package:ota/views/my_bookings/widgets/list_container.dart';
@@ -45,7 +46,7 @@ class UpComingBookingList extends StatelessWidget {
 
                             Image.asset('assets/nobookings.png', height: 100)
                             , SizedBox(height: 10,),
-                            Text("No Bookings Available")
+                            Text(getLocalText("no_bookings_available", context))
 
                           ],
                         ),
@@ -64,5 +65,9 @@ class UpComingBookingList extends StatelessWidget {
           );
         }
         ));
+  }
+  getLocalText(String key, BuildContext context) {
+
+  return  AppLocalizations.of(context).translate(key);
   }
 }

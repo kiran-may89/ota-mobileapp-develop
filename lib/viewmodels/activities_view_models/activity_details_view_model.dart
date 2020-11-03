@@ -13,6 +13,7 @@ import 'package:ota/models/activity/request/fill_details_request.dart';
 import 'package:ota/models/activity/small_details_response.dart';
 import 'package:ota/models/activity/small_details_response_entity.dart';
 import 'package:ota/net/service/activity/activity_service.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/views/activities/fulldetails_data.dart';
@@ -73,9 +74,9 @@ class ActivityDetailsModel extends ChangeNotifier{
 
 
   //SmallDetailsResponseEntity  smallDetailsResponseEntity = SmallDetailsResponseEntity();
+Delegate _delegate;
 
-
-  ActivityDetailsModel(this.fullDetailsData, this.travelDetails,this.correlationId){
+  ActivityDetailsModel(this.fullDetailsData, this.travelDetails,this.correlationId,this._delegate){
 
     print(correlationId);
 
@@ -109,11 +110,17 @@ class ActivityDetailsModel extends ChangeNotifier{
 
     if(fullDetailsResponse!=null||fullDetailsResponse.result!=null){
 
-
-
-
+      if(fullDetailsResponse.isError) {
+        _delegate.onError("Something Went Wrong, Please Try Again..", false,
+            "assets/images/event.png");
+        return;
+      }
       smallDetailsResponse = await _activityService.getSmallDetails(fullDetailsData.fullDetailsRequest);
-
+      if(smallDetailsResponse.isError) {
+        _delegate.onError("Something Went Wrong, Please Try Again..", false,
+            "assets/images/event.png");
+        return;
+      }
       if(smallDetailsResponse!=null||smallDetailsResponse.result!=null){
 
 

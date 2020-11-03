@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/models/profile/responses/family_list.dart';
 import 'package:ota/utils/colors.dart';
@@ -40,7 +41,7 @@ class _FamilyListState extends State<FamilyList> {
             backgroundColor: CustomColors.White,
             appBar: AppBar(
               title: Text(
-                'Family Members',
+                getLocalText("family_list", context),
                 style: CustomStyles.appbar,
               ),
               leading: new IconButton(
@@ -106,7 +107,7 @@ class _FamilyListState extends State<FamilyList> {
                                     .only(
                                         top: 40),
                                 child: Text(
-                                    'Something Went Wrong',
+                                    getLocalText("something_went_wrong", context),
                                     textAlign:
                                         TextAlign
                                             .center,
@@ -148,7 +149,7 @@ class _FamilyListState extends State<FamilyList> {
                                             .all(
                                                 7.0),
                                     child: Text(
-                                        'Family Members Not Added',
+                                       getLocalText("family_members_not_found", context),
                                         textAlign:
                                             TextAlign
                                                 .center,
@@ -218,7 +219,7 @@ class _FamilyListState extends State<FamilyList> {
                                                 Flexible(
                                                   fit: FlexFit.tight,
                                                   child: Text(
-                                                    "Name",
+                                                    getLocalText("name", context),
                                                     style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                   ),
                                                 ),
@@ -245,7 +246,7 @@ class _FamilyListState extends State<FamilyList> {
                                                 Flexible(
                                                   fit: FlexFit.tight,
                                                   child: Text(
-                                                    "Passport",
+                                                getLocalText("passport_number", context),
                                                     style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                   ),
                                                 ),
@@ -272,7 +273,7 @@ class _FamilyListState extends State<FamilyList> {
                                                 Flexible(
                                                   fit: FlexFit.tight,
                                                   child: Text(
-                                                    "Phone Number",
+                                                    getLocalText("phone_number", context),
                                                     style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                   ),
                                                 ),
@@ -300,7 +301,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         Flexible(
                                                           fit: FlexFit.tight,
                                                           child: Text(
-                                                            "Passport Expiry",
+                                                            getLocalText("passport_expiry", context),
                                                             style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                           ),
                                                         ),
@@ -324,7 +325,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         Flexible(
                                                           fit: FlexFit.tight,
                                                           child: Text(
-                                                            "Date od Birth",
+                                                            getLocalText("date_of_birth", context),
                                                             style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                           ),
                                                         ),
@@ -348,7 +349,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         Flexible(
                                                           fit: FlexFit.tight,
                                                           child: Text(
-                                                            "Email Id",
+                                                            getLocalText("email_id", context),
                                                             style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                           ),
                                                         ),
@@ -372,7 +373,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         Flexible(
                                                           fit: FlexFit.tight,
                                                           child: Text(
-                                                            "Country Code",
+                                                            getLocalText("country_code", context),
                                                             style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                           ),
                                                         ),
@@ -396,7 +397,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         Flexible(
                                                           fit: FlexFit.tight,
                                                           child: Text(
-                                                            "Phone Code",
+                                                           getLocalText("phone_code", context),
                                                             style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                           ),
                                                         ),
@@ -420,31 +421,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         Flexible(
                                                           fit: FlexFit.tight,
                                                           child: Text(
-                                                            "Country Code",
-                                                            style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
-                                                          ),
-                                                        ),
-                                                        Flexible(
-                                                          fit: FlexFit.tight,
-                                                          child: Text(
-                                                            model.relationsList.result[index].countryCode,
-                                                            textAlign: TextAlign.start,
-                                                            style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        Flexible(
-                                                          fit: FlexFit.tight,
-                                                          child: Text(
-                                                            "Nationality ",
+                                                            getLocalText("nationality", context),
                                                             style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                           ),
                                                         ),
@@ -468,7 +445,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         Flexible(
                                                           fit: FlexFit.tight,
                                                           child: Text(
-                                                            "Gender ",
+                                                            getLocalText("gender", context),
                                                             style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                           ),
                                                         ),
@@ -492,7 +469,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         Flexible(
                                                           fit: FlexFit.tight,
                                                           child: Text(
-                                                            "Relation ",
+                                                            getLocalText("relation", context),
                                                             style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),
                                                           ),
                                                         ),
@@ -530,7 +507,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         width: 4,
                                                       ),
                                                       Text(
-                                                        !model.visible[index] ? "View More" : "View Less",
+                                                        !model.visible[index] ?getLocalText("view_more", context) : getLocalText("view_less", context),
                                                         style: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),
                                                       )
                                                     ],
@@ -547,10 +524,10 @@ class _FamilyListState extends State<FamilyList> {
                                                         color: CustomColors.disabledButton,
                                                       ),
                                                       SizedBox(
-                                                        width: 4,
+                                                        width: 4, 
                                                       ),
                                                       Text(
-                                                        "Edit",
+                                                        getLocalText("edit", context),
                                                         style: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),
                                                       )
                                                     ],
@@ -570,7 +547,7 @@ class _FamilyListState extends State<FamilyList> {
                                                         width: 4,
                                                       ),
                                                       Text(
-                                                        "Remove",
+                                                        getLocalText("remove", context),
                                                         style: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),
                                                       )
                                                     ],
@@ -583,7 +560,7 @@ class _FamilyListState extends State<FamilyList> {
                                       )),
                                   onTap:
                                       () async {
-                                    ;
+
                                   },
                                 );
                               }),
@@ -629,7 +606,7 @@ class _FamilyListState extends State<FamilyList> {
                 padding:
                     const EdgeInsets.all(8.0),
                 child: Text(
-                  "Remove member ?",
+                 getLocalText("remove_member", context),
                   style: CustomStyles.medium16,
                   textAlign: TextAlign.start,
                 ),
@@ -652,7 +629,7 @@ class _FamilyListState extends State<FamilyList> {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      'No',
+                     getLocalText("no", context),
                       style: CustomStyles.medium14
                           .copyWith(
                               color: CustomColors
@@ -663,7 +640,7 @@ class _FamilyListState extends State<FamilyList> {
                   ),
                   FlatButton(
                     child: Text(
-                      'Yes',
+                      getLocalText("yes", context),
                       style: CustomStyles.medium14
                           .copyWith(
                               color: CustomColors
@@ -728,7 +705,7 @@ class _FamilyListState extends State<FamilyList> {
                 height: 310.0,
                 width: 300.0,
                 child: Text(
-                    "Failed To Remove Member"),
+                   getLocalText("failed_to_remove_member", context)),
               ),
               SizedBox(
                 height: 20,
@@ -737,7 +714,7 @@ class _FamilyListState extends State<FamilyList> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('OK'),
+                  child: Text(getLocalText("ok", context)),
                   shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(
@@ -753,5 +730,10 @@ class _FamilyListState extends State<FamilyList> {
         context: context,
         builder: (BuildContext context) =>
             simpleDialog);
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

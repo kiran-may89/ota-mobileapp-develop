@@ -13,6 +13,7 @@ import 'package:ota/models/profile/responses/update_profile_response.dart';
 import 'package:ota/net/service/common/common_service.dart';
 import 'package:ota/net/service/profile/profile_service.dart';
 import 'package:ota/prefs/session_manager.dart';
+import 'package:ota/prefs/shared_prefernce.dart';
 import 'package:package_info/package_info.dart';
 
 class ProfileViewModel extends ChangeNotifier{
@@ -86,7 +87,11 @@ String version_;
 
 String buildNumber_;
 
+List<String>languageList = ["English","عربى"];
 
+String selectedLanguage;
+
+Future<String>language;
 
 UpdateProfileResponse updateProfileResponse  = UpdateProfileResponse();
 
@@ -116,6 +121,22 @@ _profileService = GetIt.instance<ProfileService>();
 
 
 }
+
+
+
+ProfileViewModel.newInstance(){
+
+  language = Pref.getInstnace().getData(Pref().language);
+
+
+  if(language=="en"){
+    selectedLanguage = "English";
+  }else{
+    selectedLanguage = "عربى";
+  }
+
+}
+
 
   Future<void> getProfile() async {
 
@@ -264,6 +285,23 @@ Future<void> getVersion() async {
 
 
 }
+
+   changeSelectedLanguage(newValue) {
+
+  print(newValue);
+
+  selectedLanguage = newValue;
+
+  if(newValue=="English"){
+    Pref.getInstnace().saveData(Pref().language,"en") ;
+  }else{
+    Pref.getInstnace().saveData(Pref().language,"ar") ;
+  }
+
+
+notifyListeners();
+
+  }
 
 
 

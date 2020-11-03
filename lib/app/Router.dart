@@ -27,6 +27,7 @@ import 'package:ota/models/activity/request/activity_questions_data.dart';
 import 'package:ota/views/activities/activity_results.dart';
 import 'package:ota/views/activities/activity_travel_information.dart';
 import 'package:ota/views/dash_board.dart';
+import 'package:ota/views/hotels/hotels_cc_details.dart';
 import 'package:ota/views/my_bookings/my_bookings_view.dart';
 import 'package:ota/views/my_bookings/widgets/activity_booking_detail_view.dart';
 import 'package:ota/views/my_bookings/widgets/cancel_policy_view.dart';
@@ -59,6 +60,7 @@ import 'package:ota/views/profile/family_list.dart';
 import 'package:ota/views/profile/notifications.dart';
 import 'package:ota/views/profile/profile.dart';
 import 'package:ota/views/profile/profile_management.dart';
+import 'package:ota/views/profile/settings.dart';
 
 import 'package:ota/views/transfer/passenger_information.dart';
 import 'package:ota/views/transfer/transfer_booking.dart';
@@ -74,6 +76,8 @@ import 'package:ota/models/hotels/hotel_details_request.dart';
 
 class Routes {
   static const String searchHotels = "/searchHotel";
+  static const String hotelCCDetails = "/hotelCCDetails";
+
   static const String transferBookingDetailsView = "/transferBookingDetailsView";
   static const String activityBookingDetailsView = "/activityBookingDetailsView";
   static const String flightBookingDetailsView = "/flightBookingDetailsView";
@@ -121,6 +125,7 @@ class Routes {
   static const String profile_management = '/profile_management';
   static const String profile = '/profile';
   static const String packages = '/packages';
+  static const String appSettings = '/appSettings';
 
 
   static Route<dynamic> generatRouter(RouteSettings settings) {
@@ -133,6 +138,11 @@ class Routes {
 
       return MaterialPageRoute(builder: (_) =>  HotelBookingDetailView(args));
       break;
+
+      case hotelCCDetails:
+
+        return MaterialPageRoute(builder: (_) =>  HotelCCDetails(args));
+        break;
 
       case searchBookingView:
 
@@ -387,6 +397,10 @@ class Routes {
 
       case notifications:
         return MaterialPageRoute(builder: (_) => WebNotifications());
+
+        break;
+      case appSettings:
+        return MaterialPageRoute(builder: (_) => AppSettings());
 
         break;
 

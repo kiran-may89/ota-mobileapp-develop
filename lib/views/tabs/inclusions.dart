@@ -58,7 +58,6 @@ class _InclusionsState extends State<Inclusions> {
 
                   SizedBox(height: 10,),
 
-                  Text('Dubai - Airport',style:CustomStyles.normal14.copyWith(color: CustomColors.White),) ,
 
 
 

@@ -6,8 +6,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/activity/request/activity_details_data.dart';
 import 'package:ota/models/flights/validation_model.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/utils/Dash_seperator.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
@@ -29,7 +31,7 @@ class Activity_TravellerInformation extends StatefulWidget {
   _Activity_TravellerInformationState createState() => _Activity_TravellerInformationState(activityDetailsData);
 }
 
-class _Activity_TravellerInformationState extends State<Activity_TravellerInformation> {
+class _Activity_TravellerInformationState extends State<Activity_TravellerInformation> implements Delegate {
 
 
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
@@ -81,7 +83,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
 
     return ChangeNotifierProvider<ActivityTravellerModel>(
 
-      create: (context) => ActivityTravellerModel(activityDetailsData),
+      create: (context) => ActivityTravellerModel(activityDetailsData,this),
       child: Consumer<ActivityTravellerModel>(
         builder: (context, model, child) {
 
@@ -89,7 +91,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
     return Scaffold(
       backgroundColor: Colors.white,
 
-      appBar: AppBar(title: Text("Traveller Information",style: CustomStyles.button_style.copyWith(fontSize: 20),
+      appBar: AppBar(title: Text(getLocalText("travel_information", context),style: CustomStyles.button_style.copyWith(fontSize: 20),
       ),
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back_ios, color: Colors.white,size: 13,),
@@ -113,559 +115,570 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
       ):
 
       SingleChildScrollView(
-        child: Container(
+        child: Form(
+          key:_formKey,
+          child: Container(
 
-          margin: EdgeInsets.only(left: width*.4,right: width*.4,top: 15),
+            margin: EdgeInsets.only(left: width*.4,right: width*.4,top: 15),
 
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
 
-              Container(
-                width: double.infinity,
-                //margin: EdgeInsets.only(left: 25, right: 25, top: 15),
-                child:   Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(flex: 8,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(model.activityDetailsData.travelDetails.FromPlace,style: CustomStyles.heading,),
-                          SizedBox(height: 7,),
-
-                          Row(children: [
-                            Text(model.activityDetailsData.travelDetails.FromDateMonth+" - ",style : CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)) ,),
-
-                            Text(model.activityDetailsData.travelDetails.ToMonth+" | ",style : CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)) ,),
-
-
-                            Text(model.activityDetailsData.travelDetails.count.toString()+' Person',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),)
-
-
-                          ],)
-
-                        ],
-
-                      ),
-                    ),
-                    Expanded(flex: 2,
-                      child: SizedBox(
-                        height: 24,
-                        child: RaisedButton(onPressed: (){
-                          Navigator.of(context).pop();
-                        } ,color: CustomColors.Orange,
-                          child: Text('EDIT',style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-
-                        ),
-                      ),)
-                  ],),
-
-
-              ),
-
-
-              Container(
-                  margin: EdgeInsets.only(top: 10,bottom: 10),
-                  child: MySeparator(color: CustomColors.TabDisabled,height: 1,Horizontal: true,)),
-
-              SizedBox(height:5 ,),
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                SizedBox(height:5 ,),
-
-
-                Form(
-
-                    key: _formKey,
-
-                    child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-
-                    Container(
-
-                      padding: EdgeInsets.only(top: 0,bottom: 7),
-//                      margin: EdgeInsets.only(
-//                          left: SizeConstants.SIZE_12,
-//                          right: SizeConstants.SIZE_12),
-                      child:Column(
-                        children: [
-
-                          GestureDetector(
-                              onTap: () {
-                             //   model.expandPassenger();
-
-                                contentFilledList.forEach((element) {
-                                  if(element.passangerType==0 && element.index==0)
-                                    element.isFilled =false;
-
-                                });
-                                model.expandDetails(0, 0);
-
-
-                              },
-                              child: Container(
-
-
-                                color: model.firstName.text == "" ? CustomColors.Orange : CustomColors.BackGround,
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                child: Container(
-                                  margin: EdgeInsets.only(left: SizeConstants.SIZE_4),
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: CustomColors.White,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        spreadRadius: 0.5,
-                                        blurRadius: 0.5,
-
-                                        offset: Offset(0, 1), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Visibility(
-                                          visible: model.firstName.text == "",
-                                          child: Container(
-                                            margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                            child: Text("Traveller", style: CustomStyles.medium16),
-                                          )),
-                                      Visibility(
-                                          visible: model.firstName.text != "",
-                                          child: Container(
-                                            margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset("assets/images/user.svg",
-                                                    width: SizeConstants.SIZE_20, height: SizeConstants.SIZE_20, color: Colors.black54),
-                                                SizedBox(
-                                                  width: SizeConstants.SIZE_8,
-                                                ),
-                                                Text(model.firstName.text ?? '',
-                                                    style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
-                                                SizedBox(
-                                                  width: SizeConstants.SIZE_8,
-                                                ),
-                                                Text( model.Email.text != null ? ', Email: ${ model.Email.text}' : '',
-                                                    style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
-                                              ],
-                                            ),
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              )),
-
-                          SizedBox(height:10 ,),
-                          Visibility(
-                              visible: model.areDetailsVisible(0, 0),
-                              child: fillDetails(model)
-
-                          ),
-
-
-                        ],
-                      ),
-
-                    ),
-
-
-
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(vertical: SizeConstants.SIZE_8),
-                      child: SingleChildScrollView(
+                Container(
+                  width: double.infinity,
+                  //margin: EdgeInsets.only(left: 25, right: 25, top: 15),
+                  child:   Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(flex: 8,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: List.generate(
-
-
-
-
-
-                            model.activityDetailsData.fullDetailsData.age.length,
-                                (  index) {
-
-                              var lastNameFocusNode = FocusNode();
-
-                             return   Container(
-                                color: Colors.white,
-                                padding: EdgeInsets.only(top: 5,bottom: 5),
-                                child: Column(
-                                  children: <Widget>[
-
-                                    GestureDetector(
-                                        onTap: () {
-                                         // model.expandGuest();
-                                          contentFilledList.forEach((element) {
-                                            if(element.passangerType==1 && element.index==index)
-                                              element.isFilled =false;
-
-                                          });
-                                        model.expandDetails(index, 1);
-                                        },
-                                        child: Container(
-                                          color: model.guest_first_name[index] == "" ? CustomColors.Orange : CustomColors.BackGround,
-                                          width: MediaQuery.of(context).size.width,
-                                          height: 50,
-                                          child: Container(
-                                            margin: EdgeInsets.only(left: SizeConstants.SIZE_4),
-                                            width: MediaQuery.of(context).size.width,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: CustomColors.White,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black.withOpacity(0.1),
-                                                  spreadRadius: 0.5,
-                                                  blurRadius: 0.5,
-
-                                                  offset: Offset(0, 1), // changes position of shadow
-                                                ),
-                                              ],
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Visibility(
-                                                    visible: model.guest_first_name[index] == "",
-                                                    child: Container(
-                                                      margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                                      child: Text("Guest ${index+1}", style: CustomStyles.medium16),
-                                                    )),
-                                                Visibility(
-                                                    visible: model.guest_first_name[index] != "",
-                                                    child: Container(
-                                                      margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
-                                                      child: Row(
-                                                        children: [
-                                                          SvgPicture.asset("assets/images/user.svg",
-                                                              width: SizeConstants.SIZE_20, height: SizeConstants.SIZE_20, color: Colors.black54),
-                                                          SizedBox(
-                                                            width: SizeConstants.SIZE_8,
-                                                          ),
-                                                          Text(model.guest_first_name[index] ?? '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
-                                                          SizedBox(
-                                                            width: SizeConstants.SIZE_8,
-                                                          ),
-                                                          Text( model.activityDetailsData.fullDetailsData.age[index].toString() != null ? ', Age: ${ model.activityDetailsData.fullDetailsData.age[index].toString()}' : '',
-                                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
-                                                        ],
-                                                      ),
-                                                    )),
-                                              ],
-                                            ),
-                                          ),
-                                        )),
-
-                                    Visibility(
-                                      visible: model.areDetailsVisible(index, 1),
-                                      child: Column(
-                                        children: [
-                                          TextFormField(
-                                            enabled: true,
-                                            initialValue: "",
-
-                                            style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                            decoration: InputDecoration(
-                                              alignLabelWithHint: true,
-                                              labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                              labelText: "First Name",
-                                            ),
-
-                                            validator: (value) {
-                                              return value == null || value.isEmpty ? "Enter First Name" : null;
-                                            },
-
-                                            onFieldSubmitted: (v){
-
-                                              FocusScope.of(context).requestFocus(guestLastName);
-                                            },
-
-
-                                            onChanged: (value){
-
-                                              model.changeGuestFirstName(value,index);
-
-                                            },
-                                          ),
-
-
-                                          TextFormField(
-                                            focusNode: guestLastName,
-                                            enabled: true,
-                                            initialValue: "",
-                                            textInputAction: TextInputAction.done,
-                                            style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                            decoration: InputDecoration(
-                                              alignLabelWithHint: true,
-                                              labelText: "Last Name",
-                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                                            ),
-                                            onSaved: (v){
-                                              FocusManager.instance.primaryFocus.unfocus();
-                                            },
-//
-                                            onChanged: (value){
-
-                                              model.changeGuestLastName(value,index);
-
-                                            },
-
-                                            validator: (value) {
-                                              return value == null || value.isEmpty ? "Enter Last Name" : null;
-                                            },
-
-
-
-                                          ),
-
-
-                                          TextFormField(
-                                            enabled: false,
-                                            initialValue: model.activityDetailsData.fullDetailsData.age[index].toString(),
-                                            textInputAction: TextInputAction.next,
-                                            style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                            decoration: InputDecoration(
-                                              alignLabelWithHint: true,
-                                              disabledBorder: new UnderlineInputBorder(
-                                                borderSide: new BorderSide(
-                                                    color:CustomColors.BackGround
-                                                ),
-                                              ),
-
-
-                                              hintText: "Enter Age",
-                                              hintStyle: CustomStyles.normal16
-                                                  .copyWith(color: CustomColors.disabledButton),
-
-                                            ),
-                                          ),
-
-
-                                          TextFormField(
-                                            enabled: false,
-                                            initialValue: model.guest_type[index],
-                                            textInputAction: TextInputAction.next,
-                                            style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
-                                            decoration: InputDecoration(
-                                              alignLabelWithHint: true,
-                                              disabledBorder: new UnderlineInputBorder(
-                                                borderSide: new BorderSide(
-                                                    color:CustomColors.BackGround
-                                                ),
-                                              ),
-
-
-                                              hintText: "Enter Type",
-                                              hintStyle: CustomStyles.normal16
-                                                  .copyWith(color: CustomColors.disabledButton),
-
-                                            ),
-                                          ),
-
-                                          SizedBox(height: 10,),
-
-
-                                          Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: RaisedButton(
-                                                color: CustomColors.Orange,
-                                                child: Text(
-                                                  "SAVE",
-// strings.save.toUpperCase(),
-                                                  style: CustomStyles.button_style,
-                                                ),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                ),
-                                                onPressed: () async {
-
-                                                   if(_formKey.currentState.validate())
-                                                     {
-                                                       _formKey.currentState.save();
-                                                       contentFilledList.forEach((element) {
-                                                         if(element.passangerType==1 && element.index==index)
-                                                           element.isFilled =true;
-
-                                                       });
-
-                                                       model.hideDetails(1, index);
-
-
-                                                     }
-
-
-
-
-                                                }
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-
-
-
-
-
-
-                                  ],
-                                ));
-        }
-                          ),
-                        ),
-                      ),
-                    ),
-
-
-                  ],
-                )
-
-
-                ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-                Card(
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            SizedBox(height: 5,),
-                            Text(
-                              model.activityDetailsData.totalAmountWithMarkup.displayRateInfoWithMarkup.currency+" "+
+                            Text(model.activityDetailsData.travelDetails.FromPlace,style: CustomStyles.heading,),
+                            SizedBox(height: 7,),
+
+                            Row(children: [
+                              Text(model.activityDetailsData.travelDetails.FromDateMonth+" - ",style : CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)) ,),
+
+                              Text(model.activityDetailsData.travelDetails.ToMonth+" | ",style : CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)) ,),
 
 
-                                  model.activityDetailsData.totalAmountWithMarkup.displayRateInfoWithMarkup.totalPriceWithMarkup.toString(),style: CustomStyles.appbar.copyWith(color: CustomColors.BackGround),),
+                              Text(model.activityDetailsData.travelDetails.count.toString()+' ${getLocalText("person", context)}',style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),)
 
-                            SizedBox(height: 2,),
-                            Text(model.activityDetailsData.duration,style: CustomStyles.calenderStyle,),
-//                            SizedBox(height: 5,),
+
+                            ],)
+
                           ],
-                        ) ,
 
-                        RaisedButton(child: Text('BOOK NOW',style:CustomStyles.button_style ,),color: CustomColors.Orange,padding: EdgeInsets.all(12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ) ,
-                          onPressed: (){
-                            bool isAllValid =false;
+                        ),
+                      ),
+                      Expanded(flex: 2,
+                        child: SizedBox(
+                          height: 24,
+                          child: RaisedButton(onPressed: (){
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          } ,color: CustomColors.Orange,
+                            child: Text( getLocalText("edit", context),style:CustomStyles.calenderStyle.copyWith(color: CustomColors.White) ,),
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
 
-                            var list = contentFilledList;
-
-                            for(int i=0 ; i<contentFilledList.length;i++) {
-                              if (!contentFilledList[i]
-                                  .isFilled) {
-                                model.expandDetails(
-                                    contentFilledList[i]
-                                        .index,
-                                    contentFilledList[i]
-                                        .passangerType);
-
-                                break;
-                              }
-
-                              if(i == contentFilledList.length-1)
-                                isAllValid =true;
-
-                            }
-
-                            _formKey.currentState.validate();
-
-                          if(isAllValid) {
-
-                           if(_formKey.currentState.validate()){
-
-          _formKey.currentState.save();
-
-          Dialogs.showLoadingDialog(
-          context, _keyLoader);
-
-          model.placeOrder().then((value) {
-
-          Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
-
-          Navigator.pushNamed(context, Routes.activityPaymentOptions, arguments: model.getArguemntData());
+                          ),
+                        ),)
+                    ],),
 
 
-          });
+                ),
+
+
+                Container(
+                    margin: EdgeInsets.only(top: 10,bottom: 10),
+                    child: MySeparator(color: CustomColors.TabDisabled,height: 1,Horizontal: true,)),
+
+                SizedBox(height:5 ,),
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                  SizedBox(height:5 ,),
+
+
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+
+                      Container(
+
+                        padding: EdgeInsets.only(top: 0,bottom: 7),
+//                      margin: EdgeInsets.only(
+//                          left: SizeConstants.SIZE_12,
+//                          right: SizeConstants.SIZE_12),
+                        child:Column(
+                          children: [
+
+                            GestureDetector(
+                                onTap: () {
+                               //   model.expandPassenger();
+
+                                  contentFilledList.forEach((element) {
+                                    if(element.passangerType==0 && element.index==0)
+                                      element.isFilled =false;
+
+                                  });
+                                  model.expandDetails(0, 0);
+
+
+                                },
+                                child: Container(
+
+
+                                  color: model.firstName.text == "" ? CustomColors.Orange : CustomColors.BackGround,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 50,
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: SizeConstants.SIZE_4),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: CustomColors.White,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          spreadRadius: 0.5,
+                                          blurRadius: 0.5,
+
+                                          offset: Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Visibility(
+                                            visible: model.firstName.text == "",
+                                            child: Container(
+                                              margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
+                                              child: Text(getLocalText("traveller", context), style: CustomStyles.medium16),
+                                            )),
+                                        Visibility(
+                                            visible: model.firstName.text != "",
+                                            child: Container(
+                                              margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
+                                              child: Row(
+                                                children: [
+                                                  SvgPicture.asset("assets/images/user.svg",
+                                                      width: SizeConstants.SIZE_20, height: SizeConstants.SIZE_20, color: Colors.black54),
+                                                  SizedBox(
+                                                    width: SizeConstants.SIZE_8,
+                                                  ),
+                                                  Text(model.firstName.text ?? '',
+                                                      style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
+                                                  SizedBox(
+                                                    width: SizeConstants.SIZE_8,
+                                                  ),
+                                                  Text( model.Email.text != null ? ', ${getLocalText("email", context)} ${ model.Email.text}' : '',
+                                                      style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
+                                                ],
+                                              ),
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                )),
+
+                            SizedBox(height:10 ,),
+                            Visibility(
+                                visible: model.areDetailsVisible(0, 0),
+                                child: fillDetails(model)
+
+                            ),
+
+
+                          ],
+                        ),
+
+                      ),
+
+
+
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(vertical: SizeConstants.SIZE_8),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(
+
+
+
+
+
+                              model.activityDetailsData.fullDetailsData.age.length,
+                                  (  index) {
+
+                                var lastNameFocusNode = FocusNode();
+
+                               return   Container(
+                                  color: Colors.white,
+                                  padding: EdgeInsets.only(top: 5,bottom: 5),
+                                  child: Column(
+                                    children: <Widget>[
+
+                                      GestureDetector(
+                                          onTap: () {
+                                           // model.expandGuest();
+                                            contentFilledList.forEach((element) {
+                                              if(element.passangerType==1 && element.index==index)
+                                                element.isFilled =false;
+
+                                            });
+                                          model.expandDetails(index, 1);
+                                          },
+                                          child: Container(
+                                            color: model.guest_first_name[index] == "" ? CustomColors.Orange : CustomColors.BackGround,
+                                            width: MediaQuery.of(context).size.width,
+                                            height: 50,
+                                            child: Container(
+                                              margin: EdgeInsets.only(left: SizeConstants.SIZE_4),
+                                              width: MediaQuery.of(context).size.width,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: CustomColors.White,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black.withOpacity(0.1),
+                                                    spreadRadius: 0.5,
+                                                    blurRadius: 0.5,
+
+                                                    offset: Offset(0, 1), // changes position of shadow
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Visibility(
+                                                      visible: model.guest_first_name[index] == "",
+                                                      child: Container(
+                                                        margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
+                                                        child: Text("${getLocalText("guest", context)} ${index+1}", style: CustomStyles.medium16),
+                                                      )),
+                                                  Visibility(
+                                                      visible: model.guest_first_name[index] != "",
+                                                      child: Container(
+                                                        margin: EdgeInsets.symmetric(horizontal: SizeConstants.SIZE_12),
+                                                        child: Row(
+                                                          children: [
+                                                            SvgPicture.asset("assets/images/user.svg",
+                                                                width: SizeConstants.SIZE_20, height: SizeConstants.SIZE_20, color: Colors.black54),
+                                                            SizedBox(
+                                                              width: SizeConstants.SIZE_8,
+                                                            ),
+                                                            Text(model.guest_first_name[index] ?? '',
+                                                                style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
+                                                            SizedBox(
+                                                              width: SizeConstants.SIZE_8,
+                                                            ),
+                                                            Text( model.activityDetailsData.fullDetailsData.age[index].toString() != null ? ', ${getLocalText("age", context)}: ${ model.activityDetailsData.fullDetailsData.age[index].toString()}' : '',
+                                                                style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround)),
+                                                          ],
+                                                        ),
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                          )),
+
+                                      Visibility(
+                                        visible: model.areDetailsVisible(index, 1),
+                                        child: Column(
+                                          children: [
+                                            TextFormField(
+                                              enabled: true,
+                                              initialValue: model.guest_first_name[index] ?? '',
+
+                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
+                                              decoration: InputDecoration(
+                                                alignLabelWithHint: true,
+                                                labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
+                                                labelText: getLocalText("first_name", context),
+                                              ),
+
+                                              validator: (value) {
+                                                final validCharacters = RegExp(
+                                                    r'[!1234567890@#$%^&*(),.?":{}|<>]');
+
+                                                if(validCharacters.hasMatch(value))
+                                                  return "Enter Correct Name";
+                                                return value == null || value.isEmpty ? getLocalText("enter_first_name", context) : null;
+                                              },
+
+                                              onFieldSubmitted: (v){
+
+                                                FocusScope.of(context).requestFocus(guestLastName);
+                                              },
+
+
+                                              onChanged: (value){
+
+                                                model.changeGuestFirstName(value,index);
+
+                                              },
+                                            ),
+
+
+                                            TextFormField(
+                                              focusNode: guestLastName,
+                                              enabled: true,
+                                              initialValue:model.guest_last_name[index] ?? '',
+                                              textInputAction: TextInputAction.done,
+                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
+                                              decoration: InputDecoration(
+                                                alignLabelWithHint: true,
+                                                labelText: getLocalText("last_name", context),
+                                                  labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
+                                              ),
+                                              onSaved: (v){
+                                                FocusManager.instance.primaryFocus.unfocus();
+                                              },
+//
+                                              onChanged: (value){
+
+                                                model.changeGuestLastName(value,index);
+
+                                              },
+
+                                              validator: (value) {
+                                                final validCharacters = RegExp(
+                                                    r'[1234567890!@#$%^&*(),.?":{}|<>]');
+
+                                                if(validCharacters.hasMatch(value))
+                                                  return "Enter Correct Name";
+                                                return value == null || value.isEmpty ? getLocalText("enter_last_name", context) : null;
+                                              },
+
+
+
+                                            ),
+
+
+                                            TextFormField(
+                                              enabled: false,
+                                              initialValue: model.activityDetailsData.fullDetailsData.age[index].toString(),
+                                              textInputAction: TextInputAction.next,
+                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
+                                              decoration: InputDecoration(
+                                                alignLabelWithHint: true,
+                                                disabledBorder: new UnderlineInputBorder(
+                                                  borderSide: new BorderSide(
+                                                      color:CustomColors.BackGround
+                                                  ),
+                                                ),
+
+
+                                                hintText: "Enter Age",
+                                                hintStyle: CustomStyles.normal16
+                                                    .copyWith(color: CustomColors.disabledButton),
+
+                                              ),
+                                            ),
+
+
+                                            TextFormField(
+                                              enabled: false,
+                                              initialValue: model.guest_type[index],
+                                              textInputAction: TextInputAction.next,
+                                              style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
+                                              decoration: InputDecoration(
+                                                alignLabelWithHint: true,
+                                                disabledBorder: new UnderlineInputBorder(
+                                                  borderSide: new BorderSide(
+                                                      color:CustomColors.BackGround
+                                                  ),
+                                                ),
+
+
+                                                hintText: "Enter Type",
+                                                hintStyle: CustomStyles.normal16
+                                                    .copyWith(color: CustomColors.disabledButton),
+
+                                              ),
+                                            ),
+
+                                            SizedBox(height: 10,),
+
+
+                                            Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: RaisedButton(
+                                                  color: CustomColors.Orange,
+                                                  child: Text(
+                                                    "SAVE",
+// strings.save.toUpperCase(),
+                                                    style: CustomStyles.button_style,
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(10.0),
+                                                  ),
+                                                  onPressed: () async {
+
+                                                     if(_formKey.currentState.validate())
+                                                       {
+                                                         _formKey.currentState.save();
+                                                         contentFilledList.forEach((element) {
+                                                           if(element.passangerType==1 && element.index==index)
+                                                             element.isFilled =true;
+
+                                                         });
+
+                                                         model.hideDetails(1, index);
+
+
+                                                       }
+
+
+
+
+                                                  }
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+
+
+
+
+
+
+                                    ],
+                                  ));
           }
-
-                          }else{
-                            model.expandAll();
-                          }
-
-
-                          },)
+                            ),
+                          ),
+                        ),
+                      ),
 
 
-
-                      ],
-
-                    ),
+                    ],
                   ),
 
 
 
-                ),
-                SizedBox(height: 50,),
 
 
 
 
 
 
-              ],),
-              SizedBox(height:5 ,),
 
 
 
 
-            ],
+                  Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Container(
+                      margin: EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(height: 5,),
+                              Text(
+                                model.activityDetailsData.totalAmountWithMarkup.displayRateInfoWithMarkup.currency+" "+
+
+
+                                    model.activityDetailsData.totalAmountWithMarkup.displayRateInfoWithMarkup.totalPriceWithMarkup.toString(),style: CustomStyles.appbar.copyWith(color: CustomColors.BackGround),),
+
+                              SizedBox(height: 2,),
+                              Text(model.activityDetailsData.duration,style: CustomStyles.calenderStyle,),
+//                            SizedBox(height: 5,),
+                            ],
+                          ) ,
+
+                          RaisedButton(child: Text('BOOK NOW',style:CustomStyles.button_style ,),color: CustomColors.Orange,padding: EdgeInsets.all(12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ) ,
+                            onPressed: (){
+                              bool isAllValid =false;
+
+                              var list = contentFilledList;
+
+                              for(int i=0 ; i<contentFilledList.length;i++) {
+                                if (!contentFilledList[i]
+                                    .isFilled) {
+                                  model.expandDetails(
+                                      contentFilledList[i]
+                                          .index,
+                                      contentFilledList[i]
+                                          .passangerType);
+
+                                  break;
+                                }
+
+                                if(i == contentFilledList.length-1)
+                                  isAllValid =true;
+
+                              }
+
+                              _formKey.currentState.validate();
+
+                            if(isAllValid) {
+
+                             if(_formKey.currentState.validate()){
+
+            _formKey.currentState.save();
+
+            Dialogs.showLoadingDialog(
+            context, _keyLoader);
+
+            model.placeOrder().then((value) {
+            if(value!=null)
+              {
+            Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+            Navigator.pushNamed(context, Routes.activityPaymentOptions, arguments: model.getArguemntData());
+              }
+            else
+              return;
+
+            });
+
+            }
+
+                            }else{
+                              model.expandAll();
+                            }
+
+
+                            },)
+
+
+
+                        ],
+
+                      ),
+                    ),
+
+
+
+                  ),
+                  SizedBox(height: 50,),
+
+
+
+
+
+
+                ],),
+                SizedBox(height:5 ,),
+
+
+
+
+              ],
+            ),
           ),
         ),
       ),
@@ -684,7 +697,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
 
 
 
-    model.selectedDesignation  =model.designationList.first;
+  //  model.selectedDesignation  =model.designationList.first;
 
     return Container(
       child: Column(
@@ -693,7 +706,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
         children: <Widget>[
           SizedBox(height: 10,),
 
-          Text("Enter your name as it is mentioned on valid Govt. ID",
+          Text(getLocalText("enter_your_name_as_in_id", context),
               style: CustomStyles.normal12.copyWith(color: CustomColors.disabledButton)),
 
           SizedBox(height: 15,),
@@ -702,7 +715,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
           DropdownButton(
             isExpanded: true,
             isDense: true,
-            hint: Text('Select',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround),),
+            hint: Text('${getLocalText("designation", context)}',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround),),
 
             value: model.selectedDesignation,
             itemHeight: 50,
@@ -727,8 +740,18 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
           ),
 
           TextFormField(
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(30),
+            ],
             controller: model.firstName,
-            validator: (value) =>value.isEmpty ? "Enter First Name" : null,
+            validator: (value) {
+              final validCharacters = RegExp(
+                  r'[1234567890!@#$%^&*(),.?":{}|<>]');
+
+              if(validCharacters.hasMatch(value))
+                return "Enter Correct Name";
+              return value == null || value.isEmpty ? getLocalText("enter_first_name", context) : null;
+            },
             onFieldSubmitted: (v){
               picodeFocus.unfocus();
               FocusScope.of(context).requestFocus(lastNameFocus);
@@ -736,16 +759,26 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
             style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
             decoration: InputDecoration(
                 labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-                labelText: "First Name",
+              labelText: getLocalText("first_name", context),
                 alignLabelWithHint: true,
             ),
           ),
 
 
           TextFormField(
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(30),
+            ],
             focusNode: lastNameFocus,
             controller: model.lastName,
-            validator: (value) =>value.isEmpty ?"Enter Last Name":null,
+            validator: (value) {
+              final validCharacters = RegExp(
+                  r'[1234567890!@#$%^&*(),.?":{}|<>]');
+
+              if(validCharacters.hasMatch(value))
+                return "Enter Correct Name";
+              return value == null || value.isEmpty ? getLocalText("enter_last_name", context) : null;
+            },
             onFieldSubmitted: (v){
               picodeFocus.unfocus();
               FocusScope.of(context).requestFocus(emailFocus);
@@ -754,7 +787,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
             style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
             decoration: InputDecoration(
               labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-              labelText: "Last Name",
+              labelText: getLocalText("last_name", context),
               alignLabelWithHint: true,
             ),
           ),
@@ -767,12 +800,12 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
               picodeFocus.unfocus();
               FocusScope.of(context).requestFocus(mobileFocus);
             },
-            validator: (input) =>input.isEmpty?"Enter Email": isValidEmail(input) ? null : "Enter Valid Email Id",
+            validator: (input) => input.isEmpty ? getLocalText("enter_email", context) : isValidEmail(input) ? null : getLocalText("enter_valid_email", context) ,
 
             style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
             decoration: InputDecoration(
               labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-              labelText: "Email",
+              labelText: getLocalText("email_id", context),
               alignLabelWithHint: true,
             ),
           ),
@@ -795,27 +828,29 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
               },
 
               onInputValidated: (bool value) {
+                FocusScope.of(context).requestFocus(mobileFocus);
                 phoneNumberValidated = value;
               },
               validator: (value) {
                 if (!phoneNumberValidated) {
-                  return "Phone number";
+                  return getLocalText("enter_valid_phone_number", context);
                 }
                 return null;
               },
               inputDecoration: new InputDecoration(
               labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-              labelText: "MobileNumber",
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
+              labelText: getLocalText("enter_phone_number", context),
+//                  border: InputBorder.none,
+//                  focusedBorder: InputBorder.none,
+//                  enabledBorder: InputBorder.none,
+//                  errorBorder: InputBorder.none,
+//                  disabledBorder: InputBorder.none,
                   hintText: strings.phoneNumber),
               ignoreBlank: false,
               initialValue: model.phoneNumber,
             ),
-            decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),          ),
+        //    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),
+          ),
 
 
           TextFormField(
@@ -827,12 +862,17 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
 
             controller: model.address,
             validator: (value) {
-              return value == null || value.isEmpty ? "Enter Address" : null;
+              final validCharacters = RegExp(
+                  r'[!@#$%^&*(),.?":{}|<>]');
+
+              if(validCharacters.hasMatch(value))
+                return "Enter Correct Address";
+              return value == null || value.isEmpty ? "${getLocalText("enter_address", context)}" : null;
             },
             style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
             decoration: InputDecoration(
               labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-              labelText: "Address",
+              labelText: getLocalText("address", context),
               alignLabelWithHint: true,
             ),
           ),
@@ -844,7 +884,12 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
             keyboardType: TextInputType.phone,
             controller: model.pinCode,
             validator: (value) {
-              return value == null || value.isEmpty ? "Enter PinCode" : null;
+              final validCharacters = RegExp(
+                  r'[!@#$%^&*(),.?":{}|<>]');
+
+              if(validCharacters.hasMatch(value))
+                return "Enter Correct PinCode";
+              return value == null || value.isEmpty ? getLocalText("enter_pincode", context) : null;
             },
             onSaved: (v){
               //picodeFocus.unfocus();
@@ -858,7 +903,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
             style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),
             decoration: InputDecoration(
               labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
-              labelText: "PinCode",
+              labelText: getLocalText("pincode", context),
               alignLabelWithHint: true,
 
             ),
@@ -872,7 +917,7 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
             child: RaisedButton(
                 color: CustomColors.Orange,
                 child: Text(
-                  "SAVE",
+                  getLocalText("save", context),
 // strings.save.toUpperCase(),
                   style: CustomStyles.button_style,
                 ),
@@ -915,5 +960,15 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
         .hasMatch(email);
   }
 
+
+  @override
+  void onError(String message, bool isFromCreditCard, String asset) {
+    Dialogs.showGenericErrorPopup(context, message, isFromCreditCard, asset);
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
 
 }

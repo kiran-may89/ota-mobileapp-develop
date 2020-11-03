@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/models/hotels/responses/hotel.dart';
 import 'package:ota/utils/Dash_seperator.dart';
@@ -80,7 +81,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hotels-${model.dto.city}", style: CustomStyles.appbar),
+        title: Text("${getLocalText("hotels", context)}-${model.dto.city}", style: CustomStyles.appbar),
         actions: [
           GestureDetector(
               onTap: () {
@@ -108,7 +109,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                       ),
                       Padding(
                         padding: EdgeInsets.all(7.0),
-                        child: Text('No Hotels  Found',
+                        child: Text(getLocalText("no_hotels_found", context),
                             textAlign: TextAlign.center, style: CustomStyles.medium20.copyWith(color: CustomColors.disabledButton)),
                       ),
                     ],
@@ -131,7 +132,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                               SizedBox(height: 7),
                               Text(
                                 '${convertToDate(model.dto.checkInDate)} - ${convertToDate(model.dto.checkOutDate)} '
-                                '| Rooms ${model.dto.rooms.length.toString()} | ${getTotalAdults(model)} Guest',
+                                '| ${getLocalText("rooms", context)} ${model.dto.rooms.length.toString()} | ${getTotalAdults(model)} ${getLocalText("guest", context)}',
                                 style: CustomStyles.calenderStyle.copyWith(color: CustomColors.heading.withOpacity(.5)),
                               )
                             ],
@@ -145,7 +146,7 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                               },
                               color: CustomColors.Orange,
                               child: Text(
-                                'EDIT',
+                                getLocalText("edit", context), 
                                 style: CustomStyles.calenderStyle.copyWith(color: CustomColors.White),
                               ),
                             ),
@@ -238,6 +239,10 @@ class HotelResultsState extends BaseModelWidget<HotelResultsViewModel> {
                 ),
     );
   }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
 }
 
 class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
@@ -285,7 +290,7 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(bottom: SizeConstants.SIZE_16, left: SizeConstants.SIZE_16, right: SizeConstants.SIZE_16),
+                      margin: EdgeInsets.only(bottom: SizeConstants.SIZE_16, left: 0, right:0),
                       decoration: BoxDecoration(
                           color: Colors.white, shape: BoxShape.rectangle, borderRadius: BorderRadius.all(Radius.circular(SizeConstants.SIZE_16))),
                       child: Column(
@@ -318,6 +323,7 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
+                                          Text(hotel.name,style: CustomStyles.style3.copyWith(color: Colors.white,fontWeight:FontWeight.bold )),
                                           RatingBar(
                                             initialRating: hotel.starRating.toDouble(),
                                             minRating: 1,
@@ -428,6 +434,7 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
       ),
     );
   }
+
 }
 
 class BottomSheetState extends StatelessWidget {
@@ -449,14 +456,14 @@ class BottomSheetState extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "${strings.hotel} ${strings.filter}",
+                  "${getLocalText("filter", context)}", 
                   style: CustomStyles.whiteTextSytle24Size.copyWith(color: Colors.black, fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
                   height: SizeConstants.SIZE_12,
                 ),
                 Text(
-                  strings.price_range,
+                  getLocalText("price_range", context),
                   style: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black45, fontWeight: FontWeight.w500),
                 ),
                 Row(
@@ -503,7 +510,7 @@ class BottomSheetState extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        strings.location,
+                       getLocalText("location", context),
                         style: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black45, fontWeight: FontWeight.w500),
                       ),
                       Container(
@@ -515,7 +522,7 @@ class BottomSheetState extends StatelessWidget {
                         ),
                         child: TextFormField(
                             decoration: InputDecoration(
-                          labelText: 'Search Location',
+                          labelText: getLocalText("search_location", context),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           border: InputBorder.none,
                           icon: Icon(
@@ -530,14 +537,14 @@ class BottomSheetState extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: SizeConstants.SIZE_16),
                   child: Text(
-                    strings.filter_by,
+                   getLocalText("filter_by", context),
                     style: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black45, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Wrap(
                   children: [
                     ChoiceChip(
-                      label: Text('Free Cancellation'),
+                      label: Text(getLocalText("free_cancellation", context)),
                       labelStyle: CustomStyles.whiteTextSytle14Size.copyWith(color: model.freeSelected ? Colors.white : Colors.grey),
                       disabledColor: Colors.grey,
                       backgroundColor: Colors.white,
@@ -552,7 +559,7 @@ class BottomSheetState extends StatelessWidget {
                       width: 10,
                     ),
                     ChoiceChip(
-                      label: Text('Refundable'),
+                      label: Text(getLocalText("refundable", context)),
                       labelStyle: CustomStyles.whiteTextSytle14Size.copyWith(color: !model.freeSelected ? Colors.white : Colors.grey),
                       disabledColor: Colors.grey,
                       backgroundColor: Colors.white,
@@ -576,7 +583,7 @@ class BottomSheetState extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      model.rating.toString(),
+                      getLocalText("star_rating", context),
                       style: CustomStyles.whiteTextSytle24Size.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                     RatingBar(
@@ -598,7 +605,7 @@ class BottomSheetState extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: SizeConstants.SIZE_16, bottom: SizeConstants.SIZE_16),
                   child: Text(
-                    strings.amenities,
+                   getLocalText("amenities", context),
                     style: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.black45, fontWeight: FontWeight.w500),
                   ),
                 ),
@@ -664,7 +671,7 @@ class BottomSheetState extends StatelessWidget {
                           },
                           padding: EdgeInsets.all(SizeConstants.SIZE_16),
                           child: Text(
-                            strings.clear_all.toUpperCase(),
+                            getLocalText("clear_all", context),
                             style: CustomStyles.button_style.copyWith(color: CustomColors.disabledButton),
                           ),
                           shape: RoundedRectangleBorder(
@@ -684,7 +691,7 @@ class BottomSheetState extends StatelessWidget {
                           },
                           padding: EdgeInsets.all(SizeConstants.SIZE_16),
                           child: Text(
-                            strings.apply.toUpperCase(),
+                            getLocalText("apply", context),
                             style: CustomStyles.button_style,
                           ),
                           shape: RoundedRectangleBorder(
@@ -698,5 +705,9 @@ class BottomSheetState extends StatelessWidget {
         );
       }),
     );
+  }
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

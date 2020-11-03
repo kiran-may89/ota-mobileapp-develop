@@ -15,6 +15,7 @@ import 'package:ota/models/common/country_codes_response_entity.dart';
 import 'package:ota/models/flights/validation_model.dart';
 import 'package:ota/net/service/activity/activity_service.dart';
 import 'package:ota/net/service/common/common_service.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/viewmodels/flights_view_model/data_models/flight_results_data.dart';
 
@@ -31,7 +32,8 @@ class ActivityTravellerModel extends ChangeNotifier {
 
   List<String> designationList = ["Mr", "Mrs", "Miss"];
 
-  String selectedDesignation = "Mr";
+  String  _selectedDesignation = "Mr";
+  String get selectedDesignation => _selectedDesignation;
 
   List<pax.Paxes> paxes = List();
 
@@ -89,10 +91,10 @@ class ActivityTravellerModel extends ChangeNotifier {
   List<String> guest_type = List();
   List<bool> guestList = List();
   List<bool> passangerList = List();
+  Delegate _delegate;
+  ActivityTravellerModel(this.activityDetailsData,Delegate delegate) {
 
-  ActivityTravellerModel(this.activityDetailsData) {
-
-
+   _delegate =delegate;
 
 
     paxes = activityDetailsData.fullDetailsData.fullDetailsRequest.paxes;
@@ -272,7 +274,7 @@ class ActivityTravellerModel extends ChangeNotifier {
   }
 
   void changeSelected(newValue) {
-    selectedDesignation = newValue;
+    _selectedDesignation = newValue;
     notifyListeners();
   }
 
@@ -289,7 +291,12 @@ class ActivityTravellerModel extends ChangeNotifier {
     print(jsonEncode(preBookingRequest.toJson()));
 
     prebookingResponseEntity = await _activityService.getPreBooking(preBookingRequest);
+    if(prebookingResponseEntity.isError) {
+      _delegate.onError("Something Went Wrong, Please Try Again..", false,
 
+          "assets/images/event.png");
+    return null;
+    }
     print(prebookingResponseEntity.toJson());
 
     return prebookingResponseEntity;
@@ -303,7 +310,7 @@ class ActivityTravellerModel extends ChangeNotifier {
       country: countryCode,
       email: Email.text,
       name: firstName.text,
-      title: selectedDesignation,
+      title: _selectedDesignation,
       surname: lastName.text,
       mailing: true,
       mailUpdDate: mailDate,

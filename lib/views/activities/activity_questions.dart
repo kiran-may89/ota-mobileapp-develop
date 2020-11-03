@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/activity/request/activity_details_data.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/styles.dart';
@@ -38,8 +39,8 @@ class _ActivityQuestionsState extends State<ActivityQuestions> {
 
     return  Scaffold(
       key: _scaffoldKey,
-        appBar: AppBar(title: Text('Questions',style: CustomStyles.appbar,),
-          leading: new IconButton(
+        appBar: AppBar(title: Text(getLocalText("questions", context),style: CustomStyles.appbar,),
+          leading: new IconButton( 
           icon: new Icon(Icons.arrow_back_ios, color: Colors.white,size: 13,),
           onPressed: () => Navigator.of(context).pop(),
           ),
@@ -76,7 +77,11 @@ class _ActivityQuestionsState extends State<ActivityQuestions> {
                     child: RaisedButton(onPressed: (){
 
 
-                    model.validateData(_scaffoldKey,context);
+                   if( model.validateData(_scaffoldKey,context))
+
+    Navigator.pushNamed(context, Routes.activityTravellerInfo,
+    arguments:model.getArgumentData()
+    );
 
 
                     },
@@ -84,7 +89,7 @@ class _ActivityQuestionsState extends State<ActivityQuestions> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),),
 
-                      child: Text("SUBMIT",style: CustomStyles.medium16.copyWith(color: CustomColors.White),),
+                      child: Text(getLocalText("submit", context),style: CustomStyles.medium16.copyWith(color: CustomColors.White),),
                       color: CustomColors.Orange,
 
 
@@ -126,4 +131,8 @@ class _ActivityQuestionsState extends State<ActivityQuestions> {
 
 
 }
+  getLocalText(String key, BuildContext context) {
+
+  return  AppLocalizations.of(context).translate(key);
+  }
 }

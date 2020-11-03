@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:intl/intl.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/card_form.dart';
 import 'package:ota/models/flights/data_model/pass_arguments.dart';
 import 'package:ota/models/flights/requests/flight_save_booking_request.dart';
@@ -83,36 +85,43 @@ class _FlightCCDetailsState extends State<FlightCCDetails> implements  Delegate 
                       child: RaisedButton(
                           color: CustomColors.Orange,
                           child: Text(
-                            "Book Flight",
+                            getLocalText("book_flight", context),
                             style: CustomStyles.button_style,
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           onPressed: () {
-                           if (_formKey.currentState.validate()) Dialogs.showLoadingDialog(context, _keyLoader);
+                           if (_formKey.currentState.validate()) {
+                             Dialogs.showLoadingDialog(context, _keyLoader);
 
-                            model.saveBooking().then((value) {
-                              if (!value.isError) {
-                                model.bookFlight().then((value) {
-                                  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+                             model.saveBooking().then((value) {
+                               if (!value.isError) {
+                                 model.bookFlight().then((value) {
+                                   Navigator.of(_keyLoader.currentContext,
+                                       rootNavigator: true).pop();
 
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
+                                   Navigator.pop(context);
+                                   Navigator.pop(context);
+                                   Navigator.pop(context);
+                                   Navigator.pop(context);
+                                   Navigator.pop(context);
+                                   Navigator.pop(context);
 
-                                  Navigator.pushNamed(context, Routes.flightBookingStatus,
-                                      arguments: model.getArguments());
-                                });
-                              } else {
-                                Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+                                   Navigator.pushNamed(
+                                       context, Routes.flightBookingStatus,
+                                       arguments: model.getArguments());
+                                 });
+                               } else {
+                                 Navigator.of(_keyLoader.currentContext,
+                                     rootNavigator: true).pop();
 
-                                Navigator.pushNamed(context, Routes.flightBookingStatus, arguments: model.getArguments());
-                              }
-                            });
+                                 Navigator.pushNamed(
+                                     context, Routes.flightBookingStatus,
+                                     arguments: model.getArguments());
+                               }
+                             });
+                           }
                           }),
                     ),
                     SizedBox(
@@ -130,7 +139,17 @@ class _FlightCCDetailsState extends State<FlightCCDetails> implements  Delegate 
   }
 
   @override
-  void onError(String messege) {
-    Dialogs.showGenericErrorPopup(context,"Booking Failed. Please try other flight");
+  void onError(String message, bool isFromCreditCard, String asset) {
+    // TODO: implement onError
+    Navigator.pop(context);
+    Dialogs.showGenericErrorPopup(context,message,isFromCreditCard,asset);
+
   }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+
+
 }

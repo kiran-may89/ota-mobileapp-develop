@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/my_bookings/booking_resposne.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/size_constants.dart';
@@ -18,8 +19,7 @@ class ListContainer extends StatelessWidget
   ListContainer(this._model,this._viewModel);
 
 
-  String getTrpType()
-  {
+  String getTrpType() {
     String image = "";
 
     var item = _model.bookings[0].summaryInfo.serviceType.toString().substring(_model.bookings[0].serviceType.toString().indexOf('.')+1);
@@ -103,7 +103,7 @@ class ListContainer extends StatelessWidget
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
 
-               _bookingRightView(),
+               _bookingRightView(context),
                   _bookingLeftView()
 
                 ],
@@ -121,7 +121,7 @@ class ListContainer extends StatelessWidget
   }
 
 
-  Widget _bookingRightView()
+  Widget _bookingRightView(BuildContext context)
   {
     var  image = getTrpType();
     return    Flexible(
@@ -152,7 +152,7 @@ class ListContainer extends StatelessWidget
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
 
-              Text(strings.booking_id,style: TextStyle(color: Colors.grey),),
+              Text(getLocalText("booking_id", context),style: TextStyle(color: Colors.grey),),
               Text(_model.bookingId,style:CustomStyles.bookingNumberTextStyle)
             ],
 
@@ -204,6 +204,11 @@ class ListContainer extends StatelessWidget
       ),
     );
 
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 
 

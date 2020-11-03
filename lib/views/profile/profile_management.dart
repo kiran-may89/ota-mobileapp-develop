@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/net/service/common/common_service.dart';
 import 'package:ota/prefs/session_manager.dart';
@@ -63,7 +64,7 @@ class _ProfileManagementState
                     Navigator.of(context).pop(),
               ),
               title: Text(
-                'Profile Management',
+                getLocalText('profile_management', context),
                 style: CustomStyles.appbar,
               ),
               elevation: 0.0,
@@ -155,7 +156,7 @@ class _ProfileManagementState
                                                     .profile);
                                           },
                                           title: Text(
-                                            'Profile',
+                                            getLocalText('profile', context),
                                             style: CustomStyles
                                                 .normal16
                                                 .copyWith(
@@ -179,7 +180,7 @@ class _ProfileManagementState
                                           .family_members);
                                           },
                                           title: Text(
-                                          'Family List',
+                                          getLocalText("family_list", context),
                                           style: CustomStyles
                                           .normal16
                                           .copyWith(
@@ -194,41 +195,44 @@ class _ProfileManagementState
                                           visible: model.profileResponse.result.isExternal==null,
                                           child: ListTile(
                                             onTap: (){
-                                              Navigator.pushNamed(
-                                              context,
-                                              Routes
-                                              .changePassword);
+                                              Navigator.pushNamed(context, Routes.changePassword);
                                             },
                                             title: Text(
-                                              'Change Password',
-                                              style: CustomStyles
-                                                  .normal16
-                                                  .copyWith(
-                                                      color:
-                                                          CustomColors.BackGround),
+                                              getLocalText("change_password", context),
+                                              style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround),
                                             ),
                                             leading: Icon(
-                                              Icons
-                                                  .lock_open,
-                                              color: CustomColors
-                                                  .BackGround,
+                                              Icons.lock_open,color: CustomColors.BackGround,
                                             ),
                                           ),
                                         ),
 
                                           ListTile(
-                                          title: Text('View Bookings',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                                          title: Text(
+                                         getLocalText("view_bookings", context)
+                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
                                           leading: Icon(Icons.search_rounded,color: CustomColors.BackGround.withOpacity(.9),),
                                          // subtitle: Text("Search the bookings",style: CustomStyles.calenderStyle,),
                                           ),
 
                                           ListTile(
-                                          title: Text('My Wallet',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                                          title: Text(
+                                         getLocalText("my_wallet", context)
+                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
                                           leading: Icon(Icons.wallet_giftcard_outlined,color: CustomColors.BackGround.withOpacity(.9),),
                                           ),
 
                                           ListTile(
-                                          title: Text('Settings',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                                            onTap: (){
+
+                                              Navigator.pushNamed(
+                                              context,
+                                              Routes
+                                              .appSettings);
+
+                                            },
+                                          title: Text(
+                                          getLocalText("settings", context),style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
                                           leading: Icon(Icons.settings_applications_outlined,color: CustomColors.BackGround.withOpacity(.9),),
                                           ),
                                           ListTile(
@@ -238,21 +242,25 @@ class _ProfileManagementState
                                               Routes
                                               .notifications);
                                             },
-                                          title: Text('Notifications',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                                          title: Text(getLocalText("notifications", context)
+                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
                                           leading: Icon(Icons.notifications_none,color: CustomColors.BackGround.withOpacity(.9),),
                                           ),
 
                                           ListTile(
-                                          title: Text('Rate Us',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                                          title: Text(getLocalText("rate_us", context)
+                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
                                           leading: Icon(Icons.rate_review_outlined,color: CustomColors.BackGround.withOpacity(.9),),
                                           ),
 
                                           ListTile(
-                                          title: Text('About Us',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                                          title: Text(
+                                          getLocalText("about_us", context)
+                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
                                           leading: Icon(Icons.info_outline,color: CustomColors.BackGround.withOpacity(.9),),
                                           ),
                                           ListTile(
-                                          title: Text('Help & Support',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                                          title: Text(getLocalText("help_support", context),style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
                                           leading: Icon(Icons.help_outline,color: CustomColors.BackGround.withOpacity(.9),),
                                           ),
 
@@ -262,7 +270,7 @@ class _ProfileManagementState
                                             showLogoutDialog();
                                           },
                                           title: Text(
-                                            'Logout',
+                                            getLocalText("logout", context),
                                             style: CustomStyles
                                                 .normal16
                                                 .copyWith(
@@ -299,6 +307,8 @@ class _ProfileManagementState
         },
       ),
     );
+
+
   }
 
   void showLogoutDialog() {
@@ -395,6 +405,11 @@ class _ProfileManagementState
   }
 
 
+
+  getLocalText(String key, BuildContext context) {
+
+  return  AppLocalizations.of(context).translate(key);
+  }
 
 
 }

@@ -10,6 +10,7 @@ import 'package:ota/models/activity/request/activity_booking_request.dart';
 import 'package:ota/models/activity/request/activity_traveller_data.dart';
 import 'package:ota/models/activity/request/booking_data.dart';
 import 'package:ota/net/service/activity/activity_service.dart';
+import 'package:ota/net/service/delegate.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/viewmodels/activities_view_models/data_models/activity_summary_info.dart';
 
@@ -28,10 +29,11 @@ class ActivityCCModel extends ChangeNotifier{
   bool isCvvFocused = false;
 
   ActivityTravellerData data;
+  Delegate _delegate;
 
-  ActivityCCModel(this.data){
+  ActivityCCModel(this.data,Delegate delegate){
 
-
+      _delegate =delegate;
     _activityService = GetIt.instance<ActivityService>();
   }
 
@@ -89,9 +91,15 @@ class ActivityCCModel extends ChangeNotifier{
 
          activityBookingResponseEntity = await _activityService.bookActivity(activityBookingRequest);
 
+          if(activityBookingResponseEntity.isError) {
+            _delegate.onError(
+                "Something Went Wrong, Please try with Another Activities..", true,
+                "assets/images/event.png");
+            return null;
+          }
 
 
-return activityBookingResponseEntity;
+    return activityBookingResponseEntity;
 
 
 

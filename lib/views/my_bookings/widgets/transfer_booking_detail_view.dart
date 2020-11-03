@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/my_bookings/booking_resposne.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/utils/colors.dart';
@@ -35,7 +36,7 @@ class  TransferBookingDetailView extends StatelessWidget {
       child: Scaffold(
 
         appBar: AppBar(
-          title: Text("Booking Detail"),
+          title: Text(getLocalText("booking_details", context)),
           backgroundColor: CustomColors.BackGround,
           leading: new IconButton(
             icon: new Icon(
@@ -66,11 +67,11 @@ class  TransferBookingDetailView extends StatelessWidget {
                   height: 10,
                 ),
                 _reservationNoContainer(context),
-                _imageContainer(),
+                _imageContainer(context),
                 SizedBox(
                   height: 10,
                 ),
-                _titleView(),
+                _titleView(context),
                 Divider(
                   thickness: 0.2,
                   color: Colors.grey,
@@ -79,7 +80,7 @@ class  TransferBookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "Start Location",
+                    getLocalText("start_location", context),
                     _model.bookings[0].summaryInfo.trips[0].startLocation.address == null
                         ? "NA"
                         : _model.bookings[0].summaryInfo.trips[0].startLocation.address),
@@ -103,11 +104,11 @@ class  TransferBookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _doubleData(
-                    "PickUpDate",
+                    getLocalText("pick_up_date", context), 
                     _model.bookings[0].summaryInfo.pickUpDate == null
                         ? "NA"
                         : _model.bookings[0].summaryInfo.pickUpDate.toString().split(' ')[0],
-                    "PickUpTime",
+                    getLocalText("pick_up_time", context), 
                     _model.bookings[0].summaryInfo.pickUpTime == null
                         ? "NA"
                         : _model.bookings[0].summaryInfo.pickUpTime.toString()
@@ -120,7 +121,7 @@ class  TransferBookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "No of Passangers",
+                    getLocalText("no_of_passengers", context),
                     _model.bookings[0].summaryInfo.trips[0].passengersNumber == null
                         ? "NA"
                         : _model.bookings[0].summaryInfo.trips[0].passengersNumber.toString()),
@@ -145,7 +146,7 @@ class  TransferBookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "Name",
+                getLocalText("name", context),
                     _model.bookings[0].summaryInfo.trips[0].passengers[0].name== null
                         ? "NA"
                         :     _model.bookings[0].summaryInfo.trips[0].passengers[0].name),
@@ -157,7 +158,7 @@ class  TransferBookingDetailView extends StatelessWidget {
                   height: 5,
                 ),
                 _singleData(
-                    "Phone Number",
+                getLocalText("phone_number", context),
                     _model.bookings[0].summaryInfo.trips[0].passengers[0].phone== null
                         ? "NA"
                         :     _model.bookings[0].summaryInfo.trips[0].passengers[0].phone),
@@ -168,7 +169,7 @@ class  TransferBookingDetailView extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
-                _singleData("Email", _model.contact.email.isEmpty?"NA":_model.contact.email),
+                _singleData(getLocalText("email", context), _model.contact.email.isEmpty?"NA":_model.contact.email),
                 Divider(
                   thickness: 0.2,
                   color: Colors.grey,
@@ -197,7 +198,7 @@ class  TransferBookingDetailView extends StatelessWidget {
             onTap: (){
               if( _model.bookings[0].reservationNumber!=null)
 
-                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_viewModel,_model.bookings[0].reservationNumber]);
+                Navigator.pushNamed(_context, Routes.cancelPolicyView,arguments:[_model.bookings[0].reservationNumber]);
 
 
             },
@@ -209,7 +210,7 @@ class  TransferBookingDetailView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5)),
               child: Center(
                   child: Text(
-                    "View Cancellation Policy",
+                    getLocalText("view_cancellation_policy", _context),
 
                     style: TextStyle(fontFamily: "roboto",color:_model.bookings[0].reservationNumber!=null? Colors.grey :Colors.white ),
                   )),
@@ -229,11 +230,11 @@ class  TransferBookingDetailView extends StatelessWidget {
                     barrierColor: Colors.black12,
                     barrierDismissible: true,
                     builder: (context) => AlertDialog(
-                      title: new Text("Alert"),
-                      content: new Text("Are you Sure you want to Cancel this booking"),
+                      title: new Text(getLocalText("alert", context)),
+                      content: new Text(getLocalText("are_you_sure_you_want_cancel_booking", context)),
                       actions: <Widget>[
                         new FlatButton(
-                          child: new Text("Yes"),
+                          child: new Text(getLocalText("yes", context)),
                           onPressed: () {
                             Navigator.pop(context);
 
@@ -254,7 +255,7 @@ class  TransferBookingDetailView extends StatelessWidget {
                         ),
 
                         new FlatButton(
-                          child: new Text("No"),
+                          child: new Text(getLocalText("no", context)),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },)
@@ -269,7 +270,7 @@ class  TransferBookingDetailView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5)),
               child: Center(
                 child: Text(
-                  "Cancel Booking",
+                  getLocalText("cancel_booking", _context),
                   style: TextStyle(color: Colors.white, fontFamily: "roboto"),
                 ),
               ),
@@ -398,7 +399,7 @@ class  TransferBookingDetailView extends StatelessWidget {
   }
 
 
-  Widget _titleView() {
+  Widget _titleView(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Row(
@@ -426,7 +427,7 @@ class  TransferBookingDetailView extends StatelessWidget {
           ),
           Text(
             _model.bookings[0].summaryInfo.name == null
-                ? "Transfers"
+                ? getLocalText("transfers", context)
                 : _model.bookings[0].summaryInfo.name,
             style: CustomStyles.bold17,
           )
@@ -435,7 +436,7 @@ class  TransferBookingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _imageContainer() {
+  Widget _imageContainer(BuildContext context) {
     return Container(
         height: kToolbarHeight * 3,
         child: Row(
@@ -476,7 +477,7 @@ class  TransferBookingDetailView extends StatelessWidget {
                     color: Colors.grey,
                   ),
                   Text(
-                    "No Image Available",
+                    getLocalText("no_image_available", context),
                     style: TextStyle(fontSize: 16),
                   )
                 ],
@@ -512,7 +513,7 @@ class  TransferBookingDetailView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Reservation No:",
+              getLocalText("reservation_no", context),
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -530,13 +531,13 @@ class  TransferBookingDetailView extends StatelessWidget {
                     Clipboard.setData(new ClipboardData(text:_model.bookings[0].reservationNumber));
                     Scaffold.of(context).showSnackBar(SnackBar(
                       backgroundColor: CustomColors.Orange,
-                      content: Text("Copied to Clipbaord"),
+                      content: Text(getLocalText("copied_to_clipboard", context)),
                       duration: Duration(seconds: 2),
                     )) ;
 
                   },
                   child: Text(
-                    "Copy",
+                    getLocalText("copy", context),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -635,5 +636,10 @@ class  TransferBookingDetailView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
   }
 }

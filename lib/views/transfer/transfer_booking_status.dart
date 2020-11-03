@@ -2,6 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import 'package:ota/app/Router.dart';
+import 'package:ota/app/app_localizations.dart';
 import 'package:ota/models/transfers/requests/credit_card_transfers_data.dart';
 import 'package:ota/models/transfers/transfer_booking_response.dart';
 import 'package:ota/utils/Dash_seperator.dart';
@@ -53,12 +56,12 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
         key: key,
         backgroundColor: CustomColors.BackGround,
 
-        appBar: AppBar(title: Text('Booking Status',style: CustomStyles.appbar,),
+        appBar: AppBar(title: Text(getLocalText("booking_status", context),style: CustomStyles.appbar,),
           leading: new IconButton(
             icon: new Icon(Icons.home, color: Colors.white,size: 13,),
             onPressed: () {
 
-              Navigator.pop(context);
+              Navigator.pushNamedAndRemoveUntil(context, Routes.dashboard, (route) => false);
 
             },
           ),
@@ -118,7 +121,8 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
                           children: [
                             Container(
 
-                            //  height: screenHeight*4.4,
+                              margin: EdgeInsets.only(bottom: screenHeight*.31),
+                              height: screenHeight*3.57,
 
               //                margin: EdgeInsets.only(bottom: screenHeight*.8),
                               width: screenWidth*10,
@@ -132,46 +136,16 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
+                                  SizedBox(height: screenHeight*.22,),
 
-                                  SizedBox(height: 15,),
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Image.asset('assets/images/dashboard/logo_plane.png',height: screenHeight*.45,color: CustomColors.Orange,),
-
-                                        Image.asset('assets/images/transfer.png',height: screenHeight*1.5,),
-
-                                        Container(
-                                          //margin: EdgeInsets.only(top: 55),
-                                          decoration: new BoxDecoration(
-                                            color: CustomColors.green,
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: CustomColors.White,width: 3),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey,
-                                                offset: Offset(0.0, 1.0), //(x,y)
-                                                blurRadius: 6.0,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Image.asset('assets/images/check.png',height: 40,width: 40,),
-                                        ),
-
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 15,),
+                                  Image.asset('assets/images/transfer.png',height: screenHeight*1.2,),
+                                  SizedBox(height: screenHeight*.22,),
 
 
                                //   Image.asset('assets/images/transfer.png',height: screenHeight*1.5,),
                                  // SizedBox(height: 15,),
 
-                                  Center(child: Text('Reservation Number',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
+                                  Center(child: Text(getLocalText("reservation_no", context),style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
 
                                   SizedBox(height: 3,),
 
@@ -197,10 +171,10 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
                                     ],
                                   ),
 
-                                  SizedBox(height: 15,),
+                                  SizedBox(height: screenHeight*.22,),
 
 
-                                  Center(child: Text('Transfer Booking Id',style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
+                                  Center(child: Text(getLocalText("transfer_booking_id", context),style:CustomStyles.medium12.copyWith(color: CustomColors.BackGround) )),
 
                                   SizedBox(height: 3,),
 
@@ -226,7 +200,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
                                     ],
                                   ),
 
-                                  SizedBox(height: 15,),
+                                  SizedBox(height: screenHeight*.4,),
 
 
 
@@ -240,6 +214,31 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
                             ),
 
+                            Positioned(
+                              left: screenWidth*4.3,
+                              top: screenHeight*3,
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: MediaQuery.of(context).size.height*.1,
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                  //margin: EdgeInsets.only(top: 55),
+                                  decoration: new BoxDecoration(
+                                    color: CustomColors.green,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: CustomColors.White,width: 3),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(0.0, 1.0), //(x,y)
+                                        blurRadius: 6.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Image.asset('assets/images/check.png',height: 25,width: 25,),
+                                ),
+                              ),
+                            ),
 //                            Positioned(
 //                              left: screenWidth*4.3,
 //                              top: screenHeight*3.85,
@@ -265,14 +264,12 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 //                        ),
 //                      ),
 //                            ),
-
-
-
+                          
                           ],
                         ),
 
 
-                        SizedBox(height: screenHeight*.3,),
+                        SizedBox(height: screenHeight*.15,),
 
 
                         Column(
@@ -283,9 +280,11 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
                             
                             _paymetSummaryConatiner(),
 
-                            SizedBox(height: 20,),
+                            SizedBox(height: screenHeight*.4,),
 
                             _transferSummaryConatiner(),
+
+                            SizedBox(height: screenHeight*.4,),
 
                           ],
                         )
@@ -334,7 +333,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15),
-            child: Text('Payment Summary',style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
+            child: Text(getLocalText("payment_summary", context),style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
           ),
 
 
@@ -347,7 +346,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Base Rate",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("base_rate", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 RichText(
                   text: TextSpan(
@@ -377,7 +376,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Tax and other charges",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("tax_and_other_charges", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 RichText(
                   text: TextSpan(
@@ -408,7 +407,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Total Amount Payable",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("total_amount_payable", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
 
                 RichText(
@@ -464,13 +463,13 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+ 
 
+            Text(getLocalText("transfer_summary", context),style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
 
-            Text('Transfer Summary',style: CustomStyles.normal18.copyWith(color: CustomColors.BackGround),),
+            SizedBox(height:20 ,), 
 
-            SizedBox(height:20 ,),
-
-            Text('Passenger Details',style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
+            Text(getLocalText("passenger_details", context),style: CustomStyles.heading.copyWith(color:CustomColors.Orange ),),
 
             SizedBox(height:20 ,),
 
@@ -478,7 +477,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Name",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("name", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 Text(transfersCCData.transferBookingResponse.result.contact.firstname
                   ,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),),
@@ -492,7 +491,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Email",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("email", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 Text(transfersCCData.transferBookingResponse.result.contact.email,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
 
@@ -504,8 +503,8 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text("Phone Number",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+              children: <Widget>[ 
+                Text(getLocalText("phone_number", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 Text(transfersCCData.transferBookingResponse.result.contact.phoneNumber,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),),
 
@@ -520,15 +519,15 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
             SizedBox(height:10 ,),
 
-            Text('Cab Details',style: CustomStyles.medium15),
+            Text(getLocalText("cab_details", context),style: CustomStyles.medium15),
 
             SizedBox(height:20 ,),
-
+ 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Cab Type",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("cab_type", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 Text(transfersCCData.transferBookingResponse.result.bookings.first.summaryInfo.carClass.title,style: CustomStyles.normal15,),
 
@@ -541,7 +540,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Seating",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("seating", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 Text("${transfersCCData.transferBookingResponse.result.bookings.first.summaryInfo.carClass.capacity} Seat",style: CustomStyles.normal15,),
 
@@ -572,7 +571,19 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 //              ],
 //            ),
 
-            SizedBox(height: 10,)
+
+            SizedBox(height: 20,),
+            GestureDetector(
+            onTap: (){
+
+              Navigator.pushNamed(context, Routes.cancelPolicyView,arguments:[transfersCCData.transferBookingResponse.result.bookings.first.reservationNumber]);
+
+            },
+
+            child: Text(getLocalText("cancellation_and_refund_policy", context),style: CustomStyles.normal12.copyWith(color: CustomColors.BackGround,decoration: TextDecoration.underline,),)),
+
+
+            SizedBox(height:30 ,),
           ],
         ),
       )
@@ -604,7 +615,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
 
       key.currentState.showSnackBar(
-          new SnackBar(content: new Text("Screen Captured",style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
+          new SnackBar(content: new Text(getLocalText("screen_captured", context),style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
               backgroundColor: CustomColors.BackGround));
 
     } catch (e) {
@@ -618,10 +629,17 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
     Clipboard.setData(new ClipboardData(text:bookingnumber));
     key.currentState.showSnackBar(
-        new SnackBar(content: new Text("Copied to Clipboard",style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
+        new SnackBar(content: new Text(getLocalText("copied_to_clipboard", context),style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
             backgroundColor: CustomColors.BackGround));
 
   }
+
+
+  getLocalText(String key, BuildContext context) {
+
+    return  AppLocalizations.of(context).translate(key);
+  }
+
 }
 
 
