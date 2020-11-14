@@ -39,10 +39,10 @@ steps:
     channel: 'stable'
     version: 'latest'
 
-# - task: CmdLine@2
-#   displayName: 'Execute Dart program'
-#   inputs:
-#     script: 'flutter pub get'
+- task: CmdLine@2
+  displayName: 'Execute Dart program'
+  inputs:
+    script: 'flutter pub get'
 # - task: FlutterBuild@0
 #   inputs:
 #     target: 'all'
