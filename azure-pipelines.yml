@@ -50,10 +50,10 @@ steps:
 #     entryPoint: '--no-tree-shake-icons lib/main_dev.dart'
 - task: FlutterCommand@0
   inputs:
-    arguments: 'flutter pub get'
+    arguments: 'pub get'
 - task: FlutterCommand@0
   inputs:
-    arguments: 'flutter build appbundle --no-tree-shake-icons'
+    arguments: 'build appbundle --no-tree-shake-icons'
 - task: CocoaPods@0
   displayName: "Install CocoaPods dependencies"
   inputs:
