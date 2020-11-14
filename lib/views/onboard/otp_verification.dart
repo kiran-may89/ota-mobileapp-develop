@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ota/app/Router.dart';
 import 'package:ota/app/app_localizations.dart';
@@ -9,7 +10,7 @@ import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
-import 'package:ota/viewmodels/otp_verify_viewmodel.dart';
+import 'package:ota/viewmodels/onboard_view_model/otp_verify_viewmodel.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
@@ -175,7 +176,10 @@ class _OtpVerificationState extends State<OtpVerification> {
                                     ),
                                     shape:
                                         RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0), side: BorderSide(color: CustomColors.White)),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Clipboard.setData(new ClipboardData(text:signupResponse.result.id ));
+                                      print(signupResponse.result.id);
+                                    },
                                   ),
                                 ),
                               ),

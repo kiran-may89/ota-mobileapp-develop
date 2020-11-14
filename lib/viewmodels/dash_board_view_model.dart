@@ -7,8 +7,11 @@ import 'package:ota/models/packages/categories_list.dart';
 import 'package:ota/models/packages/destinations_list.dart';
 import 'package:ota/models/packages/group_by_category.dart';
 import 'package:ota/models/packages/group_by_destinations.dart';
+import 'package:ota/models/profile/responses/family_list.dart';
+import 'package:ota/net/service/common/common_service.dart';
 import 'package:ota/net/service/package/package_service.dart';
 import 'package:ota/net/service/profile/profile_service.dart';
+import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/prefs/shared_prefernce.dart';
 import 'package:ota/utils/strings.dart';
 
@@ -20,7 +23,15 @@ class DashBoardViewModel extends BaseViewModel {
 
   List<DashBoardItem> dashBoardItems;
 
+  SessionManager sessionManager;
+
   PackageService _packageService;
+
+  ProfileService _profileService;
+
+  CommonService commonService;
+
+  RelationsList relationsList = RelationsList();
 
   GroupByCategoryResults groupByCategoryResults = GroupByCategoryResults();
 
@@ -30,6 +41,9 @@ class DashBoardViewModel extends BaseViewModel {
   DestinationsAndCategoryList categoriesList = DestinationsAndCategoryList();
   
   DestinationsAndCategoryList destinationsList = DestinationsAndCategoryList();
+
+
+  bool isExternalLogin = false;
   
 
   bool loading = true;
@@ -37,15 +51,46 @@ class DashBoardViewModel extends BaseViewModel {
   int currentIndex = 0;
   DashBoardViewModel() {
 
+    initItems();
+
+    commonService = GetIt.instance<CommonService>();
+
+    sessionManager = SessionManager.getInstance();
+
     _packageService = GetIt.instance<PackageService>();
 
-    initItems();
+    _profileService = GetIt.instance<ProfileService>();
+
+    if (sessionManager.getCountryCodes == null) {
+
+      getCountryCodes();
+
+
+    }
+    if(!isExternalLogin&&!sessionManager.isGuest&&sessionManager.getFamilyMemberList==null){
+
+      getFamilyMembers();
+
+    }
+
   getCategories();
 
 
 
   }
-  void initItems() {
+
+
+  void getCountryCodes() async {
+    var result = await commonService.getCountryCodes();
+
+    sessionManager.setCountryCodes = result.result;
+
+  }
+
+
+  Future<void> initItems() async {
+
+    isExternalLogin = await Pref.getInstnace().getBoolData(Pref().isExternal);
     dashBoardItems = [
       DashBoardItem(assets: "assets/images/dashboard/icon_hotel.png", name: "hotels", isSelected: true, navigation: Routes.hotelBooking),
       DashBoardItem(assets: "assets/images/dashboard/icon_flight.png", name: "flights", isSelected: false, navigation: Routes.flightBooking),
@@ -113,6 +158,24 @@ return groupByCategoryResults;
     loading=false;
 
     notifyListeners();
+  }
+
+  Future<void> getFamilyMembers() async {
+
+
+
+
+      relationsList =
+      await _profileService.getFamilyMemersList(SessionManager.getInstance().getUser.sub);
+
+
+sessionManager.setFamilyMemberList  = relationsList.result;
+
+print(sessionManager.getFamilyMemberList);
+
+
+
+
   }
 
 

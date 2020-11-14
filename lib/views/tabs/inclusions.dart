@@ -8,21 +8,27 @@ import 'package:ota/viewmodels/activities_view_models/activity_search_view_model
 import 'package:provider/provider.dart';
 
 class Inclusions extends StatefulWidget {
+  ActivityDetailsModel model;
+  BuildContext context;
 
 
-
-  Inclusions(ActivityDetailsModel model, BuildContext context);
+  Inclusions(this.model, this.context);
 
   @override
-  _InclusionsState createState() => _InclusionsState();
+  _InclusionsState createState() => _InclusionsState(model,context);
 }
 
 class _InclusionsState extends State<Inclusions> {
+
+  ActivityDetailsModel model;
+  BuildContext context;
+  _InclusionsState(this.model, this.context);
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Activity_Model>(
-      create: (context) => Activity_Model(),
-      child: Consumer<Activity_Model>(
+    return ChangeNotifierProvider<ActivityDetailsModel>.value(
+      value:   model,
+      child: Consumer<ActivityDetailsModel>(
         builder: (context, model, child) {
 
           return SingleChildScrollView(
@@ -58,6 +64,7 @@ class _InclusionsState extends State<Inclusions> {
 
                   SizedBox(height: 10,),
 
+                  Text(model.travelDetails.FromPlace,style: CustomStyles.medium12.copyWith(color: CustomColors.White.withOpacity(.5),height: 1.5),) ,
 
 
 

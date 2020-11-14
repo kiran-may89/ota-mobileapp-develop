@@ -14,7 +14,9 @@ class BaseModel extends Equatable {
   BaseModel({this.version, this.message, this.isError});
 
   factory BaseModel.fromJson(Map<String, dynamic> json) {
+
     return BaseModel(version: json['version'], message: json['message'], isError: json['isError']);
+
   }
 
   setException({DioError error}) {

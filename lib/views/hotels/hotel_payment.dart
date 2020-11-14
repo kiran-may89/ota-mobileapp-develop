@@ -13,7 +13,7 @@ import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/utils/utils.dart';
-import 'package:ota/viewmodels/hotel_payment_viewmodel.dart';
+import 'package:ota/viewmodels/hotels_view_model/hotel_payment_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/models/hotels/payments/request/hotel_payment_model.dart';
@@ -33,10 +33,10 @@ class HotelPayment extends StatelessWidget {
 
     Dialogs.showSpinkitLoading(context);
     _model.bookHotel().then((value) {
-      Navigator.pop(context);
-      Navigator.pop(context);
-      Navigator.pop(context);
-      Navigator.pop(context);
+//      Navigator.pop(context);
+//      Navigator.pop(context);
+//      Navigator.pop(context);
+//      Navigator.pop(context);
       Map<String, dynamic> args = new Map();
       args['response'] = value;
       args['hotel'] = _model.hotel;
@@ -87,7 +87,7 @@ class HotelPayment extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    'hotel - ${model.hotel.hotel.name}',
+                                    'Hotel - ${model.hotel.hotel.name}',
                                     style: CustomStyles.heading,
                                   ),
                                   SizedBox(
@@ -136,11 +136,11 @@ class HotelPayment extends StatelessWidget {
                                 children: <Widget>[
                                   Text(
                                     getLocalText("base_rate", context),
-                                    style: CustomStyles.normal14,
+                                    style: CustomStyles.normal12,
                                   ),
                                   Text(
                                     'SAR ' + (model.hotel.hotel.roomOption[selectGroup].displayRateInfoWithMarkup.baseRate).toStringAsFixed(2),
-                                    style: CustomStyles.bold16,
+                                    style: CustomStyles.normal14,
                                   ),
                                 ],
                               ),
@@ -151,12 +151,12 @@ class HotelPayment extends StatelessWidget {
                                 children: <Widget>[
                                   Text(
                                     getLocalText("tax_and_other_charges", context),
-                                    style: CustomStyles.normal14,
+                                    style: CustomStyles.normal12,
                                   ),
                                   Text(
                                     'SAR ' +
                                         (model.hotel.hotel.roomOption[selectGroup].displayRateInfoWithMarkup.taxAndOtherCharges).toStringAsFixed(2),
-                                    style: CustomStyles.bold16,
+                                    style: CustomStyles.normal14,
                                   ),
                                 ],
                               ),
@@ -173,7 +173,7 @@ class HotelPayment extends StatelessWidget {
                                 children: <Widget>[
                                   Text(
                                     getLocalText("total_amount_payable", context),
-                                    style: CustomStyles.normal14,
+                                    style: CustomStyles.normal12,
                                   ),
                                   Text(
                                     'SAR ' +

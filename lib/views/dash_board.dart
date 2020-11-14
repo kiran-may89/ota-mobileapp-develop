@@ -157,19 +157,25 @@ class DashBoard extends StatelessWidget {
                                             children: [
                                               IconButton(
                                                 onPressed: (){
-                                                  if(SessionManager.getInstance().isGuest){
+                                                 // if(SessionManager.getInstance().isGuest){
 
                                                     scaffoldKey.currentState.openDrawer();
 
-                                                  }else{
-
-                                                    Navigator.pushNamed(context, Routes.profile_management);
-
-                                                  }
+//                                                  }else{
+//
+//                                                    Navigator.pushNamed(context, Routes.profile_management);
+//
+//                                                  }
                                                 },
                                               icon: Icon(Icons.menu,color: Colors.white,)),
                                               Image.asset('assets/images/dashboard/tripshop_logo.png',color: Colors.white,height: screenHeight*.6,width: screenWidth*1.8,),
-                                              Icon(Icons.location_on,color: Colors.white,)
+                                              InkWell(
+                                                child:
+                                                Image.asset('assets/images/dashboard/quick_booking.png',color: Colors.white,height: screenHeight*.8,width: screenWidth*1.8,),
+                                                onTap: (){
+                                                Navigator.pushReplacementNamed(context, "/");
+                                                },
+                                              )
 
                                             ],
                                           ),

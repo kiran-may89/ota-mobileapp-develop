@@ -93,7 +93,7 @@ class _FlightCCDetailsState extends State<FlightCCDetails> implements  Delegate 
                           ),
                           onPressed: () {
                            if (_formKey.currentState.validate()) {
-                             Dialogs.showLoadingDialog(context, _keyLoader);
+                             Dialogs.showLoadingDialog(context, _keyLoader,message: "Processing flight booking");
 
                              model.saveBooking().then((value) {
                                if (!value.isError) {

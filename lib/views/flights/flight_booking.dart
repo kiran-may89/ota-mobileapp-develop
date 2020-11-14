@@ -209,111 +209,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                                   ],
                                                 ),
 
-//                                        Theme(
-//                                          data:
-//                                          ThemeData(primaryColor: Colors.red),
-//                                          child: TypeAheadFormField(
-//                                            hideOnError: true,
-//                                            hideOnEmpty: true,
-//                                            hideOnLoading: true,
-//                                            hideSuggestionsOnKeyboardHide: false,
-//                                            textFieldConfiguration:
-//                                            TextFieldConfiguration(
-//
-//                                              controller:
-//                                              model.startFromController,
-//                                              maxLines: 2,
-//                                              autofocus: false,
-//                                              style: CustomStyles.cardContentStyle
-//                                                  .copyWith(fontSize: 14),
-//                                              decoration: InputDecoration(
-//                                                isDense: true,
-//                                                alignLabelWithHint: true,
-//                                                labelText: strings.from,
-//                                                labelStyle: CustomStyles
-//                                                    .destinationStyle
-//                                                    .copyWith(fontSize: 12),
-//                                                border: InputBorder.none,
-//                                                suffixIcon: IconButton(
-//                                                  /*color: Colors.red,*/
-//
-//                                                  onPressed: () {
-//                                                    model.startFromController
-//                                                        .clear();
-//
-//                                                    model.FlyFrom = null;
-//
-//
-//                                                  },
-//                                                  icon: Icon(
-//                                                    Icons.cancel,
-//                                                    size: SizeConstants.SIZE_20,
-//                                                  ),
-//                                                ),
-//                                              ),
-//                                            ),
-//                                            suggestionsCallback: (pattern) async {
-//
-//
-//                                              if (pattern.isEmpty || pattern.length < 3) {
-//                                                return null;
-//                                              }
-//
-//                                              var response = await model.getAirports(pattern);
-//
-//                                              return response.result;
-//                                            },
-//                                            itemBuilder: (context,
-//                                                AirportCodes suggestion) {
-//                                              return
-//                                                Container(
-//                                                color: CustomColors.White,
-//                                                margin: EdgeInsets.only(
-//                                                    left: 5, right: 5),
-//                                                child: Column(
-//                                                  mainAxisAlignment:
-//                                                  MainAxisAlignment.start,
-//                                                  crossAxisAlignment:
-//                                                  CrossAxisAlignment.start,
-//                                                  children: <Widget>[
-//                                                    SizedBox(
-//                                                      height: 4,
-//                                                    ),
-//                                                    Text(
-//                                                      suggestion.airportCode +
-//                                                          " - " +
-//                                                          suggestion.city,
-//                                                      style:
-//                                                      CustomStyles.normal14,
-//                                                    ),
-//                                                    SizedBox(
-//                                                      height: 4,
-//                                                    ),
-//                                                    Text(
-//                                                      suggestion.airportName,
-//                                                      style:
-//                                                      CustomStyles.normal16,
-//                                                    ),
-//                                                    SizedBox(
-//                                                      height: 4,
-//                                                    ),
-//                                                    Container(
-//                                                      height: 1,
-//                                                      width: double.infinity,
-//                                                      color: CustomColors
-//                                                          .disabledButton,
-//                                                    )
-//                                                  ],
-//                                                ),
-//                                              );
-//                                            },
-//                                            onSuggestionSelected: (suggestion) {
-//
-//
-//                                              model.setFromAirport(suggestion);
-//                                            },
-//                                          ),
-//                                        ),
+
                                         flex: 8,
                                       )
                                     ],
@@ -383,101 +279,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                           ],
                                         ),
 
-//                                      Theme(
-//                                        data: ThemeData(
-//                                            primaryColor: Colors.red
-//                                        ),
-//                                        child: TypeAheadFormField(
-//                                          hideOnError: true,
-//                                          hideOnEmpty: true,
-//                                          hideOnLoading: true,
-//                                          hideSuggestionsOnKeyboardHide: false,
-//                                          textFieldConfiguration:
-//                                          TextFieldConfiguration(
-//                                            maxLines: 2,
-//                                            controller:
-//                                            model.destinationController,
-//                                            autofocus: false,
-//                                            style: CustomStyles.cardContentStyle
-//                                                .copyWith(fontSize: 14),
-//                                            decoration: InputDecoration(
-//                                              isDense: true,
-//                                              alignLabelWithHint: true,
-//                                              labelText: strings.destination,
-//                                              labelStyle: CustomStyles
-//                                                  .destinationStyle
-//                                                  .copyWith(fontSize: 12),
-//                                              border: InputBorder.none,
-//                                              suffixIcon: IconButton(
-//                                                onPressed: () {
-//                                                  model.destinationController
-//                                                      .clear();
-//                                                  model.FlyTo = null;
-//                                                },
-//                                                icon: Icon(
-//                                                  Icons.cancel,
-//                                                  size: SizeConstants.SIZE_20,
-//                                                ),
-//                                              ),
-//                                            ),
-//                                          ),
-//                                          suggestionsCallback: (pattern) async {
-//                                            if (pattern.isEmpty || pattern.length < 3) {
-//                                              return null;
-//                                            }
-//
-//                                            var response = await model.getAirports(pattern);
-//
-//                                            return response.result;
-//                                          },
-//                                          itemBuilder:
-//                                              (context, AirportCodes suggestion) {
-//                                            return Container(
-//                                              color: CustomColors.White,
-//                                              margin: EdgeInsets.only(
-//                                                  left: 5, right: 5),
-//                                              child: Column(
-//                                                mainAxisAlignment:
-//                                                MainAxisAlignment.start,
-//                                                crossAxisAlignment:
-//                                                CrossAxisAlignment.start,
-//                                                children: <Widget>[
-//                                                  SizedBox(
-//                                                    height: 4,
-//                                                  ),
-//                                                  Text(
-//                                                    suggestion.airportCode +
-//                                                        " - " +
-//                                                        suggestion.city,
-//                                                    style: CustomStyles.normal14,
-//                                                  ),
-//                                                  SizedBox(
-//                                                    height: 4,
-//                                                  ),
-//                                                  Text(
-//                                                    suggestion.airportName,
-//                                                    style: CustomStyles.normal16,
-//                                                  ),
-//                                                  SizedBox(
-//                                                    height: 4,
-//                                                  ),
-//                                                  Container(
-//                                                    height: 1,
-//                                                    width: double.infinity,
-//                                                    color: CustomColors
-//                                                        .disabledButton,
-//                                                  )
-//                                                ],
-//                                              ),
-//                                            );
-//                                          },
-//                                          onSuggestionSelected: (suggestion) {
-//
-//                                            model.setDestinationAirport(
-//                                                suggestion);
-//                                          },
-//                                        ),
-//                                      )
+
 
                                         flex: 8,
                                       )
@@ -579,7 +381,7 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                           children: <Widget>[
                                             model.oneWay
                                                 ? Text(
-                                              " ${getLocalText("from", context)+model.startDateMOnth}",
+                                              " ${getLocalText("from", context)+ " "+model.startDateMOnth}",
                                               style: CustomStyles
                                                   .cardContentStyle.copyWith(fontSize: 14),
                                               textAlign: TextAlign.start,
@@ -593,14 +395,15 @@ class _FlightBookingState extends BaseModelWidget<FlightSearch_Model> {
                                                   .spaceBetween,
                                               children: <Widget>[
                                                 Text(
-                                                  "${getLocalText("from", context)+model.startDateMOnth}",
+                                                  "${getLocalText("from", context)+" "+model.startDateMOnth}",
                                                   style: CustomStyles
                                                       .cardContentStyle.copyWith(fontSize: 14),
                                                   textAlign:
                                                   TextAlign.start,
                                                 ),
+                                                SizedBox(width: 5,),
                                                 Text(
-                                                  "${getLocalText("return", context)+model.returnDateMonth}",
+                                                  "${getLocalText("return", context)+" "+model.returnDateMonth}",
                                                   style: CustomStyles
                                                       .cardContentStyle.copyWith(fontSize: 14),
                                                   textAlign:

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 
 import 'package:ota/models/common/country_codes_response_entity.dart';
 import 'package:ota/models/common/guest_auth_token.dart';
+import 'package:ota/models/common/models/supported_currency_response.dart';
 import 'package:ota/models/onboard/response/login_response.dart';
 import 'package:ota/models/onboard/response/user.dart';
 import 'package:ota/net/service/common/common_service.dart';
@@ -16,6 +17,8 @@ class CommonServiceImpl extends CommonService {
   final String _GET_COUNTRY_CODES = "common/api/v1/countries";
   static final String GET_GUEST_AUTH_TOKEN = "auth/api/v1/Account/GetGuestTocken";
   static final String REFRESH_TOKEN = "/auth/api/v1/Authenticate/MobileRefreshToken";
+
+
 
   CommonServiceImpl(this.apiConnector);
 
@@ -71,7 +74,7 @@ class CommonServiceImpl extends CommonService {
       params['refreshToken'] = value;
       Response response = await apiConnector.get(REFRESH_TOKEN,queryParameters:params);
       var data = response.data;
-      LoginResponse loginResponse = LoginResponse.fromJson(data);
+      LoginResponse loginResponse = LoginResponse.fromMap(data);
       Pref prefs = Pref.getInstnace();
       prefs.saveAccessToken(loginResponse.result.accesToken);
       prefs.saveRefreshToken(loginResponse.result.refreshToken);
@@ -99,4 +102,6 @@ class CommonServiceImpl extends CommonService {
     await Pref.getInstnace().logout();
     return getGuestToken();
   }
+
+
 }

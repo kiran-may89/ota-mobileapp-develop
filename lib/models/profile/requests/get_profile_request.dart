@@ -1,5 +1,16 @@
+// To parse this JSON data, do
+//
+//     final getProfileResponse = getProfileResponseFromMap(jsonString);
 
+import 'dart:convert';
 
+GetProfileResponse getProfileResponseFromMap(
+        String str) =>
+    GetProfileResponse.fromMap(json.decode(str));
+
+String getProfileResponseToMap(
+        GetProfileResponse data) =>
+    json.encode(data.toMap());
 
 class GetProfileResponse {
   GetProfileResponse({
@@ -29,28 +40,6 @@ class GetProfileResponse {
 
 class Result {
   Result({
-    this.isExternal,
-    this.user,
-  });
-
-  dynamic isExternal;
-  User user;
-
-  factory Result.fromMap(
-          Map<String, dynamic> json) =>
-      Result(
-        isExternal: json["isExternal"],
-        user: User.fromMap(json["user"]),
-      );
-
-  Map<String, dynamic> toMap() => {
-        "isExternal": isExternal,
-        "user": user.toMap(),
-      };
-}
-
-class User {
-  User({
     this.firstName,
     this.lastName,
     this.dateOfBirth,
@@ -63,6 +52,7 @@ class User {
     this.zip,
     this.street,
     this.type,
+    this.phoneCode,
     this.id,
     this.userName,
     this.normalizedUserName,
@@ -92,13 +82,14 @@ class User {
   dynamic zip;
   dynamic street;
   int type;
+  dynamic phoneCode;
   String id;
   String userName;
   String normalizedUserName;
   String email;
   String normalizedEmail;
   bool emailConfirmed;
-  String passwordHash;
+  dynamic passwordHash;
   String securityStamp;
   String concurrencyStamp;
   String phoneNumber;
@@ -108,9 +99,9 @@ class User {
   bool lockoutEnabled;
   int accessFailedCount;
 
-  factory User.fromMap(
+  factory Result.fromMap(
           Map<String, dynamic> json) =>
-      User(
+      Result(
         firstName: json["firstName"],
         lastName: json["lastName"],
         dateOfBirth: json["dateOfBirth"],
@@ -123,6 +114,7 @@ class User {
         zip: json["zip"],
         street: json["street"],
         type: json["type"],
+        phoneCode: json["phoneCode"],
         id: json["id"],
         userName: json["userName"],
         normalizedUserName:
@@ -158,6 +150,7 @@ class User {
         "zip": zip,
         "street": street,
         "type": type,
+        "phoneCode": phoneCode,
         "id": id,
         "userName": userName,
         "normalizedUserName": normalizedUserName,

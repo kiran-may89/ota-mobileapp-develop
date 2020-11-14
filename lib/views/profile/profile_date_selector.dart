@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 enum CalendarViews { dates, months, year }
 
-class ProfileDateSelection extends StatefulWidget {
+class familyMemberDateSelection extends StatefulWidget {
 
   AddMemberViewModel model;
 
@@ -19,13 +19,13 @@ class ProfileDateSelection extends StatefulWidget {
   bool forward;
 
 
-  ProfileDateSelection( this.context,this.model,this.forward );
+  familyMemberDateSelection( this.context,this.model,this.forward );
 
   @override
-  _ProfileDateSelectionState createState() => _ProfileDateSelectionState(this.context,this.model, this.forward);
+  _familyMemberDateSelectionState createState() => _familyMemberDateSelectionState(this.context,this.model, this.forward);
 }
 
-class _ProfileDateSelectionState extends State<ProfileDateSelection> {
+class _familyMemberDateSelectionState extends State<familyMemberDateSelection> {
 
   AddMemberViewModel model;
 
@@ -33,7 +33,7 @@ class _ProfileDateSelectionState extends State<ProfileDateSelection> {
 
   bool forward;
 
-  _ProfileDateSelectionState( this.context,this.model, this.forward);
+  _familyMemberDateSelectionState( this.context,this.model, this.forward);
 
   bool range;
 

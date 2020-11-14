@@ -1,9 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ota/app/app_localizations.dart';
+import 'package:ota/customviews/shimmer_container.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/viewmodels/profile/profile_view_model.dart';
+import 'package:ota/views/profile/bottom_sheet/currency_selector.dart';
 import 'package:provider/provider.dart';
+
+import 'bottom_sheet/language_selection.dart';
 
 class AppSettings extends StatefulWidget {
   @override
@@ -52,57 +57,184 @@ var screenWidth;
           elevation: 0.0,
         ),
         body:
+        model.loadingProfile ?
+        ShimmerContainer(MediaQuery.of(context).size.height):
         Container(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth*.3,vertical: screenHeight*.2),
+       // padding: EdgeInsets.symmetric(horizontal: screenWidth*.3,vertical: screenHeight*.2),
           height: screenHeight*10,
           width: screenWidth*10,
-          child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-          SizedBox(height: 20,),
+          child:
+//          Column(
+//          crossAxisAlignment: CrossAxisAlignment.start,
+//          mainAxisAlignment: MainAxisAlignment.start,
+//          children: [
+//          SizedBox(height: 20,),
+//
+//          Row(children: [
+//
+//          Text(getLocalText("language", context),style: CustomStyles.medium14,),
+//
+//
+//          DropdownButton(
+//         // isExpanded: true,
+//          isDense: true,
+//          hint: Text('Select',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround),),
+//
+//          value: model.selectedLanguage,
+//          itemHeight: 50,
+//
+//          onChanged: (newValue) {
+//
+//
+//          model.changeSelectedLanguage(newValue);
+//
+//
+//          },
+//          items: model.languageList.map((language) {
+//          return DropdownMenuItem(
+//
+//          child: Container(
+//
+//
+//          child: new Text(language,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround))),
+//          value: language,
+//          );
+//          }).toList(),
+//          ),
+//
+//
+//
+//
+//
+//          ],)
+//
+//
+//          ],
+//          ),
 
-          Row(children: [
-
-          Text(getLocalText("language", context),style: CustomStyles.medium14,),
-
-
-          DropdownButton(
-         // isExpanded: true,
-          isDense: true,
-          hint: Text('Select',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround),),
-
-          value: model.selectedLanguage,
-          itemHeight: 50,
-
-          onChanged: (newValue) {
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
 
 
-          model.changeSelectedLanguage(newValue);
+              InkWell(
+                onTap: (){
+
+                  showLanguageBottomSheet(
+                    context,
+                    model,
+                  );
+
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 15,left: 15,right: 15),
+                  child: ListTile(
+                    leading: Icon(Icons.language,),
+
+                    title: Text('Language',style: CustomStyles.medium12.copyWith(fontSize: 15),),
+                    subtitle: Text(model.selectedLanguage,style: CustomStyles.medium12.copyWith(fontSize: 11),),
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: 1,
+                color: CustomColors.disabledButton,
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 15,left: 15,right: 15),
+                child:
 
 
-          },
-          items: model.languageList.map((language) {
-          return DropdownMenuItem(
+                ListTile(
+                  leading: Icon(Icons.image),
 
-          child: Container(
-
-
-          child: new Text(language,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround))),
-          value: language,
-          );
-          }).toList(),
-          ),
+                  title: Text('Theme',style: CustomStyles.medium12.copyWith(fontSize: 15),),
+                  subtitle: Text("Dark",style: CustomStyles.medium12.copyWith(fontSize: 11),),
+                  trailing: CupertinoSwitch(activeColor: CustomColors.heading,
+                    value: model.lightTheme,
+                    onChanged: (bool value) {
 
 
 
+                    },
+                  ),
+//                      onTap: () { setState(() { _lights = !_lights; }); },
+                ),
 
 
-          ],)
+
+              ),
+
+              Container(
+                width: double.infinity,
+                height: 1,
+                color: CustomColors.disabledButton,
+              ),
+
+              GestureDetector(
+                onTap: (){
+                  showSourceBottomSheet(
+                    context,
+                    model,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 15,left: 15,right: 15),
+                  child:
 
 
-          ],
-          ),
+                  ListTile(
+                    leading: Icon(CupertinoIcons.money_dollar),
+
+                    title: Text('Currency',style: CustomStyles.medium12.copyWith(fontSize: 15),),
+                    subtitle: Text(model.supportedCurrencySymbol??"",style: CustomStyles.medium12.copyWith(fontSize: 11),),
+                    trailing: Text(model.supportedCurrencyCode??"",style: CustomStyles.medium12.copyWith(fontSize: 15),),
+//                      onTap: () { setState(() { _lights = !_lights; }); },
+                  ),
+
+
+
+                ),
+              ),
+
+              Container(
+                width: double.infinity,
+                height: 1,
+                color: CustomColors.disabledButton,
+              ),
+
+
+
+//                  Padding(
+//                    padding:  const EdgeInsets.only(top: 15, bottom: 15,left: 15,right: 15),
+//                    child:
+//
+//                    ListTile(
+//                      title: Text('Email',style: text_style.side_nav_content.copyWith(fontSize: 19),),
+//                      trailing: CupertinoSwitch(
+//                        activeColor: colors.Master_color,
+//                        value: Email_enabled,
+//                        onChanged: (bool value) {
+//
+//
+//
+//
+//
+//                          setState(() { Email_enabled = value; });
+//                        },
+//                      ),
+////                      onTap: () { setState(() { _lights = !_lights; }); },
+//                    ),
+//
+//
+//
+//                  ),
+
+
+            ],),
         )
 
     );
@@ -117,4 +249,39 @@ getLocalText(String key, BuildContext context) {
 
   return  AppLocalizations.of(context).translate(key);
 }
+
+showSourceBottomSheet(BuildContext context, ProfileViewModel model, ) {
+  return showModalBottomSheet(
+  isDismissible: true,
+  clipBehavior: Clip.antiAliasWithSaveLayer,
+  backgroundColor: Colors.white,
+  isScrollControlled: true,
+  context: context,
+  builder: (context) => Container(
+//margin: EdgeInsets.all(15),
+  child: CurrencySelector(model, context)));
+}
+
+showLanguageBottomSheet(BuildContext context, ProfileViewModel model) {
+
+
+  return showModalBottomSheet(
+  isDismissible:true ,
+  clipBehavior: Clip.antiAliasWithSaveLayer,
+  backgroundColor: Colors.transparent,
+
+  context: context,
+  builder: (context) => Container(
+    //margin: EdgeInsets.all(15),
+  child: LanguageSelection(model,context)
+
+
+
+  ));
+
+
+
+}
+
+
 }

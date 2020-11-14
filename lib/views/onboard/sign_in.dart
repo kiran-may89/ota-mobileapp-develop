@@ -22,7 +22,7 @@ import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/utils/utils.dart';
-import 'package:ota/viewmodels/signin_view_model.dart';
+import 'package:ota/viewmodels/onboard_view_model/signin_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
@@ -60,6 +60,7 @@ class _SignInState extends State<SignIn> {
         givenName: fbdata.firstName));
 
     saveCredintials(result);
+    Pref.getInstnace().setBoolData(Pref().isExternal,true);
     Navigator.pushNamedAndRemoveUntil(context, Routes.dashboard, (route) => false);
   }
 
@@ -67,10 +68,10 @@ class _SignInState extends State<SignIn> {
     viewModel.login().then((value) {
       Navigator.pop(context);
       if (value.isError) {
-        Dialogs.showErrorPopup(context, messaage: value.apiException.responseException.exceptionMessage);
+        Dialogs.showErrorPopup(context, messaage: value.responseException.exceptionMessage);
         return;
       }
-
+      Pref.getInstnace().setBoolData(Pref().isExternal,false);
       saveCredintials(value);
       Navigator.pushNamedAndRemoveUntil(context, Routes.dashboard, (route) => false);
     }, onError: (error) {
@@ -217,7 +218,7 @@ class _SignInState extends State<SignIn> {
                     onPressed: () {
                       if (key.currentState.validate()) {
                         key.currentState.save();
-                        Dialogs.showSpinkitLoading(context);
+                        Dialogs.showSpinkitLoading(context,message: "Logging In");
                         loginAction();
                       } else {
 
@@ -289,7 +290,23 @@ class _SignInState extends State<SignIn> {
                           onPressed: () async {
                             try {
                               GoogleSignInAccount account = await _googleSignIn.signIn();
-                              print(account.email);
+
+
+                              var result = await viewModel.authenicateExternal(ExternalAuthRequestModel(
+                              externalUserId: account.id,
+                              externalProvider: "google",
+                              email: account.email ?? "",
+                              name: account.displayName,
+                              surName: account.displayName,
+                              givenName: account.displayName));
+
+                              saveCredintials(result);
+
+                              Pref.getInstnace().setBoolData(Pref().isExternal,true);
+                              Navigator.pushNamedAndRemoveUntil(context, Routes.dashboard, (route) => false);
+
+
+
                             } catch (error) {
                               print(error);
                             }

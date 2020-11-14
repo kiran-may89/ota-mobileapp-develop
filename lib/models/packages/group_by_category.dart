@@ -19,8 +19,7 @@ class GroupByCategoryResults {
         version: json["version"],
         message: json["message"],
         isError: json["isError"],
-        responseException:
-            json["responseException"],
+        responseException: json["responseException"],
         result: List<Result>.from(json["result"]
             .map((x) => Result.fromMap(x))),
       );

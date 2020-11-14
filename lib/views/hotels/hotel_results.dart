@@ -14,8 +14,8 @@ import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/utils/utils.dart';
-import 'package:ota/viewmodels/hotel_filter_view_model.dart';
-import 'package:ota/viewmodels/hotel_results_view_model.dart';
+import 'package:ota/viewmodels/hotels_view_model/hotel_filter_view_model.dart';
+import 'package:ota/viewmodels/hotels_view_model/hotel_results_view_model.dart';
 import 'package:ota/views/base/base_view.dart';
 import 'package:ota/views/base/base_widget.dart';
 import 'package:ota/views/hotels/about_hotel.dart';
@@ -365,30 +365,35 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                                   width: SizeConstants.SIZE_12,
                                 ),
                                 Expanded(
-                                  flex: 5,
+                                  flex: 6,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.max,
                                     children: <Widget>[
-                                      RichText(
-                                        softWrap: true,
-                                        text: TextSpan(children: [
-                                          WidgetSpan(
-                                            child: Icon(
-                                              Icons.location_on,
-                                              color: Colors.black54,
-                                              size: SizeConstants.SIZE_16,
-                                            ),
+
+                                      Row(
+                                        mainAxisAlignment:  MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+
+                                          Icon(
+                                            Icons.location_on,
+                                            color: Colors.black54,
+                                            size: SizeConstants.SIZE_16,
                                           ),
-                                          TextSpan(text: hotel.address, style: CustomStyles.style3.copyWith(color: Colors.black54)),
-                                        ]),
-                                      ),
+
+                                          SizedBox(width:2,),
+                                          Expanded(child: Text( hotel.address, style: CustomStyles.style3.copyWith(color: Colors.black54,))),
+
+                                        ],
+                                      )
+
                                     ],
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 2,
+                                  flex: 4,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -400,10 +405,12 @@ class HotelsList extends BaseModelWidget<HotelResultsViewModel> {
                                       SizedBox(
                                         height: SizeConstants.SIZE_4,
                                       ),
+
                                       Text(
                                         "${model.response.result.totalRooms} room | ${model.response.result.totalNights} nights",
-                                        style: CustomStyles.whiteTextSytle12Size.copyWith(color: CustomColors.disabledButton),
+                                        style: CustomStyles.whiteTextSytle12Size.copyWith(color: CustomColors.disabledButton,),
                                       ),
+
                                     ],
                                   ),
                                 ),

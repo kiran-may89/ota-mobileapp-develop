@@ -1,31 +1,47 @@
 
 import 'dart:convert';
 import 'package:ota/models/common/models/api_exception.dart';
-LoginResponse loginResponseFromJson(String str) => LoginResponse.fromJson(json.decode(str));
-
-String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
-
 class LoginResponse {
   LoginResponse({
-    this.message,
     this.isError,
+    this.responseException,
+    this.message,
     this.result,
   });
 
-  String message;
   bool isError;
+  ResponseException responseException;
+  String message;
   Credential result;
-  ApiException apiException;
-  factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-    message: json["message"],
+
+  factory LoginResponse.fromMap(Map<String, dynamic> json) => LoginResponse(
     isError: json["isError"],
-    result: Credential.fromJson(json["result"]),
+    responseException: json["responseException"]!=null?ResponseException.fromMap(json["responseException"]):null,
+    message: json["message"],
+    result: json["result"]!=null?Credential.fromMap(json["result"]):null,
   );
 
-  Map<String, dynamic> toJson() => {
-    "message": message,
+  Map<String, dynamic> toMap() => {
     "isError": isError,
-    "result": result.toJson(),
+    "responseException": responseException.toMap(),
+    "message": message,
+    "result": result.toMap(),
+  };
+}
+
+class ResponseException {
+  ResponseException({
+    this.exceptionMessage,
+  });
+
+  String exceptionMessage;
+
+  factory ResponseException.fromMap(Map<String, dynamic> json) => ResponseException(
+    exceptionMessage: json["exceptionMessage"],
+  );
+
+  Map<String, dynamic> toMap() => {
+    "exceptionMessage": exceptionMessage,
   };
 }
 
@@ -42,14 +58,14 @@ class Credential {
   String refreshToken;
   int expiresIn;
 
-  factory Credential.fromJson(Map<String, dynamic> json) => Credential(
+  factory Credential.fromMap(Map<String, dynamic> json) => Credential(
     accesToken: json["accesToken"],
     idToken: json["idToken"],
     refreshToken: json["refreshToken"],
     expiresIn: json["expiresIn"],
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
     "accesToken": accesToken,
     "idToken": idToken,
     "refreshToken": refreshToken,

@@ -1,3 +1,4 @@
+import 'package:age/age.dart';
 import 'package:flutter/material.dart';
 
 
@@ -486,7 +487,10 @@ class _DateSelector2State extends State<DateSelector2> {
 
         }else{
 
-             if ( model.tempDate != calendarDate.date) {
+          if (calendarDate.date.isAfter(( DateTime(DateTime.now().year, DateTime.now().month +6, DateTime.now().day)) )) {
+            print(DOB);
+
+            if (model.tempDate != calendarDate.date) {
               if (calendarDate.nextMonth) {
                 _getNextMonth();
               }
@@ -497,8 +501,10 @@ class _DateSelector2State extends State<DateSelector2> {
 
               print(calendarDate.date);
 
-              setState(() =>  model.tempDate = calendarDate.date);
+              setState(() =>
+              model.tempDate = calendarDate.date);
             }
+          }
 
 
         }
@@ -520,7 +526,7 @@ class _DateSelector2State extends State<DateSelector2> {
                   DOB?
               (calendarDate.date.isBefore(DateTime.now()))?
               CustomStyles.calenderStyle.copyWith(color: CustomColors.heading):
-              CustomStyles.calenderStyle:CustomStyles.calenderStyle.copyWith(color: CustomColors.heading)
+              CustomStyles.calenderStyle:calendarDate.date.isAfter(( DateTime(DateTime.now().year, DateTime.now().month +6, DateTime.now().day)) )?CustomStyles.calenderStyle.copyWith(color: CustomColors.heading):CustomStyles.calenderStyle
 
 //            (calendarDate.thisMonth)
 //            ? (calendarDate.date.weekday == DateTime.sunday) ? CustomColors.disabledButton : CustomColors.disabledButton
@@ -531,6 +537,23 @@ class _DateSelector2State extends State<DateSelector2> {
     );
 
 
+
+
+  }
+
+  bool isAfter6Months(DateTime date) {
+
+
+      AgeDuration timeDifference =
+      Age.dateDifference(fromDate: date  , toDate: DateTime.now() );
+
+      print(timeDifference.months);
+      print(DateTime.now());
+      print(date);
+      print(timeDifference.years);
+
+
+      return  timeDifference.months>6;
 
 
   }

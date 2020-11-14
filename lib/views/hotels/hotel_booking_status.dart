@@ -12,7 +12,7 @@ import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/utils/utils.dart';
-import 'package:ota/viewmodels/hotel_booking_status_viewmodel.dart';
+import 'package:ota/viewmodels/hotels_view_model/hotel_booking_status_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:ota/models/hotels/payments/response/HotelBookingResponse.dart';
 import 'package:ota/utils/strings.dart';
@@ -30,10 +30,13 @@ class HotelBookingStatus extends StatelessWidget {
   HotelDetailsResponseResult hotel;
   int roomGroup;
   int totalGuest = 0;
+  int childCount=0;
+
 
   HotelBookingStatus(this.reponse, this.hotel, this.roomGroup) {
     hotel.hotel.roomOption[roomGroup].rooms.forEach((element) {
       totalGuest += element.noOfAdults;
+      childCount += element.noOfChildren;
     });
   }
 
@@ -459,7 +462,7 @@ class HotelBookingStatus extends StatelessWidget {
                                               style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(0.75)),
                                             ),
                                             Text(
-                                              '${hotel.hotel.roomOption[roomGroup].rooms.length} Room | $totalGuest Guests',
+                                              '${hotel.hotel.roomOption[roomGroup].rooms.length} Room | $totalGuest Guests | $childCount Child',
                                               style:  CustomStyles.medium14.copyWith(color: CustomColors.BackGround),
                                             ),
                                           ],
@@ -551,14 +554,28 @@ class HotelBookingStatus extends StatelessWidget {
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
-                                                    Text("Email",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                                                    Text("Nationality",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
-                                                    Text( reponse.result.bookings.first.travellers[index].email,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+                                                    Text( reponse.result.bookings.first.travellers[index].nationality,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
 
                                                   ],
                                                 ),
 
                                                 SizedBox(height:15 ,),
+
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text("Address",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+                                                    Text( reponse.result.bookings.first.travellers[index].address,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+
+                                                  ],
+                                                ),
+
+                                                SizedBox(height:15 ,),
+
 
                                                 Container(
                                                 margin: EdgeInsets.only(top: 20,bottom: 20),

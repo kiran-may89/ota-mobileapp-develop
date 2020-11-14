@@ -70,14 +70,35 @@ class NetworkInterceptor extends InterceptorsWrapper {
     if(response.request.path == CommonServiceImpl.REFRESH_TOKEN){
       return super.onResponse(response);
     }
-    if (response.request.path != CommonServiceImpl.GET_GUEST_AUTH_TOKEN ) {
-      var encryptedData = rawCryptoFromJson(response.data);
 
-      var timeStamp = response.headers[Constants.X_OTA_TIMESTAMP];
-      var accessToken = SessionManager.getInstance().getAuthToken;
-      var decrypted =
-          doDecrypt(encryptedData.result, accessToken, timeStamp[0].toString());
-      response.data = jsonDecode(decrypted);
+    if (response.request.path != CommonServiceImpl.GET_GUEST_AUTH_TOKEN ) {
+      try {
+        var encryptedData;
+
+        try {
+          encryptedData = rawCryptoFromJson(response
+          .data);
+        } catch (e) {
+          print(e);
+        }
+
+        var timeStamp = response.headers[Constants.X_OTA_TIMESTAMP];
+        var accessToken = SessionManager
+        .getInstance()
+        .getAuthToken;
+
+
+        var decrypted =
+        doDecrypt(encryptedData
+        .result, accessToken, timeStamp[0]
+        .toString());
+        response.data = jsonDecode(decrypted);
+      }catch(e){
+        print(e);
+      }
+
+
+
     }
 
     return super.onResponse(response);

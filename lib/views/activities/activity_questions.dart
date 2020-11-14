@@ -77,11 +77,13 @@ class _ActivityQuestionsState extends State<ActivityQuestions> {
                     child: RaisedButton(onPressed: (){
 
 
-                   if( model.validateData(_scaffoldKey,context))
+                   //if(
+                   model.validateData(_scaffoldKey,context);
+                   //)
 
-    Navigator.pushNamed(context, Routes.activityTravellerInfo,
-    arguments:model.getArgumentData()
-    );
+//    Navigator.pushNamed(context, Routes.activityTravellerInfo,
+//    arguments:model.getArgumentData()
+//    );
 
 
                     },

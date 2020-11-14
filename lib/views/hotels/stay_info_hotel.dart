@@ -17,7 +17,7 @@ import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/utils/utils.dart';
-import 'package:ota/viewmodels/stay_info_view_model.dart';
+import 'package:ota/viewmodels/hotels_view_model/stay_info_view_model.dart';
 
 import 'package:provider/provider.dart';
 
@@ -261,6 +261,8 @@ class ExpandContact extends StatelessWidget {
   GlobalKey<FormState> _key;
 
   ExpandContact(this._model, this.pasenger, this._key) {
+
+
     if (pasenger.type == 2) {
       label = "guest";
     } else if (pasenger.type == 3) {
@@ -375,8 +377,10 @@ class ExpandContact extends StatelessWidget {
                           DropdownButton(
                             isExpanded: true,
                             isDense: true,
-                            onChanged: (value) =>
-                                model.onGenderChanged(value),
+                            onChanged: (value){
+                              pasenger.selectedGender =value;
+                              model.notifyListeners();
+                            },
                             items: List.generate(
                                 model.genders.length, (index) {
                               return DropdownMenuItem(
@@ -384,7 +388,7 @@ class ExpandContact extends StatelessWidget {
                                 value: index,
                               );
                             }),
-                            value: model.selectedGender,
+                            value: pasenger.selectedGender,
                           ),
                           SizedBox(
                             height: 10,
@@ -396,7 +400,7 @@ class ExpandContact extends StatelessWidget {
                               ],
                               validator: (value) {
                                 final validCharacters = RegExp(
-                                    r'[!@#$%^&*(),.?":{}|<>]');
+                                    r'[1234567890!@#$%^&*(),.?":{}|<>]');
 
                                 if (value == null || value.isEmpty) {
                                   return getLocalText(
@@ -433,7 +437,7 @@ class ExpandContact extends StatelessWidget {
                             ],
                             validator: (value) {
                               final validCharacters = RegExp(
-                                  r'[!@#$%^&*(),.?":{}|<>]');
+                                  r'[1234567890!@#$%^&*(),.?":{}|<>]');
 
                               if (value == null || value.isEmpty) {
                                 return getLocalText("enter_last_name", context);
@@ -465,6 +469,9 @@ class ExpandContact extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 TextFormField(
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(30),
+                                  ],
                                   onSaved: (value) =>
                                   pasenger.email = value.trimRight(),
 
@@ -500,6 +507,8 @@ class ExpandContact extends StatelessWidget {
                                     initialValue: pasenger.intlPhoneNumber,
                                     inputDecoration: InputDecoration(
 //                                      border: InputBorder.none,
+                                      labelStyle: CustomStyles.medium16.copyWith(
+                                      color: Colors.grey),
                                       labelText: getLocalText(
                                           "enter_phone_number", context),
 //                                      focusedBorder: InputBorder.none,
@@ -528,14 +537,7 @@ class ExpandContact extends StatelessWidget {
                                     onInputValidated: (bool value) {
                                       pasenger.phoneNumberValidated = value;
                                     },
-                                    validator: (value) {
-                                      if (!pasenger.phoneNumberValidated) {
-                                        return getLocalText(
-                                            "enter_valid_phone_number",
-                                            context);
-                                      }
-                                      return null;
-                                    },
+                                    validator: (value)=>value.isEmpty?getLocalText("enter_phone_number", context):!pasenger.phoneNumberValidated?getLocalText("enter_valid_phone_number", context):null,
                                   ),
                                 )
                               ],
@@ -551,7 +553,7 @@ class ExpandContact extends StatelessWidget {
 
                                 if (!validCharacters.hasMatch(value))
                                   return getLocalText("incorrect_age", context);
-
+                                if(value.isNotEmpty)
                                 if (int.parse(value) >= 9)
                                   return getLocalText("age_should_be_less_than_9_years_old", context);
 

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/viewmodels/flights_view_model/passenger_info_model.dart';
-import 'package:ota/viewmodels/hotel_search_view_model.dart';
+import 'package:ota/viewmodels/hotels_view_model/hotel_search_view_model.dart';
 import 'package:provider/provider.dart';
 
 

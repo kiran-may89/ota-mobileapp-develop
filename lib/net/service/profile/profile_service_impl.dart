@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:ota/models/common/models/supported_currency_response.dart';
 import 'package:ota/models/profile/requests/add_famliy_member.dart';
+import 'package:ota/models/profile/requests/change_password_request.dart';
 import 'package:ota/models/profile/requests/get_profile_request.dart';
+import 'package:ota/models/profile/responses/change_password_response.dart';
 import 'package:ota/models/profile/responses/common_response.dart';
 import 'package:ota/models/profile/responses/family_list.dart';
 import 'package:ota/models/profile/responses/update_profile_response.dart';
@@ -21,13 +24,19 @@ class ProfileServiceImpl extends ProfileService {
   final String _GET_FAMILY_MEMBERS =
       "profile/api/v1/usercontact/";
 
-  final String _GET_PROFILE = "auth/api/v1/Account/GetProfileWithExternalCheck";
+  final String _GET_PROFILE = "auth/api/v1/Account/GetProfile";
 
   final String _UPDATE_MEMBER = "profile/api/v1/usercontact/update";
 
   final String _UPDATE_PROFILE = "auth/api/v1/Account/UpdateProfile";
 
+  final String _UPDATE_PASSWORD = "auth/api/v1/Account/ChangePassword";
+
   final String _GET_WEB_NOTIFICATIONS = "/notifications/api/v1/WebNotification/fetch";
+
+   final String SUPPORTED_CURRENCY = "/payments/api/currency/supported";
+
+
 
 
 
@@ -215,6 +224,66 @@ class ProfileServiceImpl extends ProfileService {
 
       return results;
     }
+
+
+  }
+
+  @override
+  Future<ChangePasswordResponse> changePassword(ChangePasswordRequest body) async {
+
+
+    try {
+
+      Response response = await apiConnector.post(
+      _UPDATE_PASSWORD,
+      data: jsonEncode(body.toMap()));
+      var data = response.data;
+
+      ChangePasswordResponse results =
+      ChangePasswordResponse.fromMap(data);
+      return results;
+    } catch (error, stacktrace) {
+      ChangePasswordResponse results =
+      ChangePasswordResponse();
+
+
+      return results;
+    }
+
+  }
+
+
+
+  @override
+  Future<SupportedCurrencyResponse> getSupportedCurrency() async {
+
+
+    try {
+
+      Response response = await apiConnector.get(SUPPORTED_CURRENCY);
+      var data = response.data;
+      SupportedCurrencyResponse supportedCurrencyResponse = SupportedCurrencyResponse.fromMap(data);
+
+      return supportedCurrencyResponse;
+
+    } catch (error, s) {
+
+      print(s.toString());
+
+      //      results.isError = true;
+
+
+      SupportedCurrencyResponse results = SupportedCurrencyResponse();
+      results.isError = true;
+
+      if (error is DioError) {
+      results.message = error.toString();
+      }
+
+      return results;
+
+    }
+
 
 
   }

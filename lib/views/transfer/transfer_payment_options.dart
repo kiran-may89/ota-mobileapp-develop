@@ -140,7 +140,7 @@ class _TransferPaymentOptionsState extends State<TransferPaymentOptions> {
 
                       transferPassengerData.selectedVehicleData.first.displayRateInfoWithMarkup.baseRate.toString()
 
-                    ,style: CustomStyles.bold16,),
+                    ,style: CustomStyles.normal14,),
 
                 ],
               ),

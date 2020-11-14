@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 import 'package:ota/app/Router.dart';
 import 'package:ota/app/app_localizations.dart';
@@ -477,7 +478,7 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(getLocalText("name", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("first_name", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
                 Text(transfersCCData.transferBookingResponse.result.contact.firstname
                   ,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),),
@@ -491,9 +492,9 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(getLocalText("email", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("last_name", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
-                Text(transfersCCData.transferBookingResponse.result.contact.email,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+                Text(transfersCCData.transferBookingResponse.result.contact.lastname,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
 
               ],
             ),
@@ -504,9 +505,22 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[ 
-                Text(getLocalText("phone_number", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text(getLocalText("nationality", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
-                Text(transfersCCData.transferBookingResponse.result.contact.phoneNumber,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),),
+                Text(transfersCCData.transferBookingResponse.result.contact.nationality,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),),
+
+              ],
+            ),
+
+            SizedBox(height:20 ,),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(getLocalText("address", context),style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+                Text(transfersCCData.transferBookingResponse.result.contact.address,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround),),
 
               ],
             ),
@@ -606,11 +620,15 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
       await image.toByteData(format: ui.ImageByteFormat.png);
       var pngBytes = byteData.buffer.asUint8List();
 
-      String dir = (await getExternalStorageDirectory()).path;
+      final result =
+      await ImageGallerySaver.saveImage(pngBytes);
+      print(result);
 
-      File file = File("$dir/"+ DateTime.now().millisecondsSinceEpoch.toString()+".png");
-
-      await file.writeAsBytes(pngBytes);
+//      String dir = (await getApplicationDocumentsDirectory()).path;
+//
+//      File file = File("$dir/"+ DateTime.now().millisecondsSinceEpoch.toString()+".png");
+//
+//      await file.writeAsBytes(pngBytes);
 
 
 
@@ -620,6 +638,10 @@ class _TransferBookingStatusState extends State<TransferBookingStatus> {
 
     } catch (e) {
       print(e);
+
+      key.currentState.showSnackBar(
+      new SnackBar(content: new Text(e.toString(),style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
+      backgroundColor: CustomColors.BackGround));
     }
 
 

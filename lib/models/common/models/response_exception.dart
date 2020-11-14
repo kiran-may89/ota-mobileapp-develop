@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import "validation_errors.dart";
 
-class ResponseException extends Equatable {
+class ResponseException
+//extends Equatable
+{
   final String exceptionMessage;
   final List<dynamic> validationErrors;
 
@@ -23,6 +25,6 @@ class ResponseException extends Equatable {
     return data;
   }
 
-  @override
-  List<Object> get props => [this.exceptionMessage, this.validationErrors];
+//  @override
+//  List<Object> get props => [this.exceptionMessage, this.validationErrors];
 }

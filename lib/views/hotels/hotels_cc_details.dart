@@ -6,9 +6,9 @@ import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/styles.dart';
-import 'package:ota/viewmodels/hotel_payment_viewmodel.dart';
-import 'package:ota/viewmodels/hotel_payment_viewmodel.dart';
-import 'package:ota/viewmodels/hotel_payment_viewmodel.dart';
+import 'package:ota/viewmodels/hotels_view_model/hotel_payment_viewmodel.dart';
+import 'package:ota/viewmodels/hotels_view_model/hotel_payment_viewmodel.dart';
+import 'package:ota/viewmodels/hotels_view_model/hotel_payment_viewmodel.dart';
 class HotelCCDetails extends StatefulWidget
 {
 
@@ -33,12 +33,15 @@ class _HotelCCDetails extends State<HotelCCDetails>
   void startTransaction(BuildContext context) {
     Map<String, dynamic> args = new Map();
 
-    Dialogs.showSpinkitLoading(context);
+    Dialogs.showSpinkitLoading(context,message: "Processing hotel booking");
     model.bookHotel().then((value) {
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pop(context);
+
       Map<String, dynamic> args = new Map();
       args['response'] = value;
       args['hotel'] = model.hotel;

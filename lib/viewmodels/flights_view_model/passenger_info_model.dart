@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:ota/models/activity/activity_search_response.dart';
 import 'package:ota/models/common/country_codes_response_entity.dart';
 import 'package:ota/models/flights/requests/flight_booking_request.dart';
 import 'package:ota/models/flights/requests/flight_save_booking_request.dart';
@@ -23,6 +24,7 @@ class FlightPassengerInfoModel
   // SignupRequest signupRequest;
 
   SessionManager sessionManager;
+  TextEditingController demo= TextEditingController();
 
   FlightResultsData flightResultsData;
 
@@ -42,6 +44,7 @@ class FlightPassengerInfoModel
   bool get isLoading => _isloading;
 
   PhoneNumber phoneNumber;
+  PhoneNumber primaryDefaultPhoneNumber;
 
   int primaryMemberType;
 
@@ -99,6 +102,7 @@ class FlightPassengerInfoModel
     commonService =
         GetIt.instance<CommonService>();
 
+
     phoneNumber = PhoneNumber(isoCode: 'UAE');
     if (sessionManager.getCountryCodes == null) {
       getCountryCodes();
@@ -109,9 +113,15 @@ class FlightPassengerInfoModel
       _isloading = false;
     }
 
+    countryCodes.forEach((element) {
+      if(element.telephoneCode == "91")
+        primaryDefaultPhoneNumber = PhoneNumber(isoCode: element.alpha2Code,phoneNumber:SessionManager.getInstance().getUser.phoneNumber);
+
+    });
     generateLists();
   }
 
+  void reload(){notifyListeners();}
   void onCountryCodeChanged(PhoneNumber value) {
     for (int i = 0;
         i < countryCodes.length;
@@ -197,6 +207,8 @@ class FlightPassengerInfoModel
       showAdultDetails = List.generate(
           flightResultsData.requestData.adults,
           (index) => false);
+
+      showAdultDetails[0] =true;
     }
 
     if (flightResultsData.requestData.children !=
@@ -517,7 +529,7 @@ class FlightPassengerInfoModel
     if (passengerType == 0) {
       adultBookingDetails[index]
               .passportExpirationDate =
-          normalformat.format(tempDate);
+         normalformat.format(tempDate);
 
       adultSaveBookingDetails[index].expiration =
           normalformat.format(tempDate);

@@ -8,6 +8,7 @@ class SignupRequest extends Equatable {
   String lastName;
   String email;
   String phoneNumber;
+  String phoneCode;
   String passwordHash;
   String country;
   String profilePicture;
@@ -24,6 +25,7 @@ class SignupRequest extends Equatable {
       this.lastName,
       this.email,
       this.phoneNumber,
+      this.phoneCode,
       this.passwordHash,
       this.country,
       this.profilePicture,

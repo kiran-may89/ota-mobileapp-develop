@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ota/app/Router.dart';
+import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:package_info/package_info.dart';
@@ -36,6 +37,8 @@ class _AppDrawerState extends State<AppDrawer> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+
+              SessionManager.getInstance().isGuest?
               ListView(
                 primary: false,
                 shrinkWrap: true,
@@ -96,7 +99,63 @@ class _AppDrawerState extends State<AppDrawer> {
 
 
                 ]).toList(),
-              ),
+              ):
+
+              ListView(
+                primary: false,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                children: ListTile.divideTiles(
+                  //          <-- ListTile.divideTiles
+                context: context,
+                tiles: [
+
+                  ListTile(
+                    onTap: (){
+                      Navigator.pushNamedAndRemoveUntil(
+                      context, Routes.searchBookingView, (route) => true);
+
+                    },
+                    title: Text('Search Bookings',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                    leading: Icon(Icons.search_rounded,color: CustomColors.BackGround.withOpacity(.9),),
+                    subtitle: Text("Search the bookings",style: CustomStyles.calenderStyle,),
+                  ),
+
+
+
+                  ListTile(
+                    onTap: (){
+
+                      Navigator.pushNamed(context,Routes.appSettings);
+
+                    },
+                    title: Text('Settings',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                    leading: Icon(Icons.settings_applications_outlined,color: CustomColors.BackGround.withOpacity(.9),),
+                  ),
+                  ListTile(
+                    title: Text('Notifications',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                    leading: Icon(Icons.notifications_none,color: CustomColors.BackGround.withOpacity(.9),),
+                  ),
+
+                  ListTile(
+                    title: Text('Rate Us',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                    leading: Icon(Icons.rate_review_outlined,color: CustomColors.BackGround.withOpacity(.9),),
+                  ),
+
+                  ListTile(
+                    title: Text('About Us',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                    leading: Icon(Icons.info_outline,color: CustomColors.BackGround.withOpacity(.9),),
+                  ),
+                  ListTile(
+                    title: Text('Help & Support',style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                    leading: Icon(Icons.help_outline,color: CustomColors.BackGround.withOpacity(.9),),
+                  ),
+
+
+
+                ]).toList(),
+              )
+              ,
 
 
 

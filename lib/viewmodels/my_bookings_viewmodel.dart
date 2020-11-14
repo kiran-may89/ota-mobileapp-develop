@@ -14,6 +14,9 @@ class MyBookingsViewModel extends ChangeNotifier {
   BookingService service;
   bool _isLoading =false;
   bool _isError =false;
+  bool _isData = false;
+  bool get isData => _isData;
+  set isData(value) => _isData =value;
   bool get isLoading => _isLoading;
   bool get isError => _isError;
 
@@ -47,7 +50,7 @@ class MyBookingsViewModel extends ChangeNotifier {
 
   var _cancelledBookingList = new List<BookingResponseModel>();
   List<BookingResponseModel> get cancelledBookingList => _cancelledBookingList;
-
+    var searchBookingRequest =  PrimaryBookingRequest();
   var _bookingListTemp = new List<BookingResponseModel>();
   MyBookingsViewModel() {
     service = GetIt.instance<BookingService>();
@@ -58,64 +61,156 @@ class MyBookingsViewModel extends ChangeNotifier {
     service = GetIt.instance<BookingService>();
 
   }
-  Future searchBookings() async
+
+   fillSearchData(String value,int position,String type)
+   {
+
+     searchBookingRequest.type =2;
+     if(type == "byName")
+       {
+         switch(position){
+           case 0 :
+             if(value.isEmpty)
+               searchBookingRequest.firstname = null;
+            else
+             searchBookingRequest.firstname = value;
+
+             break;
+           case 1:
+              if(value.isEmpty)
+                searchBookingRequest.lastname = null;
+             else
+              searchBookingRequest.lastname = value;
+               break;
+
+           case 2:
+             if(value.isEmpty)
+               searchBookingRequest.email = null;
+else
+             searchBookingRequest.email = value;
+             break;
+
+         }
+
+       }
+     else
+       {
+         switch(position){
+           case 0 :
+             if(value.isEmpty)
+
+               searchBookingRequest.reservationNumber = null;
+             else
+               searchBookingRequest.reservationNumber = value;
+             break;
+           case 1:
+             if(value.isEmpty)
+               searchBookingRequest.userId = null;
+else
+               searchBookingRequest.userId = value;
+             break;
+
+           case 2:
+             if(value.isEmpty)
+               searchBookingRequest.phonenumber = null;
+           else
+             searchBookingRequest.phonenumber = value;
+             break;
+
+         }
+
+
+       }
+
+
+   }
+
+
+  Future searchBookings(String type) async
   {
+    if(type == "id")
+      {
+        if(searchBookingRequest.reservationNumber!=null || searchBookingRequest.userId!=null || searchBookingRequest.phonenumber!=null)
+         {
+           reloadSearchBookings();
+           var response = await service.getBookingsByUser(searchBookingRequest);
 
+           _bookingResponseList = response.result;
 
-    switch(_searchHint) {
-      case "Search By Reservation No" :
+         }
+
+      }
+    else
+      {
+        if(searchBookingRequest.firstname!=null || searchBookingRequest.lastname!=null || searchBookingRequest.email!=null)
         {
-          var response = await service.getBookingsByUser(new PrimaryBookingRequest(
-              reservationNumber: searchText.value.text,
-              type: 2
-          ));
+          reloadSearchBookings();
+          var response = await service.getBookingsByUser(searchBookingRequest);
 
           _bookingResponseList = response.result;
 
-
-         break;
-        }
-      case "Search By First Name" :
-        {
-          var response = await service.getBookingsByUser(new PrimaryBookingRequest(
-              firstname: searchText.value.text,
-              type: 2
-          ));
-
-          _bookingResponseList = response.result;
-
-
-          break;
         }
 
-      case "Search By Last Name" :
-        {
-          var response = await service.getBookingsByUser(new PrimaryBookingRequest(
-              lastname: searchText.value.text,
-              type: 2
-          ));
+      }
 
-          _bookingResponseList = response.result;
+//    var response = await service.getBookingsByUser(new PrimaryBookingRequest(type: 2));
+//    _bookingResponseList = response.result;
 
 
-          break;
-        }
+//    switch(_searchHint) {
+//      case "Search By Reservation No" :
+//        {
+//          var response = await service.getBookingsByUser(new PrimaryBookingRequest(
+//              reservationNumber: searchText.value.text,
+//              type: 2
+//          ));
+//
+//          _bookingResponseList = response.result;
+//
+//
+//         break;
+//        }
+//      case "Search By First Name" :
+//        {
+//          var response = await service.getBookingsByUser(new PrimaryBookingRequest(
+//              firstname: searchText.value.text,
+//              type: 2
+//          ));
+//
+//          _bookingResponseList = response.result;
+//
+//
+//          break;
+//        }
+//
+//      case "Search By Last Name" :
+//        {
+//          var response = await service.getBookingsByUser(new PrimaryBookingRequest(
+//              lastname: searchText.value.text,
+//              type: 2
+//          ));
+//
+//          _bookingResponseList = response.result;
+//
+//
+//          break;
+//        }
+//
+//      case "Search By Phone Number" :
+//        {
+//
+//          var response = await service.getBookingsByUser(new PrimaryBookingRequest(
+//              phonenumber: _phone,
+//              type: 2
+//          ));
+//
+//          _bookingResponseList = response.result;
+//
+//
+//          break;
+//        }
 
-      case "Search By Phone Number" :
-        {
-
-          var response = await service.getBookingsByUser(new PrimaryBookingRequest(
-              phonenumber: _phone,
-              type: 2
-          ));
-
-          _bookingResponseList = response.result;
-
-
-          break;
-        }
-
-    }
+    //}
     notifyListeners();
   }
   void getFilteredList(String type)

@@ -38,6 +38,8 @@ class Activity_Model extends ChangeNotifier {
 
   bool get toggleDateVisible => _toggleDateVisible;
 
+  bool isAdultError = true;
+
 
   String startDateMOnth = "-";
   //= new DateFormat("dd-MMM").format(DateTime.now());
@@ -163,8 +165,12 @@ class Activity_Model extends ChangeNotifier {
 
     if(adultCount!=0) {
       Age.forEach((element) {
-        if (element == 0)
+        if (element == 0) {
           isGuestError = true;
+        }if(element>12){
+
+          isAdultError = false;
+        }
       });
     }
 
@@ -214,8 +220,7 @@ class Activity_Model extends ChangeNotifier {
 
 
     }
-    else if(isGuestError)
-      {
+    else if(isGuestError) {
         snackBar = SnackBar(content: Text("Add Guests Age",style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
           backgroundColor: CustomColors.BackGround,);
 
@@ -224,6 +229,15 @@ class Activity_Model extends ChangeNotifier {
         return false;
 
       }
+    else if(isAdultError) {
+      snackBar = SnackBar(content: Text("Atleast one adult required",style: CustomStyles.medium16.copyWith(color: CustomColors.White)),
+        backgroundColor: CustomColors.BackGround,);
+
+      scaffoldKey.currentState.showSnackBar(snackBar);
+
+      return false;
+
+    }
 
 
     else{

@@ -44,7 +44,28 @@ class FamilyMembersViewModel
     commonService =
         GetIt.instance<CommonService>();
 
-    getFamilyMembersList();
+
+    if(sessionManager.getFamilyMemberList==null){
+
+      getFamilyMembersList();
+
+    }else{
+
+      relationsList.isError = false;
+
+      relationsList.result = sessionManager.getFamilyMemberList;
+
+      visible.clear();
+
+      visible = List.generate(relationsList.result.length, (index) => false);
+
+      _setloading(false);
+
+    }
+
+
+
+
 
 
 
@@ -57,13 +78,12 @@ class FamilyMembersViewModel
   Future<void> getFamilyMembersList() async {
 
 
-    print(SessionManager.getInstance()
-        .getUser
-        .firstName);
 
 
     relationsList =
         await _profileService.getFamilyMemersList(SessionManager.getInstance().getUser.sub);
+
+    sessionManager.setFamilyMemberList = relationsList.result;
 
     visible.clear();
 

@@ -17,7 +17,7 @@ class OnBoardRepo extends OnBoarding {
   final String _SIGN_UP = "auth/api/v1/User";
   final String _SEND_OTP = "notifications/api/v1/Sms/single/template";
   final String _VERIFY_OTP = "notifications/api/v1/Sms/verifyotp";
-  final String _LOGIN = "auth/api/v1/Authenticate/MobileLogin";
+  static final String LOGIN = "auth/api/v1/Authenticate/MobileLogin";
   final String _AUTHENTICATE_EXTERNAL_LOGIN = "auth/api/v1/Authenticate/MobileExternalLogin";
   Dio apiConnector;
 
@@ -27,7 +27,9 @@ class OnBoardRepo extends OnBoarding {
     try {
       Response response = await apiConnector.post(_SIGN_UP, data: jsonEncode(models));
       var data = response.data;
-      SignupResponse results = SignupResponse.fromJson(data);
+      SignupResponse results = SignupResponse.fromMap(data);
+
+
       return results;
     } catch (error, stacktrace) {
       SignupResponse results = SignupResponse();
@@ -35,8 +37,8 @@ class OnBoardRepo extends OnBoarding {
         results.setException(error: error);
         DioError dioError = error as DioError;
         if (error.type == DioErrorType.RESPONSE) {
-          results = SignupResponse.fromJson(error.response.data);
-          results.apiException = ApiException.fromJson(error.response.data);
+          results = SignupResponse.fromMap(error.response.data);
+         // results.responseException = ApiException.fromJson(error.response.data);
         }
       }
 
@@ -85,19 +87,37 @@ class OnBoardRepo extends OnBoarding {
   @override
   Future<LoginResponse> userLogin(LoginRequest body)async {
     try {
-      Response response = await apiConnector.post(_LOGIN, data: jsonEncode(body.toJson()));
+      Response response = await apiConnector.post(LOGIN, data: jsonEncode(body.toJson()));
       var data = response.data;
-      LoginResponse results = LoginResponse.fromJson(data);
+
+      LoginResponse results = LoginResponse.fromMap(data);
+      print(results.responseException);
+
+      print(response.statusMessage);
+
+
+//      if(response.statusCode==200)
+//      return LoginResponse.fromMap(data);
+//
+//
+//
+//      print(results.responseException);
+//
+//      print(response.statusMessage);
+    //  results.isError =true;
+    //  results.responseException = response.statusMessage;
+
+
 
       return results;
     } catch (error, stacktrace) {
       LoginResponse results = LoginResponse();
 
-      print(results.apiException.responseException.exceptionMessage);
+      print(results.responseException.exceptionMessage);
       if (error is DioError) {
 
-        results = LoginResponse.fromJson(error.response.data);
-        results.apiException = ApiException.fromJson(error.response.data);
+        results = LoginResponse.fromMap(error.response.data);
+        //results.responseException = ApiException.fromJson(error.response.data);
       }
 
       return results;
@@ -109,17 +129,17 @@ class OnBoardRepo extends OnBoarding {
     try {
       Response response = await apiConnector.post(_AUTHENTICATE_EXTERNAL_LOGIN, data: jsonEncode(body.toJson()));
       var data = response.data;
-      LoginResponse results = LoginResponse.fromJson(data);
+      LoginResponse results = LoginResponse.fromMap(data);
 
       return results;
     } catch (error, stacktrace) {
       LoginResponse results = LoginResponse();
 
-      print(results.apiException.responseException.exceptionMessage);
+      print(results.responseException.exceptionMessage);
       if (error is DioError) {
 
-        results = LoginResponse.fromJson(error.response.data);
-        results.apiException = ApiException.fromJson(error.response.data);
+        results = LoginResponse.fromMap(error.response.data);
+        //results.responseException = ApiException.fromJson(error.response.data);
       }
 
       return results;

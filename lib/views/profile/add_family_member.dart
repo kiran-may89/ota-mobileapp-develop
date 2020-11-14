@@ -83,7 +83,7 @@ class _AddFamilyMemberState
                   size: 13,
                 ),
                 onPressed: () =>
-                    Navigator.of(context).pop(),
+                    Navigator.pop(context)
               ),
 
               elevation: 0.0,
@@ -609,7 +609,7 @@ class _AddFamilyMemberState
                                   .showSnackBar(snackBar);
                                 } else {
                                   Navigator
-                                  .pop(context, getLocalText("done", context));
+                                  .pop(context,"done");
                                 }
                               });
                             }
@@ -679,7 +679,7 @@ class _AddFamilyMemberState
             Container(
             height: 310.0,
             width: 300.0,
-            child: ProfileDateSelection(context,model,forward)),
+            child: familyMemberDateSelection(context,model,forward)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,

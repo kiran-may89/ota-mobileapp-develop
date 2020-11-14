@@ -11,7 +11,7 @@ import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/utils/utils.dart';
-import 'package:ota/viewmodels/signup_view_model.dart';
+import 'package:ota/viewmodels/onboard_view_model/signup_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
@@ -47,7 +47,8 @@ class _SignupState extends State<SignUp> {
       if (!value.isError) {
         Navigator.pushNamed(context, Routes.otpVerification, arguments: value);
       } else {
-        ValidationErrors validationErrors = value.apiException.responseException.validationErrors[0];
+        print(value.responseException);
+        ValidationErrors validationErrors = value.responseException.validationErrors[0];
         Dialogs.showErrorPopup(context, messaage: validationErrors.message);
       }
     }).catchError((value, trace) {
@@ -217,7 +218,8 @@ class _SignupState extends State<SignUp> {
                                 child: InternationalPhoneNumberInput(
                                   onSaved: (value) {
                                     model.signupRequest.phoneNumber =
-                                        "+${model.countryCodes[model.selectedCountry].telephoneCode} " + value.replaceAll(" ", "");
+                                         value.replaceAll(" ", "");
+                                    model.signupRequest.phoneCode = "${model.countryCodes[model.selectedCountry].telephoneCode}" ;
                                   },
                                   textStyle: CustomStyles.HintStyle.copyWith(color: Colors.black),
                                   selectorConfig: SelectorConfig(selectorType: PhoneInputSelectorType.DIALOG),

@@ -74,7 +74,7 @@ class _ActivityCCDetailsState extends State<ActivityCCDetails> implements Delega
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
 
-                              Dialogs.showLoadingDialog(context, _keyLoader);
+                              Dialogs.showLoadingDialog(context, _keyLoader,message: "Processing activity booking");
 
                               model.bookTheActivity().then((value) {
                                 if(value!=null) {

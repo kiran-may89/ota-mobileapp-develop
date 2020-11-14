@@ -437,89 +437,159 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
                         ],),
                       SizedBox(height: 5,),
-                      Row(
 
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child:Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
+                    Row(
 
-                          ),
-                          Flexible(
-                              fit: FlexFit.tight,
-                              child: Center(child: Text(
-                                model.flightResultsData.selectedList[0].onewaystopsCount==0?
-                                'Non-Stop' : (model.flightResultsData.selectedList[0].onewaystopsCount).toString()+" Stops"
-                                ,style: CustomStyles.calenderStyle,textAlign: TextAlign.center,))
-                          ),
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
-                          ),
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                    Flexible(
+                    fit: FlexFit.loose,
+                    child: Row(children: <Widget>[
+                    Image.asset('assets/images/morning.png',height: 13,),
+                    SizedBox(width: 5,),
+                    Text(model.getConvertedTime(model.flightResultsData.selectedList[0].route[i].localDeparture),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,color: CustomColors.heading),),
 
+                    ],)
+                    ),
+                    Flexible(
+                    fit: FlexFit.tight,
+                    child: Center(child: Text(
+                    model.flightResultsData.selectedList[0].onewaystopsCount==0?
+                    'Non-Stop' : (model.flightResultsData.selectedList[0].onewaystopsCount).toString()+" Stops"
+                    ,style: CustomStyles.calenderStyle,textAlign: TextAlign.center,))
+                    ),
+                    Flexible(
+                    fit: FlexFit.loose,
+                    child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                    Image.asset('assets/images/night.png',height: 13,),
+                    SizedBox(width: 5,),
+                    Text(model.getConvertedTime( model.flightResultsData.selectedList[0].route[i].localArrival),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,color: CustomColors.heading),),
 
-                        ],),
-                      SizedBox(height: 5,),
-                      Row(
-
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(
-                              fit: FlexFit.loose,
-                              child: Row(children: <Widget>[
-                                Image.asset('assets/images/morning.png',height: 13,),
-                                SizedBox(width: 5,),
-                                Text(model.getConvertedTime(model.flightResultsData.selectedList[0].route[i].localDeparture),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,color: CustomColors.heading),),
-
-                              ],)
-                          ),
-                          Flexible(
-                              fit: FlexFit.tight,
-                              child: SizedBox()
-                          ),
-                          Flexible(
-                              fit: FlexFit.loose,
-                              child: Row(mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Image.asset('assets/images/night.png',height: 13,),
-                                  SizedBox(width: 5,),
-                                  Text(model.getConvertedTime( model.flightResultsData.selectedList[0].route[i].localArrival),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,color: CustomColors.heading),),
-
-                                ],)
-                          ),
+                    ],)
+                    ),
 
 
-                        ],),
-                      SizedBox(height: 8,),
-                      Row(
+                    ],),
+                    SizedBox(height: 8,),
+                    Row(
 
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(
-                              flex: 2,
-                              fit: FlexFit.tight,
-                              child: Text(model.getConvertedDate(model.flightResultsData.selectedList[0].route[i].localDeparture),style: CustomStyles.calenderStyle,textAlign: TextAlign.start,)
-                          ),
-                          Flexible(
-                            flex: 5,
-                            fit: FlexFit.tight,
-                            child:
-                            SizedBox()
-                            ,
-                          ),
-
-
-                          Flexible(
-                              flex: 2,
-                              fit: FlexFit.tight,
-                              child: Text(model.getConvertedDate(model.flightResultsData.selectedList[0].route[i].localArrival),style: CustomStyles.calenderStyle,textAlign: TextAlign.end,)
-                          ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                    Flexible(
+                    flex: 2,
+                    fit: FlexFit.tight,
+                    child: Text(model.getConvertedDate(model.flightResultsData.selectedList[0].route[i].localDeparture),style: CustomStyles.calenderStyle,textAlign: TextAlign.start,)
+                    ),
+                    Flexible(
+                    flex: 5,
+                    fit: FlexFit.tight,
+                    child:
+                    SizedBox()
+                    ,
+                    ),
 
 
-                        ],),
-                      SizedBox(height: 15,),
+                    Flexible(
+                    flex: 2,
+                    fit: FlexFit.tight,
+                    child: Text(model.getConvertedDate(model.flightResultsData.selectedList[0].route[i].localArrival),style: CustomStyles.calenderStyle,textAlign: TextAlign.end,)
+                    ),
+
+
+                    ],),
+                    SizedBox(height: 7,),
+                    Container(height: 1,
+                    width: double.infinity,
+                    color: CustomColors.disabledButton.withOpacity(.3),
+                    ),
+
+                    SizedBox(height: 7,),
+
+////                      Row(
+////
+////                        crossAxisAlignment: CrossAxisAlignment.center,
+////                        children: <Widget>[
+////                          Flexible(
+////                            fit: FlexFit.tight,
+////                            child:Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
+////
+////                          ),
+////                          Flexible(
+////                              fit: FlexFit.tight,
+////                              child: Center(child: Text(
+////                                model.flightResultsData.selectedList[0].onewaystopsCount==0?
+////                                'Non-Stop' : (model.flightResultsData.selectedList[0].onewaystopsCount).toString()+" Stops"
+////                                ,style: CustomStyles.calenderStyle,textAlign: TextAlign.center,))
+////                          ),
+////                          Flexible(
+////                            fit: FlexFit.tight,
+////                            child: Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
+////                          ),
+////
+////
+////                        ],),
+////                      SizedBox(height: 5,),
+////                      Row(
+////
+////                        crossAxisAlignment: CrossAxisAlignment.center,
+////                        children: <Widget>[
+////                          Flexible(
+////                              fit: FlexFit.loose,
+////                              child: Row(children: <Widget>[
+////                                Image.asset('assets/images/morning.png',height: 13,),
+////                                SizedBox(width: 5,),
+////                                Text(model.getConvertedTime(model.flightResultsData.selectedList[0].route[i].localDeparture),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,color: CustomColors.heading),),
+////
+////                              ],)
+////                          ),
+////                          Flexible(
+////                              fit: FlexFit.tight,
+////                              child: SizedBox()
+////                          ),
+////                          Flexible(
+////                              fit: FlexFit.loose,
+////                              child: Row(mainAxisAlignment: MainAxisAlignment.end,
+////                                children: <Widget>[
+////                                  Image.asset('assets/images/night.png',height: 13,),
+////                                  SizedBox(width: 5,),
+////                                  Text(model.getConvertedTime( model.flightResultsData.selectedList[0].route[i].localArrival),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,color: CustomColors.heading),),
+////
+////                                ],)
+////                          ),
+////
+////
+////                        ],),
+//                      SizedBox(height: 8,),
+//                      Row(
+//
+//                        mainAxisAlignment: MainAxisAlignment.center,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Flexible(
+//                              flex: 2,
+//                              fit: FlexFit.tight,
+//                              child: Text(model.getConvertedDate(model.flightResultsData.selectedList[0].route[i].localDeparture),style: CustomStyles.calenderStyle,textAlign: TextAlign.start,)
+//                          ),
+//                          Flexible(
+//                            flex: 5,
+//                            fit: FlexFit.tight,
+//                            child:
+//                            SizedBox()
+//                            ,
+//                          ),
+//
+//
+//                          Flexible(
+//                              flex: 2,
+//                              fit: FlexFit.tight,
+//                              child: Text(model.getConvertedDate(model.flightResultsData.selectedList[0].route[i].localArrival),style: CustomStyles.calenderStyle,textAlign: TextAlign.end,)
+//                          ),
+//
+//
+//                        ],),
+                    //  SizedBox(height: 15,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -777,69 +847,47 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 
                         ],),
                       SizedBox(height: 5,),
-                      Row(
-
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child:Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
-
-                          ),
-                          Flexible(
-                              fit: FlexFit.tight,
-                              child: Center(child: Text(
-                                model.flightResultsData.selectedList[0].onewaystopsCount==0?
-                                'Non-Stop' : (model.flightResultsData.selectedList[0].onewaystopsCount).toString()+" Stops"
-                                ,style: CustomStyles.calenderStyle,textAlign: TextAlign.center,))
-                          ),
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
-                          ),
-
-
-                        ],),
-
-                      SizedBox(height: 5,),
 
                       Row(
 
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Flexible(
-                              fit: FlexFit.tight,
-                              child: Row(children: <Widget>[
-                                Image.asset(
-                                  'assets/images/morning.png', height: 13,),
-                                SizedBox(width: 5,),
-                                Text(model.getConvertedTime(
-                                    destination[i].localDeparture),
-                                  style: CustomStyles.calenderStyle.copyWith(
-                                      fontSize: 12,
-                                      color: CustomColors.heading),),
+                          fit: FlexFit.tight,
+                          child: Row(children: <Widget>[
+                            Image.asset(
+                              'assets/images/morning.png', height: 13,),
+                            SizedBox(width: 5,),
+                            Text(model.getConvertedTime(
+                            destination[i].localDeparture),
+                              style: CustomStyles.calenderStyle.copyWith(
+                              fontSize: 12,
+                              color: CustomColors.heading),),
 
-                              ],)
+                          ],)
                           ),
                           Flexible(
-                              fit: FlexFit.tight,
-                              child: SizedBox()
+                          fit: FlexFit.tight,
+                          child: Center(child: Text(
+                            model.flightResultsData.selectedList[0].onewaystopsCount==0?
+                            'Non-Stop' : (model.flightResultsData.selectedList[0].onewaystopsCount).toString()+" Stops"
+                            ,style: CustomStyles.calenderStyle,textAlign: TextAlign.center,))
                           ),
                           Flexible(
-                              fit: FlexFit.tight,
-                              child: Row(mainAxisAlignment: MainAxisAlignment
-                                  .end,
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/night.png', height: 13,),
-                                  SizedBox(width: 5,),
-                                  Text(model.getConvertedTime(
-                                      destination[i].localArrival),
-                                    style: CustomStyles.calenderStyle.copyWith(
-                                        fontSize: 12,
-                                        color: CustomColors.heading),),
+                          fit: FlexFit.tight,
+                          child: Row(mainAxisAlignment: MainAxisAlignment
+                          .end,
+                            children: <Widget>[
+                              Image.asset(
+                                'assets/images/night.png', height: 13,),
+                              SizedBox(width: 5,),
+                              Text(model.getConvertedTime(
+                              destination[i].localArrival),
+                                style: CustomStyles.calenderStyle.copyWith(
+                                fontSize: 12,
+                                color: CustomColors.heading),),
 
-                                ],)
+                            ],)
                           ),
                         ],),
                       SizedBox(height: 8,),
@@ -848,9 +896,9 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Flexible(fit: FlexFit.loose,
-                              child: Text(model.getConvertedDate(
-                                  destination[i].localDeparture),
-                                style: CustomStyles.calenderStyle,)
+                          child: Text(model.getConvertedDate(
+                          destination[i].localDeparture),
+                            style: CustomStyles.calenderStyle,)
                           ),
                           Flexible(
                             flex: 5,
@@ -866,14 +914,120 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
 //                             ,),
                           ),
                           Flexible(fit: FlexFit.loose,
-                              child: Text(model.getConvertedDate(
-                                  destination[i].localArrival),
-                                style: CustomStyles.calenderStyle,
-                                textAlign: TextAlign.end,)
+                          child: Text(model.getConvertedDate(
+                          destination[i].localArrival),
+                            style: CustomStyles.calenderStyle,
+                            textAlign: TextAlign.end,)
                           ),
 
 
                         ],),
+                      SizedBox(height: 15,),
+
+                      Container(height: 1,
+                        width: double.infinity,
+                        color: CustomColors.disabledButton.withOpacity(.3),
+                      ),
+
+                    //  SizedBox(height: 7,),
+
+//                      Row(
+//
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Flexible(
+//                            fit: FlexFit.tight,
+//                            child:Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
+//
+//                          ),
+//                          Flexible(
+//                              fit: FlexFit.tight,
+//                              child: Center(child: Text(
+//                                model.flightResultsData.selectedList[0].onewaystopsCount==0?
+//                                'Non-Stop' : (model.flightResultsData.selectedList[0].onewaystopsCount).toString()+" Stops"
+//                                ,style: CustomStyles.calenderStyle,textAlign: TextAlign.center,))
+//                          ),
+//                          Flexible(
+//                            fit: FlexFit.tight,
+//                            child: Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
+//                          ),
+//
+//
+//                        ],),
+//
+//                      SizedBox(height: 5,),
+//
+//                      Row(
+//
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Flexible(
+//                              fit: FlexFit.tight,
+//                              child: Row(children: <Widget>[
+//                                Image.asset(
+//                                  'assets/images/morning.png', height: 13,),
+//                                SizedBox(width: 5,),
+//                                Text(model.getConvertedTime(
+//                                    destination[i].localDeparture),
+//                                  style: CustomStyles.calenderStyle.copyWith(
+//                                      fontSize: 12,
+//                                      color: CustomColors.heading),),
+//
+//                              ],)
+//                          ),
+//                          Flexible(
+//                              fit: FlexFit.tight,
+//                              child: SizedBox()
+//                          ),
+//                          Flexible(
+//                              fit: FlexFit.tight,
+//                              child: Row(mainAxisAlignment: MainAxisAlignment
+//                                  .end,
+//                                children: <Widget>[
+//                                  Image.asset(
+//                                    'assets/images/night.png', height: 13,),
+//                                  SizedBox(width: 5,),
+//                                  Text(model.getConvertedTime(
+//                                      destination[i].localArrival),
+//                                    style: CustomStyles.calenderStyle.copyWith(
+//                                        fontSize: 12,
+//                                        color: CustomColors.heading),),
+//
+//                                ],)
+//                          ),
+//                        ],),
+//                      SizedBox(height: 8,),
+//                      Row(
+//
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Flexible(fit: FlexFit.loose,
+//                              child: Text(model.getConvertedDate(
+//                                  destination[i].localDeparture),
+//                                style: CustomStyles.calenderStyle,)
+//                          ),
+//                          Flexible(
+//                            flex: 5,
+//                            fit: FlexFit.tight,
+//                            child:
+//                            SizedBox(),
+////                           Row(
+////                             mainAxisAlignment: MainAxisAlignment.center,
+////                             crossAxisAlignment: CrossAxisAlignment.center,
+////                             children:
+////                             model.getAirLineImagesRound(
+////                                 , model.flightList[index], 0)
+////                             ,),
+//                          ),
+//                          Flexible(fit: FlexFit.loose,
+//                              child: Text(model.getConvertedDate(
+//                                  destination[i].localArrival),
+//                                style: CustomStyles.calenderStyle,
+//                                textAlign: TextAlign.end,)
+//                          ),
+//
+//
+//                        ],),
                       SizedBox(height: 15,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1048,95 +1202,190 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
                           ),
 
                         ],),
-                      SizedBox(height: 5,),
-
-                  Row(
-
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Flexible(
-                        fit: FlexFit.tight,
-                        child:Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
-
-                      ),
-                      Flexible(
-                          fit: FlexFit.tight,
-                          child: Center(child: Text(
-                            model.flightResultsData.selectedList[0].returnwaystopsCount==0?
-                            'Non-Stop' : (model.flightResultsData.selectedList[0].returnwaystopsCount).toString()+" Stops"
-                            ,style: CustomStyles.calenderStyle,textAlign: TextAlign.center,))
-                      ),
-                      Flexible(
-                        fit: FlexFit.tight,
-                        child: Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
-                      ),
-
-
-                    ],),
-
                   SizedBox(height: 5,),
 
-
                   Row(
 
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Flexible(
-                          fit: FlexFit.tight,
-                          child: Row(children: <Widget>[
-                            Image.asset('assets/images/morning.png',height: 13,),
-                            SizedBox(width: 5,),
-                            Text(model.getConvertedTime(return_[i].localDeparture),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,color: CustomColors.heading),),
+                      fit: FlexFit.tight,
+                      child: Row(children: <Widget>[
+                        Image.asset(
+                          'assets/images/morning.png', height: 13,),
+                        SizedBox(width: 5,),
+                        Text(model.getConvertedTime(
+                        return_[i].localDeparture),
+                          style: CustomStyles.calenderStyle.copyWith(
+                          fontSize: 12,
+                          color: CustomColors.heading),),
 
-                          ],)
+                      ],)
                       ),
                       Flexible(
-                          fit: FlexFit.tight,
-                          child: SizedBox()
+                      fit: FlexFit.tight,
+                      child: Center(child: Text(
+                        model.flightResultsData.selectedList[0].onewaystopsCount==0?
+                        'Non-Stop' : (model.flightResultsData.selectedList[0].onewaystopsCount).toString()+" Stops"
+                        ,style: CustomStyles.calenderStyle,textAlign: TextAlign.center,))
                       ),
                       Flexible(
-                          fit: FlexFit.tight,
-                          child: Row(mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Image.asset('assets/images/night.png',height: 13,),
-                              SizedBox(width: 5,),
-                              Text(model.getConvertedTime(return_[i].localArrival),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,color: CustomColors.heading),),
+                      fit: FlexFit.tight,
+                      child: Row(mainAxisAlignment: MainAxisAlignment
+                      .end,
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/images/night.png', height: 13,),
+                          SizedBox(width: 5,),
+                          Text(model.getConvertedTime(
+                          return_[i].localArrival),
+                            style: CustomStyles.calenderStyle.copyWith(
+                            fontSize: 12,
+                            color: CustomColors.heading),),
 
-                            ],)
+                        ],)
+                      ),
+                    ],),
+                  SizedBox(height: 8,),
+                  Row(
+
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Flexible(fit: FlexFit.loose,
+                      child: Text(model.getConvertedDate(
+                      return_[i].localDeparture),
+                        style: CustomStyles.calenderStyle,)
+                      ),
+                      Flexible(
+                        flex: 5,
+                        fit: FlexFit.tight,
+                        child:
+                        SizedBox(),
+//                           Row(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             crossAxisAlignment: CrossAxisAlignment.center,
+//                             children:
+//                             model.getAirLineImagesRound(
+//                                 , model.flightList[index], 0)
+//                             ,),
+                      ),
+                      Flexible(fit: FlexFit.loose,
+                      child: Text(model.getConvertedDate(
+                      return_[i].localArrival),
+                        style: CustomStyles.calenderStyle,
+                        textAlign: TextAlign.end,)
                       ),
 
 
                     ],),
-                      SizedBox(height: 8,),
-                      Row(
+                  SizedBox(height: 15,),
 
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(fit: FlexFit.loose,
-                              child: Text(model.getConvertedDate(return_[i].localDeparture),style: CustomStyles.calenderStyle,)
-                          ),
-                          Flexible(
-                              flex: 5,
-                              fit: FlexFit.tight,
-                              child:
-                              SizedBox()
-//                        Row(
-//                          mainAxisAlignment: MainAxisAlignment.center,
-//                          crossAxisAlignment: CrossAxisAlignment.center,
-//                          children:
-//                          model.getAirLineImagesRound(return_,model.flightList[index],1)
+                  Container(height: 1,
+                    width: double.infinity,
+                    color: CustomColors.disabledButton.withOpacity(.3),
+                  ),
+
+                  //  SizedBox(height: 7,),
+
+//                      Row(
 //
-//                          ,),
-                          ),
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Flexible(
+//                            fit: FlexFit.tight,
+//                            child:Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,)),
+//
+//                          ),
+//                          Flexible(
+//                              fit: FlexFit.tight,
+//                              child: Center(child: Text(
+//                                model.flightResultsData.selectedList[0].onewaystopsCount==0?
+//                                'Non-Stop' : (model.flightResultsData.selectedList[0].onewaystopsCount).toString()+" Stops"
+//                                ,style: CustomStyles.calenderStyle,textAlign: TextAlign.center,))
+//                          ),
+//                          Flexible(
+//                            fit: FlexFit.tight,
+//                            child: Text(getLocalText("airport_name", context),style: CustomStyles.calenderStyle.copyWith(fontSize: 12,),textAlign: TextAlign.end,),
+//                          ),
+//
+//
+//                        ],),
+//
+//                      SizedBox(height: 5,),
+//
+//                      Row(
+//
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Flexible(
+//                              fit: FlexFit.tight,
+//                              child: Row(children: <Widget>[
+//                                Image.asset(
+//                                  'assets/images/morning.png', height: 13,),
+//                                SizedBox(width: 5,),
+//                                Text(model.getConvertedTime(
+//                                    destination[i].localDeparture),
+//                                  style: CustomStyles.calenderStyle.copyWith(
+//                                      fontSize: 12,
+//                                      color: CustomColors.heading),),
+//
+//                              ],)
+//                          ),
+//                          Flexible(
+//                              fit: FlexFit.tight,
+//                              child: SizedBox()
+//                          ),
+//                          Flexible(
+//                              fit: FlexFit.tight,
+//                              child: Row(mainAxisAlignment: MainAxisAlignment
+//                                  .end,
+//                                children: <Widget>[
+//                                  Image.asset(
+//                                    'assets/images/night.png', height: 13,),
+//                                  SizedBox(width: 5,),
+//                                  Text(model.getConvertedTime(
+//                                      destination[i].localArrival),
+//                                    style: CustomStyles.calenderStyle.copyWith(
+//                                        fontSize: 12,
+//                                        color: CustomColors.heading),),
+//
+//                                ],)
+//                          ),
+//                        ],),
+//                      SizedBox(height: 8,),
+//                      Row(
+//
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Flexible(fit: FlexFit.loose,
+//                              child: Text(model.getConvertedDate(
+//                                  destination[i].localDeparture),
+//                                style: CustomStyles.calenderStyle,)
+//                          ),
+//                          Flexible(
+//                            flex: 5,
+//                            fit: FlexFit.tight,
+//                            child:
+//                            SizedBox(),
+////                           Row(
+////                             mainAxisAlignment: MainAxisAlignment.center,
+////                             crossAxisAlignment: CrossAxisAlignment.center,
+////                             children:
+////                             model.getAirLineImagesRound(
+////                                 , model.flightList[index], 0)
+////                             ,),
+//                          ),
+//                          Flexible(fit: FlexFit.loose,
+//                              child: Text(model.getConvertedDate(
+//                                  destination[i].localArrival),
+//                                style: CustomStyles.calenderStyle,
+//                                textAlign: TextAlign.end,)
+//                          ),
+//
+//
+//                        ],),
+                  SizedBox(height: 15,),
 
-
-                          Flexible(fit: FlexFit.loose,
-                              child: Text(model.getConvertedDate(return_[i].localArrival),style: CustomStyles.calenderStyle,textAlign: TextAlign.end,)
-                          ),
-
-
-                        ],),
-                      SizedBox(height: 15,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -1505,9 +1754,22 @@ class _FlightBookingStatusState extends State<FlightBookingStatus> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Email",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+                Text("Nationality",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
-                Text( model.flightTravelInfoData.traveldetails[index].email,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+                Text( model.flightTravelInfoData.traveldetails[index].nationality,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+
+              ],
+            ),
+
+            SizedBox(height:15 ,),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Address",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+                Text( model.flightTravelInfoData.traveldetails[index].address,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
 
               ],
             ),

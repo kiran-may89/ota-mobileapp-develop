@@ -111,13 +111,13 @@ class _ActivityPaymentOptionsState extends State<ActivityPaymentOptions> {
                     children: [
                       Spacer(),
 
-                      Text(activityTravellerData.totalAmountWithMarkup.displayRateInfoWithMarkup.currency,style: CustomStyles.bold16,),
+                      Text(activityTravellerData.totalAmountWithMarkup.displayRateInfoWithMarkup.currency,style: CustomStyles.normal14,),
 
 
                       SizedBox(width: 15,),
 
 
-                      Text(activityTravellerData.totalAmountWithMarkup.displayRateInfoWithMarkup.baseRate.toString(),style: CustomStyles.bold16,),
+                      Text(activityTravellerData.totalAmountWithMarkup.displayRateInfoWithMarkup.baseRate.toString(),style: CustomStyles.normal14,),
                     ],
                   ),flex: 6,),
 
@@ -143,7 +143,7 @@ class _ActivityPaymentOptionsState extends State<ActivityPaymentOptions> {
 
                       SizedBox(width: 15,),
 
-                      Text(activityTravellerData.totalAmountWithMarkup.displayRateInfoWithMarkup.taxAndOtherCharges.toString(),style: CustomStyles.bold16,),
+                      Text(activityTravellerData.totalAmountWithMarkup.displayRateInfoWithMarkup.taxAndOtherCharges.toString(),style: CustomStyles.normal14,),
                     ],
                   ),flex: 6,),
 

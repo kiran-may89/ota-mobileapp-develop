@@ -20,9 +20,9 @@ class ProfileManagement extends StatefulWidget {
 
 class _ProfileManagementState
     extends State<ProfileManagement> {
-  var height;
+  var screenHeight;
 
-  var width;
+  var screenWidth;
   String version;
 
   String buildNumber;
@@ -36,10 +36,10 @@ class _ProfileManagementState
 
   @override
   Widget build(BuildContext context) {
-    height =
+    screenHeight =
         MediaQuery.of(context).size.height / 10;
 
-    width =
+    screenWidth =
         MediaQuery.of(context).size.width / 10;
 
 
@@ -51,6 +51,7 @@ class _ProfileManagementState
       child: Consumer<ProfileViewModel>(
         builder: (context, model, child) {
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor:
                   CustomColors.BackGround,
@@ -74,235 +75,252 @@ class _ProfileManagementState
                     MediaQuery.of(context)
                         .size
                         .height)
-                : Container(
-                    width: width * 10,
-                    height: height * 10,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width * .5,
-                        vertical: height * .4),
+                : model.profileResponse.result!=null?
+            Container(
+                    width: screenWidth * 10,
+                    height: screenHeight * 10,
+
                     child: SingleChildScrollView( 
-                      child: Column(
-                        mainAxisAlignment:
-                            MainAxisAlignment
-                                .center,
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .center,
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundImage: AssetImage(
-                                "assets/images/profile_img.png"),
-                            backgroundColor:
-                                Colors.transparent,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            model
-                                    .profileResponse
-                                    .result.user
-                                    .firstName +
-                                " " +
-                                model
-                                    .profileResponse
-                                    .result.user
-                                    .lastName,
-                            style: CustomStyles
-                                .medium16,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            model.profileResponse
-                                .result.user.email,
-                            style: CustomStyles
-                                .medium16,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            model
-                                    .profileResponse
-                                    .result.user
-                                    .phoneNumber ??
-                                "",
-                            style: CustomStyles
-                                .medium16,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-
-                            Column(
-                              children: [
-                                ListView(
-                                primary: false,
-                                  shrinkWrap: true,
-                                  children: ListTile
-                                      .divideTiles(
-                                          //          <-- ListTile.divideTiles
-                                          context:
-                                              context,
-                                          tiles: [
-                                        ListTile(
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                                context,
-                                                Routes
-                                                    .profile);
-                                          },
-                                          title: Text(
-                                            getLocalText('profile', context),
-                                            style: CustomStyles
-                                                .normal16
-                                                .copyWith(
-                                                    color:
-                                                        CustomColors.BackGround),
-                                          ),
-
-                                          leading: Icon(
-                                            Icons
-                                                .person,
-                                            color: CustomColors
-                                                .BackGround,
-                                          ),
-                                        ),
-
-                                          ListTile(
-                                          onTap: () {
-                                          Navigator.pushNamed(
-                                          context,
-                                          Routes
-                                          .family_members);
-                                          },
-                                          title: Text(
-                                          getLocalText("family_list", context),
-                                          style: CustomStyles
-                                          .normal16
-                                          .copyWith(
-                                          color: CustomColors.BackGround)),
-                                          leading: Icon(
-                                          Icons.group,
-                                          color: CustomColors
-                                          .BackGround,
-                                          ),
-                                          ),
-                                        Visibility(
-                                          visible: model.profileResponse.result.isExternal==null,
-                                          child: ListTile(
-                                            onTap: (){
-                                              Navigator.pushNamed(context, Routes.changePassword);
-                                            },
-                                            title: Text(
-                                              getLocalText("change_password", context),
-                                              style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround),
-                                            ),
-                                            leading: Icon(
-                                              Icons.lock_open,color: CustomColors.BackGround,
-                                            ),
-                                          ),
-                                        ),
-
-                                          ListTile(
-                                          title: Text(
-                                         getLocalText("view_bookings", context)
-                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
-                                          leading: Icon(Icons.search_rounded,color: CustomColors.BackGround.withOpacity(.9),),
-                                         // subtitle: Text("Search the bookings",style: CustomStyles.calenderStyle,),
-                                          ),
-
-                                          ListTile(
-                                          title: Text(
-                                         getLocalText("my_wallet", context)
-                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
-                                          leading: Icon(Icons.wallet_giftcard_outlined,color: CustomColors.BackGround.withOpacity(.9),),
-                                          ),
-
-                                          ListTile(
-                                            onTap: (){
-
-                                              Navigator.pushNamed(
-                                              context,
-                                              Routes
-                                              .appSettings);
-
-                                            },
-                                          title: Text(
-                                          getLocalText("settings", context),style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
-                                          leading: Icon(Icons.settings_applications_outlined,color: CustomColors.BackGround.withOpacity(.9),),
-                                          ),
-                                          ListTile(
-                                            onTap: (){
-                                              Navigator.pushNamed(
-                                              context,
-                                              Routes
-                                              .notifications);
-                                            },
-                                          title: Text(getLocalText("notifications", context)
-                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
-                                          leading: Icon(Icons.notifications_none,color: CustomColors.BackGround.withOpacity(.9),),
-                                          ),
-
-                                          ListTile(
-                                          title: Text(getLocalText("rate_us", context)
-                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
-                                          leading: Icon(Icons.rate_review_outlined,color: CustomColors.BackGround.withOpacity(.9),),
-                                          ),
-
-                                          ListTile(
-                                          title: Text(
-                                          getLocalText("about_us", context)
-                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
-                                          leading: Icon(Icons.info_outline,color: CustomColors.BackGround.withOpacity(.9),),
-                                          ),
-                                          ListTile(
-                                          title: Text(getLocalText("help_support", context),style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
-                                          leading: Icon(Icons.help_outline,color: CustomColors.BackGround.withOpacity(.9),),
-                                          ),
-
-
-                                        ListTile(
-                                          onTap: () {
-                                            showLogoutDialog();
-                                          },
-                                          title: Text(
-                                            getLocalText("logout", context),
-                                            style: CustomStyles
-                                                .normal16
-                                                .copyWith(
-                                                    color:
-                                                        CustomColors.BackGround),
-                                          ),
-                                          leading: Icon(
-                                            Icons
-                                                .power_settings_new,
-                                            color: CustomColors
-                                                .BackGround,
-                                          ),
-                                        ),
-                                      ]).toList(),
-                                ),
-                              SizedBox(height: 15,),
-
-
-                              Text("TripShop",style: CustomStyles.bold20.copyWith(color: CustomColors.disabledButton),),
-                              SizedBox(height: 5,),
-                              Text(model.version_+model.buildNumber_,style: CustomStyles.normal9.copyWith(color: CustomColors.disabledButton),),
-
-
-
-
-                              ],
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * .5,
+                        vertical: screenHeight * .4),
+                        child: Column(
+                          mainAxisAlignment:
+                              MainAxisAlignment
+                                  .center,
+                          crossAxisAlignment:
+                              CrossAxisAlignment
+                                  .center,
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundImage: AssetImage(
+                                  "assets/images/profile_img.png"),
+                              backgroundColor:
+                                  Colors.transparent,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              model
+                                      .profileResponse
+                                      .result
+                                      .firstName +
+                                  " " +
+                                  model
+                                      .profileResponse
+                                      .result
+                                      .lastName,
+                              style: CustomStyles
+                                  .medium16,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              model.profileResponse
+                                  .result.email,
+                              style: CustomStyles
+                                  .medium16,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              model
+                                      .profileResponse
+                                      .result
+                                      .phoneNumber ??
+                                  "",
+                              style: CustomStyles
+                                  .medium16,
+                            ),
+                            SizedBox(
+                              height: 15,
                             ),
 
-                        ],
+                              Column(
+                                children: [
+                                  ListView(
+                                  primary: false,
+                                    shrinkWrap: true,
+                                    children: ListTile
+                                        .divideTiles(
+                                            //          <-- ListTile.divideTiles
+                                            context:
+                                                context,
+                                            tiles: [
+                                          ListTile(
+                                            onTap: () {
+                                            Map<String,
+                                            dynamic> args = new Map();
+                                            args['model'] = model;
+
+                                            args['context'] =
+                                           context;
+
+
+                                              Navigator.pushNamed(
+                                                  context,
+                                                  Routes
+                                                      .profile,arguments:args);
+                                            },
+                                            title: Text(
+                                              getLocalText('profile', context),
+                                              style: CustomStyles
+                                                  .normal16
+                                                  .copyWith(
+                                                      color:
+                                                      CustomColors.BackGround.withOpacity(.9)),
+                                            ),
+
+                                            leading: Icon(
+                                              Icons
+                                                  .person,
+                                              color: CustomColors
+                                                  .BackGround.withOpacity(.9),
+                                            ),
+                                          ),
+
+                                            ListTile(
+                                            onTap: () {
+                                            Navigator.pushNamed(
+                                            context,
+                                            Routes
+                                            .family_members);
+                                            },
+
+                                            title: Text(
+                                            getLocalText("family_list", context),
+                                            style: CustomStyles
+                                            .normal16
+                                            .copyWith(
+                                            color: CustomColors.BackGround.withOpacity(.9))),
+                                            leading: Icon(
+                                            Icons.group,
+                                            color: CustomColors
+                                            .BackGround.withOpacity(.9),
+                                            ),
+                                            ),
+                                          Visibility(
+                                            visible: !model.isExternalLogin,
+                                            child: ListTile(
+                                              onTap: (){
+                                                Navigator.pushNamed(context, Routes.changePassword);
+                                              },
+                                              title: Text(
+                                                getLocalText("change_password", context),
+                                                style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),
+                                              ),
+                                              leading: Icon(
+                                                Icons.lock_open,color: CustomColors.BackGround.withOpacity(.9),
+                                              ),
+                                            ),
+                                          ),
+
+                                            ListTile(
+                                            onTap: (){
+                                            Navigator.pushNamed(context, Routes.myBookings);
+                                            },
+                                            title: Text(
+                                           getLocalText("view_bookings", context)
+                                            ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                                            leading: Icon(Icons.search_rounded,color: CustomColors.BackGround.withOpacity(.9),),
+                                           // subtitle: Text("Search the bookings",style: CustomStyles.calenderStyle,),
+                                            ),
+
+                                            ListTile(
+                                            title: Text(
+                                           getLocalText("my_wallet", context)
+                                            ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+                                            leading: Icon(Icons.wallet_giftcard_outlined,color: CustomColors.BackGround.withOpacity(.9),),
+                                            ),
+
+//                                          ListTile(
+//                                            onTap: (){
+//
+//                                              Navigator.pushNamed(context,Routes.appSettings);
+//
+//                                            },
+//                                          title: Text(
+//                                          getLocalText("settings", context),style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+//                                          leading: Icon(Icons.settings_applications_outlined,color: CustomColors.BackGround.withOpacity(.9),),
+//                                          ),
+
+
+//                                          ListTile(
+//                                            onTap: (){
+//                                              Navigator.pushNamed(
+//                                              context,
+//                                              Routes
+//                                              .notifications);
+//                                            },
+//                                          title: Text(getLocalText("notifications", context)
+//                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+//                                          leading: Icon(Icons.notifications_none,color: CustomColors.BackGround.withOpacity(.9),),
+//                                          ),
+
+//                                          ListTile(
+//                                          title: Text(getLocalText("rate_us", context)
+//                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+//                                          leading: Icon(Icons.rate_review_outlined,color: CustomColors.BackGround.withOpacity(.9),),
+//                                          ),
+//
+//                                          ListTile(
+//                                          title: Text(
+//                                          getLocalText("about_us", context)
+//                                          ,style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+//                                          leading: Icon(Icons.info_outline,color: CustomColors.BackGround.withOpacity(.9),),
+//                                          ),
+//                                          ListTile(
+//                                          title: Text(getLocalText("help_support", context),style: CustomStyles.normal16.copyWith(color: CustomColors.BackGround.withOpacity(.9)),),
+//                                          leading: Icon(Icons.help_outline,color: CustomColors.BackGround.withOpacity(.9),),
+//                                          ),
+
+
+                                          ListTile(
+                                            onTap: () {
+                                              showLogoutDialog();
+                                            },
+                                            title: Text(
+                                              getLocalText("logout", context),
+                                              style: CustomStyles
+                                                  .normal16
+                                                  .copyWith(
+                                                      color:
+                                                      CustomColors.BackGround.withOpacity(.9)),
+                                            ),
+                                            leading: Icon(
+                                              Icons
+                                                  .power_settings_new,
+                                              color: CustomColors.BackGround.withOpacity(.9),
+                                            ),
+                                          ),
+                                        ]).toList(),
+                                  ),
+                                SizedBox(height: 15,),
+
+
+                                Text("TripShop",style: CustomStyles.bold20.copyWith(color: CustomColors.disabledButton),),
+                                SizedBox(height: 5,),
+                                Text(model.version_+model.buildNumber_,style: CustomStyles.normal9.copyWith(color: CustomColors.disabledButton),),
+
+
+
+
+                                ],
+                              ),
+
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ):
+            Center(
+            child: Text("Something went wrong",style: CustomStyles.heading.copyWith(color: CustomColors.Orange),),
+            ),
           );
         },
       ),
@@ -318,14 +336,16 @@ class _ProfileManagementState
       ),
       child: Container(
           padding: EdgeInsets.all(5),
-          height: 130.0,
-          width: 300.0,
+          height: screenHeight*2.5,
+          width: screenWidth*8,
           child: Column(
             mainAxisAlignment:
                 MainAxisAlignment.start,
             crossAxisAlignment:
                 CrossAxisAlignment.start,
             children: [
+
+            SizedBox(height: screenHeight*.2,),
               Padding(
                 padding:
                     const EdgeInsets.only(left: 8,top: 8),
@@ -335,12 +355,13 @@ class _ProfileManagementState
                   textAlign: TextAlign.start,
                 ),
               ),
-          SizedBox(height: 10,),
+          SizedBox(height: screenHeight*.4,),
 
           Padding(
           padding:
           const EdgeInsets.only(left: 8,),
           child: Text("Do you want to really logout ?",style: CustomStyles.medium16,textAlign: TextAlign.start,)),
+            SizedBox(height: screenHeight*.2,),
 
               SizedBox(
                 height: 5,

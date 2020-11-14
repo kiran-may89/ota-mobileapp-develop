@@ -386,7 +386,12 @@ class Routes {
         break;
 
       case profile:
-        return MaterialPageRoute(builder: (_) => Profile());
+        Map<String, dynamic> maps = args as Map;
+        var model = maps['model'];
+        var context = maps['context'];
+
+
+        return MaterialPageRoute(builder: (_) => Profile(model,context));
 
         break;
 

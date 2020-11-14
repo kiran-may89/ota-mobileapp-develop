@@ -526,6 +526,9 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
         ),
 
         TextFormField(
+        inputFormatters: [
+        LengthLimitingTextInputFormatter(30),
+        ],
         focusNode: emailNode,
           controller: model.email,
 
@@ -547,7 +550,7 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
 
           SizedBox(height: 10,),
         Container(
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: CustomColors.disabledButton, width: 2))),
+       // decoration: BoxDecoration(border: Border(bottom: BorderSide(color: CustomColors.disabledButton, width: 2))),
         child: InternationalPhoneNumberInput(
         focusNode: mobileNode,
 
@@ -556,6 +559,7 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
           selectorConfig: SelectorConfig(
            selectorType: PhoneInputSelectorType.DIALOG),
            onInputChanged: (PhoneNumber number) {
+
 
            FocusScope.of(context).requestFocus(mobileNode);
             model.changeCountryCodeSelection(number.dialCode);
@@ -573,13 +577,7 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
              phoneValid = value;
             },
 
-        validator: (value) {
-        if (!phoneValid) {
-        return getLocalText("enter_valid_phone_number", context);
-        }
-        return null;
-        },
-
+        validator: (value)=>value.isEmpty?getLocalText("enter_phone_number", context):!phoneValid?getLocalText("enter_valid_phone_number", context):null,
 
            inputDecoration: InputDecoration(
            alignLabelWithHint: true,
@@ -603,6 +601,9 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
           child: GestureDetector(
 
             onTap: (){
+            mobileNode.unfocus();
+            lastNameFocus.unfocus();
+            emailNode.unfocus();
               showDateSelectionSheet(context,model,"destination");
             },
 
@@ -635,6 +636,9 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
           child: GestureDetector(
 
             onTap: (){
+            mobileNode.unfocus();
+            lastNameFocus.unfocus();
+            emailNode.unfocus();
               _selectTime(model,context,"destination");
             },
 
@@ -666,6 +670,9 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
         GestureDetector(
 
           onTap: (){
+          mobileNode.unfocus();
+          lastNameFocus.unfocus();
+          emailNode.unfocus();
             showDateSelectionSheet(context,model,"pickup");
           },
 
@@ -695,6 +702,9 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
         GestureDetector(
 
           onTap: (){
+          mobileNode.unfocus();
+          lastNameFocus.unfocus();
+          emailNode.unfocus();
             _selectTime(model,context,"pickup");
           },
 
@@ -725,6 +735,11 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
             Visibility(
               visible: model.selectedVehicleData.first.startPlace.terminal.isNotEmpty,
               child: TextFormField(
+              onTap: (){
+              mobileNode.unfocus();
+              lastNameFocus.unfocus();
+              emailNode.unfocus();
+              },
                    controller: TextEditingController(text:model.startTrainOrFlightNumber),
                   textInputAction: TextInputAction.next,
                   style: CustomStyles.normal16
@@ -752,6 +767,11 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
                child:
 
                DropdownButtonFormField(
+               onTap: (){
+               mobileNode.unfocus();
+               lastNameFocus.unfocus();
+               emailNode.unfocus();
+               },
                  focusColor: Colors.white,
                  items:model.selectedVehicleData.first.startPlace.terminal.map((String terminal) {
                    return new DropdownMenuItem(
@@ -792,6 +812,11 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
         Visibility(
           visible: model.selectedVehicleData.first.finishPlace.terminal.isNotEmpty,
           child: TextFormField(
+          onTap: (){
+          mobileNode.unfocus();
+          lastNameFocus.unfocus();
+          emailNode.unfocus();
+          },
             controller: TextEditingController(text:model.finishTrainOrFlightNumber),
             textInputAction: TextInputAction.next,
             style: CustomStyles.normal16
@@ -820,6 +845,11 @@ class _Passenger_infoState extends State<Passenger_info>  implements Delegate{
           child:
 
           DropdownButtonFormField(
+          onTap: (){
+          mobileNode.unfocus();
+          lastNameFocus.unfocus();
+          emailNode.unfocus();
+          },
             focusColor: Colors.white,
             items:model.selectedVehicleData.first.finishPlace.terminal.map((String terminal) {
               return new DropdownMenuItem(

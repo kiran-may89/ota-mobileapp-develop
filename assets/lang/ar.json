@@ -419,6 +419,7 @@
   "primary": "ابتدائي",
   "children":"الأطفال",
   "infants":"الرضع",
+  "infant":"رضيع",
   "male": "الذكر",
   "female": "أنثى",
   "choose_cabin_class": "اختر فئة المقصورة",
@@ -571,7 +572,14 @@
   "stay_information": "البقاء المعلومات",
   "incorrect_age": "العمر غير صحيح",
   "age_should_be_less_than_9_years_old": "أن يكون العمر أقل من 9 سنوات",
-  "enter_correct_name": "أدخل الاسم الصحيح"
+  "enter_correct_name": "أدخل الاسم الصحيح",
+
+
+
+
+
+
+  "profile_updated": "تحديث الملف الشخصي"
 
 
 

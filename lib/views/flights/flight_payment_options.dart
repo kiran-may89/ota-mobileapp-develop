@@ -127,7 +127,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
                 children: <Widget>[
                   Text(getLocalText("flight_price", context),style: CustomStyles.normal12,),
 
-                  Text( flightTravelInfoData.flightResultsData.currency+" "+flightTravelInfoData.flightResultsData.baseRate.toString(),style: CustomStyles.bold16,),
+                  Text( flightTravelInfoData.flightResultsData.currency+" "+flightTravelInfoData.flightResultsData.baseRate.toString(),style: CustomStyles.normal14,),
 
                 ],
               ),
@@ -139,7 +139,7 @@ class _FlightPaymentOptionsState extends State<FlightPaymentOptions> {
                 children: <Widget>[
                   Text(getLocalText("tax_and_other_charges", context),style: CustomStyles.normal12,),
 
-                  Text( flightTravelInfoData.flightResultsData.currency+" "+flightTravelInfoData.flightResultsData.taxAndOtherCharges.toString(),style: CustomStyles.bold16,),
+                  Text( flightTravelInfoData.flightResultsData.currency+" "+flightTravelInfoData.flightResultsData.taxAndOtherCharges.toString(),style: CustomStyles.normal14,),
 
                 ],
               ),

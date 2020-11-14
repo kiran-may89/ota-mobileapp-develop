@@ -8,7 +8,7 @@ import 'package:ota/utils/styles.dart';
 import 'colors.dart';
 
 class Dialogs {
-  static Future<void> showLoadingDialog(BuildContext context, GlobalKey key) async {
+  static Future<void> showLoadingDialog(BuildContext context, GlobalKey key,{String message}) async {
     return showDialog<void>(
         context: context,
         barrierDismissible: true,
@@ -28,10 +28,15 @@ class Dialogs {
                     SpinKitChasingDots(
                       size: SizeConstants.SIZE_50,
                       color: CustomColors.White,
-                    )
+                    ),
+
 
                   ),
-                )
+                ),
+
+                SizedBox(height: 20,),
+
+                Text(message??"",style: CustomStyles.medium14.copyWith(color: Colors.white),)
               ]));
         });
   }
@@ -39,20 +44,65 @@ class Dialogs {
   static void showErrorPopup(BuildContext context, {String messaage = "Something Went Wrong"}) {
     showDialog(
         context: context,
-        barrierColor: Colors.black12,
-        barrierDismissible: true,
-        builder: (context) => AlertDialog(
-              title: new Text("Alert"),
-              content: new Text(messaage),
-              actions: <Widget>[
-                new FlatButton(
-                  child: new Text("OK"),
+        //barrierColor: Colors.black12,
+        barrierDismissible: false,
+        builder: (context) =>
+        SimpleDialog(
+           contentPadding: EdgeInsets.all(0),
+         // key: key,
+          backgroundColor: Colors.white,
+          children: <Widget>[
+          Container(
+            color: Colors.white,
+            //height: (MediaQuery.of(context).size.height/10)*3.3,
+            width: (MediaQuery.of(context).size.width/10)*8,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset("assets/error.png",height:(MediaQuery.of(context).size.height/10)*1.5 ,color: Colors.red,) ,
+                SizedBox(height: (MediaQuery.of(context).size.height/10)*.3,),
+                Text(messaage,style: CustomStyles.medium16.copyWith(fontWeight: FontWeight.w800),) ,
+                SizedBox(height: (MediaQuery.of(context).size.height/10)*.3,),
+
+                SizedBox(
+                  height: (MediaQuery.of(context).size.height/10)*.8,
+
+                  width: double.infinity,
+                  child: RaisedButton(
+                  color: CustomColors.Orange,
+                  child: Text(
+                    "OK",
+                    style: CustomStyles.button_style,
+                  ),
+//                shape: RoundedRectangleBorder(
+//                  borderRadius: BorderRadius.circular(5.0),
+//                ),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
+                    Navigator.pop(context);
+                  }),
+                )
+
+
               ],
-            ));
+            ),
+          ),
+      ]
+        )
+//        AlertDialog(
+//              title: new Text("Alert"),
+//              content: new Text(messaage),
+//              actions: <Widget>[
+//                new FlatButton(
+//                  child: new Text("OK"),
+//                  onPressed: () {
+//                    Navigator.of(context).pop();
+//                  },
+//                ),
+//              ],
+//            )
+    );
   }
 
 
@@ -131,20 +181,31 @@ class Dialogs {
 
   }
 
-  static void showSpinkitLoading(BuildContext context) {
+  static void showSpinkitLoading(BuildContext context,{String message}) {
     showDialog(
         context: context,
 
-        barrierColor: Colors.black12,
+        barrierColor: Colors.black45,
         barrierDismissible: true,
-        child: Container(
-          width: SizeConstants.SIZE_50,
-          height: SizeConstants.SIZE_50,
-          color: Colors.transparent,
-          child: SpinKitChasingDots(
-            size: SizeConstants.SIZE_50,
-            color: CustomColors.BackGround,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: SizeConstants.SIZE_50,
+              height: SizeConstants.SIZE_50,
+              color: Colors.transparent,
+              child: SpinKitChasingDots(
+                size: SizeConstants.SIZE_50,
+                color: CustomColors.White,
+              ),
+            ),
+
+            SizedBox(height: 20,),
+
+            Text(message??"",style: CustomStyles.medium18.copyWith(color: CustomColors.White),)
+          ],
         ));
 
 

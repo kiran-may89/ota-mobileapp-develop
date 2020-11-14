@@ -10,7 +10,7 @@ import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/size_constants.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
-import 'package:ota/viewmodels/about_hotel_viewmodel.dart';
+import 'package:ota/viewmodels/hotels_view_model/about_hotel_viewmodel.dart';
 import 'package:ota/views/base/base_view.dart';
 import 'package:ota/views/base/base_widget.dart';
 import 'package:ota/models/hotels/hotel_details_request.dart';
@@ -159,44 +159,56 @@ class AboutHotelState extends BaseModelWidget<AboutHotelViewModel> {
                         color: Colors.white,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "USD ${model.hotelDetailsResponse.result.hotel.roomOption[model.radioGroupValue].displayRateInfoWithMarkup.totalPriceWithMarkup}",
-                                  style: CustomStyles.whiteTextSytle24Size.copyWith(color: CustomColors.BackGround, fontWeight: FontWeight.w500),
+                            Expanded(
+                              flex:7,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:10.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "USD ${model.hotelDetailsResponse.result.hotel.roomOption[model.radioGroupValue].displayRateInfoWithMarkup.totalPriceWithMarkup}",
+                                      style: CustomStyles.whiteTextSytle24Size.copyWith(color: CustomColors.BackGround, fontWeight: FontWeight.w500),
+                                    ),
+                                    LimitedBox(
+                                      maxWidth: MediaQuery.of(context).size.width,
+                                      child: Text(
+                                        "${model.hotelDetailsResponse.result.hotel.roomOption[model.radioGroupValue].rooms[0].roomName}",
+                                        style: CustomStyles.whiteTextSytle14Size.copyWith(color: CustomColors.disabledButton),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                LimitedBox(
-                                  maxWidth: MediaQuery.of(context).size.width,
-                                  child: Text(
-                                    "${model.hotelDetailsResponse.result.hotel.roomOption[model.radioGroupValue].rooms[0].roomName}",
-                                    style: CustomStyles.whiteTextSytle14Size.copyWith(color: CustomColors.disabledButton),
-                                  ),
-                                )
-                              ],
+                              ),
                             ),
-                            SizedBox(
-                              height: SizeConstants.SIZE_48,
-                              child: RaisedButton(
-                                  padding: EdgeInsets.all(SizeConstants.SIZE_16),
-                                  color: CustomColors.Orange,
-                                  child: Text(
-                                    getLocalText("book_now", context),
-                                    style: CustomStyles.button_style,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  onPressed: () {
-                                    Map<String, dynamic> args = new Map();
-                                    args['response'] = model.hotelDetailsResponse.result;
-                                    args['dto'] = model.searchDto;
-                                    args['selectGroup'] = model.radioGroupValue;
-                                    Navigator.pushNamed(context, Routes.stayInfoHotel, arguments: args);
-                                  }),
+
+                            Expanded(
+                              flex:3,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right:10.0),
+                                child: SizedBox(
+                                  height: SizeConstants.SIZE_48,
+                                  child: RaisedButton(
+                                      padding: EdgeInsets.all(SizeConstants.SIZE_16),
+                                      color: CustomColors.Orange,
+                                      child: Text(
+                                        getLocalText("book_now", context),
+                                        style: CustomStyles.button_style,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      onPressed: () {
+                                        Map<String, dynamic> args = new Map();
+                                        args['response'] = model.hotelDetailsResponse.result;
+                                        args['dto'] = model.searchDto;
+                                        args['selectGroup'] = model.radioGroupValue;
+                                        Navigator.pushNamed(context, Routes.stayInfoHotel, arguments: args);
+                                      }),
+                                ),
+                              ),
                             )
                           ],
                         ),
@@ -324,6 +336,8 @@ class SelectRooms extends BaseModelWidget<AboutHotelViewModel>
     // TODO: implement build
 
     return ListView.builder(
+              shrinkWrap: true,
+
               itemBuilder: (BuildContext context, int index) => ExpansionRoom(model.hotelDetailsResponse.result.hotel.roomOption[index], index),
               itemCount: model.hotelDetailsResponse.result.hotel.roomOption.length,
             );
@@ -339,55 +353,58 @@ class ExpansionRoom extends BaseModelWidget<AboutHotelViewModel> {
 
   @override
   Widget build(BuildContext context, AboutHotelViewModel model) {
-    return Container(
-      height: (radioIndex == model.radioGroupValue) ? 200 : 50,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Radio(
-                value: radioIndex,
-                groupValue: model.radioGroupValue,
-                activeColor: Colors.white,
-                onChanged: (val) {
-                  model.updateRoomOption(val);
-                },
-              ),
-              Text(
-                "${getLocalText("available_room_group", context)} ${radioIndex + 1}",
-                style: CustomStyles.whiteTextSytle14Size,
-              ),
-              Spacer(),
-              Text(
-                "USD  ${entry.displayRateInfoWithMarkup.totalPriceWithMarkup}",
-                style: CustomStyles.whiteTextSytle14Size,
-              ),
-              Spacer(),
-              RotatedBox(
-                quarterTurns: (radioIndex == model.radioGroupValue) ? 2 : 0,
-                child: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colors.orange,
+    return Padding(
+      padding: const EdgeInsets.only(right:10.0),
+      child: Container(
+
+        height: (radioIndex == model.radioGroupValue) ? 200 : 50,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Radio(
+                  value: radioIndex,
+                  groupValue: model.radioGroupValue,
+                  activeColor: Colors.white,
+                  onChanged: (val) {
+                    model.updateRoomOption(val);
+                  },
                 ),
-              )
-            ],
-          ),
-          Visibility(
-            maintainSize: false,
-            visible: (radioIndex == model.radioGroupValue),
-            child: Expanded(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                key: PageStorageKey("List"),
-                itemCount: entry.rooms.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left:10.0),
-                    child: Card(
+                Text(
+                  "${getLocalText("available_room_group", context)} ${radioIndex + 1}",
+                  style: CustomStyles.whiteTextSytle14Size,
+                ),
+                Spacer(),
+                Text(
+                  "USD  ${entry.displayRateInfoWithMarkup.totalPriceWithMarkup}",
+                  style: CustomStyles.whiteTextSytle14Size,
+                ),
+                Spacer(),
+                RotatedBox(
+                  quarterTurns: (radioIndex == model.radioGroupValue) ? 2 : 0,
+                  child: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Colors.orange,
+                  ),
+                )
+              ],
+            ),
+            Visibility(
+              maintainSize: false,
+              visible: (radioIndex == model.radioGroupValue),
+              child: Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+
+                  key: PageStorageKey("List"),
+                  itemCount: entry.rooms.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Card(
                       elevation: 2,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -415,13 +432,13 @@ class ExpansionRoom extends BaseModelWidget<AboutHotelViewModel> {
                           )
                         ],
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -451,14 +468,14 @@ class HotelsAbout extends BaseModelWidget<AboutHotelViewModel> {
             children: <Widget>[
               Text(
                 strings.about,
-                style: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.white.withOpacity(0.5)),
+                style: CustomStyles.whiteTextSytle14Size.copyWith(color: Colors.white.withOpacity(0.9)),
               ),
               SizedBox(
                 height: SizeConstants.SIZE_16,
               ),
               Text(
                 model.hotelDetailsResponse.result.hotel.description,
-                style: CustomStyles.whiteTextSytle12Size.copyWith(color: Colors.white.withOpacity(0.5)),
+                style: CustomStyles.whiteTextSytle12Size.copyWith(color: Colors.white.withOpacity(0.9)),
               ),
               SizedBox(
                 height: SizeConstants.SIZE_30,

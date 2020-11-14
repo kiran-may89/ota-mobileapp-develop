@@ -79,7 +79,7 @@ class _TranferCcDetailsState extends State<TranferCcDetails> implements Delegate
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
 
-                              Dialogs.showLoadingDialog(context, _keyLoader);
+                              Dialogs.showLoadingDialog(context, _keyLoader,message: "Processing transfer booking");
 
                               model.bookTransfer().then((value) {
                                 if(value!=null) {

@@ -196,11 +196,23 @@ return activityDetailsData;
 
         scaffoldKey.currentState.showSnackBar(snackBar);
         return false;
+      }else{
+
+        Navigator.pushNamed(context, Routes.activityTravellerInfo,
+        arguments: getArgumentData()
+        );
+
+
+        return true;
       }
 
 
     });
-    return true;
+
+
+
+
+
   }
 
 

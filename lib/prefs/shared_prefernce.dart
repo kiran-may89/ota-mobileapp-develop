@@ -12,6 +12,10 @@ class Pref {
   final String _accessToken = "access_token";
   final String _refreshToken = "refresh_token";
   final String language = "language";
+  final String isExternal = "isExternal";
+
+  final String currency = "currency";
+  final String currency_symbol = "currency_symbol";
 
   Pref._privateConstrutor() {
     _prefs = SharedPreferences.getInstance();
@@ -81,6 +85,18 @@ class Pref {
   Future<String>  getData(String key) async{
     final SharedPreferences prefs = await _prefs;
     return  prefs.getString(key);
+
+  }
+
+  void setBoolData(String key, bool value) async{
+    final SharedPreferences prefs = await _prefs;
+    prefs.setBool(key, value);
+
+  }
+
+  Future<bool>  getBoolData(String key) async{
+    final SharedPreferences prefs = await _prefs;
+    return  prefs.getBool(key);
 
   }
 

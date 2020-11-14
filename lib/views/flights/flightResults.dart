@@ -767,7 +767,7 @@ class _FlightResultsState
                                                                             ],
                                                                           )),
                                                                       onTap: () async {
-                                                                        Dialogs.showLoadingDialog(context, _keyLoader);
+                                                                        Dialogs.showLoadingDialog(context, _keyLoader,message: "Checking Flight Availability");
                                                                         model.checkFlightAvailability(model.flightList[index]).then((value) {
                                                                           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
@@ -1243,7 +1243,7 @@ class _FlightResultsState
                                                                             )),
                                                                       ),
                                                                       onTap: () {
-                                                                        Dialogs.showLoadingDialog(context, _keyLoader);
+                                                                        Dialogs.showLoadingDialog(context, _keyLoader,message: "Checking Flight Availability");
 
                                                                         model.checkFlightAvailability(model.flightList[index]).then((value) {
                                                                           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

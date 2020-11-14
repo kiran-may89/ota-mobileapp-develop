@@ -794,6 +794,9 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
 
 
           TextFormField(
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(30),
+            ],
             focusNode: emailFocus,
             controller: model.Email,
             onFieldSubmitted: (v){
@@ -831,12 +834,8 @@ class _Activity_TravellerInformationState extends State<Activity_TravellerInform
                 FocusScope.of(context).requestFocus(mobileFocus);
                 phoneNumberValidated = value;
               },
-              validator: (value) {
-                if (!phoneNumberValidated) {
-                  return getLocalText("enter_valid_phone_number", context);
-                }
-                return null;
-              },
+
+              validator: (value)=>value.isEmpty?getLocalText("enter_phone_number", context):!phoneNumberValidated?getLocalText("enter_valid_phone_number", context):null,
               inputDecoration: new InputDecoration(
               labelStyle: CustomStyles.medium16.copyWith(color: Colors.grey),
               labelText: getLocalText("enter_phone_number", context),

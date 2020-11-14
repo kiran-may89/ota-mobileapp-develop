@@ -11,6 +11,7 @@ import 'package:ota/net/logging_interceptor.dart';
 import 'package:ota/net/network_interceptor.dart';
 import 'package:ota/net/service/common/common_service.dart';
 import 'package:ota/net/service/common/common_service_impl.dart';
+import 'package:ota/net/service/onboarding/onboard_repo.dart';
 import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/productflavors/flavor_package.dart';
 import 'package:ota/utils/constants.dart';
@@ -46,7 +47,7 @@ class ApiServiceConfig {
 
           print("Error${error.message}");
 
-          if (error.response?.statusCode == 403 || error.response?.statusCode == 401) {
+          if ((error.response?.statusCode == 403 || error.response?.statusCode == 401)&&(error.response.request.path!=OnBoardRepo.LOGIN)) {
             CommonService commonService = GetIt.instance<CommonService>();
             String refrestoken = SessionManager.getInstance().getRefreshToken;
             await commonService.refreshAccessToken(refrestoken);

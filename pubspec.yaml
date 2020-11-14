@@ -59,6 +59,9 @@ dependencies:
 
   age: ^0.0.1
 
+  permission_handler: ^5.0.1+1
+  image_gallery_saver: ^1.6.2
+
 
   crypto: ^2.1.5
   encrypt: ^4.0.3
@@ -135,6 +138,7 @@ flutter:
     - assets/screenshot_icon.png
     - assets/clipboard.png
     - assets/nobookings.png
+    - assets/error.png
 
     - assets/images/default_profile_cover.png
     - assets/images/default_profile_pic.png
@@ -152,6 +156,7 @@ flutter:
     - assets/images/dashboard/dashboard_bg.png
     - assets/images/dashboard/cover.jpg
     - assets/images/dashboard/logo_plane.png
+    - assets/images/dashboard/quick_booking.png
 
     - assets/images/ameneties/wifi.png
     - assets/images/ameneties/pool.png
@@ -168,6 +173,13 @@ flutter:
     - assets/images/profile_img.png
     - assets/images/logout.png
     - assets/images/no_image_available.jpg
+
+    - assets/images/profile/currency.png
+    - assets/images/profile/language.png
+    - assets/images/profile/tools.png
+    - assets/images/profile/wallet.png
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -6,17 +6,35 @@ import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/dialog.dart';
 import 'package:ota/utils/styles.dart';
 import 'package:ota/viewmodels/profile/profile_view_model.dart';
+import 'package:ota/views/profile/profile_date_selector.dart';
 import 'package:provider/provider.dart';
 
+import 'bottom_sheet/profile_country_selector.dart';
+import 'date_selector.dart';
+
 class Profile extends StatefulWidget {
+
+  ProfileViewModel model;
+
+  BuildContext context;
+
+  Profile(this.model, this.context);
+
+
+
+
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfileState createState() => _ProfileState(model,context);
 }
 
 class _ProfileState extends State<Profile> {
   var height;
 
   var width;
+
+  ProfileViewModel model;
+
+  BuildContext context;
 
 
   var formKey = GlobalKey<FormState>();
@@ -27,8 +45,10 @@ class _ProfileState extends State<Profile> {
 
   final GlobalKey<ScaffoldState> globalKey = new GlobalKey<ScaffoldState>();
 
+  _ProfileState(this.model, this.context);
+
   @override
-  Widget build(BuildContext context) {
+  Widget build( context) {
     height =
         MediaQuery.of(context).size.height / 10;
 
@@ -37,9 +57,8 @@ class _ProfileState extends State<Profile> {
 
 
     return ChangeNotifierProvider<
-    ProfileViewModel>(
-      create: (context) =>
-      ProfileViewModel(),
+    ProfileViewModel>.value(
+      value: model,
       child: Consumer<ProfileViewModel>(
         builder: (context, model, child) {
 
@@ -66,7 +85,7 @@ class _ProfileState extends State<Profile> {
       body:
       model.loading ?
       ShimmerContainer(MediaQuery.of(context).size.height)
-      :
+      :model.profileResponse.result!=null?
       SingleChildScrollView(
         child: Card(
           margin: EdgeInsets.all(20),
@@ -144,29 +163,43 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
 
-                    TextFormField(
-                      enabled: false,
+                    GestureDetector(
+                      onTap: (){
+                        if(model.editStatus) {
+                          showDobDialog(
+                          context,
+                          model);
+                        }
+                      },
 
-                      controller: model.dateOfBirth,
+                      child: AbsorbPointer(
+                        absorbing: true,
 
-                      validator: (input) =>input.isEmpty?getLocalText("enter_date_of_birth", context):null ,
+                        child: TextFormField(
+                          enabled: model.editStatus,
 
-                      style: CustomStyles
-                      .medium16
-                      .copyWith(
-                      color: CustomColors
-                      .BackGround),
-                      decoration: InputDecoration(
-                        labelStyle: CustomStyles
-                        .medium16
-                        .copyWith(
-                        color: CustomColors.disabledButton),
-                        labelText:
-                        getLocalText("date_of_birth", context),
-                        alignLabelWithHint:
-                        true,
+                          controller: model.dateOfBirth,
+
+                          validator: (input) =>input.isEmpty?getLocalText("enter_date_of_birth", context):null ,
+
+                          style: CustomStyles
+                          .medium16
+                          .copyWith(
+                          color: CustomColors
+                          .BackGround),
+                          decoration: InputDecoration(
+                            labelStyle: CustomStyles
+                            .medium16
+                            .copyWith(
+                            color: CustomColors.disabledButton),
+                            labelText:
+                            getLocalText("date_of_birth", context),
+                            alignLabelWithHint:
+                            true,
 
 
+                          ),
+                        ),
                       ),
                     ),
 
@@ -225,33 +258,84 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
 
-
-                    TextFormField(
-                      enabled:  model.editStatus,
-                      controller: model.locationName,
-                      validator: (value) {
-                        return value.isEmpty
-                        ? getLocalText("country", context)
-                        : null;
+                    GestureDetector(
+                      onTap: () {
+                        showSourceBottomSheet(
+                        context,
+                        model,
+                        );
                       },
-                      style: CustomStyles
-                      .medium16
-                      .copyWith(
-                      color: CustomColors
-                      .BackGround),
-                      decoration: InputDecoration(
-                        labelStyle: CustomStyles
-                        .medium16
-                        .copyWith(
-                        color: CustomColors.disabledButton),
-                        labelText:
-                        getLocalText("select_country", context),
-                        alignLabelWithHint:
-                        true,
+                      child:
 
 
+                      AbsorbPointer(
+                        absorbing: true,
+                        child:
+                        TextFormField(
+                          enabled: model.editStatus,
+                          controller: model.nationality,
+                          showCursor: false,
+                          readOnly: true,
+//onSaved: (value) => pasenger.email = value.trimRight(),
+                          validator:
+                          (value) {
+                            return value ==
+                            null ||
+                            value
+                            .isEmpty
+                            ? getLocalText("select_country", context)
+                            : null;
+                          },
+//  initialValue: pasenger.email ?? '',
+                          style: CustomStyles
+                          .medium16
+                          .copyWith(
+                          color: CustomColors
+                          .BackGround),
+                          decoration:
+                          InputDecoration(
+                            labelStyle: CustomStyles
+                            .medium16
+                            .copyWith(
+                            color: Colors
+                            .grey),
+                            labelText:
+                            getLocalText("country", context),
+                            alignLabelWithHint:
+                            true,
+                          ),
+                        ),
                       ),
                     ),
+
+
+
+//                    TextFormField(
+//                      enabled:  model.editStatus,
+//                      controller: model.locationName,
+//                      validator: (value) {
+//                        return value.isEmpty
+//                        ? getLocalText("country", context)
+//                        : null;
+//                      },
+//                      style: CustomStyles
+//                      .medium16
+//                      .copyWith(
+//                      color: CustomColors
+//                      .BackGround),
+//                      decoration: InputDecoration(
+//                        labelStyle: CustomStyles
+//                        .medium16
+//                        .copyWith(
+//                        color: CustomColors.disabledButton),
+//                        labelText:
+//                        getLocalText("select_country", context),
+//                        alignLabelWithHint:
+//                        true,
+//
+//
+//                      ),
+//                    ),
 
                     Container(
                       decoration: BoxDecoration(border: Border(bottom: BorderSide(color: model.editStatus?CustomColors.disabledButton:Colors.white, width: 2))),
@@ -360,6 +444,18 @@ class _ProfileState extends State<Profile> {
                             model.enableEdit();
                             model.getProfile();
 
+                            SnackBar snackBar = SnackBar(content: Text(getLocalText("profile_updated", context), style: CustomStyles
+                            .medium16
+                            .copyWith(color: CustomColors
+                            .White)),
+                            backgroundColor: CustomColors
+                            .BackGround,
+                            );
+
+                            globalKey
+                            .currentState
+                            .showSnackBar(snackBar);
+
                           }
 
 
@@ -401,6 +497,9 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ),
+      ):
+      Center(
+        child: Text("Something went wrong",style: CustomStyles.heading.copyWith(color: CustomColors.Orange),),
       ),
     );
 
@@ -424,6 +523,77 @@ class _ProfileState extends State<Profile> {
   getLocalText(String key, BuildContext context) {
 
     return  AppLocalizations.of(context).translate(key);
+  }
+
+  showSourceBottomSheet(BuildContext context, ProfileViewModel model, ) {
+    return showModalBottomSheet(
+    isDismissible: true,
+    clipBehavior: Clip.antiAliasWithSaveLayer,
+    backgroundColor: Colors.white,
+    isScrollControlled: true,
+    context: context,
+    builder: (context) => Container(
+//margin: EdgeInsets.all(15),
+    child: ProfileCountrySelection(model, context)));
+  }
+
+  void showDobDialog(BuildContext context, ProfileViewModel model) {
+    Dialog simpleDialog = Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Container(
+      padding: EdgeInsets.all(5),
+      height: 370.0,
+      width: 300.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+          height: 310.0,
+          width: 300.0,
+          child: ProfileDateSelector(
+          model, context)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+              child: FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(getLocalText("cancel", context)),
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              side: BorderSide(
+              color: CustomColors.disabledButton,
+              width: 2)))),
+              SizedBox(
+                child: FlatButton(
+                onPressed: () {
+      if(model.tempDate!=null){
+
+       model.setDOB();
+
+
+      }
+      Navigator.pop(context);
+                },
+                child: Text(getLocalText("ok", context)),
+                shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                side: BorderSide(
+                color: CustomColors.disabledButton, width: 2))),
+              ),
+            ],
+          )
+        ],
+      )),
+    );
+    showDialog(
+    context: context, builder: (BuildContext context) => simpleDialog);
   }
 
 }

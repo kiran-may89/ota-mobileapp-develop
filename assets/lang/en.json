@@ -420,6 +420,7 @@
   "primary": "Primary",
   "children":"Children",
   "infants":"Infants",
+  "infant":"Infant",
   "male": "Male",
   "female": "Female",
   "choose_cabin_class": "Choose Cabin Class",
@@ -564,16 +565,22 @@
  "about": "About",
   "proceed": "Proceed",
   "rooms": "Rooms",
-  "check_out": "Check Out",
+  "check_out": "Check-Out",
   "room": "Room",
   "search_hotels": "Search Hotels",
-  "no_hotels_found": "NO Hotels Found",
+  "no_hotels_found": "No Hotels Found",
   "free_cancellation": "Free Cancellation",
   "book_hotel": "Book Hotel",
   "available_room_group": "Available Room Group",
   "stay_information": "Stay Information",
   "incorrect_age": "Incorrect Age",
   "age_should_be_less_than_9_years_old": "Age Should be less than 9 years old",
-  "enter_correct_name": "Enter Correct name"
+  "enter_correct_name": "Enter Correct name",
+
+
+
+
+
+  "profile_updated": "Profile Updated"
 
 }

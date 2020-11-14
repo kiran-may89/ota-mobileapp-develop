@@ -29,6 +29,9 @@ class _SearchBookingView extends State<SearchBookingsView> {
             appBar: AppBar(
               title: Text("Search Bookings"),
               backgroundColor: CustomColors.BackGround,
+              actions: [
+                _popupMenu()
+              ],
               leading: new IconButton(
                 icon: new Icon(
                   Icons.arrow_back_ios,
@@ -40,6 +43,7 @@ class _SearchBookingView extends State<SearchBookingsView> {
             ),
             body: Container(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -48,83 +52,64 @@ class _SearchBookingView extends State<SearchBookingsView> {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 10.0, right: 10, bottom: 10),
-                    child:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          flex: 9,
-                          child: Container(
-                            height: kToolbarHeight - 5,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                border: Border.all(color: Colors.grey, width: 1)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  flex: 9,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child:_viewModel.searchHint == "Search By Phone Number"? _intlPhoneNumber() : new TextFormField(
-                                      controller: _viewModel.searchText,
-                                        decoration:  InputDecoration(
+                    child: Container(
 
-                                      hintText: _viewModel.searchHint
-                                    )),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 1.0),
-                                    child: IconButton(
-                                        icon: Icon(
-                                          Icons.search,
-                                          size: 24,
-                                          color: CustomColors.BackGround,
-                                        ),
-                                        onPressed: () {
-                                          if(_viewModel.searchText.value.text!="" )
-                                          {
-                                            _viewModel.reloadSearchBookings();
-                                            _viewModel.searchBookings();
-                                            _viewModel.searchText.clear();
-                                          } else if(_viewModel.phone!="")
-                                            {
-                                              _viewModel.reloadSearchBookings();
-                                              _viewModel.searchBookings();
-                                              _viewModel.searchText.clear();
-                                            }
-                                        },
-                                      ),
-                                  ),
-                                ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        boxShadow: [BoxShadow(
+                          color: CustomColors.disabledButton,
+                          spreadRadius: 0.2,
 
-                                SizedBox(width: 10,)
-                              ],
+                        )]
+                      ),
+
+
+                      child: Padding(
+                        padding: const EdgeInsets.only(right:5.0,left: 5.0),
+                        child: Column(
+                          children: [
+                           _viewModel.searchHint=="id"?  _searchCriteriaById() : _searchCriteriaByName(),
+
+                            SizedBox(height: 15,),
+
+                            GestureDetector(
+                              onTap: (){
+                                FocusScope.of(context).unfocus();
+
+                                _viewModel.searchBookings(_viewModel.searchHint);
+                              },
+                              child: Container(
+                                width: kToolbarHeight+20,
+                                height: kToolbarHeight-20,
+                                decoration: BoxDecoration(
+                                  color: CustomColors.Orange,
+                                  borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: Center(child: Text("Search",style: CustomStyles.medium16.copyWith(color: Colors.white),),),
+                              ),
                             ),
-                          ),
+
+                            SizedBox(height: 10,),
+                          ],
                         ),
-                        Flexible(flex: 1, child: _popupMenu())
-                      ],
+
+                      ),
                     ),
                   ),
 
                 SizedBox(height: 20,),
 
-      _viewModel.isLoading? 
+      _viewModel.isLoading?
       Flexible(
-        flex: 9,
+       flex:7,
         child: Container(
           child: FutureBuilder(
           initialData: _viewModel.bookingResponseList,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
 
           if(_viewModel.bookingResponseList!=null) {
-            if(_viewModel.bookingResponseList.length>0) {
+              if(_viewModel.bookingResponseList.length>0) {
                 return ListView.builder(
                     itemCount: _viewModel.bookingResponseList.length,
                     shrinkWrap: true,
@@ -133,8 +118,8 @@ class _SearchBookingView extends State<SearchBookingsView> {
                           _viewModel.bookingResponseList[index], _viewModel);
                     }
                 );
-            }
-            else
+              }
+              else
                 {
                   return Container(
                     child: Center(
@@ -157,9 +142,9 @@ class _SearchBookingView extends State<SearchBookingsView> {
           else
           {
           return   Center(
-            child: SpinKitChasingDots(
-            size: SizeConstants.SIZE_50,
-            color: CustomColors.BackGround,
+              child: SpinKitChasingDots(
+              size: SizeConstants.SIZE_50,
+              color: CustomColors.BackGround,
           ));
 
           }
@@ -196,21 +181,18 @@ class _SearchBookingView extends State<SearchBookingsView> {
 
 
   inputDecoration: InputDecoration(
-
-  labelStyle: CustomStyles.normal16
+  hintText: "Mobile Number",
+  hintStyle: CustomStyles.medium14
         .copyWith(color: CustomColors.disabledButton),
-    border: InputBorder.none,
-    focusedBorder: InputBorder.none,
-  enabledBorder: InputBorder.none,
-  errorBorder: InputBorder.none,
-  disabledBorder: InputBorder.none,
+
+
     ),
-    ignoreBlank: false,
+      ignoreBlank: false,
       onInputChanged: (PhoneNumber value) {
 
           var no =value.phoneNumber.toString().substring(value.dialCode.length,value.phoneNumber.length);
           if(no.isNotEmpty)
-          _viewModel.phone = value.dialCode + " "+ no;
+          _viewModel.fillSearchData(value.dialCode + no, 2, "byId");
       },
 
     );
@@ -221,31 +203,159 @@ class _SearchBookingView extends State<SearchBookingsView> {
     return PopupMenuButton(
       icon: Icon(
         Icons.filter_list,
-        color: CustomColors.BackGround,
+        color: Colors.white,
       ),
       onSelected: _choiceAction,
       itemBuilder: (BuildContext context) => [
         PopupMenuItem<String>(
-          value: "Search By Reservation No",
-          child: Text("Search By Reservation No"),
+          value: "name",
+          child: Text("Search Criteria By Name"),
         ),
         PopupMenuItem<String>(
-          value: "Search By First Name",
-          child: Text("Search By First Name"),
+          value: "id",
+          child: Text("Search Criteria By Id"),
         ),
-        PopupMenuItem<String>(
-          value: "Search By LastName",
-          child: Text("Search By LastName"),
-        ),
-        PopupMenuItem<String>(
-          value: "Search By Phone Number",
-          child: Text("Search By Phone Number"),
-        ),
+
       ],
     );
   }
 
   void _choiceAction(String choice) {
     _viewModel.searchHint =choice;
+  }
+
+
+  Widget _searchCriteriaByName()
+  {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+
+    Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+
+        Flexible(
+            flex: 5,
+            child: TextFormField(
+                 onChanged: (value){
+                   _viewModel.fillSearchData(value, 0, "byName");
+                 },
+                decoration:  InputDecoration(
+
+                    hintText: "First Name",
+                    hintStyle: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),
+
+                )
+
+            ),
+
+
+
+        ),
+
+        SizedBox(width: 8,),
+        Flexible(
+            flex: 5,
+            child: TextFormField(
+                onChanged: (value){
+                  _viewModel.fillSearchData(value, 1, "byName");
+                },
+                decoration:  InputDecoration(
+                    hintStyle: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),
+
+                    hintText: "Last Name"
+                )
+
+            ),
+        )
+      ],
+    ),
+
+
+
+
+
+        TextFormField(
+            onChanged: (value){
+              _viewModel.fillSearchData(value, 2, "byName");
+            },
+            decoration:  InputDecoration(
+                hintStyle: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),
+
+                hintText: "Email"
+            )
+
+        ),
+
+
+      ],
+
+    );
+  }
+
+
+
+  Widget _searchCriteriaById()
+  {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+
+            Flexible(
+              flex: 5,
+              child:   TextFormField(
+                  onChanged: (value){
+                    _viewModel.fillSearchData(value, 0, "byId");
+                  },
+                  decoration:  InputDecoration(
+
+                    hintText: "Reservation ID",
+                    hintStyle: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),
+
+                  )
+
+              ),
+
+
+
+            ),
+
+            SizedBox(width: 8,),
+            Flexible(
+              flex: 5,
+              child: TextFormField(
+                  onChanged: (value){
+                    _viewModel.fillSearchData(value, 1, "byId");
+                  },
+                  decoration:  InputDecoration(
+                      hintStyle: CustomStyles.medium14.copyWith(color: CustomColors.disabledButton),
+
+                      hintText: "OTA Booking ID"
+                  )
+
+              ),
+            )
+          ],
+        ),
+
+
+
+
+
+        _intlPhoneNumber()
+
+
+      ],
+
+    );
   }
 }

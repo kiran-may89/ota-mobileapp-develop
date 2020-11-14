@@ -143,7 +143,7 @@ class _ChangePasswordState
                         validator: (value) {
                           return value.isEmpty
                               ? "Confirm Password"
-                              : null;
+                              : model.newPassword.text!=value?"Passwords didnot match":null;
                         },
                         style: CustomStyles
                             .medium16
@@ -230,9 +230,26 @@ class _ChangePasswordState
                                         .showSnackBar(
                                             snackBar);
                                   } else {
-                                    Navigator.pop(
-                                        context,
-                                        'done');
+
+                                  SnackBar
+                                  snackBar =
+                                  SnackBar(
+                                  content: Text(
+                                  "Password Changed",
+                                  style: CustomStyles
+                                  .medium16
+                                  .copyWith(color: CustomColors.White)),
+                                  backgroundColor:
+                                  CustomColors
+                                  .BackGround,
+                                  );
+
+                                  globalKey
+                                  .currentState
+                                  .showSnackBar(
+                                  snackBar);
+
+
                                   }
                                 });
                               }

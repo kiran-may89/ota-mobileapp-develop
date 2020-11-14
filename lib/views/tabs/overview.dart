@@ -311,7 +311,7 @@ class _OverviewState extends State<Overview> {
                 getRoutes( model.fullDetailsResponse.result.activity.content.routes),))
 
                 ,
-            SizedBox(height: 30,),
+            SizedBox(height: 150,),
 
 //            Card(
 //              elevation: 3,
@@ -419,14 +419,14 @@ class _OverviewState extends State<Overview> {
 
 
                 SizedBox(height: 5,),
-                        Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          Text("Description : ",style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),),
-                            Text("Description :"+ element.description,style: CustomStyles.medium16,),
-                          ],
-                        ),
+//                        Row(
+//                        mainAxisAlignment: MainAxisAlignment.start,
+//                          crossAxisAlignment: CrossAxisAlignment.start,
+//                          children: [
+//                          Text("Description : ",style: CustomStyles.medium16.copyWith(color: CustomColors.BackGround),),
+//                            Text("Description :"+ element.description,style: CustomStyles.medium16,),
+//                          ],
+//                        ),
 
                 GestureDetector(
                   child: Column(

@@ -8,7 +8,7 @@ import 'package:ota/prefs/session_manager.dart';
 import 'package:ota/utils/colors.dart';
 import 'package:ota/utils/strings.dart';
 import 'package:ota/utils/styles.dart';
-import 'package:ota/viewmodels/home_page_view_model.dart';
+import 'package:ota/viewmodels/hotels_view_model/home_page_view_model.dart';
 import 'package:ota/views/base/base_view.dart';
 
 import '../base/base_widget.dart';
@@ -37,7 +37,7 @@ class _MyHomePageState extends BaseModelWidget<HomePageViewModel> {
               return Container(
                   child: GestureDetector(
                 onTap: () {
-                 // navigate(index, context);
+                  navigate(index, context);
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 25, right: 25),
@@ -99,10 +99,10 @@ class _MyHomePageState extends BaseModelWidget<HomePageViewModel> {
               child: Text(getLocalText("skip", context), style: CustomStyles.button_style),
               onPressed: () {
                 if (SessionManager.getInstance().isGuest) {
-                  Navigator.pushNamed(context, Routes.signIn);
+                  Navigator.pushReplacementNamed(context, Routes.signIn);
                 } else {
 
-                  Navigator.pushNamed(context, Routes.dashboard);
+                  Navigator.pushReplacementNamed(context, Routes.dashboard);
                 }
               },
             ),
@@ -112,6 +112,31 @@ class _MyHomePageState extends BaseModelWidget<HomePageViewModel> {
     );
   }
 
+
+  void navigate(
+  int index,BuildContext context,
+  ) {
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, Routes.hotelBooking);
+        break;
+      case 1:
+        Navigator.pushNamed(context, Routes.flightBooking);
+        break;
+      case 2:
+        Navigator.pushNamed(context, Routes.activityBooking);
+        break;
+      case 3:
+        Navigator.pushNamed(context, Routes.transferBooking);
+        break;
+      case 4:
+        Navigator.pushNamed(context, Routes.packages);
+        break;
+      case 5:
+       // Navigator.pushNamed(context, Routes.activityBooking);
+        break;
+    }
+  }
 
 
   Widget circleBar(bool isActive) {

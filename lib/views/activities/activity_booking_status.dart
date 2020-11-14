@@ -569,14 +569,26 @@ class _ActivityBookingStatusState extends State<ActivityBookingStatus> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-          Text("Email",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+          Text("Nationality",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
 
-          Text( bookingData.travellerDetails[index].email,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+          Text( bookingData.travellerDetails[index].nationality,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
 
           ],
           ),
 
           SizedBox(height:15 ,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Address",style: CustomStyles.normal14.copyWith(color: CustomColors.BackGround.withOpacity(.7)),),
+
+                Text( bookingData.travellerDetails[index].address,style: CustomStyles.medium14.copyWith(color: CustomColors.BackGround)),
+
+              ],
+            ),
+
+            SizedBox(height:15 ,),
 
           Container(
           margin: EdgeInsets.only(top: 20,bottom: 20),
