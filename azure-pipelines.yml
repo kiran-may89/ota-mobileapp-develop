@@ -53,7 +53,7 @@ steps:
 
 - task: FlutterCommand@0
   inputs:
-    arguments: '$(FlutterToolPath) flutter pub get'
+    arguments: '$(FlutterToolPath) Flutterinstall flutter pub get'
 - task: FlutterCommand@0
   inputs:
     arguments: '$(FlutterToolPath) flutter build appbundle --no-tree-shake-icons'
