@@ -47,8 +47,7 @@ steps:
   inputs:
     target: 'aab'
     projectDirectory: '.'
-    buildNumber: 
-    entryPoint: '--no-tree-shake-icons'
+    entryPoint: '--no-tree-shake-icons lib/main_dev.dart'
 
 - task: CocoaPods@0
   displayName: "Install CocoaPods dependencies"
