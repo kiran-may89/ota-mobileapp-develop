@@ -42,13 +42,21 @@ steps:
 # - task: CmdLine@2
 #   displayName: 'Execute Dart program'
 #   inputs:
-#     script: 'flutter pub get'
-# - task: FlutterBuild@0
-#   inputs:
-#     target: 'all'
-#     projectDirectory: '.'
-#     entryPoint: 'lib/main_dev.dart'
+#     script: '$(FlutterToolPath)/cache/dart-sdk/bin/ flutter pub get'
+- task: FlutterBuild@0
+  inputs:
+    target: 'aab'
+    projectDirectory: '.'
+    buildNumber: 
+    entryPoint: 'lib/main_dev.dart'
 
+
+- task: FlutterCommand@0
+  inputs:
+    arguments: '$(FlutterToolPath) Flutterinstall flutter pub get'
+- task: FlutterCommand@0
+  inputs:
+    arguments: '$(FlutterToolPath) flutter build appbundle --no-tree-shake-icons'
 - task: CocoaPods@0
   displayName: "Install CocoaPods dependencies"
   inputs:
