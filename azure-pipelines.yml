@@ -47,6 +47,7 @@ steps:
   inputs:
     target: 'aab'
     projectDirectory: '.'
+    buildNumber: 
     entryPoint: 'lib/main_dev.dart'
 
 
