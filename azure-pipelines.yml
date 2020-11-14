@@ -34,10 +34,10 @@ steps:
    
 
 
-- task: FlutterInstall@0
-  inputs:
-    channel: 'stable'
-    version: 'latest'
+# - task: FlutterInstall@0
+#   inputs:
+#     channel: 'stable'
+#     version: 'latest'
 
 # - task: CmdLine@2
 #   displayName: 'Execute Dart program'
@@ -48,6 +48,9 @@ steps:
 #     target: 'aab'
 #     projectDirectory: '.'
 #     entryPoint: '--no-tree-shake-icons lib/main_dev.dart'
+
+- task: FlutterInstall@0
+
 - task: FlutterCommand@0
   inputs:
     arguments: 'pub get'
