@@ -53,10 +53,10 @@ steps:
 
 - task: FlutterCommand@0
   inputs:
-    arguments: 'pub get'
+    arguments: '$(FlutterToolPath) flutter pub get'
 - task: FlutterCommand@0
   inputs:
-    arguments: 'build appbundle --no-tree-shake-icons'
+    arguments: '$(FlutterToolPath) flutter build appbundle --no-tree-shake-icons'
 - task: CocoaPods@0
   displayName: "Install CocoaPods dependencies"
   inputs:
