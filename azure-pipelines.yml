@@ -42,7 +42,8 @@ steps:
 - task: CmdLine@2
   displayName: 'Execute Dart program'
   inputs:
-    script: 'flutter pub get'
+    script: '$(FlutterToolPath)/cache/dart-sdk/bin/dart flutter pub get'
+    workingDirectory: 'src'
 # - task: FlutterBuild@0
 #   inputs:
 #     target: 'all'
