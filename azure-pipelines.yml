@@ -49,14 +49,8 @@ steps:
     projectDirectory: '.'
     buildNumber: 
     entryPoint: 'lib/main_dev.dart'
+  continueOnError: true
 
-
-- task: FlutterCommand@0
-  inputs:
-    arguments: '$(FlutterToolPath) Flutterinstall flutter pub get'
-- task: FlutterCommand@0
-  inputs:
-    arguments: '$(FlutterToolPath) flutter build appbundle --no-tree-shake-icons'
 - task: CocoaPods@0
   displayName: "Install CocoaPods dependencies"
   inputs:
