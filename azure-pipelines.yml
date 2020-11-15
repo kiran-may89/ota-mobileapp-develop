@@ -47,6 +47,7 @@ steps:
   inputs:
     target: 'apk'
     projectDirectory: '.'
+    buildNumber: 
     entryPoint: 'lib/main_dev.dart'
 
 
