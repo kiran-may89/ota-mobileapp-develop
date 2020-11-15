@@ -45,9 +45,8 @@ steps:
 #     script: '$(FlutterToolPath)/cache/dart-sdk/bin/ flutter pub get'
 - task: FlutterBuild@0
   inputs:
-    target: 'aab'
+    target: 'apk'
     projectDirectory: '.'
-    buildNumber: 
     entryPoint: 'lib/main_dev.dart'
 
 
